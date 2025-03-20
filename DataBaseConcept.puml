@@ -1,0 +1,80 @@
+﻿@startuml
+title Database
+left to right direction
+skinparam linetype ortho
+
+entity "Users" as Users{
+    * id : INT <<PK>>
+    --
+    *name : text
+    *email : text <<UNIQUE>>
+    *login : text
+}
+
+entity "Events" as Events{
+    * id : INT <<PK>>
+    --
+    *title : text
+    *color : number
+    *event_date : DATETIME
+    repeats : ENUM('day', 'week', 'month', 'year')
+}
+
+entity "User Events/Deadlines" as UserEvents {
+    * id : INT <<PK>>
+    --
+    *user_id : INT <<FK>>
+    *event_id : INT <<FK>>
+}
+
+entity "Friendships" as Friends {
+    * id : INT <<PK>>
+    --
+    *user_id1 : INT <<FK>>
+    *user_id2 : INT <<FK>>
+    *status : ENUM('pending', 'accepted') <<DEFAULT 'pending'>>
+}
+
+entity Subjects {
+    * id : INT <<PK>>
+    --
+    *title : text
+    *color : number
+}
+
+entity User_Subjects {
+    * id : INT <<PK>>
+    --
+    *user_id : INT <<FK>>
+    *subject_id : INT <<FK>>
+}
+
+entity Subject_Times {
+    * id : INT <<PK>>
+    --
+    *subject_id : INT <<FK>>
+    *day_of_week : ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
+    *start_time : TIME
+    *duration : TIME
+}
+
+entity Filesystem {
+    + id : INT <<PK>>
+    --
+    *user_id : INT <<FK>> <<UNIQUE>>
+}
+
+Users ||--|| Filesystem : "Has one"
+
+Subjects ||--o{ Subject_Times : "Has times"
+
+Users ||--o{ User_Subjects : "Learns"
+Subjects ||--o{ User_Subjects : "Has users"
+
+Users ||--o{ Friends : "Has friends"
+Users ||--o{ Friends : "Is friends with"
+
+Users ||--o{ UserEvents : "Registers for"
+Events ||--o{ UserEvents : "Has attendees"
+
+@enduml
