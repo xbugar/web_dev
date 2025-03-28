@@ -71,29 +71,6 @@ entity Admin {
     *email : text <<UNIQUE>>
 }
 
-entity Notifications {
-    * id : number <<PK>>
-    --
-    *message : text
-    *created_at : DATETIME
-}
-
-entity Messages {
-    * id : number <<PK>>
-    --
-    *friendship_id : number <<FK>>
-    *sender_id : number <<FK>>
-    *receiver_id : number <<FK>>
-    *content : text
-    *sent_at : DATETIME
-}
-
-entity UserNotifications {
-    * id : number <<PK>>
-    --
-    *user_id : number <<FK>>
-    *notification_id : number <<FK>>
-}
 
 Users ||--|| Filesystem : "Has one"
 Subjects ||--o{ Subject_Times : "Has times"
@@ -104,8 +81,5 @@ Users ||--o{ Friends : "Is friends with"
 Users ||--o{ UserEvents : "Registers for"
 Events ||--o{ UserEvents : "Has attendees"
 Admin ||--o{ Users : "Manages"
-Users ||--o{ UserNotifications : "Receives"
-Notifications ||--o{ UserNotifications : "Sent to"
-Friends ||--o{ Messages : "Exchanges"
 
 @enduml
