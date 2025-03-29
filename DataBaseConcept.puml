@@ -108,11 +108,12 @@ entity FlashCardAnswer {
 Admin       ||--o{ User             : manages
 User        ||--o{ Notebook         : creates
 Notebook    ||--o{ Note             : contains
-Calendar    ||--|| User             : has
+User        ||--|| Calendar         : has
 Calendar    ||--o{ Event            : contains
 Event       ||--o{ Event_time       : has
 User        ||--o{ FlashDeck        : creates
 FlashDeck   ||--o{ FlashCard        : contains
 FlashCard   ||--o{ FlashCardAnswer  : has
+Notebook    ||--o{ FlashDeck        : links into
 
 @enduml
