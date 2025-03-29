@@ -1,86 +1,118 @@
 ﻿@startuml
-title Database
-left to right direction
-skinparam linetype ortho
+skinparam shadowing false
 
-entity "Users" as Users {
-    * id : number <<PK>>
+title Database Diagram
+
+entity User {
+    * user_id : INT <<PK>>
     --
-    *username : text
-    *email : text <<UNIQUE>>
-    *password : text
+    * name : text
+    * email : text <<UNIQUE>>
+    * password : text
     profile_picture : image
 }
 
-entity "Events" as Events {
-    * id : number <<PK>>
+entity Admin {
+    * admin_id : INT <<PK>>
     --
-    *title : text
-    *color : number
-    *event_date : DATETIME
+    * email : text <<UNIQUE>>
+    * name : text
+    * password : text
+}
+
+entity Notebook {
+    * notebook_id : INT <<PK>>
+    --
+    user_id : INT <<FK>>
+    * title : text
+    icon : text
+    color : text
+    tags : text
+
+    * time_of_creation : DATETIME
+    * last_time_of_edit : DATETIME
+}
+
+entity Note {
+    * note_id : INT <<PK>>
+    --
+    notebook_id : INT <<FK>>
+    * title : text
+    * content : text
+    tags : text
+
+    * time_of_creation : DATETIME
+    * last_time_of_edit : DATETIME
+}
+
+entity Calendar {
+    * subject_id : INT <<PK>>
+    --
+    *user_id : INT <<FK>>
+    * title : text
+    color : text
+}
+
+entity Event {
+    * event_id : INT <<PK>>
+    --
+    * subject_id : INT <<FK>>
+    * title : text
+    description : text
+    tags : text
+    color : text
+}
+
+entity Event_time {
+    * event_time_id : INT <<PK>>
+    --
+    * event_id : INT <<FK>>
+    * date : DATE
+    * start_time : TIME
+    duration : TIME
     repeats : ENUM('day', 'week', 'month', 'year')
 }
 
-entity "User Events/Deadlines" as UserEvents {
-    * id : number <<PK>>
+entity FlashDeck {
+    * flashcard_id : INT <<PK>>
     --
-    *user_id : number <<FK>>
-    *event_id : number <<FK>>
+    * subject_id : INT <<FK>>
+    * title : text
+    description : text
+    color : text
+    icon: image
+    tags: text
+
+    * time_of_creation : DATETIME
+    * last_time_of_edit : DATETIME
 }
 
-entity "Friendships" as Friends {
-    * id : number <<PK>>
+entity FlashCard {
+    * flashcard_id : INT <<PK>>
     --
-    *user_id1 : number <<FK>>
-    *user_id2 : number <<FK>>
-    *status : ENUM('pending', 'accepted') <<DEFAULT 'pending'>>
+    * deck_id : INT <<FK>>
+    * question : text
+
+    * time_of_creation : DATETIME
+    * last_time_of_edit : DATETIME
 }
 
-entity Subjects {
-    * id : number <<PK>>
+entity FlashCardAnswer {
+    * answer_id : INT <<PK>>
     --
-    *title : text
-    *color : number
+    * flashcard_id : INT <<FK>>
+    * answer : text
+    * is_correct : BOOLEAN
 }
 
-entity User_Subjects {
-    * id : number <<PK>>
-    --
-    *user_id : number <<FK>>
-    *subject_id : number <<FK>>
-}
-
-entity Subject_Times {
-    * id : number <<PK>>
-    --
-    *subject_id : number <<FK>>
-    *day_of_week : ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
-    *start_time : TIME
-    *duration : TIME
-}
-
-entity Filesystem {
-    + id : number <<PK>>
-    --
-    *user_id : number <<FK>> <<UNIQUE>>
-}
-
-entity Admin {
-    * id : number <<PK>>
-    --
-    *login : text
-    *password : text
-}
-
-
-Users ||--|| Filesystem : "Has one"
-Subjects ||--o{ Subject_Times : "Has times"
-Users ||--o{ User_Subjects : "Learns"
-Subjects ||--o{ User_Subjects : "Has users"
-Users ||--o{ Friends : "Has friends"
-Users ||--o{ Friends : "Is friends with"
-Users ||--o{ UserEvents : "Registers for"
-Events ||--o{ UserEvents : "Has attendees"
-Admin ||--o{ Users : "Manages"
+Admin       ||--o{ User             : manages
+User        ||--o{ Notebook         : creates
+Notebook    ||--o{ Note             : contains
+Calendar    ||--|| User             : has
+Calendar    ||--o{ Event            : contains
+Event       ||--o{ Event_time       : has
+User        ||--o{ FlashDeck        : creates
+FlashDeck   ||--o{ FlashCard        : contains
+FlashCard   ||--o{ FlashCardAnswer  : has
 
 @enduml
