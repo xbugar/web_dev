@@ -14,50 +14,48 @@ datasource db {
 }
 
 model User {
-  user_id  Int    @id @default(autoincrement)
+  userId   Int    @id @default(autoincrement())
   username String @db.VarChar(31)
   email    String @unique
 
-  hashed_password String
-  password_salt   String
-  profile_picture Bytes?
+  hashedPassword String
+  passwordSalt   String
+  profilePicture Bytes?
 
   Notebooks  Notebook[]
-  Calendar   Calendar    @relation(fields: [user_id], references: [user_id])
+  Calendar   Calendar?
   FlashDecks FlashDeck[]
 }
 
 model Admin {
-  admin_id Int    @id @default(autoincrement)
-  email    String @unique
+  adminId Int    @id @default(autoincrement())
+  email   String @unique
 
   name            String
-  hashed_password String
-  password_salt   String
-
-  Users User[]
+  hashedPassword String
+  passwordSalt   String
 }
 
 model Notebook {
-  notebook_id Int @id @default(autoincrement)
-  user_id     Int
+  notebookId Int @id @default(autoincrement())
 
   title String   @db.VarChar(127)
   icon  Bytes?
-  color String
+  color String?
   tags  String[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user       User        @relation(fields: [user_id], references: [user_id])
+  owner   User @relation(fields: [ownerId], references: [userId])
+  ownerId Int
+
   Notes      Note[]
   FlashDecks FlashDeck[]
 }
 
 model Note {
-  note_id     Int @id @default(autoincrement)
-  notebook_id Int @unique
+  noteId Int @id @default(autoincrement())
 
   title   String   @db.VarChar(127)
   content String   @default("")
@@ -66,49 +64,54 @@ model Note {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  notebook Notebook @relation(fields: [notebook_id], references: [notebook_id])
+  notebook   Notebook @relation(fields: [notebookId], references: [notebookId])
+  notebookId Int
 }
 
 model Calendar {
-  calendar_id Int @id @default(autoincrement)
-  user_id     Int @unique
+  calendarId Int @id @default(autoincrement())
 
   title String  @db.VarChar(127)
   color String?
 
-  user   User    @relation(fields: [user_id], references: [user_id])
+  user   User    @relation(fields: [userId], references: [userId])
+  userId Int     @unique
   Events Event[]
 }
 
 model Event {
-  event_id   Int @id @default(autoincrement)
-  subject_id Int
+  eventId Int @id @default(autoincrement())
 
   title       String   @db.VarChar(127)
   description String   @default("") @db.VarChar(511)
   tags        String[]
   color       String?
 
-  calendar   Calendar     @relation(fields: [subject_id], references: [calendar_id])
-  EventTimes Event_time[]
+  calendar   Calendar    @relation(fields: [calendarId], references: [calendarId])
+  calendarId Int
+  EventTimes EventTime[]
 }
 
-model Event_time {
-  event_time_id Int @id @default(autoincrement)
-  event_id      Int
+model EventTime {
+  eventTimeId Int @id @default(autoincrement())
 
   date       DateTime
   start_time DateTime
   end_time   DateTime
-  repeats    String?
+  repeats    Repeat?
 
-  event Event @relation(fields: [event_id], references: [event_id])
+  event   Event @relation(fields: [eventId], references: [eventId])
+  eventId Int
+}
+
+enum Repeat {
+  DAY
+  WEAK
+  MONTH
 }
 
 model FlashDeck {
-  flashdeck_id Int  @id @default(autoincrement)
-  user_id      Int
-  notebook_id  Int?
+  flashDeckId Int @id @default(autoincrement())
 
   title       String
   description String   @default("")
@@ -119,30 +122,32 @@ model FlashDeck {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user       User        @relation(fields: [user_id], references: [user_id])
-  notebook   Notebook?   @relation(fields: [notebook_id], references: [notebook_id])
+  user       User        @relation(fields: [userId], references: [userId])
+  userId     Int
+  notebook   Notebook?   @relation(fields: [notebookId], references: [notebookId])
+  notebookId Int?
   FlashCards FlashCard[]
 }
 
 model FlashCard {
-  flashcard_id Int @id @default(autoincrement)
-  deck_id      Int
+  flashCardId Int @id @default(autoincrement())
 
   question String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  flashDeck FlashDeck         @relation(fields: [deck_id], references: [flashcard_id])
-  Answers   FlashCardAnswer[]
+  flashDeck   FlashDeck         @relation(fields: [flashDeckId], references: [flashDeckId])
+  flashDeckId Int
+  Answers     FlashCardAnswer[]
 }
 
 model FlashCardAnswer {
-  answer_id    Int @id @default(autoincrement)
-  flashcard_id Int
+  answerId Int @id @default(autoincrement())
 
-  answer     String  @default("")
-  is_correct Boolean @default(false)
+  answer    String  @default("")
+  isCorrect Boolean @default(false)
 
-  flashCard FlashCard @relation(fields: [flashcard_id], references: [flashcard_id])
+  flashCard   FlashCard @relation(fields: [flashCardId], references: [flashCardId])
+  flashCardId Int
 }

@@ -105,7 +105,7 @@ entity FlashCardAnswer {
     * is_correct : BOOLEAN
 }
 
-Admin       ||--o{ User             : manages
+Admin       ||..o{ User             : no relation in DB
 User        ||--o{ Notebook         : creates
 Notebook    ||--o{ Note             : contains
 User        ||--|| Calendar         : has
