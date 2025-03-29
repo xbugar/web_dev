@@ -8,7 +8,8 @@ entity "Users" as Users {
     --
     *username : text
     *email : text <<UNIQUE>>
-    *login : text
+    *password : text
+    profile_picture : image
 }
 
 entity "Events" as Events {
@@ -67,8 +68,8 @@ entity Filesystem {
 entity Admin {
     * id : number <<PK>>
     --
-    *name : text
-    *email : text <<UNIQUE>>
+    *login : text
+    *password : text
 }
 
 
