@@ -14,29 +14,30 @@ datasource db {
 }
 
 model User {
-  userId   Int    @id @default(autoincrement())
-  username String @db.VarChar(31)
+  userId   String @id @default(uuid())
+  firstName String @db.VarChar(63)
+  lastName String @db.VarChar(63)
   email    String @unique
 
   isAdmin        Boolean @default(false)
   hashedPassword String
-  passwordSalt   String
+  passwordSalt   String @db.VarChar(127)
 
   profilePicture   ProfilePicture @relation(fields: [profilePictureId], references: [profilePictureId])
-  profilePictureId Int
+  profilePictureId String
   notebooks        Notebook[]
   calendar         Calendar?
   flashDecks       FlashDeck[]
 }
 
 model ProfilePicture {
-  profilePictureId Int    @id @default(autoincrement())
+  profilePictureId String @id @default(uuid())
   picture          Bytes
   users            User[]
 }
 
 model Notebook {
-  notebookId Int @id @default(autoincrement())
+  notebookId String @id @default(uuid())
 
   title String   @db.VarChar(127)
   color String?
@@ -46,15 +47,15 @@ model Notebook {
   updatedAt DateTime @updatedAt
 
   owner      User        @relation(fields: [ownerId], references: [userId])
-  ownerId    Int
+  ownerId    String
   icon       Icon        @relation(fields: [iconId], references: [iconId])
-  iconId     Int
+  iconId     String
   notes      Note[]
   flashDecks FlashDeck[]
 }
 
 model Note {
-  noteId Int @id @default(autoincrement())
+  noteId String @id @default(uuid())
 
   title   String   @db.VarChar(127)
   content String   @default("")
@@ -64,22 +65,22 @@ model Note {
   updatedAt DateTime @updatedAt
 
   notebook   Notebook @relation(fields: [notebookId], references: [notebookId])
-  notebookId Int
+  notebookId String
 }
 
 model Calendar {
-  calendarId Int @id @default(autoincrement())
+  calendarId String @id @default(uuid())
 
   title String  @db.VarChar(127)
   color String?
 
   user   User    @relation(fields: [userId], references: [userId])
-  userId Int     @unique
+  userId String  @unique
   events Event[]
 }
 
 model Event {
-  eventId Int @id @default(autoincrement())
+  eventId String @id @default(uuid())
 
   title       String   @db.VarChar(127)
   description String   @default("") @db.VarChar(511)
@@ -87,23 +88,23 @@ model Event {
   color       String?
 
   calendar   Calendar    @relation(fields: [calendarId], references: [calendarId])
-  calendarId Int
+  calendarId String
   eventTimes EventTime[]
 }
 
 model EventTime {
-  eventTimeId Int @id @default(autoincrement())
+  eventTimeId String @id @default(uuid())
 
   date       DateTime
   start_time DateTime
   end_time   DateTime
 
-  event   Event @relation(fields: [eventId], references: [eventId])
-  eventId Int
+  event   Event  @relation(fields: [eventId], references: [eventId])
+  eventId String
 }
 
 model FlashDeck {
-  flashDeckId Int @id @default(autoincrement())
+  flashDeckId String @id @default(uuid())
 
   title       String
   description String   @default("")
@@ -114,16 +115,16 @@ model FlashDeck {
   updatedAt DateTime @updatedAt
 
   user       User        @relation(fields: [userId], references: [userId])
-  userId     Int
+  userId     String
   icon       Icon        @relation(fields: [iconId], references: [iconId])
-  iconId     Int
+  iconId     String
   notebook   Notebook?   @relation(fields: [notebookId], references: [notebookId])
-  notebookId Int?
+  notebookId String?
   flashCards FlashCard[]
 }
 
 model FlashCard {
-  flashCardId Int @id @default(autoincrement())
+  flashCardId String @id @default(uuid())
 
   question String
 
@@ -131,22 +132,22 @@ model FlashCard {
   updatedAt DateTime @updatedAt
 
   alashDeck   FlashDeck         @relation(fields: [flashDeckId], references: [flashDeckId])
-  flashDeckId Int
+  flashDeckId String
   answers     FlashCardAnswer[]
 }
 
 model FlashCardAnswer {
-  answerId Int @id @default(autoincrement())
+  answerId String @id @default(uuid())
 
   answer    String  @default("")
   isCorrect Boolean @default(false)
 
   flashCard   FlashCard @relation(fields: [flashCardId], references: [flashCardId])
-  flashCardId Int
+  flashCardId String
 }
 
 model Icon {
-  iconId Int   @id @default(autoincrement())
+  iconId String @id @default(uuid())
   icon   Bytes
 
   notebooks  Notebook[]

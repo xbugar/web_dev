@@ -1,12 +1,13 @@
 ﻿@startuml
 skinparam shadowing false
 skinparam linetype ortho
-title Database Diagram
+title pb138 Database Diagram
 
 entity User {
     * userId : INT <<PK>>
     --
-    * username : VARCHAR(31)
+    * firstName : STRING
+    * lastName : STRING
     * email : STRING <<UNIQUE>>
     * password : STRING
     * isAdmin : BOOLEAN
@@ -15,12 +16,14 @@ entity User {
 entity ProfilePicture {
     profilePictureId : INT <<PK>>
     --
+    *path : STRING
     *picture : BYTES
 }
 
 entity Icon {
     iconId : INT <<PK>>
     --
+    *path : STRING
     *icon : BYTES
 }
 
@@ -29,7 +32,6 @@ entity Notebook {
     --
     userId : INT <<FK>>
     * title : VARCHAR(63)
-    icon : BYTES
     color : STRING
     tags : STRING[]
 
@@ -82,7 +84,6 @@ entity FlashDeck {
     * title : VARCHAR(63)
     description : VARCHAR(255)
     color : STRING
-    icon: BYTES
     tags: STRING[]
 
     * createdAt : DATETIME
