@@ -1,119 +1,124 @@
 ﻿@startuml
 skinparam shadowing false
-
+skinparam linetype ortho
 title Database Diagram
 
 entity User {
-    * user_id : INT <<PK>>
+    * userId : INT <<PK>>
     --
-    * name : text
-    * email : text <<UNIQUE>>
-    * password : text
-    profile_picture : image
+    * username : VARCHAR(31)
+    * email : STRING <<UNIQUE>>
+    * password : STRING
+    * isAdmin : BOOLEAN
 }
 
-entity Admin {
-    * admin_id : INT <<PK>>
+entity ProfilePicture {
+    profilePictureId : INT <<PK>>
     --
-    * email : text <<UNIQUE>>
-    * name : text
-    * password : text
+    *picture : BYTES
+}
+
+entity Icon {
+    iconId : INT <<PK>>
+    --
+    *icon : BYTES
 }
 
 entity Notebook {
-    * notebook_id : INT <<PK>>
+    * notebookId : INT <<PK>>
     --
-    user_id : INT <<FK>>
-    * title : text
-    icon : text
-    color : text
-    tags : text
+    userId : INT <<FK>>
+    * title : VARCHAR(63)
+    icon : BYTES
+    color : STRING
+    tags : STRING[]
 
-    * time_of_creation : DATETIME
-    * last_time_of_edit : DATETIME
+    * createdAt : DATETIME
+    * updatedAt : DATETIME
 }
 
 entity Note {
-    * note_id : INT <<PK>>
+    * noteId : INT <<PK>>
     --
-    notebook_id : INT <<FK>>
-    * title : text
-    * content : text
-    tags : text
+    notebookId : INT <<FK>>
+    * title : VARCHAR(63)
+    * content : STRING
+    tags : STRING[]
 
-    * time_of_creation : DATETIME
-    * last_time_of_edit : DATETIME
+    * createdAt : DATETIME
+    * updatedAt : DATETIME
 }
 
 entity Calendar {
-    * subject_id : INT <<PK>>
+    * subjectId : INT <<PK>>
     --
-    *user_id : INT <<FK>>
-    * title : text
-    color : text
+    *userId : INT <<FK>>
+    * title : VARCHAR(63)
+    color : STRING
 }
 
 entity Event {
-    * event_id : INT <<PK>>
+    * eventId : INT <<PK>>
     --
-    * subject_id : INT <<FK>>
-    * title : text
-    description : text
-    tags : text
-    color : text
+    * subjectId : INT <<FK>>
+    * title : VARCHAR(63)
+    description : VARCHAR(255)
+    tags : STRING[]
+    color : STRING
 }
 
 entity Event_time {
-    * event_time_id : INT <<PK>>
+    * eventTimeId : INT <<PK>>
     --
-    * event_id : INT <<FK>>
-    * date : DATE
-    * start_time : TIME
-    duration : TIME
-    repeats : ENUM('day', 'week', 'month', 'year')
+    * eventId : INT <<FK>>
+    * startDateTime : DATETIME
+    * endDateTime : DATETIME
 }
 
 entity FlashDeck {
-    * flashcard_id : INT <<PK>>
+    * flashcardId : INT <<PK>>
     --
-    * subject_id : INT <<FK>>
-    * title : text
-    description : text
-    color : text
-    icon: image
-    tags: text
+    * subjectId : INT <<FK>>
+    * title : VARCHAR(63)
+    description : VARCHAR(255)
+    color : STRING
+    icon: BYTES
+    tags: STRING[]
 
-    * time_of_creation : DATETIME
-    * last_time_of_edit : DATETIME
+    * createdAt : DATETIME
+    * updatedAt : DATETIME
 }
 
 entity FlashCard {
-    * flashcard_id : INT <<PK>>
+    * flashcardId : INT <<PK>>
     --
-    * deck_id : INT <<FK>>
-    * question : text
+    * deckId : INT <<FK>>
+    * question : STRING
 
-    * time_of_creation : DATETIME
-    * last_time_of_edit : DATETIME
+    * createdAt : DATETIME
+    * updatedAt : DATETIME
 }
 
 entity FlashCardAnswer {
-    * answer_id : INT <<PK>>
+    * answerId : INT <<PK>>
     --
-    * flashcard_id : INT <<FK>>
-    * answer : text
-    * is_correct : BOOLEAN
+    * flashcardId : INT <<FK>>
+    * answer : STRING
+    * isCorrect : BOOLEAN
 }
 
-Admin       ||..o{ User             : no relation in DB
-User        ||--o{ Notebook         : creates
-Notebook    ||--o{ Note             : contains
-User        ||--|| Calendar         : has
-Calendar    ||--o{ Event            : contains
-Event       ||--o{ Event_time       : has
-User        ||--o{ FlashDeck        : creates
-FlashDeck   ||--o{ FlashCard        : contains
-FlashCard   ||--o{ FlashCardAnswer  : has
-Notebook    ||--o{ FlashDeck        : links into
+User            }o--|| ProfilePicture   : has
+User            ||--o{ Notebook         : creates
+Notebook        ||--o{ Note             : contains
+User            ||--|| Calendar         : has
+Calendar        ||--o{ Event            : contains
+Event           ||--o{ Event_time       : has
+User            ||--o{ FlashDeck        : creates
+FlashDeck       ||--o{ FlashCard        : contains
+FlashCard       ||--o{ FlashCardAnswer  : has
+Notebook        |o--o{ FlashDeck        : links into
+Notebook        }o--|| Icon             : has
+FlashDeck       }o--|| Icon             : has
+
 
 @enduml
