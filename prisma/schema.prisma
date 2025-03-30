@@ -5,151 +5,151 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model User {
-  userId   String @id @default(uuid())
-  firstName String @db.VarChar(63)
-  lastName String @db.VarChar(63)
-  email    String @unique
+    userId    String @id @default(uuid())
+    firstName String @db.VarChar(63)
+    lastName  String @db.VarChar(63)
+    email     String @unique
 
-  isAdmin        Boolean @default(false)
-  hashedPassword String
-  passwordSalt   String @db.VarChar(127)
+    isAdmin        Boolean @default(false)
+    hashedPassword String
+    passwordSalt   String  @db.VarChar(127)
 
-  profilePicture   ProfilePicture @relation(fields: [profilePictureId], references: [profilePictureId])
-  profilePictureId String
-  notebooks        Notebook[]
-  calendar         Calendar?
-  flashDecks       FlashDeck[]
+    profilePicture   ProfilePicture @relation(fields: [profilePictureId], references: [profilePictureId])
+    profilePictureId String
+    notebooks        Notebook[]
+    calendar         Calendar?
+    flashDecks       FlashDeck[]
 }
 
 model ProfilePicture {
-  profilePictureId String @id @default(uuid())
-  picture          Bytes
-  users            User[]
+    profilePictureId String @id @default(uuid())
+    picture          Bytes
+    users            User[]
 }
 
 model Notebook {
-  notebookId String @id @default(uuid())
+    notebookId String @id @default(uuid())
 
-  title String   @db.VarChar(127)
-  color String?
-  tags  String[]
+    title String   @db.VarChar(127)
+    color String?
+    tags  String[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  owner      User        @relation(fields: [ownerId], references: [userId])
-  ownerId    String
-  icon       Icon        @relation(fields: [iconId], references: [iconId])
-  iconId     String
-  notes      Note[]
-  flashDecks FlashDeck[]
+    owner      User        @relation(fields: [ownerId], references: [userId])
+    ownerId    String
+    icon       Icon        @relation(fields: [iconId], references: [iconId])
+    iconId     String
+    notes      Note[]
+    flashDecks FlashDeck[]
 }
 
 model Note {
-  noteId String @id @default(uuid())
+    noteId String @id @default(uuid())
 
-  title   String   @db.VarChar(127)
-  content String   @default("")
-  tags    String[]
+    title   String   @db.VarChar(127)
+    content String   @default("")
+    tags    String[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  notebook   Notebook @relation(fields: [notebookId], references: [notebookId])
-  notebookId String
+    notebook   Notebook @relation(fields: [notebookId], references: [notebookId])
+    notebookId String
 }
 
 model Calendar {
-  calendarId String @id @default(uuid())
+    calendarId String @id @default(uuid())
 
-  title String  @db.VarChar(127)
-  color String?
+    title String  @db.VarChar(127)
+    color String?
 
-  user   User    @relation(fields: [userId], references: [userId])
-  userId String  @unique
-  events Event[]
+    user   User    @relation(fields: [userId], references: [userId])
+    userId String  @unique
+    events Event[]
 }
 
 model Event {
-  eventId String @id @default(uuid())
+    eventId String @id @default(uuid())
 
-  title       String   @db.VarChar(127)
-  description String   @default("") @db.VarChar(511)
-  tags        String[]
-  color       String?
+    title       String   @db.VarChar(127)
+    description String   @default("") @db.VarChar(511)
+    tags        String[]
+    color       String?
 
-  calendar   Calendar    @relation(fields: [calendarId], references: [calendarId])
-  calendarId String
-  eventTimes EventTime[]
+    calendar   Calendar    @relation(fields: [calendarId], references: [calendarId])
+    calendarId String
+    eventTimes EventTime[]
 }
 
 model EventTime {
-  eventTimeId String @id @default(uuid())
+    eventTimeId String @id @default(uuid())
 
-  date       DateTime
-  start_time DateTime
-  end_time   DateTime
+    date       DateTime
+    start_time DateTime
+    end_time   DateTime
 
-  event   Event  @relation(fields: [eventId], references: [eventId])
-  eventId String
+    event   Event  @relation(fields: [eventId], references: [eventId])
+    eventId String
 }
 
 model FlashDeck {
-  flashDeckId String @id @default(uuid())
+    flashDeckId String @id @default(uuid())
 
-  title       String
-  description String   @default("")
-  color       String?
-  tags        String[]
+    title       String
+    description String   @default("")
+    color       String?
+    tags        String[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  user       User        @relation(fields: [userId], references: [userId])
-  userId     String
-  icon       Icon        @relation(fields: [iconId], references: [iconId])
-  iconId     String
-  notebook   Notebook?   @relation(fields: [notebookId], references: [notebookId])
-  notebookId String?
-  flashCards FlashCard[]
+    user       User        @relation(fields: [userId], references: [userId])
+    userId     String
+    icon       Icon        @relation(fields: [iconId], references: [iconId])
+    iconId     String
+    notebook   Notebook?   @relation(fields: [notebookId], references: [notebookId])
+    notebookId String?
+    flashCards FlashCard[]
 }
 
 model FlashCard {
-  flashCardId String @id @default(uuid())
+    flashCardId String @id @default(uuid())
 
-  question String
+    question String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  alashDeck   FlashDeck         @relation(fields: [flashDeckId], references: [flashDeckId])
-  flashDeckId String
-  answers     FlashCardAnswer[]
+    alashDeck   FlashDeck         @relation(fields: [flashDeckId], references: [flashDeckId])
+    flashDeckId String
+    answers     FlashCardAnswer[]
 }
 
 model FlashCardAnswer {
-  answerId String @id @default(uuid())
+    answerId String @id @default(uuid())
 
-  answer    String  @default("")
-  isCorrect Boolean @default(false)
+    answer    String  @default("")
+    isCorrect Boolean @default(false)
 
-  flashCard   FlashCard @relation(fields: [flashCardId], references: [flashCardId])
-  flashCardId String
+    flashCard   FlashCard @relation(fields: [flashCardId], references: [flashCardId])
+    flashCardId String
 }
 
 model Icon {
-  iconId String @id @default(uuid())
-  icon   Bytes
+    iconId String @id @default(uuid())
+    icon   Bytes
 
-  notebooks  Notebook[]
-  flashDecks FlashDeck[]
+    notebooks  Notebook[]
+    flashDecks FlashDeck[]
 }
