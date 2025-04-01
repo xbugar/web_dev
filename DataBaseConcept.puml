@@ -16,7 +16,7 @@ entity User {
 entity ProfilePicture {
     profilePictureId : INT <<PK>>
     --
-    *path : STRING
+    *filename : STRING
     *picture : BYTES
 }
 
