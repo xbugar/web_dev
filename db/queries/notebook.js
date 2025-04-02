@@ -9,37 +9,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createEvent = createEvent;
-exports.addEventTime = addEventTime;
+exports.createNotebook = createNotebook;
+exports.createNote = createNote;
 const client_1 = require("../client");
-function createEvent(calendarId, title, dateStart, dateEnd) {
+function createNotebook(userId, iconId, title) {
     return __awaiter(this, void 0, void 0, function* () {
-        return client_1.prisma.event.create({
+        return client_1.prisma.notebook.create({
             data: {
                 title: title,
-                calendarId: calendarId,
-                eventTimes: {
-                    create: [
-                        {
-                            dateTimeStart: dateStart,
-                            dateTimeEnd: dateEnd
-                        }
-                    ]
-                }
-            },
-            include: {
-                eventTimes: true
+                userId: userId,
+                iconId: iconId,
             }
         });
     });
 }
-function addEventTime(eventId, dateTimeStart, dateTimeEnd) {
+function createNote(notebookId, title, content) {
     return __awaiter(this, void 0, void 0, function* () {
-        return client_1.prisma.eventTime.create({
+        return client_1.prisma.note.create({
             data: {
-                eventId: eventId,
-                dateTimeStart: dateTimeStart,
-                dateTimeEnd: dateTimeEnd,
+                title: title,
+                content: content,
+                notebookId: notebookId,
             }
         });
     });

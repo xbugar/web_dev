@@ -41,8 +41,8 @@ model Notebook {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    owner      User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-    ownerId    String
+    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId     String
     icon       Icon        @relation(fields: [iconId], references: [id])
     iconId     String
     notes      Note[]
@@ -125,12 +125,12 @@ model FlashCard {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    alashDeck   FlashDeck         @relation(fields: [flashDeckId], references: [id])
+    flashDeck   FlashDeck     @relation(fields: [flashDeckId], references: [id])
     flashDeckId String
-    answers     FlashCardAnswer[]
+    answers     FlashAnswer[]
 }
 
-model FlashCardAnswer {
+model FlashAnswer {
     id String @id @default(uuid())
 
     answer    String  @default("")

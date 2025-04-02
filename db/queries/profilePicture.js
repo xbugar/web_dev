@@ -18,7 +18,7 @@ const fs_1 = require("fs");
 const path_1 = require("path");
 function removeProfilePicture(filename) {
     return __awaiter(this, void 0, void 0, function* () {
-        client_1.prisma.profilePicture.delete({ where: { filename: filename } })
+        return client_1.prisma.profilePicture.delete({ where: { filename: filename } })
             .then(() => {
             console.log(`picture: ${filename} removed`);
         });
@@ -33,7 +33,7 @@ function addProfilePicture(path) {
     return __awaiter(this, void 0, void 0, function* () {
         const filename = (0, path_1.basename)(path);
         const file = (0, fs_1.readFileSync)(path);
-        yield client_1.prisma.profilePicture.create({
+        return client_1.prisma.profilePicture.create({
             data: {
                 filename: filename,
                 picture: file

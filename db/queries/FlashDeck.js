@@ -9,37 +9,38 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createEvent = createEvent;
-exports.addEventTime = addEventTime;
+exports.createFlashDeck = createFlashDeck;
+exports.createFlashCard = createFlashCard;
+exports.createFlashAnswer = createFlashAnswer;
 const client_1 = require("../client");
-function createEvent(calendarId, title, dateStart, dateEnd) {
+function createFlashDeck(userId, iconId, title) {
     return __awaiter(this, void 0, void 0, function* () {
-        return client_1.prisma.event.create({
+        return client_1.prisma.flashDeck.create({
             data: {
                 title: title,
-                calendarId: calendarId,
-                eventTimes: {
-                    create: [
-                        {
-                            dateTimeStart: dateStart,
-                            dateTimeEnd: dateEnd
-                        }
-                    ]
-                }
-            },
-            include: {
-                eventTimes: true
+                userId: userId,
+                iconId: iconId,
             }
         });
     });
 }
-function addEventTime(eventId, dateTimeStart, dateTimeEnd) {
+function createFlashCard(flashDeckId, question) {
     return __awaiter(this, void 0, void 0, function* () {
-        return client_1.prisma.eventTime.create({
+        return client_1.prisma.flashCard.create({
             data: {
-                eventId: eventId,
-                dateTimeStart: dateTimeStart,
-                dateTimeEnd: dateTimeEnd,
+                question: question,
+                flashDeckId: flashDeckId,
+            }
+        });
+    });
+}
+function createFlashAnswer(flashCardId, answer, isCorrect) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return client_1.prisma.flashAnswer.create({
+            data: {
+                flashCardId: flashCardId,
+                answer: answer,
+                isCorrect: isCorrect
             }
         });
     });
