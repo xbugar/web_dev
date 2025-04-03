@@ -1,1 +1,5 @@
 .idea/
+prisma/generated/
+node_modules/
+.env
+
