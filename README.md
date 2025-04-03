@@ -1,6 +1,29 @@
 # pb138 - Student organiser
 
 
+## Database set up
+
+#### Ideally do not even have postgres installed locally
+
+before setting up the database be sure to turn off your local postgres db
+```
+systemctl status postgresql
+sudo systemctl stop postgresql      # if postgres is active
+```
+For windows: Win + r -> services.msc -> find postgres
+
+
+```
+cp .env.example .env                                    # Important
+docker compose -f docker-compose.postgres.yml up -d     # creates the container
+npx prisma migrate dev --name pb138
+npx prisma migrate reset
+npx prisma db push
+
+npx prisma studio                                       # check the database
+```
+ak je postgres problem s authentication good luck
+
 
 ## Getting started
 
