@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@prisma/client": "^6.5.0",
+    "express": "^5.1.0",
     "node": "^18.20.8"
   },
   "devDependencies": {
@@ -11,5 +12,9 @@
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
+  },
+  "scripts": {
+    "dev": "node index.js",
+    "db:deploy": "npx prisma migrate deploy && npx prisma generate"
   }
 }
