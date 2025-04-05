@@ -1,0 +1,125 @@
+﻿@startuml
+skinparam shadowing false
+skinparam linetype ortho
+title pb138 Database Diagram
+
+entity User {
+    * userId : INT <<PK>>
+    --
+    * firstName : STRING
+    * lastName : STRING
+    * email : STRING <<UNIQUE>>
+    * password : STRING
+    * isAdmin : BOOLEAN
+}
+
+entity ProfilePicture {
+    profilePictureId : INT <<PK>>
+    --
+    *filename : STRING
+    *picture : BYTES
+}
+
+entity Icon {
+    iconId : INT <<PK>>
+    --
+    *path : STRING
+    *icon : BYTES
+}
+
+entity Notebook {
+    * notebookId : INT <<PK>>
+    --
+    userId : INT <<FK>>
+    * title : VARCHAR(63)
+    color : STRING
+    tags : STRING[]
+
+    * createdAt : DATETIME
+    * updatedAt : DATETIME
+}
+
+entity Note {
+    * noteId : INT <<PK>>
+    --
+    notebookId : INT <<FK>>
+    * title : VARCHAR(63)
+    * content : STRING
+    tags : STRING[]
+
+    * createdAt : DATETIME
+    * updatedAt : DATETIME
+}
+
+entity Calendar {
+    * subjectId : INT <<PK>>
+    --
+    *userId : INT <<FK>>
+    * title : VARCHAR(63)
+    color : STRING
+}
+
+entity Event {
+    * eventId : INT <<PK>>
+    --
+    * subjectId : INT <<FK>>
+    * title : VARCHAR(63)
+    description : VARCHAR(255)
+    tags : STRING[]
+    color : STRING
+}
+
+entity Event_time {
+    * eventTimeId : INT <<PK>>
+    --
+    * eventId : INT <<FK>>
+    * startDateTime : DATETIME
+    * endDateTime : DATETIME
+}
+
+entity FlashDeck {
+    * flashcardId : INT <<PK>>
+    --
+    * subjectId : INT <<FK>>
+    * title : VARCHAR(63)
+    description : VARCHAR(255)
+    color : STRING
+    tags: STRING[]
+
+    * createdAt : DATETIME
+    * updatedAt : DATETIME
+}
+
+entity FlashCard {
+    * flashcardId : INT <<PK>>
+    --
+    * deckId : INT <<FK>>
+    * question : STRING
+
+    * createdAt : DATETIME
+    * updatedAt : DATETIME
+}
+
+entity FlashCardAnswer {
+    * answerId : INT <<PK>>
+    --
+    * flashcardId : INT <<FK>>
+    * answer : STRING
+    * isCorrect : BOOLEAN
+}
+
+User            }o--|| ProfilePicture   : has
+User            ||--o{ Notebook         : creates
+Notebook        ||--o{ Note             : contains
+User            ||--|| Calendar         : has
+Calendar        ||--o{ Event            : contains
+Event           ||--o{ Event_time       : has
+User            ||--o{ FlashDeck        : creates
+FlashDeck       ||--o{ FlashCard        : contains
+FlashCard       ||--o{ FlashCardAnswer  : has
+Notebook        |o--o{ FlashDeck        : links into
+Notebook        }o--|| Icon             : has
+FlashDeck       }o--|| Icon             : has
+
+
+@enduml

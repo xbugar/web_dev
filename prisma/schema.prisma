@@ -1,0 +1,149 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id        String @id @default(uuid())
+    firstName String @db.VarChar(63)
+    lastName  String @db.VarChar(63)
+    email     String @unique
+
+    isAdmin        Boolean @default(false)
+    hashedPassword String
+    passwordSalt   String  @db.VarChar(127)
+
+    profilePicture   ProfilePicture @relation(fields: [profilePictureId], references: [id])
+    profilePictureId String
+    notebooks        Notebook[]
+    calendar         Calendar?
+    flashDecks       FlashDeck[]
+}
+
+model ProfilePicture {
+    id       String @id @default(uuid())
+    filename String @unique
+    picture  Bytes
+    users    User[]
+}
+
+model Notebook {
+    id String @id @default(uuid())
+
+    title String   @db.VarChar(127)
+    color String?
+    tags  String[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId     String
+    icon       Icon        @relation(fields: [iconId], references: [id])
+    iconId     String
+    notes      Note[]
+    flashDecks FlashDeck[]
+}
+
+model Note {
+    id String @id @default(uuid())
+
+    title   String   @db.VarChar(127)
+    content String   @default("")
+    tags    String[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    notebook   Notebook @relation(fields: [notebookId], references: [id], onDelete: Cascade)
+    notebookId String
+}
+
+model Calendar {
+    id String @id @default(uuid())
+
+    title String  @db.VarChar(127)
+    color String?
+
+    user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String  @unique
+    events Event[]
+}
+
+model Event {
+    id String @id @default(uuid())
+
+    title       String   @db.VarChar(127)
+    description String   @default("") @db.VarChar(511)
+    tags        String[]
+    color       String?
+
+    calendar   Calendar    @relation(fields: [calendarId], references: [id], onDelete: Cascade)
+    calendarId String
+    eventTimes EventTime[]
+}
+
+model EventTime {
+    id String @id @default(uuid())
+
+    dateTimeStart DateTime
+    dateTimeEnd   DateTime
+
+    event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+    eventId String
+}
+
+model FlashDeck {
+    id String @id @default(uuid())
+
+    title       String
+    description String   @default("")
+    color       String?
+    tags        String[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId     String
+    icon       Icon        @relation(fields: [iconId], references: [id])
+    iconId     String
+    notebook   Notebook?   @relation(fields: [notebookId], references: [id])
+    notebookId String?
+    flashCards FlashCard[]
+}
+
+model FlashCard {
+    id String @id @default(uuid())
+
+    question String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    flashDeck   FlashDeck     @relation(fields: [flashDeckId], references: [id])
+    flashDeckId String
+    answers     FlashAnswer[]
+}
+
+model FlashAnswer {
+    id String @id @default(uuid())
+
+    answer    String  @default("")
+    isCorrect Boolean @default(false)
+
+    flashCard   FlashCard @relation(fields: [flashCardId], references: [id], onDelete: Cascade)
+    flashCardId String
+}
+
+model Icon {
+    id   String @id @default(uuid())
+    icon Bytes
+
+    notebooks  Notebook[]
+    flashDecks FlashDeck[]
+}
