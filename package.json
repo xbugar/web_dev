@@ -16,7 +16,6 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "scripts": {
-    "dev": "node db/workInProgress/index.js",
-    "db:deploy": "npx prisma migrate deploy && npx prisma generate"
+    "database": "docker compose -f docker-compose.postgres.yml up -d && npx prisma db push"
   }
 }
