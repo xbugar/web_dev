@@ -14,13 +14,13 @@ For windows: Win + r -> services.msc -> find postgres
 
 
 ```
-cp .env.example .env                                    # Important
-docker compose -f docker-compose.postgres.yml up -d     # creates the container
-npx prisma migrate dev --name pb138
-npx prisma migrate reset
-npx prisma db push
+npm run database
 
-npx prisma studio                                       # check the database
+```
+
+you can check the database with:
+```
+npx prisma studio
 ```
 ak je postgres problem s authentication good luck
 
