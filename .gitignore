@@ -1,6 +1,8 @@
 .idea/
+node_modules/
+
+
+# DATABASE
+.env
 db/*.js
 db/queries/*.js
-node_modules/
-.env
-
