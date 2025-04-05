@@ -1,5 +1,6 @@
 .idea/
-prisma/generated/
+db/*.js
+db/queries/*.js
 node_modules/
 .env
 
