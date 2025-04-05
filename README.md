@@ -13,9 +13,9 @@ sudo systemctl stop postgresql      # if postgres is active
 For windows: Win + r -> services.msc -> find postgres
 
 
+setting up the database
 ```
-npm run database
-
+npm run database    # creates testing database
 ```
 
 you can check the database with:
@@ -23,6 +23,12 @@ you can check the database with:
 npx prisma studio
 ```
 ak je postgres problem s authentication good luck
+
+## Deploy
+```
+npm run deploy
+```
+Deploy is running at: http://localhost:3000/
 
 
 ## Getting started
