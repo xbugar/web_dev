@@ -26,7 +26,8 @@ ak je postgres problem s authentication good luck
 
 ## Deploy
 ```
-npm run deploy
+npm run deploy:up
+npm run deploy:down
 ```
 Deploy is running at: http://localhost:3000/
 
