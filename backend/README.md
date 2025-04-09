@@ -34,7 +34,7 @@ this will run the docker image with the Postgres database.
 
 To initialize prisma run 
 ```
-npx prisma migration dev 
+npx prisma migrate dev 
 ```
 
 To add data to the database run
