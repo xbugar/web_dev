@@ -9,13 +9,12 @@ variables:
   # Optional: Increase timeout if needed
   COMPOSE_HTTP_TIMEOUT: 200  
 
-#stages:
-#  - integration_test
+stages:
+  - integration_test
 
 integration-test:
-  #stage: integration_test
-  # Run in privileged mode to enable DinD
-  privileged: true  
+  stage: integration_test
+  # Run in privileged mode to enable DinD 
   before_script:
     - apk update && apk add --no-cache docker-compose
   script:
