@@ -1,18 +1,13 @@
 services:
   - docker:dind
 
-variables:
-  # Disable TLS if you're using docker:dind without TLS
-  DOCKER_TLS_CERTDIR: ""  
-  # Optional: Increase timeout if needed
-  COMPOSE_HTTP_TIMEOUT: 200  
-
 stages:
   - integration_test
 
 integration-test:
   stage: integration_test
-
+  tags:
+    - xhoschek-local
   # Run in privileged mode to enable DinD 
   before_script:
     - apk add --no-cache nodejs npm
