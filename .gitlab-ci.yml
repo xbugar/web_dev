@@ -4,6 +4,9 @@ stages:
 
 # Build Stage: Use Kaniko to build & push your backend image.
 build:
+  tags: 
+    - shared-fi
+
   stage: build
   image: gcr.io/kaniko-project/executor:latest
   variables:
@@ -22,6 +25,9 @@ build:
 
 # Integration Test Stage: Run tests with your backend code and a Postgres service.
 integration-test:
+  tags: 
+    - shared-fi
+
   stage: integration_test
   image: node:latest
   services:
