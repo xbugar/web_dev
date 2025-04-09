@@ -1,4 +1,4 @@
-image: node:20
+image: docker:latest
 
 services:
   - docker:dind
@@ -19,6 +19,7 @@ integration-test:
 
   # Run in privileged mode to enable DinD 
   before_script:
+    - apk add --no-cache nodejs npm
     - apk update && apk add --no-cache docker-compose
   script:
     # Bring up services in detached mode
