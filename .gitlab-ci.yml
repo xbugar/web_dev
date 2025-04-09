@@ -1,9 +1,6 @@
 services:
   - docker:24.0.5-dind
 
-variables:
-  DATABASE_URL: "postgresql://postgres:prisma@postgres_db:5432/pb138?schema=public"
-
 stages:
   - run-database
 
@@ -13,6 +10,11 @@ run-database:
   services:
     - name: postgres:latest
       alias: postgres_db
+      variables:
+        POSTGRES_PASSWORD: prisma
+        POSTGRES_DB: pb138
+  variables:
+    DATABASE_URL: "postgresql://postgres:prisma@postgres_db:5432/pb138?schema=public"
   stage: run-database
   tags:
     - xhoschek-local
