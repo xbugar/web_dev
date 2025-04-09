@@ -1,39 +1,48 @@
-image: docker:latest
-
-services:
-  - docker:dind
-
-variables:
-  # Disable TLS if you're using docker:dind without TLS
-  DOCKER_TLS_CERTDIR: ""  
-  # Optional: Increase timeout if needed
-  COMPOSE_HTTP_TIMEOUT: 200  
-  DOCKER_HOST: tcp://docker:2375
-
 stages:
+  - build
   - integration_test
 
+# Build Stage: Use Kaniko to build & push your backend image.
+build:
+  stage: build
+  image: gcr.io/kaniko-project/executor:latest
+  variables:
+    # Kaniko expects Docker registry credentials in this folder.
+    DOCKER_CONFIG: "/kaniko/.docker"
+  script:
+    - echo "Building Docker image using Kaniko..."
+    # Create and configure the Docker credentials file:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    # Adjust the context and Dockerfile path as needed.
+    - /kaniko/executor --context $CI_PROJECT_DIR/backend \
+                        --dockerfile $CI_PROJECT_DIR/backend/Dockerfile \
+                        --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA \
+                        --cache=true
+
+# Integration Test Stage: Run tests with your backend code and a Postgres service.
 integration-test:
   stage: integration_test
-  tags: 
-    - shared-fi
-
-  # Run in privileged mode to enable DinD 
-  before_script:
-    - apk add --no-cache nodejs npm
-    - apk update && apk add --no-cache docker-compose
+  image: node:latest
+  services:
+    # Use an official Postgres image as a service.
+    - name: postgres:15
+      alias: postgres
+  variables:
+    # These environment variables will be available to your Node app and Prisma.
+    POSTGRES_DB: postgres
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: prisma
   script:
-    # Bring up services in detached mode
+    - echo "Running integration tests..."
     - cd backend
     - npm install
     - cp .env.example .env
-    - docker compose -f docker-compose.postgres.yml up -d
-    - npx prisma migration dev
+    # Run migrations and seed data. (Optionally adjust the commands.)
+    - npx prisma migrate dev
     - npx prisma db seed
-    # Optionally, wait a few seconds or implement a loop to check service stability
     - echo "Waiting for services to be ready..."
     - sleep 10
-    # Run your integration tests or commands here
-    - docker-compose -f docker-compose.yml logs
-    # After testing, take down the containers
-    - docker-compose -f docker-compose.yml down
+    # Run your application’s integration tests.
+
+# Optionally, you can add another stage to deploy or further test the newly built image.
