@@ -22,7 +22,7 @@ run-database:
   script:
     # Bring up services in detached mode
     - cd backend
-    - npm ci
+    - npm install
     - sleep 3
     - npx prisma migrate dev
     - npx prisma db seed
