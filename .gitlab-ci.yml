@@ -14,6 +14,9 @@ stages:
 
 integration-test:
   stage: integration_test
+  tags: 
+    - shared-fi
+
   # Run in privileged mode to enable DinD 
   before_script:
     - apk update && apk add --no-cache docker-compose
