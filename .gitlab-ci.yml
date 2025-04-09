@@ -6,7 +6,7 @@ stages:
 
 run-database:
 
-  image: node:14
+  image: node:20
   services:
     - name: postgres:latest
       alias: postgres_db
