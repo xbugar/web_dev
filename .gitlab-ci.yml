@@ -18,7 +18,7 @@ run-database:
   script:
     # Bring up services in detached mode
     - cd backend
-    - npm install
+    - npm ci
     - docker compose -f docker-compose.postgres.yml up -d
     - sleep 3
     - docker ps

@@ -8,8 +8,8 @@ services:
     environment:
       POSTGRES_PASSWORD: prisma
       POSTGRES_DB: pb138
-    networks:
-      - prisma-network
+    #networks:
+    #  - prisma-network
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -21,8 +21,8 @@ services:
   #  networks:
   #    - prisma-network
 
-networks:
-  prisma-network:
+#networks:
+#  prisma-network:
 
 volumes:
   postgres_data:
