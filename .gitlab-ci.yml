@@ -1,11 +1,14 @@
 services:
-  - docker:dind
+  - docker:24.0.5-dind
+
+variables:
+  DATABASE_URL: "postgresql://postgres:prisma@postgres_db:5432/pb138?schema=public"
 
 stages:
-  - integration_test
+  - run-database
 
-integration-test:
-  stage: integration_test
+run-database:
+  stage: run-database
   tags:
     - xhoschek-local
   # Run in privileged mode to enable DinD 
@@ -16,7 +19,6 @@ integration-test:
     # Bring up services in detached mode
     - cd backend
     - npm install
-    - cp .env.example .env
     - docker compose -f docker-compose.postgres.yml up -d
     - npx prisma migrate dev
     - npx prisma db seed
