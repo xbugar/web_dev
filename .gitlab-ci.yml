@@ -21,6 +21,7 @@ run-database:
     - npm install
     - docker compose -f docker-compose.postgres.yml up -d
     - sleep 3
+    - docker ps
     - npx prisma migrate dev
     - npx prisma db seed
     # Optionally, wait a few seconds or implement a loop to check service stability
