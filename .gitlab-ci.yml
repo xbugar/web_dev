@@ -8,6 +8,7 @@ variables:
   DOCKER_TLS_CERTDIR: ""  
   # Optional: Increase timeout if needed
   COMPOSE_HTTP_TIMEOUT: 200  
+  DOCKER_HOST: tcp://docker:2375
 
 stages:
   - integration_test
