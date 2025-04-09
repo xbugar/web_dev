@@ -12,13 +12,49 @@ sudo systemctl stop postgresql      # if postgres is active
 ```
 For windows: Win + r -> services.msc -> find postgres
 
-
+#### Steps to run databse
+**Commands between this line and the next bold line should (hopefully) be run only on a fresh repository clone.**
+Change working directory to backed and run npm install
 ```
-npm run database
-
+cd backend
+npm install
 ```
 
-you can check the database with:
+Create .env file from .env.example
+```
+cp .env.example .env
+```
+you can modify the .env file if necessary but **do not** add it to version control.
+
+Run the database with
+```
+docker compose -f docker-compose.postgres.yml up -d
+```
+this will run the docker image with the Postgres database. 
+
+To initialize prisma run 
+```
+npx prisma migration dev 
+```
+
+To add data to the database run
+```
+npx prisma db seed
+```
+
+**All of the above commands should (hopefully) be run only on a fresh repository clone.**
+
+To start/stop the database after the initial steps were run at least once:
+
+(when you run the initialization steps, the database is already running)
+```
+# start the database
+docker compose -f docker-compose.postgres.yml up -d
+# stop the database
+docker compose -f docker-compose.postgres.yml down
+```
+
+You can check the database with:
 ```
 npx prisma studio
 ```

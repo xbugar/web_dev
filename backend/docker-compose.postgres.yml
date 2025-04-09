@@ -13,13 +13,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  prisma-studio:
-    image: node:lts-alpine3.17
-    command: npx prisma studio --port 5555 --browser none
-    ports:
-      - "5555:5555"
-    networks:
-      - prisma-network
+#  prisma-studio:
+ #   image: node:lts-alpine3.17
+  #  command: npx prisma studio --port 5555 --browser none
+  #  ports:
+  #    - "5555:5555"
+  #  networks:
+  #    - prisma-network
 
 networks:
   prisma-network:
