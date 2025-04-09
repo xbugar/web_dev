@@ -18,7 +18,7 @@ integration-test:
     - npm install
     - cp .env.example .env
     - docker compose -f docker-compose.postgres.yml up -d
-    - npx prisma migration dev
+    - npx prisma migrate dev
     - npx prisma db seed
     # Optionally, wait a few seconds or implement a loop to check service stability
     - echo "Waiting for services to be ready..."
