@@ -1,0 +1,35 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+variables:
+  # Disable TLS if you're using docker:dind without TLS
+  DOCKER_TLS_CERTDIR: ""  
+  # Optional: Increase timeout if needed
+  COMPOSE_HTTP_TIMEOUT: 200  
+
+#stages:
+#  - integration_test
+
+integration-test:
+  #stage: integration_test
+  # Run in privileged mode to enable DinD
+  privileged: true  
+  before_script:
+    - apk update && apk add --no-cache docker-compose
+  script:
+    # Bring up services in detached mode
+    - cd backend
+    - npm install
+    - cp .env.example .env
+    - docker compose -f docker-compose.postgres.yml up -d
+    - npx prisma migration dev
+    - npx prisma db seed
+    # Optionally, wait a few seconds or implement a loop to check service stability
+    - echo "Waiting for services to be ready..."
+    - sleep 10
+    # Run your integration tests or commands here
+    - docker-compose -f docker-compose.yml logs
+    # After testing, take down the containers
+    - docker-compose -f docker-compose.yml down
