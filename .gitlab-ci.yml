@@ -1,0 +1,31 @@
+services:
+  - docker:24.0.5-dind
+
+stages:
+  - run-database
+
+run-database:
+
+  image: node:20
+  services:
+    - name: postgres:latest
+      alias: postgres_db
+      variables:
+        POSTGRES_PASSWORD: prisma
+        POSTGRES_DB: pb138
+  variables:
+    DATABASE_URL: "postgresql://postgres:prisma@postgres_db:5432/pb138?schema=public"
+  stage: run-database
+  tags:
+    - shared-fi
+  # Run in privileged mode to enable DinD 
+  script:
+    # Bring up services in detached mode
+    - cd backend
+    - npm install
+    - sleep 3
+    - npx prisma migrate dev
+    - npx prisma db seed
+    # Optionally, wait a few seconds or implement a loop to check service stability
+    - echo "Waiting for services to be ready..."
+    - sleep 10
