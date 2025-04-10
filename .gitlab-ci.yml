@@ -17,7 +17,7 @@ run-database:
     DATABASE_URL: "postgresql://postgres:prisma@postgres_db:5432/pb138?schema=public"
   stage: run-database
   tags:
-    - xhoschek-local
+    - shared-fi
   # Run in privileged mode to enable DinD 
   script:
     # Bring up services in detached mode
@@ -29,7 +29,3 @@ run-database:
     # Optionally, wait a few seconds or implement a loop to check service stability
     - echo "Waiting for services to be ready..."
     - sleep 10
-    # Run your integration tests or commands here
-    - docker-compose -f docker-compose.yml logs
-    # After testing, take down the containers
-    - docker-compose -f docker-compose.yml down
