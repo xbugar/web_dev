@@ -6,6 +6,6 @@ COPY package.json package-lock.json ./
 
 RUN npm ci
 
-COPY . .
+COPY .. .
 
 CMD ["sh", "-c", "npm run db:deploy && npx prisma db seed && npm run dev"]
