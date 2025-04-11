@@ -1,0 +1,125 @@
+﻿@startuml
+skinparam shadowing false
+skinparam linetype ortho
+title pb138 Database Diagram
+
+entity User {
+    id : INT <<PK>>
+    --
+    * firstName : STRING
+    * lastName : STRING
+    * email : STRING <<UNIQUE>>
+    * hashedPassword : STRING
+    * passwordSalt: STRING
+
+    isAdmin : BOOLEAN
+}
+
+entity ProfilePicture {
+    id : INT <<PK>>
+    --
+    * picture : BYTES
+}
+
+entity Icon {
+    id : INT <<PK>>
+    --
+    * icon : BYTES
+}
+
+entity Notebook {
+    id : INT <<PK>>
+    --
+    * title : STRING
+    * description : STRING
+    * color : STRING
+
+    createdAt : DATETIME
+    updatedAt : DATETIME
+}
+
+entity Note {
+    id : INT <<PK>>
+    --
+    * title : STRING
+    * color : STRING
+    content : STRING
+
+    createdAt : DATE TIME
+    updatedAt : DATETIME
+}
+
+entity Calendar {
+    id : INT <<PK>>
+    --
+    * title : STRING
+}
+
+entity Event {
+    id : INT <<PK>>
+    --
+    * title : STRING
+    * importance : Enum{Low, Medium, High}
+    * description : STRING
+    * color : STRING
+}
+
+entity Event_time {
+    id : INT <<PK>>
+    --
+    * startDateTime : DATETIME
+    * endDateTime : DATETIME
+}
+
+entity FlashDeck {
+    id : INT <<PK>>
+    --
+    * title : STRING
+    * description : STRING
+    * color : STRING
+
+    createdAt : DATETIME
+    updatedAt : DATETIME
+}
+
+entity FlashCard {
+    id : INT <<PK>>
+    --
+    * question : STRING
+
+    createdAt : DATETIME
+    updatedAt : DATETIME
+}
+
+entity FlashCardAnswer {
+    id : INT <<PK>>
+    --
+    * answer : STRING
+    * isCorrect : BOOLEAN
+}
+
+entity Tag {
+    id : INT <<PK>>
+    --
+    * tag : STRING
+    * color : STRING
+}
+
+
+User            }o--|| ProfilePicture
+User            ||--o{ Notebook
+Notebook        ||--o{ Note
+User            ||--|| Calendar
+Calendar        ||--o{ Event
+Event           ||--o{ Event_time
+User            ||--o{ FlashDeck
+FlashDeck       ||--o{ FlashCard
+FlashCard       ||--o{ FlashCardAnswer
+Notebook        |o--o{ FlashDeck
+Notebook        }o--|| Icon
+FlashDeck       }o--|| Icon
+FlashDeck       ||--o{ Tag
+Notebook        ||--o{ Tag
+
+
+@enduml

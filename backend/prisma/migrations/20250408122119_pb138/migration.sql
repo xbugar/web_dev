@@ -1,12 +1,15 @@
+-- CreateEnum
+CREATE TYPE "Importance" AS ENUM ('LOW', 'MEDIUM', 'HIGH');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
-    "firstName" VARCHAR(63) NOT NULL,
-    "lastName" VARCHAR(63) NOT NULL,
+    "firstName" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "isAdmin" BOOLEAN NOT NULL DEFAULT false,
     "hashedPassword" TEXT NOT NULL,
-    "passwordSalt" VARCHAR(127) NOT NULL,
+    "passwordSalt" TEXT NOT NULL,
     "profilePictureId" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
@@ -15,7 +18,6 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "ProfilePicture" (
     "id" TEXT NOT NULL,
-    "filename" TEXT NOT NULL,
     "picture" BYTEA NOT NULL,
 
     CONSTRAINT "ProfilePicture_pkey" PRIMARY KEY ("id")
@@ -24,9 +26,9 @@ CREATE TABLE "ProfilePicture" (
 -- CreateTable
 CREATE TABLE "Notebook" (
     "id" TEXT NOT NULL,
-    "title" VARCHAR(127) NOT NULL,
-    "color" TEXT,
-    "tags" TEXT[],
+    "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "color" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
@@ -38,9 +40,9 @@ CREATE TABLE "Notebook" (
 -- CreateTable
 CREATE TABLE "Note" (
     "id" TEXT NOT NULL,
-    "title" VARCHAR(127) NOT NULL,
+    "title" TEXT NOT NULL,
+    "color" TEXT NOT NULL,
     "content" TEXT NOT NULL DEFAULT '',
-    "tags" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "notebookId" TEXT NOT NULL,
@@ -51,8 +53,7 @@ CREATE TABLE "Note" (
 -- CreateTable
 CREATE TABLE "Calendar" (
     "id" TEXT NOT NULL,
-    "title" VARCHAR(127) NOT NULL,
-    "color" TEXT,
+    "title" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "Calendar_pkey" PRIMARY KEY ("id")
@@ -61,9 +62,9 @@ CREATE TABLE "Calendar" (
 -- CreateTable
 CREATE TABLE "Event" (
     "id" TEXT NOT NULL,
-    "title" VARCHAR(127) NOT NULL,
-    "description" VARCHAR(511) NOT NULL DEFAULT '',
-    "tags" TEXT[],
+    "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "importance" "Importance" NOT NULL,
     "color" TEXT,
     "calendarId" TEXT NOT NULL,
 
@@ -86,7 +87,6 @@ CREATE TABLE "FlashDeck" (
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL DEFAULT '',
     "color" TEXT,
-    "tags" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
@@ -125,11 +125,20 @@ CREATE TABLE "Icon" (
     CONSTRAINT "Icon_pkey" PRIMARY KEY ("id")
 );
 
--- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+-- CreateTable
+CREATE TABLE "Tag" (
+    "id" TEXT NOT NULL,
+    "tag" TEXT NOT NULL,
+    "color" TEXT NOT NULL,
+    "notebookId" TEXT,
+    "flashDeckId" TEXT,
+    "noteId" TEXT NOT NULL,
+
+    CONSTRAINT "Tag_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ProfilePicture_filename_key" ON "ProfilePicture"("filename");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Calendar_userId_key" ON "Calendar"("userId");
@@ -169,3 +178,12 @@ ALTER TABLE "FlashCard" ADD CONSTRAINT "FlashCard_flashDeckId_fkey" FOREIGN KEY 
 
 -- AddForeignKey
 ALTER TABLE "FlashAnswer" ADD CONSTRAINT "FlashAnswer_flashCardId_fkey" FOREIGN KEY ("flashCardId") REFERENCES "FlashCard"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Tag" ADD CONSTRAINT "Tag_notebookId_fkey" FOREIGN KEY ("notebookId") REFERENCES "Notebook"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Tag" ADD CONSTRAINT "Tag_flashDeckId_fkey" FOREIGN KEY ("flashDeckId") REFERENCES "FlashDeck"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Tag" ADD CONSTRAINT "Tag_noteId_fkey" FOREIGN KEY ("noteId") REFERENCES "Note"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
