@@ -15,6 +15,7 @@ For windows: Win + r -> services.msc -> find postgres
 
 setting up the database
 ```
+cp .env.example .env
 npm run database    # creates testing database
 ```
 
