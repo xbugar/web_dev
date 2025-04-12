@@ -7,7 +7,7 @@ import {createNote, createNotebook} from "../db/queries/notebook";
 import assert from "node:assert";
 import {createFlashAnswer, createFlashCard, createFlashDeck} from "../db/queries/FlashDeck";
 import { faker } from '@faker-js/faker';
-import {addEventTag, addFlashDeckTag, addNotebookTag, createTag} from "../db/queries/tag";
+import {addEventTag, addFlashDeckTag, addNotebookTag, addNoteTag, createTag} from "../db/queries/tag";
 
 const prisma = new PrismaClient();
 
@@ -43,9 +43,11 @@ async function createUserWithTags(name: string, mail: string, picture: ProfilePi
     const notebook = await createNotebook(user.id, icon.id, "tagged Notebook", "", "#0000ff");
     const flashDeck = await createFlashDeck(user.id, icon.id, "tagged FlashDeck", "", "#ff4fff");
     const event = await createEvent(user.id, "tagged Event", new Date(), new Date(), Importance.LOW, "#f0f0f0", "");
+    const note = await createNote(notebook.id, "tagged Note", "#123456");
     await addNotebookTag(tag.id, notebook.id);
     await addEventTag(tag.id, event.id);
     await addFlashDeckTag(tag.id, flashDeck.id);
+    await addNoteTag(tag.id, note.id);
 }
 
 

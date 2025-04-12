@@ -38,3 +38,12 @@ export async function addEventTag(tagId: string, eventId: string) {
     })
 }
 
+export async function addNoteTag(tagId: string, noteId: string) {
+    return prisma.taggable.create({
+        data: {
+            noteId: noteId,
+            tagId: tagId
+        }
+    })
+}
+
