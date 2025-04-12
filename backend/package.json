@@ -18,7 +18,8 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "scripts": {
-    "database": "cp .env.example .env; docker compose -f docker-compose.postgres.yml up -d && npx prisma migrate deploy && npx prisma generate && npx prisma db seed",
+    "devdb:up": "cp .env.example .env; docker compose -f docker-compose.postgres.yml up -d && npx prisma migrate deploy && npx prisma generate && npx prisma db seed",
+    "devdb:down": "docker compose -f docker-compose.postgres.yml down --remove-orphans",
     "deploy:up": "docker compose -f docker-compose.yml up --build -d",
     "deploy:down": "docker compose -f docker-compose.yml down --remove-orphans",
     "dev": "node index.js",
