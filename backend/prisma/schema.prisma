@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-    id        String @id @default(uuid())
+    id        String @id @default(uuid()) @db.Uuid
     firstName String
     lastName  String
     email     String @unique
@@ -18,21 +18,22 @@ model User {
     passwordSalt   String
 
     profilePicture   ProfilePicture @relation(fields: [profilePictureId], references: [id])
-    profilePictureId String
+    profilePictureId String         @db.Uuid
     notebooks        Notebook[]
     calendar         Calendar?
     flashDecks       FlashDeck[]
+    tags             Tag[]
 }
 
 model ProfilePicture {
-    id      String @id @default(uuid())
+    id      String @id @default(uuid()) @db.Uuid
     picture Bytes
 
     users User[]
 }
 
 model Notebook {
-    id String @id @default(uuid())
+    id String @id @default(uuid()) @db.Uuid
 
     title       String
     description String
@@ -42,16 +43,16 @@ model Notebook {
     updatedAt DateTime @updatedAt
 
     user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId     String
+    userId     String      @db.Uuid
     icon       Icon        @relation(fields: [iconId], references: [id])
-    iconId     String
+    iconId     String      @db.Uuid
     notes      Note[]
     flashDecks FlashDeck[]
-    tags       Tag[]
+    tags       Taggable[]
 }
 
 model Note {
-    id String @id @default(uuid())
+    id String @id @default(uuid()) @db.Uuid
 
     title   String
     color   String
@@ -61,31 +62,28 @@ model Note {
     updatedAt DateTime @updatedAt
 
     notebook   Notebook @relation(fields: [notebookId], references: [id], onDelete: Cascade)
-    notebookId String
-    tags       Tag[]
+    notebookId String   @db.Uuid @unique
 }
 
 model Calendar {
-    id String @id @default(uuid())
+    id String @id @db.Uuid
 
-    title String
-
-    user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId String  @unique
+    user   User    @relation(fields: [id], references: [id], onDelete: Cascade)
     events Event[]
 }
 
 model Event {
-    id String @id @default(uuid())
+    id String @id @default(uuid()) @db.Uuid
 
     title       String
     description String
     importance  Importance
-    color       String?
+    color       String
 
     calendar   Calendar    @relation(fields: [calendarId], references: [id], onDelete: Cascade)
-    calendarId String
+    calendarId String      @db.Uuid
     eventTimes EventTime[]
+    tags       Taggable[]
 }
 
 enum Importance {
@@ -95,37 +93,37 @@ enum Importance {
 }
 
 model EventTime {
-    id String @id @default(uuid())
+    id String @id @default(uuid()) @db.Uuid
 
     dateTimeStart DateTime
     dateTimeEnd   DateTime
 
     event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
-    eventId String
+    eventId String @db.Uuid
 }
 
 model FlashDeck {
-    id String @id @default(uuid())
+    id String @id @default(uuid()) @db.Uuid
 
     title       String
     description String  @default("")
-    color       String?
+    color       String
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId     String
+    userId     String      @db.Uuid
     icon       Icon        @relation(fields: [iconId], references: [id])
-    iconId     String
+    iconId     String      @db.Uuid
     notebook   Notebook?   @relation(fields: [notebookId], references: [id])
-    notebookId String?
+    notebookId String?     @db.Uuid
     flashCards FlashCard[]
-    tags       Tag[]
+    tags       Taggable[]
 }
 
 model FlashCard {
-    id String @id @default(uuid())
+    id String @id @default(uuid()) @db.Uuid
 
     question String
 
@@ -133,37 +131,47 @@ model FlashCard {
     updatedAt DateTime @updatedAt
 
     flashDeck   FlashDeck     @relation(fields: [flashDeckId], references: [id])
-    flashDeckId String
+    flashDeckId String        @db.Uuid
     answers     FlashAnswer[]
 }
 
 model FlashAnswer {
-    id String @id @default(uuid())
+    id String @id @default(uuid()) @db.Uuid
 
     answer    String  @default("")
     isCorrect Boolean @default(false)
 
     flashCard   FlashCard @relation(fields: [flashCardId], references: [id], onDelete: Cascade)
-    flashCardId String
+    flashCardId String    @db.Uuid
 }
 
 model Icon {
-    id   String @id @default(uuid())
+    id   String @id @default(uuid()) @db.Uuid
     icon Bytes
 
     notebooks  Notebook[]
     flashDecks FlashDeck[]
 }
 
+model Taggable {
+    id String @id @default(uuid()) @db.Uuid
+
+    tag         Tag        @relation(fields: [tagId], references: [id])
+    tagId       String     @db.Uuid
+    notebook    Notebook?  @relation(fields: [notebookId], references: [id])
+    notebookId  String?    @db.Uuid
+    flashDeck   FlashDeck? @relation(fields: [flashDeckId], references: [id])
+    flashDeckId String?    @db.Uuid
+    event       Event?     @relation(fields: [eventId], references: [id])
+    eventId     String?    @db.Uuid
+}
+
 model Tag {
-    id    String @id @default(uuid())
+    id    String @id @default(uuid()) @db.Uuid
     tag   String
     color String
 
-    notebook    Notebook?  @relation(fields: [notebookId], references: [id])
-    notebookId  String?
-    flashDeck   FlashDeck? @relation(fields: [flashDeckId], references: [id])
-    flashDeckId String?
-    note        Note?      @relation(fields: [noteId], references: [id])
-    noteId      String
+    taggables Taggable[]
+    user      User       @relation(fields: [userId], references: [id])
+    userId    String     @db.Uuid
 }

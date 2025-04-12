@@ -1,6 +1,6 @@
 ﻿@startuml
-skinparam shadowing false
-skinparam linetype ortho
+'skinparam shadowing false
+'skinparam linetype ortho
 title pb138 Database Diagram
 
 entity User {
@@ -64,7 +64,7 @@ entity Event {
     * color : STRING
 }
 
-entity Event_time {
+entity EventTime {
     id : INT <<PK>>
     --
     * startDateTime : DATETIME
@@ -105,21 +105,29 @@ entity Tag {
     * color : STRING
 }
 
+entity Taggable {
+    tagId : INT
+    taggableId : INT
+    taggableType : Enum{Notebook, Event, FlashDeck}
+    --
+}
 
 User            }o--|| ProfilePicture
 User            ||--o{ Notebook
 Notebook        ||--o{ Note
 User            ||--|| Calendar
 Calendar        ||--o{ Event
-Event           ||--o{ Event_time
+Event           ||--o{ EventTime
 User            ||--o{ FlashDeck
 FlashDeck       ||--o{ FlashCard
 FlashCard       ||--o{ FlashCardAnswer
 Notebook        |o--o{ FlashDeck
 Notebook        }o--|| Icon
 FlashDeck       }o--|| Icon
-FlashDeck       ||--o{ Tag
-Notebook        ||--o{ Tag
-
+User            ||-o{  Tag
+Notebook        ||--o{ Taggable
+FlashDeck       ||--o{ Taggable
+Event           ||--o{ Taggable
+Taggable        }o--|| Tag
 
 @enduml

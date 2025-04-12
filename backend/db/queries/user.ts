@@ -11,9 +11,7 @@ export async function addUser(firstName: string, lastName: string, email: string
             profilePictureId: pictureId,
 
             calendar: {
-                create: {
-                    title: firstName + "'s calendar"
-                }
+                create: {}
             }
         },
         include: {
@@ -36,7 +34,7 @@ export async function getUserByEmail(email: string) {
 }
 
 export async function getUserCalendar(id: string) {
-    return prisma.calendar.findUnique({ where: { userId: id } })
+    return prisma.calendar.findUnique({ where: { id: id } })
 }
 
 
