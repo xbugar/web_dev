@@ -1,1 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* fonts */
+  --font-serif: "Funnel Display", "serif";
+  --font-sans: "Funnel Sans", "sans-serif";
+  
+  /* colors that are same on DM and LM */
+  --color-text-primary-black: oklch(0.14 0 0);
+  --color-text-primary-white: oklch(0.99 0 0);
+  --color-text-secondary-white: oklch(0.74 0 0);
+
+  /* colors for DM */
+  --color-color-dm-primary: oklch(0.99 0 0);
+  /*--color-dm-secondary: oklch(0.45 0.313214 264.052);*/
+
+  --color-text-dm-primary: oklch(0.99 0 0);
+  --color-text-dm-primary-inverted: oklch(0.14 0 0);
+  --color-text-dm-secondary: oklch(0.8 0 0);
+
+  --color-bg-dm-primary: oklch(0.14 0 0);
+  --color-bg-dm-primary-inverted: oklch(0.99 0 0);
+  --color-bg-dm-secondary: oklch(0.16 0 0);
+
+  /* colors for LM */
+  --color-color-lm-primary:  oklch(0.14 0 0);
+  /*--color-lm-secondary: oklch(0.45 0.313214 264.052);*/
+
+  --color-text-lm-primary: oklch(0.14 0 0);
+  --color-text-lm-primary-inverted: oklch(0.99 0 0);
+  --color-text-lm-secondary: oklch(0.37 0 0);
+
+  --color-bg-lm-primary: oklch(0.99 0 0);
+  --color-bg-lm-primary-inverted: oklch(0.14 0 0);
+  --color-bg-lm-secondary: oklch(0.96 0 0);
+
+  /* accent colors */
+  --color-accent-blue: oklch(0.49 0.2432 264.4);
+  --color-accent-purple: oklch(0.5 0.2634 301.68);
+  --color-accent-orange: oklch(0.67 0.1685 53.38);
+  --color-accent-green: oklch(0.53 0.149485 148.9899);
+  --color-accent-red: oklch(0.44 0.1774 26.79);
+  --color-accent-pink: oklch(0.53 0.2137 4.81);
+}
