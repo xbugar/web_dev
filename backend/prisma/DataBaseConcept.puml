@@ -49,12 +49,6 @@ entity Note {
     updatedAt : DATETIME
 }
 
-entity Calendar {
-    id : INT <<PK>>
-    --
-    * title : STRING
-}
-
 entity Event {
     id : INT <<PK>>
     --
@@ -105,18 +99,15 @@ entity Tag {
     * color : STRING
 }
 
-entity Taggable {
-    tagId : INT
-    taggableId : INT
-    taggableType : Enum{Notebook, Event, FlashDeck}
+entity ">>Implicit Taggable<<" as implicit {
+    tagId : STRING
     --
 }
 
 User            }o--|| ProfilePicture
 User            ||--o{ Notebook
 Notebook        ||--o{ Note
-User            ||--|| Calendar
-Calendar        ||--o{ Event
+User            ||--o{ Event
 Event           ||--o{ EventTime
 User            ||--o{ FlashDeck
 FlashDeck       ||--o{ FlashCard
@@ -125,10 +116,10 @@ Notebook        |o--o{ FlashDeck
 Notebook        }o--|| Icon
 FlashDeck       }o--|| Icon
 User            ||-o{  Tag
-Notebook        ||--o{ Taggable
-FlashDeck       ||--o{ Taggable
-Event           ||--o{ Taggable
-Note            ||--o{ Taggable
-Taggable        }o--|| Tag
+Notebook        ||--o{ implicit
+FlashDeck       ||--o{ implicit
+Event           ||--o{ implicit
+Note            ||--o{ implicit
+implicit        }o--|| Tag
 
 @enduml

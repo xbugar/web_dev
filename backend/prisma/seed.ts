@@ -1,7 +1,7 @@
 import {Icon, Importance, PrismaClient, ProfilePicture} from "@prisma/client";
 import { addProfilePicture } from "../db/queries/profilePicture";
-import { addUser, getUserCalendar } from "../db/queries/user";
-import { createEvent, addEventTime } from "../db/queries/calendar";
+import { addUser } from "../db/queries/user";
+import { createEvent, addEventTime } from "../db/queries/event";
 import { addIcon } from "../db/queries/icon";
 import {createNote, createNotebook} from "../db/queries/notebook";
 import assert from "node:assert";
@@ -13,9 +13,7 @@ const prisma = new PrismaClient();
 
 async function createUserWithEvents(name: string, mail: string, picture: ProfilePicture) {
     const user = await addUser(name, "", mail, "", "", picture.id);
-    const userCalendar = await getUserCalendar(user.id);
-    assert(userCalendar);
-    const userEvent = await createEvent(userCalendar.id, "", new Date(), new Date(), Importance.HIGH, "#ffff00", "");
+    const userEvent = await createEvent(user.id, "", new Date(), new Date(), Importance.HIGH, "#ffff00", "");
     await addEventTime(userEvent.id, new Date(), new Date());
     return user;
 }

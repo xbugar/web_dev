@@ -12,38 +12,46 @@ export async function createTag(userId: string, tag: string, color: string) {
 
 
 export async function addNotebookTag(tagId: string, notebookId: string) {
-    return prisma.taggable.create({
+    return prisma.notebook.update({
+        where: { id: notebookId },
         data: {
-            notebookId: notebookId,
-            tagId: tagId
+            tags: {
+                connect: [{id: tagId}]
+            }
         }
-    })
+    });
 }
 
 export async function addFlashDeckTag(tagId: string, flashDeckId: string) {
-    return prisma.taggable.create({
+    return prisma.flashDeck.update({
+        where: { id: flashDeckId },
         data: {
-            flashDeckId: flashDeckId,
-            tagId: tagId
+            tags: {
+                connect: [{id: tagId}]
+            }
         }
-    })
+    });
 }
 
 export async function addEventTag(tagId: string, eventId: string) {
-    return prisma.taggable.create({
+    return prisma.event.update({
+        where: { id: eventId },
         data: {
-            eventId: eventId,
-            tagId: tagId
+            tags: {
+                connect: [{id: tagId}]
+            }
         }
-    })
+    });
 }
 
 export async function addNoteTag(tagId: string, noteId: string) {
-    return prisma.taggable.create({
+    return prisma.note.update({
+        where: { id: noteId },
         data: {
-            noteId: noteId,
-            tagId: tagId
+            tags: {
+                connect: [{id: tagId}]
+            }
         }
-    })
+    });
 }
 

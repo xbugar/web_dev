@@ -2,11 +2,11 @@ import { prisma } from '../client'
 import { Importance } from "@prisma/client";
 
 
-export async function createEvent(calendarId: string, title: string, dateStart: Date, dateEnd: Date, importance: Importance, color: string, description: string) {
+export async function createEvent(userId: string, title: string, dateStart: Date, dateEnd: Date, importance: Importance, color: string, description: string) {
     return prisma.event.create({
         data: {
             title: title,
-            calendarId: calendarId,
+            userId: userId,
             importance: importance,
             color: color,
             description: description,
