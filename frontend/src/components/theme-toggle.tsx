@@ -9,11 +9,11 @@ export function ThemeToggle() {
 
   useEffect(() => {
     const theme = localStorage.theme
-    setIsDark(
-        theme === "dark" ||
-        (!("theme" in localStorage) &&
-            window.matchMedia("(prefers-color-scheme: dark)").matches)
-    )
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+    const isDarkMode = theme === "dark" || prefersDark
+
+    setIsDark(isDarkMode)
+    document.documentElement.classList.toggle("dark", isDarkMode)
   }, [])
 
   const toggleTheme = (checked: boolean) => {
