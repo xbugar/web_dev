@@ -9,6 +9,9 @@
   --font-serif: "Funnel Display", "serif";
   --font-sans: "Funnel Sans", "sans-serif";
 
+  --color-black: oklch(0.14 0 0);
+  --color-white: oklch(0.99 0 0);
+
   /* colors that are same on DM and LM */
   --color-text-primary-black: oklch(0.14 0 0);
   --color-text-primary-white: oklch(0.99 0 0);

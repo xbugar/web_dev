@@ -11,12 +11,33 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as PomodoroImport } from './routes/pomodoro'
+import { Route as FlashcardsImport } from './routes/flashcards'
+import { Route as CalendarImport } from './routes/calendar'
 import { Route as IndexImport } from './routes/index'
 import { Route as NotebooksIndexImport } from './routes/notebooks/index'
 import { Route as NotebooksNotebookIdIndexImport } from './routes/notebooks/$notebookId/index'
 import { Route as NotebooksNotebookIdNoteIdImport } from './routes/notebooks/$notebookId/$noteId'
 
 // Create/Update Routes
+
+const PomodoroRoute = PomodoroImport.update({
+  id: '/pomodoro',
+  path: '/pomodoro',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const FlashcardsRoute = FlashcardsImport.update({
+  id: '/flashcards',
+  path: '/flashcards',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CalendarRoute = CalendarImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -53,6 +74,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/calendar': {
+      id: '/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarImport
+      parentRoute: typeof rootRoute
+    }
+    '/flashcards': {
+      id: '/flashcards'
+      path: '/flashcards'
+      fullPath: '/flashcards'
+      preLoaderRoute: typeof FlashcardsImport
+      parentRoute: typeof rootRoute
+    }
+    '/pomodoro': {
+      id: '/pomodoro'
+      path: '/pomodoro'
+      fullPath: '/pomodoro'
+      preLoaderRoute: typeof PomodoroImport
+      parentRoute: typeof rootRoute
+    }
     '/notebooks/': {
       id: '/notebooks/'
       path: '/notebooks'
@@ -81,6 +123,9 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/calendar': typeof CalendarRoute
+  '/flashcards': typeof FlashcardsRoute
+  '/pomodoro': typeof PomodoroRoute
   '/notebooks': typeof NotebooksIndexRoute
   '/notebooks/$notebookId/$noteId': typeof NotebooksNotebookIdNoteIdRoute
   '/notebooks/$notebookId': typeof NotebooksNotebookIdIndexRoute
@@ -88,6 +133,9 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/calendar': typeof CalendarRoute
+  '/flashcards': typeof FlashcardsRoute
+  '/pomodoro': typeof PomodoroRoute
   '/notebooks': typeof NotebooksIndexRoute
   '/notebooks/$notebookId/$noteId': typeof NotebooksNotebookIdNoteIdRoute
   '/notebooks/$notebookId': typeof NotebooksNotebookIdIndexRoute
@@ -96,6 +144,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/calendar': typeof CalendarRoute
+  '/flashcards': typeof FlashcardsRoute
+  '/pomodoro': typeof PomodoroRoute
   '/notebooks/': typeof NotebooksIndexRoute
   '/notebooks/$notebookId/$noteId': typeof NotebooksNotebookIdNoteIdRoute
   '/notebooks/$notebookId/': typeof NotebooksNotebookIdIndexRoute
@@ -105,18 +156,27 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/calendar'
+    | '/flashcards'
+    | '/pomodoro'
     | '/notebooks'
     | '/notebooks/$notebookId/$noteId'
     | '/notebooks/$notebookId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/calendar'
+    | '/flashcards'
+    | '/pomodoro'
     | '/notebooks'
     | '/notebooks/$notebookId/$noteId'
     | '/notebooks/$notebookId'
   id:
     | '__root__'
     | '/'
+    | '/calendar'
+    | '/flashcards'
+    | '/pomodoro'
     | '/notebooks/'
     | '/notebooks/$notebookId/$noteId'
     | '/notebooks/$notebookId/'
@@ -125,6 +185,9 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CalendarRoute: typeof CalendarRoute
+  FlashcardsRoute: typeof FlashcardsRoute
+  PomodoroRoute: typeof PomodoroRoute
   NotebooksIndexRoute: typeof NotebooksIndexRoute
   NotebooksNotebookIdNoteIdRoute: typeof NotebooksNotebookIdNoteIdRoute
   NotebooksNotebookIdIndexRoute: typeof NotebooksNotebookIdIndexRoute
@@ -132,6 +195,9 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CalendarRoute: CalendarRoute,
+  FlashcardsRoute: FlashcardsRoute,
+  PomodoroRoute: PomodoroRoute,
   NotebooksIndexRoute: NotebooksIndexRoute,
   NotebooksNotebookIdNoteIdRoute: NotebooksNotebookIdNoteIdRoute,
   NotebooksNotebookIdIndexRoute: NotebooksNotebookIdIndexRoute,
@@ -148,6 +214,9 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/calendar",
+        "/flashcards",
+        "/pomodoro",
         "/notebooks/",
         "/notebooks/$notebookId/$noteId",
         "/notebooks/$notebookId/"
@@ -155,6 +224,15 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/calendar": {
+      "filePath": "calendar.tsx"
+    },
+    "/flashcards": {
+      "filePath": "flashcards.tsx"
+    },
+    "/pomodoro": {
+      "filePath": "pomodoro.tsx"
     },
     "/notebooks/": {
       "filePath": "notebooks/index.tsx"
