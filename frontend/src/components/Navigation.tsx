@@ -1,0 +1,56 @@
+// import {
+//   NavigationMenu,
+//   NavigationMenuContent,
+//   NavigationMenuIndicator,
+//   NavigationMenuItem,
+//   NavigationMenuLink,
+//   NavigationMenuList,
+//   NavigationMenuTrigger,
+//   NavigationMenuViewport,
+// } from "@/components/ui/navigation-menu"
+
+
+import {
+  Home,
+  Book,
+  Calendar,
+  Timer,
+  GalleryVerticalEnd,
+  LucideIcon
+} from "lucide-react"
+
+import { NavigationButton } from "./NavigationButton";
+import { NavigationMenu } from "radix-ui";
+
+type PathItem = {
+  Icon: LucideIcon
+  to: string
+  label: string
+}
+
+export default function Navigation() {
+  const paths: PathItem[] = [
+    { Icon: GalleryVerticalEnd, to: "/flashcards", label: "Flashcards" },
+    { Icon: Calendar, to: "/calendar", label: "Calendar" },
+    { Icon: Home, to: "/", label: "Home" },
+    { Icon: Book, to: "/notebooks", label: "Notebooks" },
+    { Icon: Timer, to: "/pomodoro", label: "Pomodoro" }
+  ]
+
+  return (
+	<NavigationMenu.Root orientation="horizontal" className="absolute bottom-0 w-full pb-2 px-4">
+		<NavigationMenu.List className="flex direction-row bg-white dark:bg-black p-2 shadow-md rounded-md gap-1 justify-between">
+
+      {paths.map(({ Icon, to, label }) => (
+        <NavigationButton
+          key={to}
+          icon={Icon}
+          label={label}
+          to={to}
+        />
+      ))}
+
+		</NavigationMenu.List>
+	</NavigationMenu.Root>
+  )
+}
