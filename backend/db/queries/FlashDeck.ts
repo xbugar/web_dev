@@ -1,9 +1,11 @@
 import { prisma } from '../client'
 
-export async function createFlashDeck(userId: string, iconId: string, title: string) {
+export async function createFlashDeck(userId: string, iconId: string, title: string, description: string, color: string) {
     return prisma.flashDeck.create({
         data: {
             title: title,
+            description: description,
+            color: color,
             userId: userId,
             iconId: iconId,
         }

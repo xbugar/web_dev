@@ -1,11 +1,15 @@
 import { prisma } from '../client'
+import { Importance } from "@prisma/client";
 
 
-export async function createEvent(calendarId: string, title: string, dateStart: Date, dateEnd: Date) {
+export async function createEvent(userId: string, title: string, dateStart: Date, dateEnd: Date, importance: Importance, color: string, description: string) {
     return prisma.event.create({
         data: {
             title: title,
-            calendarId: calendarId,
+            userId: userId,
+            importance: importance,
+            color: color,
+            description: description,
             eventTimes: {
                 create: [
                     {
@@ -18,7 +22,7 @@ export async function createEvent(calendarId: string, title: string, dateStart: 
         include: {
             eventTimes: true
         }
-    })
+    });
 }
 
 
@@ -29,7 +33,7 @@ export async function addEventTime(eventId: string, dateTimeStart: Date, dateTim
             dateTimeStart: dateTimeStart,
             dateTimeEnd: dateTimeEnd,
         }
-    })
+    });
 }
 
 

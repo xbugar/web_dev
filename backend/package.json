@@ -1,14 +1,15 @@
 {
   "dependencies": {
-    "@prisma/client": "^6.5.0",
+    "@prisma/client": "^6.6.0",
     "express": "^5.1.0",
     "node": "^18.20.8",
     "tsc": "^2.0.4"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.6.0",
     "@types/node": "^22.13.14",
     "git-conventional-commits": "^2.8.0",
-    "prisma": "^6.5.0",
+    "prisma": "^6.6.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3"
@@ -17,6 +18,11 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "scripts": {
-    "database": "cp .env.example .env; docker compose -f docker-compose.postgres.yml up -d && np && npx prisma db seed"
+    "devdb:up": "cp .env.example .env; docker compose -f docker-compose.postgres.yml up -d && npx prisma migrate deploy && npx prisma generate && npx prisma db seed",
+    "devdb:down": "docker compose -f docker-compose.postgres.yml down --remove-orphans",
+    "deploy:up": "docker compose -f docker-compose.yml up --build -d",
+    "deploy:down": "docker compose -f docker-compose.yml down --remove-orphans",
+    "dev": "node index.js",
+    "db:deploy": "npx prisma migrate deploy && npx prisma generate && npx prisma db seed"
   }
 }
