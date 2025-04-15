@@ -6,12 +6,12 @@ import { NavigationMenu } from "radix-ui";
 
 type NavigationButtonProps = {
   to: string
-  icon: LucideIcon
+  Icon: LucideIcon
   label: string
   variant?: "default" | "ghost" | "outline" | "link"
 }
 
-export function NavigationButton({ to, icon: Icon, label, variant = "ghost" }: NavigationButtonProps) {
+export function NavigationButton({ to, Icon, label, variant = "ghost" }: NavigationButtonProps) {
   const location = useLocation()
   
   // Check if the current route matches the target `to` route
@@ -30,7 +30,7 @@ export function NavigationButton({ to, icon: Icon, label, variant = "ghost" }: N
         >
           
           <Link to={to} className="w-full">
-            <Icon className="w-5 h-5 stroke-[2.5]" />
+            <Icon width="100%" height="100%" className="h-5 w-5 stroke-[2.5]" />
             {isActive && <span>{label}</span>}
           </Link>
         </Button>

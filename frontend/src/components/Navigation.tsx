@@ -39,12 +39,12 @@ export default function Navigation() {
 
   return (
 	<NavigationMenu.Root orientation="horizontal" className="absolute bottom-0 w-full pb-2 px-4">
-		<NavigationMenu.List className="flex direction-row bg-white dark:bg-black p-2 shadow-md rounded-md gap-1 justify-between">
+		<NavigationMenu.List className="flex direction-row bg-white dark:bg-black p-2 rounded-md gap-1 justify-between">
 
       {paths.map(({ Icon, to, label }) => (
         <NavigationButton
           key={to}
-          icon={Icon}
+          Icon={Icon}
           label={label}
           to={to}
         />
