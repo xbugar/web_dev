@@ -32,13 +32,13 @@ export default function Navigation() {
   const paths: PathItem[] = [
     { Icon: GalleryVerticalEnd, to: "/flashcards", label: "Flashcards" },
     { Icon: Calendar, to: "/calendar", label: "Calendar" },
-    { Icon: Home, to: "/", label: "Home" },
+    { Icon: Home, to: "/home", label: "Home" },
     { Icon: Book, to: "/notebooks", label: "Notebooks" },
     { Icon: Timer, to: "/pomodoro", label: "Pomodoro" }
   ]
 
   return (
-	<NavigationMenu.Root orientation="horizontal" className="absolute bottom-0 w-full pb-2 px-4">
+	<NavigationMenu.Root orientation="horizontal" className="absolute bottom-0 w-full">
 		<NavigationMenu.List className="flex direction-row bg-white dark:bg-black p-2 rounded-md gap-1 justify-between">
 
       {paths.map(({ Icon, to, label }) => (

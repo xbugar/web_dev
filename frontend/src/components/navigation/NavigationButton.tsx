@@ -8,13 +8,10 @@ type NavigationButtonProps = {
   to: string
   Icon: LucideIcon
   label: string
-  variant?: "default" | "ghost" | "outline" | "link"
 }
 
-export function NavigationButton({ to, Icon, label, variant = "ghost" }: NavigationButtonProps) {
+export function NavigationButton({ to, Icon, label }: NavigationButtonProps) {
   const location = useLocation()
-  
-  // Check if the current route matches the target `to` route
   const isActive = location.pathname === to
 
   return (
@@ -22,8 +19,7 @@ export function NavigationButton({ to, Icon, label, variant = "ghost" }: Navigat
       <NavigationMenu.Link asChild>
         <Button
           asChild
-          size={"lg"}
-          variant={variant}
+          variant={"navigation"}
           className={cn("flex items-center gap-2 justify-start", {
             "bg-black text-white": isActive,
           })}
