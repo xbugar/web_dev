@@ -12,12 +12,13 @@ export async function createNotebook(userId: string, iconId: string, title: stri
     })
 }
 
-export async function createNote(notebookId: string, title: string, color: string) {
+export async function createNote(notebookId: string, title: string, content: string, color: string) {
     return prisma.note.create({
         data: {
             title: title,
             color: color,
             notebookId: notebookId,
+            content: content,
         }
     })
 }

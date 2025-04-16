@@ -23,6 +23,8 @@ model User {
     events           Event[]
     flashDecks       FlashDeck[]
     tags             Tag[]
+
+    @@index([email, lastName, firstName])
 }
 
 model ProfilePicture {
@@ -49,6 +51,9 @@ model Notebook {
     notes      Note[]
     flashDecks FlashDeck[]
     tags       Tag[]
+
+    @@index([userId, updatedAt])
+    @@index([userId, title])
 }
 
 model Note {
@@ -64,6 +69,8 @@ model Note {
     notebook   Notebook   @relation(fields: [notebookId], references: [id], onDelete: Cascade)
     notebookId String     @db.Uuid @unique
     tags       Tag[]
+
+    @@index([notebookId, title])
 }
 
 model Event {
@@ -78,6 +85,8 @@ model Event {
     userId     String      @db.Uuid
     eventTimes EventTime[]
     tags       Tag[]
+
+    @@index([userId, title])
 }
 
 enum Importance {
@@ -114,6 +123,9 @@ model FlashDeck {
     notebookId String?     @db.Uuid
     flashCards FlashCard[]
     tags       Tag[]
+
+    @@index([userId, updatedAt])
+    @@index([userId, title])
 }
 
 model FlashCard {
@@ -127,6 +139,8 @@ model FlashCard {
     flashDeck   FlashDeck     @relation(fields: [flashDeckId], references: [id])
     flashDeckId String        @db.Uuid
     answers     FlashAnswer[]
+
+    @@index([flashDeckId])
 }
 
 model FlashAnswer {
@@ -158,4 +172,6 @@ model Tag {
     flashDecks FlashDeck[]
     events     Event[]
     notes      Note[]
+
+    @@index([userId])
 }
