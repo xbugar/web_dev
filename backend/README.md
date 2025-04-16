@@ -32,6 +32,7 @@ npm run deploy:up
 npm run deploy:down
 ```
 Deploy is running at: http://localhost:3000/
+Api documentation is running at http://localhost:3000/
 
 Zatial sa vzdy pri deploy:up znovu seedne databaza
 

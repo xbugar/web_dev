@@ -303,9 +303,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Notebook'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Notebook'
         '400':
           description: Invalid ID supplied
         '404':
@@ -438,7 +435,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Notebook'
-
         '400':
           description: Invalid ID supplied
         '404':
@@ -614,12 +610,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/User'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/User'
       responses:
         '200':
           description: successful operation
@@ -718,9 +708,6 @@ paths:
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Notebook'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/Notebook'
         '400':
