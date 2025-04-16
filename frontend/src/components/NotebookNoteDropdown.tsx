@@ -12,13 +12,13 @@ export function NotebookNoteDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-      <button className="p-2 rounded-[10%] hover:bg-muted">
-        <Ellipsis className="text-black dark:text-white" />
+      <button className="p-0 rounded-[10%] hover:bg-muted">
+        <Ellipsis className="text-black dark:text-white w-5 h-5" />
       </button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="bg-white dark:bg-black">
-        <DropdownMenuItem> <Star /> Add to favourites </DropdownMenuItem>
+      <DropdownMenuContent className="text-xs">
+        <DropdownMenuItem> <Star className="text-text-lm-secondary dark:text-text-dm-secondary"/> Add to favourites </DropdownMenuItem>
         <DropdownMenuSeparator />
 
         <DropdownMenuItem> <Pencil /> Rename </DropdownMenuItem>
