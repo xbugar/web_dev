@@ -1,6 +1,5 @@
 import { Header } from '@/components/header/Header'
 import { Navigation } from '@/components/navigation/Navigation'
-import { ThemeToggle } from '@/components/theme-toggle'
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_authentificated')({
@@ -9,11 +8,12 @@ export const Route = createFileRoute('/_authentificated')({
 
 function RouteComponent() {
   return (
-    <div className='w-screen px-4 py-2'>
+    <>
       <Header />
-      <ThemeToggle />
-      <Outlet />
+      <section className='px-4 mb-20'>
+        <Outlet />
+      </section>
       <Navigation />
-    </div>
+    </>
   )
 }

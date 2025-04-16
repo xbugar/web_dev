@@ -23,10 +23,11 @@ export function ThemeToggle() {
   }
 
   return (
-      <div className="flex items-center gap-2">
-        <Sun />
+      <div className="flex items-center gap-2 fixed bottom-0 z-10 bg-red-500 text-white">
+        {/* <Sun /> */}
+        mode switch
         <Switch checked={isDark} onCheckedChange={toggleTheme} />
-        <Moon />
+        {/* <Moon /> */}
       </div>
   )
 }

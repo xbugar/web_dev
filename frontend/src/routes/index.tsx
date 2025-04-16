@@ -7,7 +7,12 @@ export const Route = createFileRoute('/')({
 function RouteComponent() {
   return (
     <>
-      <Link to={"/home"}>HOME</Link>
+      <h1>Hello "/this is landing page"!</h1>
+      <div className='flex gap-2'>
+        <Link to={"/home"} className='bg-red-500'>HOME</Link>
+        <Link to={"/login"} className='bg-red-500'>LOGIN</Link>
+        <Link to={"/sign-up"} className='bg-red-500'>SIGN UP</Link>
+      </div>
     </>
   )
 }
