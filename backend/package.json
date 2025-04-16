@@ -3,11 +3,15 @@
     "@prisma/client": "^6.6.0",
     "express": "^5.1.0",
     "node": "^18.20.8",
-    "tsc": "^2.0.4"
+    "swagger-ui-express": "^5.0.1",
+    "tsc": "^2.0.4",
+    "yaml": "^2.7.1"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.6.0",
+    "@types/express": "^5.0.1",
     "@types/node": "^22.13.14",
+    "@types/swagger-ui-express": "^4.1.8",
     "git-conventional-commits": "^2.8.0",
     "prisma": "^6.6.0",
     "ts-node": "^10.9.2",
@@ -22,7 +26,7 @@
     "devdb:down": "docker compose -f docker-compose.postgres.yml down --remove-orphans",
     "deploy:up": "docker compose -f docker-compose.yml up --build -d",
     "deploy:down": "docker compose -f docker-compose.yml down --remove-orphans",
-    "dev": "node index.js",
+    "dev": "ts-node index.ts",
     "db:deploy": "npx prisma migrate deploy && npx prisma generate && npx prisma db seed"
   }
 }
