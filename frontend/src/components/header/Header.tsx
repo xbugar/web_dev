@@ -8,9 +8,9 @@ import {
 
 export function Header() {
   return (
-    <header className="w-screen">
+    <header className="w-full">
       <div
-        className="bg-cover bg-center flex items-center justify-between p-2 rounded-md"
+        className="bg-cover bg-center flex items-center justify-between p-2 rounded-md  shadow-ours"
         style={{ backgroundImage: `url(${gradient})` }}
       >
         <HeaderButton to={"/"} Icon={ArrowLeft}/>

@@ -28,7 +28,7 @@ type PathItem = {
   label: string
 }
 
-export default function Navigation() {
+export function Navigation() {
   const paths: PathItem[] = [
     { Icon: GalleryVerticalEnd, to: "/flashcards", label: "Flashcards" },
     { Icon: Calendar, to: "/calendar", label: "Calendar" },
@@ -38,8 +38,8 @@ export default function Navigation() {
   ]
 
   return (
-	<NavigationMenu.Root orientation="horizontal" className="absolute bottom-0 w-full">
-		<NavigationMenu.List className="flex direction-row bg-white dark:bg-black p-2 rounded-md gap-1 justify-between">
+	<NavigationMenu.Root orientation="horizontal" className="absolute bottom-0 right-0 w-full px-4 py-2">
+		<NavigationMenu.List className="flex direction-row bg-white dark:bg-black p-2 rounded-md gap-1 justify-between shadow-ours">
 
       {paths.map(({ Icon, to, label }) => (
         <NavigationButton
