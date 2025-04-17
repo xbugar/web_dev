@@ -99,10 +99,7 @@ entity Tag {
     * color : STRING
 }
 
-entity ">>Implicit Taggable<<" as implicit {
-    tagId : STRING
-    --
-}
+entity ">>Implicit Taggable<<" as Implicit
 
 User            }o--|| ProfilePicture
 User            ||--o{ Notebook
@@ -116,10 +113,13 @@ Notebook        |o--o{ FlashDeck
 Notebook        }o--|| Icon
 FlashDeck       }o--|| Icon
 User            ||-o{  Tag
-Notebook        ||--o{ implicit
-FlashDeck       ||--o{ implicit
-Event           ||--o{ implicit
-Note            ||--o{ implicit
-implicit        }o--|| Tag
+Notebook        ||--o{ Implicit
+FlashDeck       ||--o{ Implicit
+Event           ||--o{ Implicit
+Note            ||--o{ Implicit
+Implicit        }o--|| Tag
 
+note left of Implicit
+Prisma Generated
+end note
 @enduml

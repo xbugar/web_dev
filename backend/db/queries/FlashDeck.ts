@@ -1,4 +1,5 @@
 import { prisma } from '../client'
+import { FlashDeck } from '@prisma/client';
 
 export async function createFlashDeck(userId: string, iconId: string, title: string, description: string, color: string) {
     return prisma.flashDeck.create({
@@ -19,6 +20,17 @@ export async function createFlashCard(flashDeckId: string, question: string) {
             flashDeckId: flashDeckId,
         }
     })
+}
+
+export async function getFlashCards(flashDeckId: string) {
+    return prisma.flashCard.findMany({
+        where: {
+            flashDeckId: flashDeckId
+        },
+        include: {
+            answers: true
+        }
+    });
 }
 
 
