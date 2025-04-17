@@ -35,3 +35,9 @@ Deploy is running at: http://localhost:3000/
 
 Zatial sa vzdy pri deploy:up znovu seedne databaza
 
+
+## API Docs
+```
+npm run dev
+```
+Api documentation is running at http://localhost:3000/api-documentation/
