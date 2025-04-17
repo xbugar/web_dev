@@ -12,6 +12,8 @@ import { Link  } from "@tanstack/react-router"
 import { NotebookNoteDropdown } from "../NotebookNoteDropdown"
 import { Timer } from "lucide-react"
 import { Badge } from "../ui/badge"
+import {Tag, TagColor} from "@/components/Tag.tsx"
+
 
 
 type NoteCardProps = {
@@ -20,11 +22,11 @@ type NoteCardProps = {
   title: string
   titleOfParent: string
   lastUpdated: string
-  // content: string
-  // tags: 
+  content: string
+  tags: { name: string; color: TagColor}[] 
 }
 
-export function NoteCard( {to, color, title, titleOfParent, lastUpdated }: NoteCardProps ) {
+export function NoteCard( {to, color, title, titleOfParent, lastUpdated, content, tags }: NoteCardProps ) {
   return (
     <Link to={to}>
       <Card className={`${lineColor[color]} flex border-l-10 p-1 gap-3 overflow-hidden pt-3`}>
@@ -42,12 +44,12 @@ export function NoteCard( {to, color, title, titleOfParent, lastUpdated }: NoteC
           </div>
         </CardHeader>
         <div className="flex pl-3 pr-3 gap-2">
-          <Badge variant="blue">Tag name</Badge>
-          <Badge variant="green">Tag name</Badge>
-          <Badge variant="red">Tag name</Badge>
+        {tags.map((tag, index) => (
+                <Tag name={tag.name} color={tag.color} key={index}></Tag>
+            ))}
         </div>
         <CardDescription className="pl-3 pr-3 pb-1">
-          Something I wrote, I cant remember when, but I know I wrote it sometime whenever in the past, when I was...
+          {content}
         </CardDescription>
       </Card>
     </Link>
