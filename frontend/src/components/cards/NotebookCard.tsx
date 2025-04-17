@@ -27,7 +27,7 @@ export function NotebookCard({to, title, description, Icon, color, noteCount, la
   return (
       <Link to={to}>
         <Card className={`${lineColor[color]}  flex border-l-10 overflow-hidden p-0 pt-3 gap-3`}>
-          <CardHeader className="flex pl-0 gap-2 items-center justify-start self-stretch">
+          <CardHeader className="flex pl-0 pr-3 gap-2 items-center justify-start self-stretch">
             <div className={`${iconColor[color]} p-2.5 rounded-r-md`}>
               <Icon className=" text-text-primary-white w-6 h-6"/>
             </div>
@@ -49,7 +49,7 @@ export function NotebookCard({to, title, description, Icon, color, noteCount, la
               </div>
             </div>
           </CardHeader>
-          <div className="flex gap-2 justify-start self-stretch pl-3 pr-3">
+          <div className="flex gap-2 pl-3 pr-3">
             {tags.map((tag, index) => (
                 <Tag name={tag.name} color={tag.color} key={index}></Tag>
             ))}

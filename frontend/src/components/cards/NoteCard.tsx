@@ -29,7 +29,7 @@ type NoteCardProps = {
 export function NoteCard( {to, color, title, titleOfParent, lastUpdated, content, tags }: NoteCardProps ) {
   return (
     <Link to={to}>
-      <Card className={`${lineColor[color]} flex border-l-10 p-1 gap-3 overflow-hidden pt-3`}>
+      <Card className={`${lineColor[color]} flex border-l-10 p-0 gap-3 overflow-hidden pt-3`}>
         <CardHeader className="pl-3 pr-3 gap-0">
           <div className="flex justify-between items-center self-stretch">
             <CardTitle>{title}</CardTitle>
@@ -48,7 +48,7 @@ export function NoteCard( {to, color, title, titleOfParent, lastUpdated, content
                 <Tag name={tag.name} color={tag.color} key={index}></Tag>
             ))}
         </div>
-        <CardDescription className="pl-3 pr-3 pb-1">
+        <CardDescription className="pl-3 pr-3 pb-3">
           {content}
         </CardDescription>
       </Card>
