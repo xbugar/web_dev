@@ -12,6 +12,9 @@
   --color-black: oklch(0.14 0 0);
   --color-white: oklch(0.99 0 0);
 
+  --color-black-secondary: oklch(0.16 0 0);
+  --color-white-secondary: oklch(0.96 0 0);
+
   --shadow-ours:  inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075), 0 0 0 1px hsla(0, 0%, 0%, 0.05),
                   0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),
                   0 0.9px 1.5px hsla(0, 0%, 0%, 0.045),

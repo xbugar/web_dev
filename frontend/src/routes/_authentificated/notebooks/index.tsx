@@ -14,38 +14,20 @@ import {
   Languages
 } from "lucide-react"
 
-import { NotebookCard } from "@/components/cards/NotebookCard.tsx";
-import { AccentColor } from '@/components/cards/cardColors';
-import { TagColor } from '@/components/Tag';
+import { NotebookCard, NotebookCardProps } from "@/components/cards/NotebookCard.tsx";
 
 export const Route = createFileRoute('/_authentificated/notebooks/')({
   component: RouteComponent,
 })
 
-type NotebookItem = {
-  to: string
-  title: string
-  description: string
-  Icon: LucideIcon
-  color: AccentColor
-  noteCount: number
-  tags: { name: string; color: TagColor }[]
-  lastUpdated: string
-}
-
 function RouteComponent() {
-  const notebooks: NotebookItem[] = [
+  const notebooks: NotebookCardProps[] = [
     {
       to: "/notebooks/$notebookId",
       title: "CS101",
-      description: "Introduction to Computer Science",
       Icon: Cpu,
       color: "blue",
       noteCount: 12,
-      tags: [
-        { name: "programming", color: "blue" },
-        { name: "semester 1", color: "green" }
-      ],
       lastUpdated: "3 days"
     },
     {
@@ -55,10 +37,6 @@ function RouteComponent() {
       Icon: Layers,
       color: "green",
       noteCount: 8,
-      tags: [
-        { name: "math", color: "yellow" },
-        { name: "semester 2", color: "red" }
-      ],
       lastUpdated: "1 week"
     },
     {
@@ -76,27 +54,29 @@ function RouteComponent() {
     {
       to: "/notebooks/$notebookId",
       title: "PB307",
-      description: "Databases and SQL Fundamentals",
       Icon: FileText,
       color: "blue",
       noteCount: 7,
       tags: [
         { name: "databases", color: "blue" },
-        { name: "semester 4", color: "green" }
+        { name: "semester 4", color: "green" },
+        { name: "databases", color: "blue" },
+        { name: "semester 4", color: "green" },
+        { name: "databases", color: "blue" },
+        { name: "semester 4", color: "green" },
+        { name: "databases", color: "blue" },
+        { name: "semester 4", color: "green" },
+
       ],
       lastUpdated: "2 weeks"
     },
     {
       to: "/notebooks/$notebookId",
       title: "UX301",
-      description: "User Experience Design Ideas",
+      description: "User Experience Design Ideas TESTING SPACEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE AAAAHHH HELPE MEEEE A LOT OF TEXT  HELP MEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE HELPPPP  HELPEPPPPPPPPP AAAAAAAAAAAAAa",
       Icon: PenTool,
       color: "purple",
       noteCount: 4,
-      tags: [
-        { name: "design", color: "purple" },
-        { name: "semester 3", color: "yellow" }
-      ],
       lastUpdated: "5 days"
     },
     {
@@ -115,12 +95,10 @@ function RouteComponent() {
     {
       to: "/notebooks/$notebookId",
       title: "PB010",
-      description: "Advanced Programming Lab",
       Icon: Code,
       color: "blue",
       noteCount: 9,
       tags: [
-        { name: "programming", color: "blue" },
         { name: "lab", color: "red" }
       ],
       lastUpdated: "6 days"
@@ -132,10 +110,6 @@ function RouteComponent() {
       Icon: BookOpen,
       color: "orange",
       noteCount: 6,
-      tags: [
-        { name: "random", color: "yellow" },
-        { name: "misc", color: "green" }
-      ],
       lastUpdated: "3 weeks"
     },
     {
@@ -146,21 +120,18 @@ function RouteComponent() {
       color: "red",
       noteCount: 14,
       tags: [
-        { name: "security", color: "red" },
-        { name: "semester 6", color: "yellow" }
+        { name: "security", color: "red" }
       ],
       lastUpdated: "2 days"
     },
     {
       to: "/notebooks/$notebookId",
       title: "LANG101",
-      description: "Language and Communication Basics",
       Icon: Languages,
       color: "pink",
       noteCount: 5,
       tags: [
-        { name: "language", color: "pink" },
-        { name: "semester 1", color: "purple" }
+        { name: "language", color: "pink" }
       ],
       lastUpdated: "1 month"
     }
@@ -168,7 +139,7 @@ function RouteComponent() {
 
   return (
     <>
-      <div className='py-2 flex flex-row justify-between items-center font-bold text-2xl font-serif'>
+      <div className='py-3 flex flex-row justify-between items-center font-bold text-2xl font-serif'>
         <h2>Notebooks</h2>
         <div className='flex gap-1 items-center'>
           <span>{notebooks.length}</span>
