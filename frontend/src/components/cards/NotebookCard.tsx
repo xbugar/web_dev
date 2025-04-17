@@ -1,16 +1,15 @@
 import {
   Card,
-  CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card.tsx";
+  CardDescription,
+} from "@/components/ui/card"
 
-import {LucideIcon, Notebook, Timer} from "lucide-react";
-import {NotebookNoteDropdown} from "@/components/NotebookNoteDropdown.tsx";
-import {Tag, TagColor} from "@/components/Tag.tsx"
-// import {Badge} from "@/components/ui/badge.tsx";
-import {Link} from "@tanstack/react-router";
-import {AccentColor, iconColor, lineColor} from "@/components/cards/cardColors.tsx";
+import { Link } from "@tanstack/react-router";
+import { AccentColor, iconColor, lineColor } from "@/components/cards/cardColors";
+import { NotebookNoteDropdown } from "@/components/NotebookNoteDropdown";
+import { LucideIcon, Notebook, Timer } from "lucide-react";
+import { Tag, TagColor } from "@/components/Tag"
 
 type NotebookCardProps = {
   to: string;
@@ -49,7 +48,7 @@ export function NotebookCard({to, title, description, Icon, color, noteCount, la
               </div>
             </div>
           </CardHeader>
-          <div className="flex gap-2 pl-3 pr-3">
+          <div className="flex pl-3 pr-3 gap-2">
             {tags.map((tag, index) => (
                 <Tag name={tag.name} color={tag.color} key={index}></Tag>
             ))}

@@ -5,31 +5,26 @@ import {
   CardDescription,
 } from "@/components/ui/card"
 
-import { AccentColor, lineColor } from "./cardColors"
-
-
 import { Link  } from "@tanstack/react-router"
-import { NotebookNoteDropdown } from "../NotebookNoteDropdown"
+import { AccentColor, lineColor } from "@/components/cards/cardColors"
+import { NotebookNoteDropdown } from "@/components/NotebookNoteDropdown"
 import { Timer } from "lucide-react"
-import { Badge } from "../ui/badge"
-import {Tag, TagColor} from "@/components/Tag.tsx"
-
-
+import { Tag, TagColor } from "@/components/Tag"
 
 type NoteCardProps = {
   to: string
-  color: AccentColor
   title: string
   titleOfParent: string
+  color: AccentColor
   lastUpdated: string
   content: string
   tags: { name: string; color: TagColor}[] 
 }
 
-export function NoteCard( {to, color, title, titleOfParent, lastUpdated, content, tags }: NoteCardProps ) {
+export function NoteCard( {to, title, titleOfParent, color, lastUpdated, content, tags }: NoteCardProps ) {
   return (
     <Link to={to}>
-      <Card className={`${lineColor[color]} flex border-l-10 p-0 gap-3 overflow-hidden pt-3`}>
+      <Card className={`${lineColor[color]} flex border-l-10 overflow-hidden p-0 pt-3 gap-3`}>
         <CardHeader className="pl-3 pr-3 gap-0">
           <div className="flex justify-between items-center self-stretch">
             <CardTitle>{title}</CardTitle>
@@ -48,9 +43,7 @@ export function NoteCard( {to, color, title, titleOfParent, lastUpdated, content
                 <Tag name={tag.name} color={tag.color} key={index}></Tag>
             ))}
         </div>
-        <CardDescription className="pl-3 pr-3 pb-3">
-          {content}
-        </CardDescription>
+        <CardDescription className="pl-3 pr-3 pb-3"> {content} </CardDescription>
       </Card>
     </Link>
   )
