@@ -17,6 +17,7 @@ setting up the database
 ```
 npm run devdb:up # sets up the development database
 npm run devdb:down # shuts down the development database
+npx prisma db seed # creates mocked data
 ```
 
 you can check the database with:
