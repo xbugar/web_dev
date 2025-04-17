@@ -7,7 +7,8 @@ import {
 
 import {LucideIcon, Notebook, Timer} from "lucide-react";
 import {NotebookNoteDropdown} from "@/components/NotebookNoteDropdown.tsx";
-import {Badge} from "@/components/ui/badge.tsx";
+import {Tag, TagColor} from "@/components/Tag.tsx"
+// import {Badge} from "@/components/ui/badge.tsx";
 import {Link} from "@tanstack/react-router";
 import {AccentColor, iconColor, lineColor} from "@/components/cards/cardColors.tsx";
 
@@ -19,7 +20,7 @@ type NotebookCardProps = {
   color: AccentColor;
   noteCount: number;
   lastUpdated: string; // todo
-  tags: { name: string; color: "blue" | "purple" | "yellow" | "green" | "red" | "pink" }[];
+  tags: { name: string; color: TagColor}[];
 }
 
 export function NotebookCard({to, title, description, Icon, color, noteCount, lastUpdated, tags}: NotebookCardProps) {
@@ -50,7 +51,7 @@ export function NotebookCard({to, title, description, Icon, color, noteCount, la
           </CardHeader>
           <div className="flex gap-2 justify-start self-stretch pl-3 pr-3">
             {tags.map((tag, index) => (
-                <Badge key={index} variant={tag.color}> {tag.name} </Badge>
+                <Tag name={tag.name} color={tag.color} key={index}></Tag>
             ))}
           </div>
           <CardDescription className="pl-3 pr-3 pb-3"> {description} </CardDescription>
