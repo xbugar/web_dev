@@ -11,7 +11,3 @@ export async function addProfilePicture(path: string) {
         }
     })
 }
-
-export async function listProfilePictures() {
-    return prisma.profilePicture.findMany();
-}

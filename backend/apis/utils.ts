@@ -8,7 +8,7 @@ export const handleRepositoryErrors = (e: Error, res: Response) => {
         const response: Error = {
             name: e.name || "NotFoundError",
             message: e.message || "Entity not found",
-            cause: e.cause,
+            // cause: e.cause,
         };
 
         res.status(404).send(response);
@@ -16,7 +16,7 @@ export const handleRepositoryErrors = (e: Error, res: Response) => {
         res.status(500).send({
             name: e.name || "InternalError",
             message: e.message || "Something went wrong on our side.",
-            cause: e.cause,
+            // cause: e.cause,
         });
     } else {
         res.status(500).send({
@@ -42,7 +42,7 @@ export const parseRequest = async <
         const errorResponse: Error = {
             name: "ValidationError",
             message: error.message,
-            cause: error.cause,
+            // cause: error.cause,
         };
         res.status(400).send(errorResponse);
         return null;
