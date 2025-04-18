@@ -59,10 +59,18 @@ export function NotebookCard({to, title, description, Icon, color, noteCount, la
         </CardHeader>
 
         {tags &&
-          <div className="flex px-4 gap-2">
-            {tags.map((tag, index) => (
-                <Tag name={tag.name} color={tag.color} key={index}></Tag>
-            ))}
+          <div className="relative mr-4">
+
+            <div className="flex pl-4 gap-2 overflow-x-auto hide-scrollbar relative">
+              {tags.map((tag, index) => (
+                  <Tag name={tag.name} color={tag.color} key={index}></Tag>
+              ))}
+              <div className="ml-5"></div>
+            </div>
+
+            {/* <div className="pointer-events-none absolute top-0 left-0 h-full w-3 bg-gradient-to-r from-white-secondary dark:from-black-secondary to-transparent"></div> */}
+            <div className="pointer-events-none absolute top-0 right-0 h-full w-4 bg-gradient-to-l from-white-secondary dark:from-black-secondary to-transparent"></div>
+
           </div>  
         }
 

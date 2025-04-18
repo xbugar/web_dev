@@ -4,6 +4,19 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@layer utilities {
+  .hide-scrollbar {
+    /* Firefox */
+    scrollbar-width: none;
+    /* IE 10+ / Edge */
+    -ms-overflow-style: none;
+  }
+  /* WebKit browsers */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @theme {
   /* fonts */
   --font-serif: "Funnel Display", "serif";

@@ -47,6 +47,14 @@ function RouteComponent() {
       color: "purple",
       noteCount: 15,
       tags: [
+        { name: "planning", color: "purple" },
+        { name: "planning", color: "pink" },
+        { name: "planning", color: "purple" },
+        { name: "planning", color: "pink" },
+        { name: "planning", color: "pink" },
+        { name: "planning", color: "pink" },
+        { name: "planning", color: "pink" },
+        { name: "planning", color: "pink" },
         { name: "planning", color: "pink" }
       ],
       lastUpdated: "4 days"
