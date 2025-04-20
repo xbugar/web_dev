@@ -31,12 +31,12 @@ paths:
       parameters:
         - name: noteId
           in: path
-          description: ID of pet to return
+          description: ""
           required: true
           schema:
             type: string
       requestBody:
-        description: Update an existent pet in the store
+        description:
         content:
           application/json:
             schema:
@@ -70,7 +70,7 @@ paths:
       parameters:
         - name: noteId
           in: path
-          description: ID of pet to return
+          description:
           required: true
           schema:
             type: string
@@ -113,9 +113,9 @@ paths:
             type: string
       responses:
         '200':
-          description: Pet deleted
+          description: Note deleted
         '400':
-          description: Invalid pet value
+          description: Invalid note id
         default:
           description: Unexpected error
           content:
@@ -133,7 +133,7 @@ paths:
         parameters:
           - name: noteId
             in: path
-            description: ID of pet to return
+            description: ID of note content to return
             required: true
             schema:
               type: string
@@ -280,17 +280,17 @@ paths:
       tags:
         - notebook
       summary: Update an existing notebook.
-      description: Update an existing pet by Id.
+      description: Update an existing notebook by Id.
       operationId: updateNotebook
       parameters:
         - name: notebookId
           in: path
-          description: ID of pet to return
+          description:
           required: true
           schema:
             type: string
       requestBody:
-        description: Update an existent pet in the store
+        description: new metadata for the notebook
         content:
           application/json:
             schema:
@@ -324,10 +324,15 @@ paths:
       parameters:
         - name: notebookId
           in: path
-          description: ID of pet to return
+          description: ID of notebook to return
           required: true
           schema:
             type: string
+        - name: withTags
+          in: query
+          required: true
+          schema:
+            type: boolean
       responses:
         '200':
           description: successful operation
@@ -381,7 +386,7 @@ paths:
       parameters:
         - name: notebookId
           in: path
-          description: ID of pet to return
+          description: ID of notebook
           required: true
           schema:
             type: string
@@ -422,7 +427,7 @@ paths:
       parameters:
         - name: notebookId
           in: path
-          description: ID of pet to return
+          description: ID of notebook
           required: true
           schema:
             type: string
@@ -663,6 +668,11 @@ paths:
           required: true
           schema:
             type: string
+        - name: withTags
+          in: query
+          required: true
+          schema:
+            type: boolean
       responses:
         '200':
           description: successful operation
@@ -965,7 +975,7 @@ components:
       required:
         - id
         - title
-        - descripion
+        - description
         - color
         - createdAt
         - updatedAt
