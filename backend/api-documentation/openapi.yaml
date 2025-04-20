@@ -36,7 +36,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description:
+        description: ""
         content:
           application/json:
             schema:
@@ -70,7 +70,7 @@ paths:
       parameters:
         - name: noteId
           in: path
-          description:
+          description: ""
           required: true
           schema:
             type: string
@@ -285,7 +285,7 @@ paths:
       parameters:
         - name: notebookId
           in: path
-          description:
+          description: ""
           required: true
           schema:
             type: string
