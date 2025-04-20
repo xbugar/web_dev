@@ -1,0 +1,17 @@
+import {z} from "zod";
+import {userCreateRequestSchema,userUpdateRequestSchema,userCreateNotebookRequestSchema} from "./validationSchemas"
+
+export type User = {
+    id:string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+}
+
+export type UserUpdateRequest = z.infer<typeof userUpdateRequestSchema>;
+
+export type UserCreateRequest = z.infer<typeof userCreateRequestSchema>;
+
+export type UserCreateNotebookRequest = z.infer<typeof userCreateNotebookRequestSchema>;
+
