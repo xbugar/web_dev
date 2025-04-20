@@ -856,9 +856,7 @@ components:
           type: string
         color:
           type: string
-      required:
-      - title
-      - color 
+
     
     NoteWithTags:
       type: object
@@ -875,12 +873,7 @@ components:
           type: string
         tags:
          $ref: "#/components/schemas/TagArray"
-      required:
-      - id 
-      - title
-      - color 
-      - createdAt
-      - updatedAt
+
          
     Note:
       type: object
@@ -895,12 +888,7 @@ components:
           type: string
         updatedAt:
           type: string
-      required:
-      - id 
-      - title
-      - color 
-      - createdAt
-      - updatedAt
+
 
     
     User:
@@ -921,11 +909,7 @@ components:
         password:
           type: string
           example: '12345'
-      required:
-       - id 
-       - email
-       - password
-    
+
     CreateUser:
       type: object
       properties:
@@ -941,9 +925,7 @@ components:
         password:
           type: string
           example: '12345'
-      required:
-        - email
-        - password
+
         
     
     ProfilePicture:
@@ -972,14 +954,7 @@ components:
           type: string
         tags:
           $ref: "#/components/schemas/TagArray"
-      required:
-        - id
-        - title
-        - description
-        - color
-        - createdAt
-        - updatedAt
-        - icon
+
         
         
         
@@ -994,11 +969,7 @@ components:
           type: string
         iconId:
           type: string
-      required:
-        - title
-        - description
-        - color
-        - iconId
+
       
     Tag:
       type: object
@@ -1010,10 +981,7 @@ components:
         color:
           type: string
           example: red
-      required:
-        - id
-        - name
-        - color
+
       
     CreateTag:
       type: object
@@ -1023,9 +991,7 @@ components:
         color:
           type: string
           example: red
-      required:
-        - name
-        - color
+
         
     TagArray:
       type: array
