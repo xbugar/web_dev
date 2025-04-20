@@ -101,7 +101,7 @@ const removeNoteTag = async (req: Request, res: Response) => {
 
     const note = request.params;
 
-    const newTag = await noteRepository.addTag(note);
+    const newTag = await noteRepository.removeTag(note);
     if (newTag.isErr) {
         handleRepositoryErrors(newTag.error, res);
         return;
