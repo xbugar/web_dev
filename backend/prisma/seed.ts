@@ -1,12 +1,12 @@
 import {Icon, Importance, PrismaClient, ProfilePicture} from "@prisma/client";
-import { addProfilePicture } from "../db/queries/profilePicture";
-import { addUser } from "../db/queries/user";
-import { createEvent, addEventTime } from "../db/queries/event";
-import { addIcon } from "../db/queries/icon";
-import {createNote, createNotebook} from "../db/queries/notebook";
-import {createFlashAnswer, createFlashCard, createFlashDeck} from "../db/queries/FlashDeck";
+import { addProfilePicture } from "./mockData/queries/profilePicture";
+import { addUser } from "./mockData/queries/user";
+import { createEvent, addEventTime } from "./mockData/queries/event";
+import { addIcon } from "./mockData/queries/icon";
+import {createNote, createNotebook} from "./mockData/queries/notebook";
+import {createFlashAnswer, createFlashCard, createFlashDeck} from "./mockData/queries/FlashDeck";
 import { faker } from '@faker-js/faker';
-import {addEventTag, addFlashDeckTag, addNotebookTag, addNoteTag, createTag} from "../db/queries/tag";
+import { addEventTag, addFlashDeckTag, addNotebookTag, addNoteTag, createTag } from "./mockData/queries/tag";
 
 const prisma = new PrismaClient();
 
@@ -29,8 +29,8 @@ async function createUserWithFlashDeck(name: string, mail: string, picture: Prof
     const user = await addUser(name, "", mail, "", "", picture.id);
     const userFlashDeck = await createFlashDeck(user.id, icon.id, "test FlashDeck", "", faker.color.rgb());
     const userFlashCard = await createFlashCard(userFlashDeck.id, "Are traps gay?");
-    const userFlashAnswer1 = await createFlashAnswer(userFlashCard.id, "yes", false);
-    const userFlashAnswer2 = await createFlashAnswer(userFlashCard.id, "no", true);
+    const userFlashAnswer1 = createFlashAnswer(userFlashCard.id, "yes", false);
+    const userFlashAnswer2 = createFlashAnswer(userFlashCard.id, "no", true);
     return user;
 }
 

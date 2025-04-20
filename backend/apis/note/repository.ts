@@ -1,32 +1,10 @@
 ﻿import {Result} from "@badrap/result";
 import {prisma} from "../prismaClient";
-import {InternalError} from "../types";
+import {InternalError, NotFoundError} from "../types";
 import {AddTag, GetMeta, NoteMeta, RemoveTag, UpdateContent, UpdateMeta} from "./types";
-import {Tag} from "../tag/types";
 
 
 export const noteRepository = {
-    async getMeta(notebookId: string): Promise<Result<NoteMeta[]>> {
-        return prisma.note.findMany({
-            select: {
-                id: true,
-                title: true,
-                color: true,
-
-                createdAt: true,
-                updatedAt: true,
-
-                notebookId: true,
-                tags: true,
-            },
-            where: {
-                notebookId: notebookId
-            },
-        }).then(result => Result.ok(result))
-            .catch(() => Result.err(new InternalError()));
-    },
-
-
     async updateMeta(meta: UpdateMeta): Promise<Result<NoteMeta>> {
         return prisma.note.update({
             select: {
@@ -41,14 +19,43 @@ export const noteRepository = {
                 tags: true
             },
             where: {
-                id: meta.id
+                id: meta.params.noteId
             },
             data: {
-                title: meta.title,
-                color: meta.color,
+                title: meta.body.title,
+                color: meta.body.color,
             },
         }).then(result => Result.ok(result))
             .catch(() => Result.err(new InternalError()));
+    },
+
+    async getMeta(data: GetMeta): Promise<Result<NoteMeta[]>> {
+        return prisma.note.findMany({
+            select: {
+                id: true,
+                title: true,
+                color: true,
+
+                createdAt: true,
+                updatedAt: true,
+
+                notebookId: true,
+                tags: data.query.withTags,
+            },
+            where: {
+                notebookId: data.params.noteId
+            },
+        }).then(result => Result.ok(result))
+            .catch(() => Result.err(new InternalError()));
+    },
+
+    async delete(id: string): Promise<Result<null>> {
+        return prisma.note.delete({
+            where: {
+                id: id
+            }
+        }).then(() => Result.ok(null))
+            .catch(() => Result.err(new InternalError()))
     },
 
     async getContent(id: string): Promise<Result<string>> {
@@ -60,16 +67,16 @@ export const noteRepository = {
                 id: id
             }
         }).then(result => Result.ok(result.content))
-            .catch(() => Result.err(new InternalError()));
+            .catch(() => Result.err(new NotFoundError()));
     },
 
     async updateContent(data: UpdateContent): Promise<Result<null>> {
       return prisma.note.update({
           where: {
-              id: data.id,
+              id: data.params.noteId,
           },
           data: {
-              content: data.content
+              content: data.body.content
           }
       }).then(() => Result.ok(null))
           .catch(() => Result.err(new InternalError()))

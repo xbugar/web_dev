@@ -12,4 +12,4 @@ export type Tag = {
 };
 
 export type CreateTag = z.infer<typeof createTagRequestSchema>["body"];
-export type UpdateTag = z.infer<typeof updateTagRequestSchema>["body"];
+export type UpdateTag = z.infer<typeof updateTagRequestSchema>;
