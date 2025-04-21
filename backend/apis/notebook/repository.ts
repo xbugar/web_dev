@@ -11,7 +11,7 @@ import {
 
     NotebookUpdateRequestSchema, TagOperation
 } from "./types";
-import {NoteMeta} from "../note/types";
+
 
 export const notebookRepository = {
     async create(request: UserCreateNotebookRequest): Promise<Result<NotebookResponse>> {
