@@ -2,6 +2,7 @@
 import {prisma} from "../prismaClient";
 import {InternalError, NotFoundError} from "../types";
 import {AddTag, GetMeta, NoteMeta, RemoveTag, UpdateContent, UpdateMeta} from "./types";
+import {NotebookCreateNoteRequest} from "../notebook/types";
 
 
 export const noteRepository = {
@@ -71,15 +72,15 @@ export const noteRepository = {
     },
 
     async updateContent(data: UpdateContent): Promise<Result<null>> {
-      return prisma.note.update({
-          where: {
-              id: data.params.noteId,
-          },
-          data: {
-              content: data.body.content
-          }
-      }).then(() => Result.ok(null))
-          .catch(() => Result.err(new InternalError()))
+        return prisma.note.update({
+            where: {
+                id: data.params.noteId,
+            },
+            data: {
+                content: data.body.content
+            }
+        }).then(() => Result.ok(null))
+            .catch(() => Result.err(new InternalError()))
     },
 
     async addTag(data: AddTag): Promise<Result<NoteMeta>> {
@@ -99,11 +100,11 @@ export const noteRepository = {
                 id: data.id
             },
             data: {
-              tags: {
-                  connect: {
-                      id: data.tagId
-                  }
-              }
+                tags: {
+                    connect: {
+                        id: data.tagId
+                    }
+                }
             }
         }).then(result => Result.ok(result))
             .catch(() => Result.err(new InternalError()));
@@ -134,6 +135,61 @@ export const noteRepository = {
             }
         }).then(result => Result.ok(result))
             .catch(() => Result.err(new InternalError()));
+    },
+
+    async create(data: NotebookCreateNoteRequest) {
+        return prisma.note.create({
+            select: {
+                id: true,
+                title: true,
+                color: true,
+                createdAt: true,
+                updatedAt: true,
+                notebookId: true,
+                tags: true
+            },
+            data: {
+                ...data.body,
+                notebook: {
+                    connect: {
+                        id: data.params.notebookId
+                    }
+                }
+            }
+        }).then(note => Result.ok(note))
+            .catch((error: any) => {
+                    if (process.env.NODE_ENV !== "production") {
+                        return Result.err(new InternalError(error.message));
+                    }
+                    return Result.err(new InternalError());
+                }
+            );
+    },
+    async getAllByNotebookId(notebookId: string): Promise<Result<NoteMeta[]>> {
+        return prisma.note.findMany({
+            select: {
+                id: true,
+                title: true,
+                color: true,
+
+                createdAt: true,
+                updatedAt: true,
+
+                notebookId: true,
+                tags: true
+            },
+            where: {
+                notebookId: notebookId
+            }
+        }).then(notes => Result.ok(notes))
+            .catch(
+                (error: any) => {
+                    if (process.env.NODE_ENV !== "production") {
+                        return Result.err(new InternalError(error.message));
+                    }
+                    return Result.err(new InternalError());
+                }
+            );
     }
 }
 
