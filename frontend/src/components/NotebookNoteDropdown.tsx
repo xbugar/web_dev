@@ -17,7 +17,7 @@ export function NotebookNoteDropdown() {
       </button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="text-xs">
+      <DropdownMenuContent className="text-xs m-2">
         <DropdownMenuItem> <Star className="text-text-lm-secondary dark:text-text-dm-secondary"/> Add to favourites </DropdownMenuItem>
         <DropdownMenuSeparator />
 
