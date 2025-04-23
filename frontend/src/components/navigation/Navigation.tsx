@@ -26,7 +26,7 @@ export function Navigation() {
   ]
 
   return (
-	<NavigationMenu.Root orientation="horizontal" className="fixed bottom-0 right-0 w-full px-4 pb-2">
+	<NavigationMenu.Root orientation="horizontal" className="fixed bottom-0 right-0 w-full px-2 py-2 backdrop-blur-md rounded-t-md z-50">
 		<NavigationMenu.List className="flex direction-row bg-white dark:bg-black p-2 rounded-md gap-1 justify-between shadow-ours">
 
       {paths.map(({ Icon, to, label }) => (
