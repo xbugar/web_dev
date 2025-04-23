@@ -1,3 +1,4 @@
+import { Section } from '@/components/section/Section';
 import { createFileRoute } from '@tanstack/react-router'
 
 import {
@@ -14,13 +15,7 @@ function RouteComponent() {
   
   return (
     <>
-      <div className='py-2 flex flex-row justify-between items-center font-bold text-2xl font-serif'>
-        <h2>Notebooks</h2>
-        <div className='flex gap-1 items-center'>
-          <span>{notebooks}</span>
-          <Book />
-        </div>
-      </div>
+      <Section title={"Notebooks"} Icon={Book} amount={notebooks} />
       <div className='flex flex-col gap-4'>
       {Array.from({ length: notebooks }, (_, index) => (
           <div key={index} className="bg-black text-white h-50">
