@@ -75,7 +75,7 @@ export function NotebookCard({to, title, description, Icon, color, noteCount, la
         }
 
         {description &&
-          <CardDescription className="px-4"> {description} </CardDescription>
+          <CardDescription className="px-4 line-clamp-2"> {description} </CardDescription>
         }
 
       </Card>
