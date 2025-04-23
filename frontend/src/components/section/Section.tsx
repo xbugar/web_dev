@@ -12,7 +12,7 @@ export function Section({ title, Icon, amount }: SectionProps) {
   
   return (
     <>
-      <div className='py-2 flex flex-row justify-between items-center font-bold text-2xl font-serif'>
+      <div className='py-2 mt-2 flex flex-row justify-between items-center font-bold text-2xl font-serif'>
         <h2>{title}</h2>
         <div className='flex gap-1 items-center'>
           <span>{amount}</span>

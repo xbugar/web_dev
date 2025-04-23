@@ -68,6 +68,7 @@ export function NotebookCard({to, title, description, Icon, color, noteCount, la
               <div className="ml-5"></div>
             </div>
 
+            {/* shadow on the left side */}
             {/* <div className="pointer-events-none absolute top-0 left-0 h-full w-3 bg-gradient-to-r from-white-secondary dark:from-black-secondary to-transparent"></div> */}
             <div className="pointer-events-none absolute top-0 right-0 h-full w-4 bg-gradient-to-l from-white-secondary dark:from-black-secondary to-transparent"></div>
 

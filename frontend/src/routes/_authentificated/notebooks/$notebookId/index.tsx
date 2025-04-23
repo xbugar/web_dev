@@ -1,49 +1,59 @@
 import { NoteCard } from '@/components/cards/NoteCard';
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
 import { NotebookCard } from '@/components/cards/NotebookCard';
+import { Section } from '@/components/section/Section';
+import { NotebookCardProps } from '@/components/cards/NotebookCard';
 
 import {
-  BookOpen, Pencil, Plus
+  BookOpen,
+  ClipboardList,
+  Pencil,
+  Plus
 } from "lucide-react"
 
-export const Route = createFileRoute(
-  '/_authentificated/notebooks/$notebookId/',
-)({
+
+export const Route = createFileRoute('/_authentificated/notebooks/$notebookId/',) ({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  const [notebooks, setNotebooks] = useState(10);
+
+  const notebook: NotebookCardProps = {
+    to: "/notebooks/$notebookId",
+    title: "TODO",
+    description: "Personal tasks and project planning",
+    Icon: ClipboardList,
+    color: "purple",
+    noteCount: 15,
+    tags: [
+      { name: "planning", color: "purple" },
+      { name: "planning", color: "pink" },
+      { name: "planning", color: "purple" },
+      { name: "planning", color: "pink" },
+      { name: "planning", color: "pink" },
+      { name: "planning", color: "pink" },
+      { name: "planning", color: "pink" },
+      { name: "planning", color: "pink" },
+      { name: "planning", color: "pink" }
+    ],
+    lastUpdated: "4 days"
+  }
   
   return (
     <>
-      <div className='py-2 flex flex-row justify-between items-center font-bold text-2xl font-serif'>
-        <h2>Notebook preview</h2>
-        <div className='flex gap-1 items-center'>
-          <Pencil />
-        </div>
-      </div>
-        <NotebookCard
-          to="/notebooks/$notebookId"
-          title="PB006"
-          description="Základy OOP, blablbablaa"
-          Icon={BookOpen}
-          color="orange"
-          noteCount={5}
-          tags={[
-            {name:"programming", color: "blue"},
-            {name: "semester 3", color: "purple"}]}
-          lastUpdated="2 weeks"
-        />
+      <Section title={"Notebook preview"} Icon={Pencil}/>
+      <NotebookCard
+        to={"/notebooks/$notebookId"}
+        title={notebook.title}
+        description={notebook.description}
+        Icon={notebook.Icon}
+        color={notebook.color}
+        noteCount={notebook.noteCount}
+        tags={notebook.tags}
+        lastUpdated={notebook.lastUpdated}
+      />
 
-      <div className='py-2 flex flex-row justify-between items-center font-bold text-2xl font-serif'>
-        <h2>Notes</h2>
-        <div className='flex gap-1 items-center'>
-          <Plus />
-        </div>
-      </div>
-      
+      <Section title={"Notes"} Icon={Plus}/>
       <div className='flex flex-col gap-4'>
         <NoteCard
           to="/notebooks/$notebookId/$noteId"

@@ -5,6 +5,7 @@ import {
   ArrowLeft,
   User
 } from "lucide-react"
+import { HeaderBackButton } from "./HeaderBackButton";
 
 export function Header() {
   return (
@@ -13,7 +14,7 @@ export function Header() {
         className="bg-cover bg-center flex items-center justify-between p-2 rounded-md shadow-ours"
         style={{ backgroundImage: `url(${gradient})` }}
       >
-        <HeaderButton to={"/"} Icon={ArrowLeft}/>
+        <HeaderBackButton Icon={ArrowLeft}/>
         <h1 className="text-white font-bold text-3xl font-serif">gradia.</h1>
         <HeaderButton to={"/"} Icon={User}/>
       </div>
