@@ -4,7 +4,7 @@ info:
   description: >-
     This is a work in progress documentation for gradia REST API
   contact:
-    email: 536294@muni.cz
+    email: ""
 
   version: 1.0.12
 
@@ -185,38 +185,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /note/{noteId}/tags/:
-    get:
-        tags:
-          - note
-        summary: 'Retrieves tags of a note'
-        description: ''
-        operationId: getNoteTags
-        parameters:
-          - name: noteId
-            in: path
-            description: id of the note we want data from
-            required: true
-            schema:
-              type: string
-        responses:
-          '200':
-            description: Successful operation
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/TagArray'
-          '400':
-            description: Invalid ID supplied
-          '404':
-            description: Note not found
-          default:
-            description: Unexpected error
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Error'
-    
+
   /note/{noteId}/tag/{tagId}:
     post:
       tags:
@@ -249,7 +218,7 @@ paths:
     delete:
       tags:
         - note
-      summary: adds a tag to a note.
+      summary: removes tag from note.
       description: ""
       operationId: removeTagFromNote
       parameters:
@@ -450,37 +419,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /notebook/{notebookId}/tags/:
-    get:
-        tags:
-          - notebook
-        summary: 'Retrieves tags of a notebook'
-        description: ''
-        operationId: getNotebookTags
-        parameters:
-          - name: notebookId
-            in: path
-            description: id of the note we want data from
-            required: true
-            schema:
-              type: string
-        responses:
-          '200':
-            description: Successful operation
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/TagArray'
-          '400':
-            description: Invalid ID supplied
-          '404':
-            description: Note not found
-          default:
-            description: Unexpected error
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Error'
+
   /notebook/{notebookId}/tag/{tagId}:
     post:
       tags:
@@ -513,7 +452,7 @@ paths:
     delete:
       tags:
         - notebook
-      summary: adds a tag to a notebook.
+      summary: removes tag from  notebook.
       description: ""
       operationId: removeTagFromnotebook
       parameters:
