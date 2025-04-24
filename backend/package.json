@@ -16,12 +16,17 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/node": "^22.13.14",
+    "@types/supertest": "^6.0.3",
     "@types/swagger-ui-express": "^4.1.8",
+    "@vitest/ui": "^3.1.2",
     "git-conventional-commits": "^2.8.0",
     "prisma": "^6.6.0",
+    "supertest": "^7.1.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.2",
+    "vitest-mock-extended": "^3.1.0"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
@@ -32,6 +37,8 @@
     "deploy:up": "docker compose -f docker-compose.yml up --build -d",
     "deploy:down": "docker compose -f docker-compose.yml down --remove-orphans",
     "dev": "ts-node index.ts",
-    "db:deploy": "npx prisma migrate deploy && npx prisma generate && npx prisma db seed"
+    "db:deploy": "npx prisma migrate deploy && npx prisma generate && npx prisma db seed",
+    "test": "vitest --config vitest.config.integration.ts ",
+    "test:ui": "vitest -c vitest.config.integration.ts --ui"
   }
 }
