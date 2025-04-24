@@ -16,11 +16,11 @@ export const userRepository = {
                 email: true
             },
             data: {
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
+                firstName: user.body.firstName,
+                lastName: user.body.lastName,
+                email: user.body.email,
                 passwordSalt: "hehhe",
-                hashedPassword: user.password,
+                hashedPassword: user.body.password,
                 profilePicture: {
                     connect: await defaultPP(),
                 }

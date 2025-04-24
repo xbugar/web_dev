@@ -27,7 +27,7 @@ const post = async (req: Request, res: Response) => {
         return;
     }
 
-    let maybeUser = await userRepository.create(req.body);
+    let maybeUser = await userRepository.create(request);
     if (maybeUser.isErr) {
         handleRepositoryErrors(maybeUser.error, res)
         return;
