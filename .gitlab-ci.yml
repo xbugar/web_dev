@@ -15,7 +15,7 @@ integration-test:
     DATABASE_URL: "postgresql://postgres:prisma@postgres_db:5432/pb138?schema=public"
   stage: integration-test
   tags:
-    - shared-fi
+    - local-runner
 
   script:
     - cd backend
