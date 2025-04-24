@@ -3,11 +3,11 @@ import { tagsController } from "./controller";
 
 export const tagsRouter = Router();
 
-tagsRouter.post("/tag", tagsController.createTag);
-tagsRouter.get("/tag", tagsController.getAllTags);
-tagsRouter.get("/tag/:id", tagsController.getTag);
-tagsRouter.put("/tag/:id", tagsController.updateTag);
+tagsRouter.post("/", tagsController.createTag);
+tagsRouter.get("/", tagsController.getAllTags);
+tagsRouter.get("/:id", tagsController.getTag);
+tagsRouter.put("/:id", tagsController.updateTag);
 
-tagsRouter.get("/tag/:userId", tagsController.getUserTags);
-tagsRouter.delete("/tag/:id", tagsController.deleteTag);
+tagsRouter.get("/:userId", tagsController.getUserTags);
+tagsRouter.delete("/:id", tagsController.deleteTag);
 
