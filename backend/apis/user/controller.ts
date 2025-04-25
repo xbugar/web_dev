@@ -82,7 +82,7 @@ const createNotebook = async (req: Request, res: Response) => {
     if (!request) {
         return;
     }
-    let notebook = await notebookRepository.create(request);
+    let notebook = await notebookRepository.createFromUser(request);
     if (notebook.isErr) {
         handleRepositoryErrors(notebook.error, res);
         return;

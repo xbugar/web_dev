@@ -44,3 +44,14 @@ export const notebookTagOperationRequestSchema = z.object({
         tagId: z.string().uuid()
     }),
 });
+
+export const notebookCreateRequestSchema = z.object({
+
+    body: z.object({
+        title: z.string().min(1).max(255),
+        description: z.string().min(1).max(255),
+        color: z.string(),
+        iconId: z.string().optional(),
+        userId: z.string().uuid(),
+    })
+})

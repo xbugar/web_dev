@@ -1,8 +1,9 @@
-import { Request, Response } from "express";
-import { ZodSchema, ZodTypeDef } from "zod";
-import { fromZodError } from "zod-validation-error";
-import { InternalError, NotFoundError } from "./types";
+import {Request, Response} from "express";
+import {ZodSchema, ZodTypeDef} from "zod";
+import {fromZodError} from "zod-validation-error";
+import {InternalError, NotFoundError} from "./types";
 import {prisma} from "./prismaClient";
+import {readFileSync} from "fs";
 
 export const handleRepositoryErrors = (e: Error, res: Response) => {
     if (e instanceof NotFoundError) {
@@ -52,11 +53,20 @@ export const parseRequest = async <
     return parsedRequest.data;
 };
 
-//TODO get rid of this abomination
+//TODO get rid of these abominations
 export const defaultPP = async () => {
     let profilePicture = await prisma.profilePicture.findFirst();
     if (!profilePicture) {
         throw new NotFoundError("No profile picture in database");
     }
     return profilePicture;
+}
+
+export const defaultIcon = async () => {
+    const file = readFileSync("prisma/mockData/default-profile.jpg");
+    return prisma.icon.create({
+        data: {
+            icon: file
+        }
+    });
 }

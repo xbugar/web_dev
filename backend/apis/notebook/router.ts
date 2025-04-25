@@ -4,6 +4,7 @@ import {notebookController} from "./controller";
 export const notebookRouter = Router();
 
 
+notebookRouter.post("/", notebookController.post);
 notebookRouter.get("/:notebookId", notebookController.get);
 notebookRouter.delete("/:notebookId", notebookController.remove);
 notebookRouter.put("/:notebookId", notebookController.put);

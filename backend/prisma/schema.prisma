@@ -17,8 +17,8 @@ model User {
   hashedPassword String
   passwordSalt   String
 
-  profilePicture   ProfilePicture @relation(fields: [profilePictureId], references: [id])
-  profilePictureId String         @db.Uuid
+  profilePicture   ProfilePicture? @relation(fields: [profilePictureId], references: [id])
+  profilePictureId String?         @db.Uuid
   notebooks        Notebook[]
   events           Event[]
   flashDecks       FlashDeck[]
@@ -46,8 +46,8 @@ model Notebook {
 
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String      @db.Uuid
-  icon       Icon        @relation(fields: [iconId], references: [id])
-  iconId     String      @db.Uuid
+  icon       Icon?       @relation(fields: [iconId], references: [id])
+  iconId     String?     @db.Uuid
   notes      Note[]
   flashDecks FlashDeck[]
   tags       Tag[]

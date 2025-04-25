@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import {handleRepositoryErrors, parseRequest} from "../utils";
 import {
-    notebookCreateNoteRequestSchema,
+    notebookCreateNoteRequestSchema, notebookCreateRequestSchema,
     notebookGetRequestSchema,
     notebookOnlyIdRequestSchema,
     notebookTagOperationRequestSchema,
@@ -104,6 +104,21 @@ const getAllNotes = async (req: Request, res: Response) => {
 
 }
 
+const post = async (req: Request, res: Response) => {
+    let request = await parseRequest(notebookCreateRequestSchema, req, res);
+    if (!request) {
+        return;
+    }
+
+    let notebook = await notebookRepository.create(request);
+    if (notebook.isErr) {
+        handleRepositoryErrors(notebook.error, res);
+        return;
+    }
+    res.status(200).send(notebook.unwrap());
+
+}
+
 export const notebookController = {
     addTag,
     removeTag,
@@ -111,5 +126,6 @@ export const notebookController = {
     remove,
     get,
     createNote,
-    getAllNotes
+    getAllNotes,
+    post
 };
