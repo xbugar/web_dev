@@ -5,16 +5,15 @@ import {InternalError, NotFoundError} from "../types";
 import {Notebook} from "@prisma/client";
 
 import {
-    NotebookCreateNoteRequest,
+    NotebookCreateRequest,
     NotebookFilter,
     NotebookResponse,
-
     NotebookUpdateRequestSchema, TagOperation
 } from "./types";
 
 
 export const notebookRepository = {
-    async create(request: UserCreateNotebookRequest): Promise<Result<NotebookResponse>> {
+    async createFromUser(request: UserCreateNotebookRequest): Promise<Result<NotebookResponse>> {
 
         return await prisma.notebook.create({
             select: {
@@ -25,13 +24,65 @@ export const notebookRepository = {
                 createdAt: true,
                 updatedAt: true,
                 iconId: true,
-
+                _count: {
+                    select: {
+                        notes: true,
+                    }
+                }
             },
+
             data: {
                 ...request.body,
                 userId: request.params.userId,
             }
-        }).then(notebook => Result.ok(notebook))
+        }).then(notebook => Result.ok({
+            id: notebook.id,
+            title: notebook.title,
+            description: notebook.description,
+            color: notebook.color,
+            createdAt: notebook.createdAt,
+            updatedAt: notebook.updatedAt,
+            iconId: notebook.iconId,
+            noteCount: notebook._count.notes,
+        }))
+            .catch((error: any) => {
+                if (process.env.NODE_ENV !== "production") {
+                    return Result.err(new InternalError(error.message));
+                }
+                return Result.err(new InternalError());
+            });
+    },
+
+    async create(request: NotebookCreateRequest): Promise<Result<NotebookResponse>> {
+        return await prisma.notebook.create({
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                color: true,
+                createdAt: true,
+                updatedAt: true,
+                iconId: true,
+                _count: {
+                    select: {
+                        notes: true,
+                    }
+                }
+            },
+            data: {
+                ...request.body,
+            }
+
+        }).then(notebook => Result.ok({
+            id: notebook.id,
+            title: notebook.title,
+            description: notebook.description,
+            color: notebook.color,
+            createdAt: notebook.createdAt,
+            updatedAt: notebook.updatedAt,
+            iconId: notebook.iconId,
+            noteCount: notebook._count.notes,
+        }))
             .catch((error: any) => {
                 if (process.env.NODE_ENV !== "production") {
                     return Result.err(new InternalError(error.message));
@@ -50,11 +101,24 @@ export const notebookRepository = {
                 createdAt: true,
                 updatedAt: true,
                 iconId: true,
-
+                _count: {
+                    select: {
+                        notes: true,
+                    }
+                }
             },
             where: {id: request.params.notebookId},
             data: request.body,
-        }).then(notebook => Result.ok(notebook))
+        }).then(notebook => Result.ok({
+            id: notebook.id,
+            title: notebook.title,
+            description: notebook.description,
+            color: notebook.color,
+            createdAt: notebook.createdAt,
+            updatedAt: notebook.updatedAt,
+            iconId: notebook.iconId,
+            noteCount: notebook._count.notes,
+        }))
             .catch((error: any) => {
                 if (process.env.NODE_ENV !== "production") {
                     return Result.err(new NotFoundError(error.message));
@@ -84,10 +148,25 @@ export const notebookRepository = {
                             }
                         }
                     }),
+                    _count: {
+                        select: {
+                            notes: true,
+                        }
+                    }
                 },
                 where: {id: notebookId},
             }
-        ).then(notebook => Result.ok(notebook))
+        ).then(notebook => Result.ok({
+            id: notebook.id,
+            title: notebook.title,
+            description: notebook.description,
+            color: notebook.color,
+            createdAt: notebook.createdAt,
+            updatedAt: notebook.updatedAt,
+            iconId: notebook.iconId,
+            tags: notebook.tags,
+            noteCount: notebook._count.notes,
+        }))
             .catch((error: any) => {
                 if (process.env.NODE_ENV !== "production") {
                     return Result.err(new NotFoundError(error.message));
@@ -132,12 +211,31 @@ export const notebookRepository = {
                             }
                         }
                     }),
+                    _count: {
+                        select: {
+                            notes: true,
+                        }
+                    }
                 },
                 where: {
                     userId: filter.userId,
                 }
             }
-        ).then(notebook => Result.ok(notebook))
+        ).then(notebooks => Result.ok(notebooks.map((notebook) => {
+                return {
+                    id: notebook.id,
+                    title: notebook.title,
+                    description: notebook.description,
+                    color: notebook.color,
+                    createdAt: notebook.createdAt,
+                    updatedAt: notebook.updatedAt,
+                    iconId: notebook.iconId,
+                    tags: notebook.tags,
+                    noteCount: notebook._count.notes,
+
+                }
+            }
+        )))
             .catch((error: any) => {
                 if (process.env.NODE_ENV !== "production") {
                     return Result.err(new InternalError(error.message));
