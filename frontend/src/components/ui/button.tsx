@@ -27,6 +27,8 @@ const buttonVariants = cva(
           "[&_svg]:h-6 [&_svg]:w-6 bg-transparent text-black dark:text-white p-2 text-base font-semibold",
         header:
           "[&_svg]:h-6 [&_svg]:w-6 bg-white dark:bg-black text-black dark:text-white p-2",
+        login:
+          "bg-white text-black p-2 justify-center text-center w-full"
       },
       // size: {
       //   default: "h-9 px-4 py-2 has-[>svg]:px-3",
