@@ -68,7 +68,7 @@ const getNotebooks = async (req: Request, res: Response) => {
 
     let notebooks = await notebookRepository.getAll({
         userId: req.params.userId,
-        withTags: req.query.withTags === "true"
+        withTags: req.query.withoutTags === "false"
     });
     if (notebooks.isErr) {
         handleRepositoryErrors(notebooks.error, res);

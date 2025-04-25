@@ -9,7 +9,7 @@ export const notebookUpdateRequestSchema = z.object({
         title: z.string().min(1).max(255),
         description: z.string().min(1).max(255),
         color: z.string(),
-        iconId: z.string(),
+        iconId: z.string().nullable(),
     })
 });
 
@@ -28,7 +28,7 @@ export const notebookGetRequestSchema = z.object({
         notebookId: z.string().uuid()
     }),
     query: z.object({
-        withTags: z.boolean().default(false),
+        withoutTags: z.boolean().default(false),
     })
 });
 
@@ -51,7 +51,7 @@ export const notebookCreateRequestSchema = z.object({
         title: z.string().min(1).max(255),
         description: z.string().min(1).max(255),
         color: z.string(),
-        iconId: z.string().optional(),
+        iconId: z.string().nullable(),
         userId: z.string().uuid(),
     })
 })
