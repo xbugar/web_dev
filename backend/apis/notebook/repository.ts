@@ -138,16 +138,7 @@ export const notebookRepository = {
                     createdAt: true,
                     updatedAt: true,
                     iconId: true,
-                    ...(withTags && {
-                        tags: {
-                            select: {
-                                id: true,
-                                tag: true,
-                                color: true,
-                                userId: true,
-                            }
-                        }
-                    }),
+                    tags: withTags,
                     _count: {
                         select: {
                             notes: true,
@@ -201,16 +192,7 @@ export const notebookRepository = {
                     createdAt: true,
                     updatedAt: true,
                     iconId: true,
-                    ...(filter.withTags && {
-                        tags: {
-                            select: {
-                                id: true,
-                                tag: true,
-                                color: true,
-                                userId: true,
-                            }
-                        }
-                    }),
+                    tags: filter.withTags,
                     _count: {
                         select: {
                             notes: true,

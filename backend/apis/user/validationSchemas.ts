@@ -35,3 +35,12 @@ export const userCreateNotebookRequestSchema = z.object({
     })
 })
 
+export const userGetNotebooksRequestSchema = z.object({
+    params: z.object({
+        userId: z.string().uuid()
+    }),
+    query: z.object({
+        withTags: z.boolean().default(true),
+    }),
+})
+

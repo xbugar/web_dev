@@ -1,10 +1,14 @@
 import {Request, Response} from "express";
 import {handleRepositoryErrors, parseRequest} from "../utils";
 import {userRepository} from "./repository";
-import {userCreateNotebookRequestSchema, userCreateRequestSchema, userUpdateRequestSchema} from "./validationSchemas";
+import {
+    userCreateNotebookRequestSchema,
+    userCreateRequestSchema,
+    userGetNotebooksRequestSchema,
+    userUpdateRequestSchema
+} from "./validationSchemas";
 
 import {notebookRepository} from "../notebook/repository";
-
 
 
 const get = async (req: Request, res: Response): Promise<void> => {
@@ -61,14 +65,14 @@ const remove = async (req: Request, res: Response) => {
 }
 
 const getNotebooks = async (req: Request, res: Response) => {
-    if (!req.params.userId) {
-        res.status(400).send("No user Id provided");
+    let request = await parseRequest(userGetNotebooksRequestSchema, req, res);
+    if (!request) {
         return;
     }
 
     let notebooks = await notebookRepository.getAll({
-        userId: req.params.userId,
-        withTags: req.query.withoutTags === "false"
+        userId: request.params.userId,
+        withTags: request.query.withTags
     });
     if (notebooks.isErr) {
         handleRepositoryErrors(notebooks.error, res);

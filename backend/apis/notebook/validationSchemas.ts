@@ -28,7 +28,7 @@ export const notebookGetRequestSchema = z.object({
         notebookId: z.string().uuid()
     }),
     query: z.object({
-        withoutTags: z.boolean().default(false),
+        withTags: z.boolean().default(true),
     })
 });
 

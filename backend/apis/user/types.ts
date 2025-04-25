@@ -1,8 +1,13 @@
 import {z} from "zod";
-import {userCreateRequestSchema,userUpdateRequestSchema,userCreateNotebookRequestSchema} from "./validationSchemas"
+import {
+    userCreateRequestSchema,
+    userUpdateRequestSchema,
+    userCreateNotebookRequestSchema,
+} from "./validationSchemas"
+
 
 export type RequestUser = {
-    id:string,
+    id: string,
     firstName: string,
     lastName: string,
     email: string,
@@ -10,7 +15,7 @@ export type RequestUser = {
 }
 
 export type UserResponse = {
-    id:string,
+    id: string,
     firstName: string,
     lastName: string,
     email: string,

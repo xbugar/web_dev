@@ -68,7 +68,7 @@ const get = async (req: Request, res: Response) => {
     if (!request) {
         return;
     }
-    let notebook = await notebookRepository.get(request.params.notebookId, !request.query.withoutTags);
+    let notebook = await notebookRepository.get(request.params.notebookId, request.query.withTags);
     if (notebook.isErr) {
         handleRepositoryErrors(notebook.error, res);
         return;

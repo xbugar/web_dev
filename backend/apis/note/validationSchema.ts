@@ -17,7 +17,7 @@ export const getNoteMetaRequestSchema = z.object({
         noteId: z.string().uuid()
     }),
     query: z.object({
-        withTags: z.boolean().optional(),
+        withTags: z.boolean().default(true),
     })
 });
 
