@@ -8,32 +8,32 @@ import {
 import { Link } from "@tanstack/react-router";
 import { AccentColor, iconColor, lineColor } from "@/components/cards/cardColors";
 import { NotebookNoteDropdown } from "@/components/NotebookNoteDropdown";
-import { Icon, LucideIcon, Notebook, Sun, Timer } from "lucide-react";
+import { Notebook, Sun, Timer } from "lucide-react";
 import { Tag, TagColor } from "@/components/Tag"
 import { cn } from "@/lib/utils";
-import { useNotebook } from "@/hooks/useNotebook.tsx";
+import { iconMap } from "@/components/IconMap.tsx";
 
 export type NotebookCardProps = {
   id: string;
+  title: string;
+  description?: string;
+  iconName: string;
+  color: string;
+  noteCount: number;
+  lastUpdated: string; // todo
+  tags?: { name: string; color: TagColor}[];
 }
 
-export function NotebookCard({id}: NotebookCardProps) {
-  const {data, isLoading} = useNotebook(id);
-  if (isLoading || !data) {
-    return <div>Loading...</div>
-  }
-
-  const {title, description, color, noteCount, icon, updatedAt, createdAt, tags} = data; {/*TODO*/}
-  console.log(tags);
-
+export function NotebookCard({id, title, description, iconName, color, noteCount, lastUpdated, tags}: NotebookCardProps) {
+  const Icon = iconMap[iconName];
   return (
     <Link to={`/notebooks/${id}`}>
 
-      <Card className={cn("flex border-l-10 overflow-hidden p-0 py-4 gap-4", lineColor["blue"])}> {/*TODO*/}
+      <Card className={cn("flex border-l-10 overflow-hidden p-0 py-4 gap-4", lineColor[color as AccentColor])}> {/*TODO*/}
 
         <CardHeader className="flex pl-0 pr-4 gap-2 items-center justify-start">
 
-          <div className={cn("p-2.5 rounded-r-md", iconColor["blue"])}>  {/*TODO*/}
+          <div className={cn("p-2.5 rounded-r-md", iconColor[color as AccentColor])}>  {/*TODO*/}
             <Sun className="text-white w-6 h-6"/> {/*TODO*/}
           </div>
 
@@ -52,7 +52,7 @@ export function NotebookCard({id}: NotebookCardProps) {
               </div>
               <div className="flex justify-start items-center gap-1">
                 <Timer className="w-4 h-4"/>
-                <CardDescription> Updated {updatedAt.slice(0,10)} ago </CardDescription> {/*TODO*/}
+                <CardDescription> Updated {lastUpdated.slice(0,10)} ago </CardDescription> {/*TODO*/}
               </div>
             </div>
 
