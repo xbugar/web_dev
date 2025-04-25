@@ -12,7 +12,7 @@ import {
   ShieldCheck,
   Brain,
   PenTool,
-  Languages
+  Languages, Sun
 } from "lucide-react"
 
 import { NotebookCard, NotebookCardProps } from "@/components/cards/NotebookCard.tsx";
@@ -150,19 +150,7 @@ function RouteComponent() {
     <>
       <Section title={"Notebooks"} Icon={Book} amount={notebooks.length} />
       <div className='flex flex-col gap-4'>
-        {notebooks.map(({ to, title, description, Icon, color, noteCount, tags, lastUpdated }) => (
-          <NotebookCard
-            key={to}
-            to={to}
-            title={title}
-            description={description}
-            Icon={Icon}
-            color={color}
-            noteCount={noteCount}
-            tags={tags}
-            lastUpdated={lastUpdated}
-          />
-        ))}
+        <NotebookCard id={"022b0145-19e1-40f1-8a47-af68add27c78"}/>
       </div>
     </>
   )

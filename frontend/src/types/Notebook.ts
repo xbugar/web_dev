@@ -8,5 +8,6 @@ export type Notebook = {
   createdAt: string,
   updatedAt: string,
   icon: string,
+  noteCount: number,
   tags?: Tag[]
 }

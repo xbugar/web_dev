@@ -37,14 +37,7 @@ function RouteComponent() {
     <>
       <Section title={"Note preview"} Icon={Pencil}/>
       <NotebookCard
-        to={"/notebooks/$notebookId"}
-        title={notebook.title}
-        description={notebook.description}
-        Icon={notebook.Icon}
-        color={notebook.color}
-        noteCount={notebook.noteCount}
-        tags={notebook.tags}
-        lastUpdated={notebook.lastUpdated}
+        id={"022b0145-19e1-40f1-8a47-af68add27c78"}
       />
       
       <MarkdownEditor />
