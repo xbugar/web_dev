@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ZodSchema, ZodTypeDef } from "zod";
 import { fromZodError } from "zod-validation-error";
 import { InternalError, NotFoundError } from "./types";
+import {prisma} from "./prismaClient";
 
 export const handleRepositoryErrors = (e: Error, res: Response) => {
     if (e instanceof NotFoundError) {
@@ -50,3 +51,12 @@ export const parseRequest = async <
 
     return parsedRequest.data;
 };
+
+//TODO get rid of this abomination
+export const defaultPP = async () => {
+    let profilePicture = await prisma.profilePicture.findFirst();
+    if (!profilePicture) {
+        throw new NotFoundError("No profile picture in database");
+    }
+    return profilePicture;
+}
