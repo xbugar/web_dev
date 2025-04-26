@@ -10,11 +10,12 @@ import { Ellipsis, Pencil, Trash2, Copy, Tag, Star } from "lucide-react";
 import { useState } from "react";
 import { NotebookEditDialog } from "@/components/dialogs/NotebookEditDialog.tsx";
 import { CreateNotebook } from "@/types/Notebook.ts";
+import { NoteEditDialog } from "@/components/dialogs/NoteEditDialog.tsx";
 
 type DropdownType = 'note' | 'notebook';
 interface NotebookNoteDropdownProps {
   id: string;
-  data: CreateNotebook;
+  data: CreateNotebook | Note;
   type: DropdownType;
 }
 
@@ -39,7 +40,7 @@ export function NotebookNoteDropdown({ id, data, type }: NotebookNoteDropdownPro
             <DropdownMenuItem onClick={() => setOpen(true)}> <Pencil /> Edit notebook </DropdownMenuItem>
           )}
           {type === "note" && (
-            <DropdownMenuItem> <Pencil /> Rename </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setOpen(true)}> <Pencil /> Rename </DropdownMenuItem>
           )}
           <DropdownMenuItem> <Tag /> Edit tags </DropdownMenuItem>
           <DropdownMenuItem> <Copy /> Copy link</DropdownMenuItem>
@@ -49,11 +50,20 @@ export function NotebookNoteDropdown({ id, data, type }: NotebookNoteDropdownPro
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <NotebookEditDialog
+      {type === "notebook" && (
+        <NotebookEditDialog
+          open={open}
+          onOpenChange={setOpen}
+          notebookId={id}
+          initialData={data} />
+      )}
+      {type === "note" && (
+        <NoteEditDialog
         open={open}
         onOpenChange={setOpen}
-        notebookId={id}
-        initialData={data} />
+        noteId={id}
+        initialData={data}/>
+      )}
     </>
   )
 }

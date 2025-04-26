@@ -16,7 +16,7 @@ type NoteEditDialogProps = {
   initialData: Note;
 }
 
-export const NoteEdiDialog = ({ open, onOpenChange, noteId, initialData } : NoteEditDialogProps ) => {
+export const NoteEditDialog = ({ open, onOpenChange, noteId, initialData } : NoteEditDialogProps ) => {
   const editNote = useEditNote();
 
   const handleEdit = (data: CreateNote) => {

@@ -30,6 +30,7 @@ export type NotebookCardProps = {
 export const NotebookCard = ({id, title, description, iconName, color, noteCount, lastUpdated, tags, isLinked = true}: NotebookCardProps) => {
   const Icon = iconMap[iconName];
   const timeAgo = formatDistanceToNow(new Date(lastUpdated), { addSuffix: true });
+  console.log("som v notecard", id);
   return (
     <Card className={cn("flex border-l-10 overflow-hidden p-0 py-4 gap-4", lineColor[color as AccentColor])}> {/*TODO*/}
 

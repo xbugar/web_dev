@@ -17,14 +17,10 @@ export const Route = createFileRoute('/_authentificated/notebooks/$notebookId/',
 
 function RouteComponent() {
   const { notebookId } = Route.useParams();
-  console.log("notebookId", notebookId);
 
   const { data: currentNotebook } = useNotebook(notebookId); {/*TODO*/}
-  console.log("currentNotebook", currentNotebook);
-
 
   const { data: notes } =  useNotesByNotebook(notebookId);
-  console.log("notes", notes);
 
   return (
     <>

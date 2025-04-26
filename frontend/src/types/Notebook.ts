@@ -14,8 +14,8 @@ export type Notebook = {
 
 export type CreateNotebook = {
   title: string,
-  description: string,
-  color: string,
-  iconName: string,
+  description?: string,
+  color?: string,
+  iconName?: string,
   userId?: string
 }

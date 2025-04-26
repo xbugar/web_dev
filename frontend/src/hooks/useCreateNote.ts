@@ -8,7 +8,6 @@ export const useCreateNote = () => {
   return useMutation({
     mutationKey: ["notes"],
     mutationFn: async ({ notebookId, data } : {notebookId: string, data: CreateNote} ) => {
-      console.log(data);
       const response = await api.post(`/notebook/${notebookId}/note`, data);
       return response.data as Note;
     },

@@ -8,7 +8,6 @@ export const useEditNote = () => {
   return useMutation({
     mutationKey: ["notes"],
     mutationFn: async ({ noteId, data } : {noteId: string, data: CreateNote} ) => {
-      console.log(data);
       const response = await api.put(`/note/${noteId}`, data);
       return response.data as Note;
     },
