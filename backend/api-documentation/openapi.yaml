@@ -980,7 +980,7 @@ components:
           type: string
         updatedAt:
           type: string
-        icon:
+        iconName:
           type: string
         tags:
           $ref: "#/components/schemas/TagArray"
@@ -997,8 +997,14 @@ components:
         description:
           type: string
         color:
-          type: string
-        iconId:
+          enum:
+            - blue
+            - purple
+            - orange
+            - green
+            - red
+            - pink
+        iconName:
           type: string
 
     CreateNotebookv2:
@@ -1010,7 +1016,7 @@ components:
           type: string
         color:
           type: string
-        iconId:
+        iconName:
           type: string
         userId:
           type: string
