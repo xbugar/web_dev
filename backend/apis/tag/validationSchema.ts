@@ -36,7 +36,7 @@ export const getUserTagsRequestSchema = z.object({
 
 export const deleteTagRequestSchema = z.object({
     params: z.object({
-        id: z.string().uuid(),
+        tagId: z.string().uuid(),
     })
 });
 

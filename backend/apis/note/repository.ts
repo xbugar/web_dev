@@ -109,7 +109,7 @@ export const noteRepository = {
                 },
             },
             where: {
-                id: data.id
+                id: data.noteId
             },
             data: {
                 tags: {
@@ -140,7 +140,7 @@ export const noteRepository = {
                 tags: true
             },
             where: {
-                id: data.id,
+                id: data.noteId,
             },
             data: {
                 tags: {
