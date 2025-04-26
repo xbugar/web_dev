@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/dialog.tsx"
 
 import { CreateNotebook } from "@/types/Notebook.ts";
-import { NotebookForm } from "@/components/dialogs/NotebookForm.tsx";
+import { NotebookNoteForm } from "@/components/dialogs/NotebookNoteForm.tsx";
 import { useEditNotebook } from "@/hooks/useEditNotebook.ts";
 
 type NotebookEditDialogProps = {
@@ -17,10 +17,10 @@ type NotebookEditDialogProps = {
 }
 
 export const NotebookEditDialog = ({ open, onOpenChange, userId, initialData } : NotebookEditDialogProps ) => {
-  const createNotebook = useEditNotebook();
+  const editNotebook = useEditNotebook();
 
-  const handleCreate = (data: CreateNotebook) => {
-    createNotebook.mutate(
+  const handleEdit = (data: CreateNotebook) => {
+    editNotebook.mutate(
       { userId, data },
       {
         onSuccess: () =>
@@ -35,9 +35,10 @@ export const NotebookEditDialog = ({ open, onOpenChange, userId, initialData } :
         <DialogHeader>
           <DialogTitle>Edit notebook</DialogTitle>
         </DialogHeader>
-        <NotebookForm
-          onSubmit={handleCreate}
-          isSubmitting={createNotebook.isPending}
+        <NotebookNoteForm
+          type="notebook"
+          onSubmit={handleEdit}
+          isSubmitting={editNotebook.isPending}
           submitText={"Create"}
           initialData={initialData}
         />

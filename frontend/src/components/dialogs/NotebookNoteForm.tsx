@@ -21,6 +21,7 @@ const availableIcons = [
 ];
 
 type NotebookFormProps = {
+  type: "notebook" | "note";
   initialData?: {
     title: string;
     description: string;
@@ -37,7 +38,7 @@ type NotebookFormProps = {
   submitText: string;
 };
 
-export function NotebookForm({ initialData, onSubmit, isSubmitting, submitText }: NotebookFormProps) {
+export function NotebookNoteForm({ type, initialData, onSubmit, isSubmitting, submitText }: NotebookFormProps) {
   const [title, setTitle] = useState(initialData?.title || "");
   const [description, setDescription] = useState(initialData?.description || "");
   const [color, setColor] = useState(initialData?.color || "");
@@ -84,43 +85,47 @@ export function NotebookForm({ initialData, onSubmit, isSubmitting, submitText }
         />
       </div>
 
-      {/* Color */}
-      <div className="grid items-center gap-4">
-        <Label htmlFor="color" className="text-right">
-          Color
-        </Label>
-        <Select value={color} onValueChange={(value) => setColor(value)}>
-          <SelectTrigger className="col-span-3">
-            <SelectValue placeholder="Select a color" />
-          </SelectTrigger>
-          <SelectContent>
-            {availableColors.map(({ label, value }) => (
-              <SelectItem key={value} value={value}>
-                {label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      {type === "notebook" && (
+        <>
+          {/* Color */}
+          <div className="grid items-center gap-4">
+            <Label htmlFor="color" className="text-right">
+              Color
+            </Label>
+            <Select value={color} onValueChange={(value) => setColor(value)}>
+              <SelectTrigger className="col-span-3">
+                <SelectValue placeholder="Select a color" />
+              </SelectTrigger>
+              <SelectContent>
+                {availableColors.map(({ label, value }) => (
+                  <SelectItem key={value} value={value}>
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
-      {/* Icon */}
-      <div className="grid items-center gap-4">
-        <Label htmlFor="icon" className="text-right">
-          Icon
-        </Label>
-        <Select value={iconId} onValueChange={(value) => setIcon(value)}>
-          <SelectTrigger className="col-span-3">
-            <SelectValue placeholder="Select an icon" />
-          </SelectTrigger>
-          <SelectContent>
-            {availableIcons.map(({ label, value }) => (
-              <SelectItem key={value} value={value}>
-                {label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+          {/* Icon */}
+          <div className="grid items-center gap-4">
+            <Label htmlFor="icon" className="text-right">
+              Icon
+            </Label>
+            <Select value={iconId} onValueChange={(value) => setIcon(value)}>
+              <SelectTrigger className="col-span-3">
+                <SelectValue placeholder="Select an icon" />
+              </SelectTrigger>
+              <SelectContent>
+                {availableIcons.map(({ label, value }) => (
+                  <SelectItem key={value} value={value}>
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </>
+      )}
 
       <Button type="submit" onClick={handleSubmit} disabled={isSubmitting}>
         {isSubmitting ? "Saving..." : submitText}

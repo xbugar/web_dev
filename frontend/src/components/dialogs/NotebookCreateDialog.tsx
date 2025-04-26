@@ -7,7 +7,7 @@ import {
 
 import { useCreateNotebook} from "@/hooks/useCreateNotebook.ts"
 import { CreateNotebook } from "@/types/Notebook.ts";
-import { NotebookForm } from "@/components/dialogs/NotebookForm.tsx";
+import { NotebookNoteForm } from "@/components/dialogs/NotebookNoteForm.tsx";
 
 type NotebookCreateDialogProps = {
   open: boolean;
@@ -34,7 +34,8 @@ export const NotebookCreateDialog = ({ open, onOpenChange, userId} : NotebookCre
         <DialogHeader>
           <DialogTitle>Create a new notebook</DialogTitle>
         </DialogHeader>
-        <NotebookForm
+        <NotebookNoteForm
+          type="notebook"
           onSubmit={handleCreate}
           isSubmitting={createNotebook.isPending}
           submitText={"Create"}/>
