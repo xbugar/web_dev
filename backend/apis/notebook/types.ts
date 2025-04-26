@@ -28,7 +28,7 @@ export type NotebookResponse = {
     color: string,
     createdAt: Date,
     updatedAt: Date,
-    iconId: string,
+    iconId: string | null,
     tags?: Tag[]
     noteCount: number,
 }
