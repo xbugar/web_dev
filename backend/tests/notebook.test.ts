@@ -18,7 +18,7 @@ describe("/notebook", async () => {
                 email: 'john2@doe.com',
                 password: '123456',
             });
-            console.log(body);
+
             const newUser = await prisma.user.findFirst({where: {email: "john2@doe.com"}});
             // 3
             expect(status).toBe(200);
@@ -46,7 +46,7 @@ describe("/notebook", async () => {
                     iconId: icon.id
                 }
             );
-            console.log(body);
+
 
             expect(status).toBe(200);
             const notebook = await prisma.notebook.findFirstOrThrow({
@@ -93,8 +93,7 @@ describe("/notebook", async () => {
                 iconId: null,
                 userId: id
             });
-            console.log("totoootototot")
-            console.log(body);
+
 
             expect(status).toBe(200);
             const notebook = await prisma.notebook.findFirstOrThrow(
@@ -140,7 +139,7 @@ describe("/notebook", async () => {
                 color: "green",
                 iconId: null
             });
-            console.log(body);
+
             expect(status).toBe(200);
             const notebook = await prisma.notebook.findFirstOrThrow({
                 select: {
@@ -179,7 +178,7 @@ describe("/notebook", async () => {
 
         it('should retrieve both newly created notebooks', async () => {
             const {status, body} = await request(app).get(`/user/${id}/notebooks`).send({});
-            console.log(body);
+
             expect(status).toBe(200);
             expect(body.length).toBe(2);
         });
@@ -193,14 +192,14 @@ describe("/notebook", async () => {
             });
             tagId = tag.id;
             const {status, body} = await request(app).post(`/notebook/${notebookId}/tag/${tagId}`).send({});
-            console.log(body);
+
             expect(status).toBe(200);
 
         });
 
         it("should retrieve the notebook by id", async () => {
             const {status, body} = await request(app).get(`/notebook/${notebookId}`).send({});
-            console.log(body);
+
             expect(status).toBe(200);
             const notebook = await prisma.notebook.findFirstOrThrow({
                 select: {
@@ -237,13 +236,13 @@ describe("/notebook", async () => {
         });
         it("should remove one of the tags added before", async () => {
             const {status,body} = await request(app).delete(`/notebook/${notebookId}/tag/${tagId}`).send({});
-            console.log(body);
+
             expect(status).toBe(200);
         })
 
         it('should delete the notebook', async () => {
             const {status,body} = await request(app).delete(`/notebook/${notebookId}`).send({});
-            console.log(body);
+
             expect(status).toBe(200);
             const notebook = await prisma.notebook.findFirst({where: {id: notebookId}});
             expect(notebook).toBe(null);
