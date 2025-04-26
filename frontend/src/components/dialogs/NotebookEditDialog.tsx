@@ -12,16 +12,16 @@ import { useEditNotebook } from "@/hooks/useEditNotebook.ts";
 type NotebookEditDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  userId: string;
+  notebookId: string;
   initialData: CreateNotebook;
 }
 
-export const NotebookEditDialog = ({ open, onOpenChange, userId, initialData } : NotebookEditDialogProps ) => {
+export const NotebookEditDialog = ({ open, onOpenChange, notebookId, initialData } : NotebookEditDialogProps ) => {
   const editNotebook = useEditNotebook();
 
   const handleEdit = (data: CreateNotebook) => {
     editNotebook.mutate(
-      { userId, data },
+      { notebookId, data },
       {
         onSuccess: () =>
           onOpenChange(false),

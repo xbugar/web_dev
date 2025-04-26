@@ -6,9 +6,10 @@ export const useEditNotebook = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ userId, data } : {userId: string, data: CreateNotebook} ) => {
+    mutationKey: ["notebooks"],
+    mutationFn: async ({ notebookId, data } : {notebookId: string, data: CreateNotebook} ) => {
       console.log(data);
-      const response = await api.put(`/user/${userId}/notebook`, data);
+      const response = await api.put(`/notebook/${notebookId}`, data);
       return response.data as Notebook;
     },
     onSuccess: () => {

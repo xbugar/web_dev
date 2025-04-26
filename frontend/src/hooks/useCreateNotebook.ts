@@ -9,7 +9,7 @@ export const useCreateNotebook = () => {
     mutationKey: ["notebooks"],
     mutationFn: async ({ userId, data } : {userId: string, data: CreateNotebook} ) => {
       console.log(data);
-      const response = await api.post(`/user/${userId}/notebook`, {userId, data});
+      const response = await api.post(`/user/${userId}/notebook`, data);
       return response.data as Notebook;
     },
     onSuccess: () => {

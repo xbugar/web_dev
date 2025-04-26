@@ -3,6 +3,6 @@ import { getNotebooks } from "@/services/userService.ts";
 
 export const useUserNotebooks = (userId: string) => {
   return useQuery({
-    queryKey: ["user", userId, "notebooks"],
+    queryKey: ["notebooks"],
     queryFn: () => getNotebooks(userId),  })
 }
