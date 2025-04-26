@@ -18,6 +18,7 @@ type NotebookEditDialogProps = {
 
 export const NotebookEditDialog = ({ open, onOpenChange, notebookId, initialData } : NotebookEditDialogProps ) => {
   const editNotebook = useEditNotebook();
+
   const handleEdit = (data: CreateNotebook) => {
     editNotebook.mutate(
       { notebookId, data },

@@ -18,7 +18,7 @@ export type NotebookCardProps = {
   id: string;
   key: string;
   title: string;
-  description?: string;
+  description: string;
   iconName: string;
   color: string;
   noteCount: number;
