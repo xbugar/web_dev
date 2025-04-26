@@ -3,18 +3,18 @@
 
 export const updateNoteMetaRequestSchema = z.object({
     params: z.object({
-        noteId: z.string().uuid()
+        noteId: z.string()
     }),
     body: z.object({
         title: z.string().min(1).max(64).optional(),
-        color: z.string().regex(/^#[A-Fa-f0-9]{6}$/).optional(),
+        color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
     })
 });
 
 
 export const getNoteMetaRequestSchema = z.object({
     params: z.object({
-        noteId: z.string().uuid()
+        noteId: z.string()
     }),
     query: z.object({
         withTags: z.boolean().default(true),
@@ -23,20 +23,20 @@ export const getNoteMetaRequestSchema = z.object({
 
 export const deleteNoteRequestSchema = z.object({
     params: z.object({
-        noteId: z.string().uuid()
+        noteId: z.string()
     })
 });
 
 
 export const getNoteContentRequestSchema = z.object({
     params: z.object({
-        id: z.string().uuid(),
+        id: z.string(),
     })
 });
 
 export const updateNoteContentRequestSchema = z.object({
     params: z.object({
-        noteId: z.string().uuid(),
+        noteId: z.string(),
     }),
     body: z.object({
         content: z.string(),
@@ -45,14 +45,14 @@ export const updateNoteContentRequestSchema = z.object({
 
 export const addNoteTagRequestSchema = z.object({
     params: z.object({
-        id: z.string().uuid(),
-        tagId: z.string().uuid(),
+        id: z.string(),
+        tagId: z.string(),
     })
 });
 
 export const removeNoteTagRequestSchema = z.object({
     params: z.object({
-        id: z.string().uuid(),
-        tagId: z.string().uuid(),
+        id: z.string(),
+        tagId: z.string(),
     })
 })
