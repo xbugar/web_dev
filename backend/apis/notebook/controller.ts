@@ -82,7 +82,7 @@ const createNote = async (req: Request, res: Response) => {
         return;
     }
 
-    let note = await noteRepository.create(req.body);
+    let note = await noteRepository.create(request);
     if (note.isErr) {
         handleRepositoryErrors(note.error, res);
         return;
