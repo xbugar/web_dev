@@ -66,7 +66,7 @@ export const defaultIcon = async () => {
     const file = readFileSync("prisma/mockData/default-profile.jpg");
     return prisma.icon.create({
         data: {
-            name: "default",
+            name: "test",
             icon: file
         }
     });
