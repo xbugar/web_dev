@@ -13,7 +13,6 @@ describe('/user', async () => {
                 email: 'john@doe.com',
                 password: '123456',
             });
-            console.log(body);
             const newUser = await prisma.user.findFirst({
                 where: {
                     email: "john@doe.com",
@@ -35,7 +34,6 @@ describe('/user', async () => {
         it('should retrieve existing user based on the id in this case john doe', async () => {
             const {status, body} = await request(app).get('/user/' + id).send();
             expect(status).toBe(200);
-            console.log(body);
             expect(body).toStrictEqual({
                 id: id,
                 firstName: 'John',
@@ -49,7 +47,6 @@ describe('/user', async () => {
                 lastName: 'Doedinger',
             })
             expect(status).toBe(200);
-            console.log(body);
             expect(body).toStrictEqual({
                 id: id,
                 firstName: 'John',
@@ -65,11 +62,13 @@ describe('/user', async () => {
         });
 
         it('should delete the user and return 200', async () => {
-            const {status, body} = await request(app).delete('/user/' + id).send();
-            console.log(body);
+            const {status} = await request(app).delete('/user/' + id).send();
+
             expect(status).toBe(200);
-            const newUser = await prisma.user.findFirst();
-            console.log(newUser);
+            const newUser = await prisma.user.findFirst(
+                {where: {id: id}}
+            );
+            expect(newUser).toBe(null);
         })
 
 
