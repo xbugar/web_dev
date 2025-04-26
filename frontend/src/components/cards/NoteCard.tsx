@@ -48,7 +48,7 @@ export function NoteCard( { parentId, noteId, title, titleOfParent, color, lastU
         </div>
       </CardHeader>
       <div className="flex pl-3 pr-3 gap-2">
-      {tags.map((tag, index) => ( //TODO
+      {tags && tags.map((tag, index) => ( //TODO
               <Tag name={tag.name} color={tag.color} key={index}></Tag>
           ))}
       </div>

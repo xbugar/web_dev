@@ -14,7 +14,7 @@ const availableColors = [
 ];
 
 const availableIcons = [
-  {label: "Default", value: "default"},
+  { label: "Default", value: "default"},
   { label: "Book", value: "book" },
   { label: "Pen", value: "pen" },
   { label: "Folder", value: "folder" },
@@ -43,7 +43,7 @@ export function NotebookNoteForm({ type, initialData, onSubmit, isSubmitting, su
   const [title, setTitle] = useState(initialData?.title || "");
   const [description, setDescription] = useState(initialData?.description || "");
   const [color, setColor] = useState(initialData?.color || "");
-  const [iconName, setIcon] = useState(initialData?.iconName || "");
+  const [iconName, setIcon] = useState(initialData?.iconName || "default");
 
   const handleSubmit = () => {
     if (!title) return;

@@ -18,9 +18,21 @@ export const Route = createFileRoute('/_authentificated/notebooks/$notebookId/',
 function RouteComponent() {
   const { notebookId } = Route.useParams();
 
-  const { data: currentNotebook } = useNotebook(notebookId); {/*TODO*/}
+  const { data: currentNotebook, isPending: isPendingNotebook, isError: isErrorNotebook, error: errorNotebook } = useNotebook(notebookId); {/*TODO*/}
 
-  const { data: notes } =  useNotesByNotebook(notebookId);
+  const { data: notes, isPending: isPendingNote, isError: isErrorNote, error: errorNote } =  useNotesByNotebook(notebookId);
+
+  if (isPendingNotebook || isPendingNote ) {
+    return <div>Loading...</div>
+  }
+
+  if (isErrorNotebook) {
+    return <div>Error: {errorNotebook.message}</div>
+  }
+
+  if (isErrorNote) {
+    return <div>Error: {errorNote.message}</div>
+  }
 
   return (
     <>
@@ -34,7 +46,7 @@ function RouteComponent() {
           icon={currentNotebook.icon}
           color={currentNotebook.color}
           noteCount={currentNotebook.noteCount}
-          tags={currentNotebook.tags}
+          // tags={currentNotebook.tags}
           lastUpdated={currentNotebook.updatedAt}
           isLinked={false}
         />
@@ -53,7 +65,7 @@ function RouteComponent() {
             color={currentNotebook.color}
             lastUpdated={updatedAt}
             content={""} //TODO
-            tags={tags}
+            // tags={tags}
           />
         ))}
       </div>
