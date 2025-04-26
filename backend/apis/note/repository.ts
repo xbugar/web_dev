@@ -11,12 +11,16 @@ export const noteRepository = {
             select: {
                 id: true,
                 title: true,
-                color: true,
 
                 createdAt: true,
                 updatedAt: true,
 
-                notebookId: true,
+                notebook: {
+                    select: {
+                        id: true,
+                        color: true
+                    }
+                },
                 tags: true
             },
             where: {
@@ -24,7 +28,6 @@ export const noteRepository = {
             },
             data: {
                 title: meta.body.title,
-                color: meta.body.color,
             },
         }).then(result => Result.ok(result))
             .catch(() => Result.err(new InternalError()));
@@ -35,12 +38,16 @@ export const noteRepository = {
             select: {
                 id: true,
                 title: true,
-                color: true,
 
                 createdAt: true,
                 updatedAt: true,
 
-                notebookId: true,
+                notebook: {
+                    select: {
+                        id: true,
+                        color: true
+                    }
+                },
                 tags: data.query.withTags,
             },
             where: {
@@ -88,13 +95,18 @@ export const noteRepository = {
             select: {
                 id: true,
                 title: true,
-                color: true,
 
                 createdAt: true,
                 updatedAt: true,
 
-                notebookId: true,
-                tags: true
+                tags: true,
+
+                notebook: {
+                    select: {
+                        id: true,
+                        color: true
+                    }
+                },
             },
             where: {
                 id: data.id
@@ -115,12 +127,16 @@ export const noteRepository = {
             select: {
                 id: true,
                 title: true,
-                color: true,
 
                 createdAt: true,
                 updatedAt: true,
 
-                notebookId: true,
+                notebook: {
+                    select: {
+                        id: true,
+                        color: true
+                    }
+                },
                 tags: true
             },
             where: {
@@ -142,10 +158,15 @@ export const noteRepository = {
             select: {
                 id: true,
                 title: true,
-                color: true,
                 createdAt: true,
                 updatedAt: true,
-                notebookId: true,
+
+                notebook: {
+                    select: {
+                        id: true,
+                        color: true
+                    }
+                },
                 tags: true
             },
             data: {
@@ -170,12 +191,16 @@ export const noteRepository = {
             select: {
                 id: true,
                 title: true,
-                color: true,
 
                 createdAt: true,
                 updatedAt: true,
 
-                notebookId: true,
+                notebook: {
+                    select: {
+                        id: true,
+                        color: true
+                    }
+                },
                 tags: true
             },
             where: {

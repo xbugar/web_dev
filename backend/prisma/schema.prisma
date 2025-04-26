@@ -60,7 +60,6 @@ model Note {
   id String @id @default(uuid()) @db.Uuid
 
   title   String
-  color   String
   content String @default("")
 
   createdAt DateTime @default(now())

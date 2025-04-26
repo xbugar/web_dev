@@ -7,7 +7,6 @@ export const updateNoteMetaRequestSchema = z.object({
     }),
     body: z.object({
         title: z.string().min(1).max(64).optional(),
-        color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
     })
 });
 
