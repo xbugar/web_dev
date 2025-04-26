@@ -26,7 +26,7 @@ async function createUserWithEvents(name: string, mail: string, picture: Profile
 
 async function createUserWithNotebook(name: string, mail: string, picture: ProfilePicture, icon: Icon, noteContent: string) {
     const user = await addUser(name, "", mail, "", "", picture.id);
-    const userNotebook = await createNotebook(user.id, icon.id, "test Notebook", "", getRandomColor());
+    const userNotebook = await createNotebook(user.id, icon.name, "test Notebook", "", getRandomColor());
     await createNote(userNotebook.id, "test Note", noteContent, getRandomColor());
     return user;
 }
@@ -34,7 +34,7 @@ async function createUserWithNotebook(name: string, mail: string, picture: Profi
 
 async function createUserWithFlashDeck(name: string, mail: string, picture: ProfilePicture, icon: Icon) {
     const user = await addUser(name, "", mail, "", "", picture.id);
-    const userFlashDeck = await createFlashDeck(user.id, icon.id, "test FlashDeck", "", getRandomColor());
+    const userFlashDeck = await createFlashDeck(user.id, icon.name, "test FlashDeck", "", getRandomColor());
     const userFlashCard = await createFlashCard(userFlashDeck.id, "Are traps gay?");
     const userFlashAnswer1 = createFlashAnswer(userFlashCard.id, "yes", false);
     const userFlashAnswer2 = createFlashAnswer(userFlashCard.id, "no", true);
@@ -44,8 +44,8 @@ async function createUserWithFlashDeck(name: string, mail: string, picture: Prof
 async function createUserWithTags(name: string, mail: string, picture: ProfilePicture, icon: Icon, tagg: string, color: string) {
     const user = await addUser(name, "", mail, "", "", picture.id);
     const tag = await createTag(user.id, tagg, color);
-    const notebook = await createNotebook(user.id, icon.id, "tagged Notebook", "", getRandomColor());
-    const flashDeck = await createFlashDeck(user.id, icon.id, "tagged FlashDeck", "", getRandomColor());
+    const notebook = await createNotebook(user.id, icon.name, "tagged Notebook", "", getRandomColor());
+    const flashDeck = await createFlashDeck(user.id, icon.name, "tagged FlashDeck", "", getRandomColor());
     const event = await createEvent(user.id, "tagged Event", new Date(), new Date(), Importance.LOW, getRandomColor(), "");
     const note = await createNote(notebook.id, "tagged Note", "", "#123456");
     await addNotebookTag(tag.id, notebook.id);
@@ -57,7 +57,7 @@ async function createUserWithTags(name: string, mail: string, picture: ProfilePi
 
 async function main() {
     const picture = await addProfilePicture("prisma/mockData/default-profile.jpg");
-    const icon = await addIcon("prisma/mockData/exclamation.svg");
+    const icon = await addIcon("prisma/mockData/exclamation.svg", "test");
 
 
     createUserWithEvents("Natalka", "example@mail.ls",picture).catch(ex => console.error("something went wrong: createUserWithEvents\n", ex));

@@ -31,7 +31,7 @@ export const userCreateNotebookRequestSchema = z.object({
         title: z.string().min(1).max(255),
         description: z.string().min(1).max(255),
         color: z.string(),
-        iconId: z.string(),
+        iconName: z.string(),
     })
 })
 

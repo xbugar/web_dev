@@ -23,7 +23,7 @@ export const notebookRepository = {
                 color: true,
                 createdAt: true,
                 updatedAt: true,
-                iconId: true,
+                iconName: true,
                 _count: {
                     select: {
                         notes: true,
@@ -42,7 +42,7 @@ export const notebookRepository = {
             color: notebook.color,
             createdAt: notebook.createdAt,
             updatedAt: notebook.updatedAt,
-            iconId: notebook.iconId,
+            iconName: notebook.iconName,
             noteCount: notebook._count.notes,
         }))
             .catch((error: any) => {
@@ -62,7 +62,7 @@ export const notebookRepository = {
                 color: true,
                 createdAt: true,
                 updatedAt: true,
-                iconId: true,
+                iconName: true,
                 _count: {
                     select: {
                         notes: true,
@@ -80,7 +80,7 @@ export const notebookRepository = {
             color: notebook.color,
             createdAt: notebook.createdAt,
             updatedAt: notebook.updatedAt,
-            iconId: notebook.iconId,
+            iconName: notebook.iconName,
             noteCount: notebook._count.notes,
         }))
             .catch((error: any) => {
@@ -100,7 +100,7 @@ export const notebookRepository = {
                 color: true,
                 createdAt: true,
                 updatedAt: true,
-                iconId: true,
+                iconName: true,
                 _count: {
                     select: {
                         notes: true,
@@ -116,7 +116,7 @@ export const notebookRepository = {
             color: notebook.color,
             createdAt: notebook.createdAt,
             updatedAt: notebook.updatedAt,
-            iconId: notebook.iconId,
+            iconName: notebook.iconName,
             noteCount: notebook._count.notes,
         }))
             .catch((error: any) => {
@@ -137,7 +137,7 @@ export const notebookRepository = {
                     color: true,
                     createdAt: true,
                     updatedAt: true,
-                    iconId: true,
+                    iconName: true,
                     tags: withTags,
                     _count: {
                         select: {
@@ -154,7 +154,7 @@ export const notebookRepository = {
             color: notebook.color,
             createdAt: notebook.createdAt,
             updatedAt: notebook.updatedAt,
-            iconId: notebook.iconId,
+            iconName: notebook.iconName,
             tags: notebook.tags,
             noteCount: notebook._count.notes,
         }))
@@ -191,7 +191,7 @@ export const notebookRepository = {
                     color: true,
                     createdAt: true,
                     updatedAt: true,
-                    iconId: true,
+                    iconName: true,
                     tags: filter.withTags,
                     _count: {
                         select: {
@@ -211,7 +211,7 @@ export const notebookRepository = {
                     color: notebook.color,
                     createdAt: notebook.createdAt,
                     updatedAt: notebook.updatedAt,
-                    iconId: notebook.iconId,
+                    iconName: notebook.iconName,
                     tags: notebook.tags,
                     noteCount: notebook._count.notes,
 

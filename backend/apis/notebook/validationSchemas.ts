@@ -9,7 +9,7 @@ export const notebookUpdateRequestSchema = z.object({
         title: z.string().min(1).max(255),
         description: z.string().min(1).max(255),
         color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
-        iconId: z.string().nullable(),
+        iconName: z.string().nullable(),
     })
 });
 
@@ -51,7 +51,7 @@ export const notebookCreateRequestSchema = z.object({
         title: z.string().min(1).max(255),
         description: z.string().min(1).max(255),
         color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
-        iconId: z.string().nullable(),
+        iconName: z.string().nullable(),
         userId: z.string().uuid(),
     })
 })
