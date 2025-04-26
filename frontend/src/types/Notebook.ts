@@ -16,6 +16,6 @@ export type CreateNotebook = {
   title: string,
   description: string,
   color: string,
-  iconId: string,
+  iconName: string,
   userId?: string
 }

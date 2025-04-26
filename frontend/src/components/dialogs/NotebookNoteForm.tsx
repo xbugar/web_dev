@@ -14,6 +14,7 @@ const availableColors = [
 ];
 
 const availableIcons = [
+  {label: "Default", value: "default"},
   { label: "Book", value: "book" },
   { label: "Pen", value: "pen" },
   { label: "Folder", value: "folder" },
@@ -24,15 +25,15 @@ type NotebookFormProps = {
   type: "notebook" | "note";
   initialData?: {
     title: string;
-    description: string;
-    color: string;
-    iconId: string;
+    description?: string;
+    color?: string;
+    iconName?: string;
   };
   onSubmit: (data: {
     title: string;
-    description: string;
-    color: string;
-    iconId: string;
+    description?: string;
+    color?: string;
+    iconName?: string;
   }) => void;
   isSubmitting?: boolean;
   submitText: string;
@@ -42,17 +43,26 @@ export function NotebookNoteForm({ type, initialData, onSubmit, isSubmitting, su
   const [title, setTitle] = useState(initialData?.title || "");
   const [description, setDescription] = useState(initialData?.description || "");
   const [color, setColor] = useState(initialData?.color || "");
-  const [iconId, setIcon] = useState(initialData?.iconId || "");
+  const [iconName, setIcon] = useState(initialData?.iconName || "");
 
   const handleSubmit = () => {
-    if (!title || !color || !iconId) return;
+    if (!title) return;
 
-    onSubmit({
-      title,
-      description,
-      color,
-      iconId,
-    });
+    if (type === "notebook") {
+      onSubmit({
+        title,
+        description,
+        color,
+        iconName,
+      });
+    }
+
+    if (type === "note") {
+      onSubmit({
+        title,
+      })
+    }
+
   };
 
   return (
@@ -71,22 +81,22 @@ export function NotebookNoteForm({ type, initialData, onSubmit, isSubmitting, su
         />
       </div>
 
-      {/* Description */}
-      <div className="grid items-center gap-4">
-        <Label htmlFor="description" className="text-right">
-          Description
-        </Label>
-        <Input
-          id="description"
-          placeholder="Enter description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="col-span-3"
-        />
-      </div>
-
-      {type === "notebook" && (
+      { type === "notebook" && (
         <>
+          {/* Description */}
+          <div className="grid items-center gap-4">
+            <Label htmlFor="description" className="text-right">
+              Description
+            </Label>
+            <Input
+              id="description"
+              placeholder="Enter description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="col-span-3"
+            />
+          </div>
+
           {/* Color */}
           <div className="grid items-center gap-4">
             <Label htmlFor="color" className="text-right">
@@ -111,7 +121,7 @@ export function NotebookNoteForm({ type, initialData, onSubmit, isSubmitting, su
             <Label htmlFor="icon" className="text-right">
               Icon
             </Label>
-            <Select value={iconId} onValueChange={(value) => setIcon(value)}>
+            <Select value={iconName} onValueChange={(value) => setIcon(value)}>
               <SelectTrigger className="col-span-3">
                 <SelectValue placeholder="Select an icon" />
               </SelectTrigger>

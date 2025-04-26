@@ -20,14 +20,15 @@ export const Route = createFileRoute('/_authentificated/notebooks/$notebookId/',
 
 function RouteComponent() {
   const { notebookId } = useParams({ strict: false });
-  const { data: currentNotebook } = useNotebook(notebookId);
+  const { data: currentNotebook } = useNotebook(notebookId); {/*TODO*/}
   const { data: notes } =  useNotesByNotebook(notebookId);
 
   return (
     <>
-      <Section title={"Notebook preview"} Icon={Pencil}/>
+      <Section title={"Notebook preview"} Icon={Pencil} id={notebookId} type={"notebook"}/>
       {currentNotebook && (
         <NotebookCard
+          key={notebookId}
           to={"/notebooks/$notebookId"}
           title={currentNotebook.title}
           description={currentNotebook.description}
@@ -40,11 +41,12 @@ function RouteComponent() {
         />
       )}
 
-      <Section title={"Notes"} Icon={Plus}/>
+      <Section title={"Notes"} Icon={Plus} id={notebookId} type={"note"}/>
       <div className='flex flex-col gap-4'>
 
         {notes && notes.map(({ id, title, color, updatedAt, tags }) => (
           <NoteCard
+            key={id}
             parentId={currentNotebook.id}
             noteId={id}
             title={title}

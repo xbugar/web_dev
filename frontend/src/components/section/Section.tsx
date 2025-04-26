@@ -4,14 +4,16 @@ import {
 import { Button } from "@/components/ui/button.tsx";
 import { useState } from "react";
 import { NotebookCreateDialog } from "@/components/dialogs/NotebookCreateDialog.tsx";
+import { NoteCreateDialog } from "@/components/dialogs/NoteCreateDialog.tsx";
 
 type SectionProps = {
   title: string
   Icon: LucideIcon
-  userId: string
+  id: string
+  type: "notebook" | "note"
 }
 
-export function Section({ title, Icon, userId }: SectionProps) {
+export function Section({ title, Icon, id, type }: SectionProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -23,11 +25,22 @@ export function Section({ title, Icon, userId }: SectionProps) {
         </Button>
       </div>
 
-      <NotebookCreateDialog
-        open={open}
-        onOpenChange={setOpen}
-        userId={userId}
-      />
+      { type === "notebook" && (
+        <NotebookCreateDialog
+          open={open}
+          onOpenChange={setOpen}
+          userId={id}
+        />
+      )}
+
+      { type === "note" && (
+        <NoteCreateDialog
+          open={open}
+          onOpenChange={setOpen}
+          notebookId={id}
+        />
+      )}
+
     </>
   )
 }

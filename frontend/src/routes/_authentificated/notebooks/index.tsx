@@ -11,11 +11,11 @@ export const Route = createFileRoute('/_authentificated/notebooks/')({
 })
 
 function RouteComponent() {
-  const userId = "05e56c9f-beaa-4202-bec1-ca8e0abf3858"
+  const userId = "054cf605-bb80-4c91-95fd-0218d9b6b7bf"
   const {data: notebooks} = useUserNotebooks(userId);
   return (
     <>
-      <Section title={"Notebooks"} Icon={Plus} userId={userId}/>
+      <Section title={"Notebooks"} Icon={Plus} id={userId} type="notebook"/>
 
       <div className='flex flex-col gap-4'>
         {notebooks && notebooks.map(({ id, title, description, icon, color, noteCount, tags, updatedAt }) => (

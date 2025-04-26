@@ -10,8 +10,6 @@ export type Note = {
 }
 
 export type CreateNote = {
-  title: string,
-  color: string,
-  notebookId?: string,
+  title: string
 }
 

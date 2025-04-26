@@ -5,22 +5,22 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog.tsx"
 
-import { useCreateNotebook} from "@/hooks/useCreateNotebook.ts"
-import { CreateNotebook } from "@/types/Notebook.ts";
+import { useCreateNote } from "@/hooks/useCreateNote.ts"
+import { CreateNote } from "@/types/Note.ts";
 import { NotebookNoteForm } from "@/components/dialogs/NotebookNoteForm.tsx";
 
-type NotebookCreateDialogProps = {
+type NoteCreateDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  userId: string;
+  notebookId: string;
 }
 
-export const NotebookCreateDialog = ({ open, onOpenChange, userId} : NotebookCreateDialogProps ) => {
-  const createNotebook = useCreateNotebook();
+export const NoteCreateDialog = ({ open, onOpenChange, notebookId } : NoteCreateDialogProps ) => {
+  const createNote = useCreateNote();
 
-  const handleCreate = (data: CreateNotebook) => {
-    createNotebook.mutate(
-      { userId, data },
+  const handleCreate = (data: CreateNote) => {
+    createNote.mutate(
+      { notebookId, data },
       {
         onSuccess: () =>
           onOpenChange(false),
@@ -32,13 +32,13 @@ export const NotebookCreateDialog = ({ open, onOpenChange, userId} : NotebookCre
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create a new notebook</DialogTitle>
+          <DialogTitle>Create a new note</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <NotebookNoteForm
-          type="notebook"
+          type="note"
           onSubmit={handleCreate}
-          isSubmitting={createNotebook.isPending}
+          isSubmitting={createNote.isPending}
           submitText={"Create"}/>
       </DialogContent>
     </Dialog>
