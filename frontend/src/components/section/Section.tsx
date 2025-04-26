@@ -8,7 +8,7 @@ import { NoteCreateDialog } from "@/components/dialogs/NoteCreateDialog.tsx";
 
 type SectionProps = {
   title: string
-  Icon: LucideIcon
+  Icon?: LucideIcon
   id: string
   type: "notebook" | "note"
 }
@@ -20,9 +20,14 @@ export function Section({ title, Icon, id, type }: SectionProps) {
     <>
       <div className='py-2 mt-2 flex flex-row justify-between items-center font-bold text-2xl font-serif'>
         <h2>{title}</h2>
-        <Button variant="outline" onClick={() => setOpen(true)} >
-          <Icon />
-        </Button>
+        { Icon &&
+          <>
+            <Button variant="outline" onClick={() => setOpen(true)} >
+              <Icon />
+            </Button>
+          </>
+        }
+
       </div>
 
       { type === "notebook" && (

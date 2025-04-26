@@ -4,7 +4,6 @@ import { NotebookCard } from '@/components/cards/NotebookCard';
 import { Section } from '@/components/section/Section';
 
 import {
-  Pencil,
   Plus
 } from "lucide-react"
 import { useNotebook } from "@/hooks/useNotebook.ts";
@@ -29,7 +28,7 @@ function RouteComponent() {
 
   return (
     <>
-      <Section title={"Notebook preview"} Icon={Pencil} id={notebookId} type={"notebook"}/>
+      <Section title={"Notebook preview"} id={notebookId} type={"notebook"}/>
       {currentNotebook && (
         <NotebookCard
           key={notebookId}
@@ -48,14 +47,14 @@ function RouteComponent() {
       <Section title={"Notes"} Icon={Plus} id={notebookId} type={"note"}/>
       <div className='flex flex-col gap-4'>
 
-        {notes && notes.map(({ id, title, color, updatedAt, tags }) => (
+        {notes && notes.map(({ id, title, updatedAt, tags }) => (
           <NoteCard
             key={id}
             parentId={currentNotebook.id}
             noteId={id}
             title={title}
             titleOfParent={currentNotebook.title}
-            color={color}
+            color={currentNotebook.color}
             lastUpdated={updatedAt}
             content={""} //TODO
             tags={tags}
