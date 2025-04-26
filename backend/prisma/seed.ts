@@ -27,7 +27,7 @@ async function createUserWithEvents(name: string, mail: string, picture: Profile
 async function createUserWithNotebook(name: string, mail: string, picture: ProfilePicture, icon: Icon, noteContent: string) {
     const user = await addUser(name, "", mail, "", "", picture.id);
     const userNotebook = await createNotebook(user.id, icon.name, "test Notebook", "", getRandomColor());
-    await createNote(userNotebook.id, "test Note", noteContent, getRandomColor());
+    await createNote(userNotebook.id, "test Note", noteContent);
     return user;
 }
 
@@ -47,7 +47,7 @@ async function createUserWithTags(name: string, mail: string, picture: ProfilePi
     const notebook = await createNotebook(user.id, icon.name, "tagged Notebook", "", getRandomColor());
     const flashDeck = await createFlashDeck(user.id, icon.name, "tagged FlashDeck", "", getRandomColor());
     const event = await createEvent(user.id, "tagged Event", new Date(), new Date(), Importance.LOW, getRandomColor(), "");
-    const note = await createNote(notebook.id, "tagged Note", "", "#123456");
+    const note = await createNote(notebook.id, "tagged Note", "");
     await addNotebookTag(tag.id, notebook.id);
     await addEventTag(tag.id, event.id);
     await addFlashDeckTag(tag.id, flashDeck.id);
