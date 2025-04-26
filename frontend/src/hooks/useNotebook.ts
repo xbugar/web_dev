@@ -3,7 +3,7 @@ import { getNotebookById } from "@/services/notebookService.ts";
 
 export function useNotebook(id: string)  {
   return useQuery({
-    queryKey: ["notebookId", id],
+    queryKey: ["notebook", id],
     queryFn: () => getNotebookById(id),
   });
 }

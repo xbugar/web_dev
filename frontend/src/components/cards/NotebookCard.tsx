@@ -8,7 +8,7 @@ import {
 import { Link } from "@tanstack/react-router";
 import { AccentColor, iconColor, lineColor } from "@/components/cards/cardColors";
 import { NotebookNoteDropdown } from "@/components/NotebookNoteDropdown";
-import { Notebook, Sun, Timer } from "lucide-react";
+import { LucideIcon, Notebook, Sun, Timer } from "lucide-react";
 import { Tag, TagColor } from "@/components/Tag"
 import { cn } from "@/lib/utils";
 import { iconMap } from "@/components/IconMap.tsx";
@@ -24,8 +24,8 @@ export type NotebookCardProps = {
   tags?: { name: string; color: TagColor}[];
 }
 
-export function NotebookCard({id, title, description, iconName, color, noteCount, lastUpdated, tags}: NotebookCardProps) {
-  const Icon = iconMap[iconName];
+export const NotebookCard = ({id, title, description, iconName, color, noteCount, lastUpdated, tags}: NotebookCardProps) => {
+  const Icon : LucideIcon = iconMap[iconName];
   return (
     <Link to={`/notebooks/${id}`}>
 

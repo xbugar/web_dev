@@ -9,3 +9,7 @@ export const getNotebooks = async (userId: string) : Promise<Notebook[]> => {
 export const getUserById = async (userId: string) : Promise<User> => {
   return api.get(`/user/${userId}`).then(response => response.data as User);
 }
+
+// export const postNotebook = async (userId: string, data:): Promise<Notebook> => {
+//   return api.post()
+// }

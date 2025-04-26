@@ -1,9 +1,9 @@
 import { Section } from '@/components/section/Section';
 import { createFileRoute } from '@tanstack/react-router'
 
-import { Book } from "lucide-react"
+import { Plus } from "lucide-react"
 
-import { NotebookCard, NotebookCardProps } from "@/components/cards/NotebookCard.tsx";
+import { NotebookCard } from "@/components/cards/NotebookCard.tsx";
 import { useUserNotebooks } from "@/hooks/useUserNotebooks.ts";
 
 export const Route = createFileRoute('/_authentificated/notebooks/')({
@@ -11,14 +11,18 @@ export const Route = createFileRoute('/_authentificated/notebooks/')({
 })
 
 function RouteComponent() {
-  const {data: notebooks} = useUserNotebooks("0e95ab83-aaba-48c7-af04-d0a8f1e97195");
+  const userId = "0399ed77-a978-4e06-a87d-68452fcf3c33";
+  const {data: notebooks} = useUserNotebooks(userId);
+
   return (
     <>
-      <Section title={"Notebooks"} Icon={Book} amount={notebooks?.length ?? 0}/>
+      <Section title={"Notebooks"} Icon={Plus} userId={userId}/>
+
       <div className='flex flex-col gap-4'>
         {notebooks && notebooks.map(({ id, title, description, icon, color, noteCount, tags, updatedAt }) => (
           <NotebookCard
             key={id}
+            id={id}
             title={title}
             description={description}
             iconName={icon}
@@ -28,8 +32,6 @@ function RouteComponent() {
             lastUpdated={updatedAt}
           />
         ))}
-        {/*<NotebookCard*/}
-        {/*  id={"022b0145-19e1-40f1-8a47-af68add27c78"}/>*/}
       </div>
     </>
   )

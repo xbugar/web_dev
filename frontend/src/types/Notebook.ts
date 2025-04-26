@@ -11,3 +11,10 @@ export type Notebook = {
   noteCount: number,
   tags?: Tag[]
 }
+
+export type NotebookDataRequest = {
+  title: string;
+  description: string;
+  color: string;
+  iconId: string;
+}

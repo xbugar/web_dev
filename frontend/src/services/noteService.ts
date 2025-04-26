@@ -8,3 +8,4 @@ export const getNoteMetadata = async (id: string) : Promise<Note> => {
 export const getNoteContent = async (id: string) : Promise<string> => {
   return api.get(`/note/${id}/content`).then(response => response.data);
 }
+

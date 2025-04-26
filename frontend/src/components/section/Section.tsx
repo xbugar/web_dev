@@ -1,24 +1,33 @@
 import {
   LucideIcon
 } from "lucide-react"
+import { Button } from "@/components/ui/button.tsx";
+import { useState } from "react";
+import { NotebookCreateDialog } from "@/components/dialogs/NotebookCreateDialog.tsx";
 
 type SectionProps = {
   title: string
   Icon: LucideIcon
-  amount?: number
+  userId: string
 }
 
-export function Section({ title, Icon, amount }: SectionProps) {
-  
+export function Section({ title, Icon, userId }: SectionProps) {
+  const [open, setOpen] = useState(false);
+
   return (
     <>
       <div className='py-2 mt-2 flex flex-row justify-between items-center font-bold text-2xl font-serif'>
         <h2>{title}</h2>
-        <div className='flex gap-1 items-center'>
-          <span>{amount}</span>
+        <Button variant="outline" onClick={() => setOpen(true)} >
           <Icon />
-        </div>
+        </Button>
       </div>
+
+      <NotebookCreateDialog
+        open={open}
+        onOpenChange={setOpen}
+        userId={userId}
+      />
     </>
   )
 }
