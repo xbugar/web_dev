@@ -3,11 +3,11 @@ import { notesController } from "./controller";
 
 export const notesRouter = Router();
 
-notesRouter.get("/:id", notesController.getNoteMeta);
-notesRouter.put("/:id", notesController.updateNoteMeta);
-notesRouter.delete("/:id", notesController.deleteNote);
-notesRouter.get("/:id/Content", notesController.getNoteContent);
-notesRouter.put("/:id/Content", notesController.updateNoteContent);
-notesRouter.post("/:id/tag/:id", notesController.addNoteTag);
-notesRouter.delete("/:id/tag/:id", notesController.removeNoteTag);
+notesRouter.get("/:noteId", notesController.getNoteMeta);
+notesRouter.put("/:noteId", notesController.updateNoteMeta);
+notesRouter.delete("/:noteid", notesController.deleteNote);
+notesRouter.get("/:noteId/Content", notesController.getNoteContent);
+notesRouter.put("/:noteId/Content", notesController.updateNoteContent);
+notesRouter.post("/:noteId/tag/:tagId", notesController.addNoteTag);
+notesRouter.delete("/:noteId/tag/:tagId", notesController.removeNoteTag);
 

@@ -11,12 +11,14 @@ import { Tag } from "../tag/types";
 export type NoteMeta = {
     id: string;
     title: string;
-    color: string;
 
     createdAt: Date;
     updatedAt: Date;
 
-    notebookId: string;
+    notebook: {
+        id: string;
+        color: string;
+    }
     tags: Tag[];
 };
 

@@ -7,7 +7,6 @@ export const updateNoteMetaRequestSchema = z.object({
     }),
     body: z.object({
         title: z.string().min(1).max(64).optional(),
-        color: z.string().regex(/^#[A-Fa-f0-9]{6}$/).optional(),
     })
 });
 
@@ -30,7 +29,7 @@ export const deleteNoteRequestSchema = z.object({
 
 export const getNoteContentRequestSchema = z.object({
     params: z.object({
-        id: z.string().uuid(),
+        noteId: z.string().uuid(),
     })
 });
 
@@ -45,14 +44,14 @@ export const updateNoteContentRequestSchema = z.object({
 
 export const addNoteTagRequestSchema = z.object({
     params: z.object({
-        id: z.string().uuid(),
+        noteId: z.string().uuid(),
         tagId: z.string().uuid(),
     })
 });
 
 export const removeNoteTagRequestSchema = z.object({
     params: z.object({
-        id: z.string().uuid(),
+        noteId: z.string().uuid(),
         tagId: z.string().uuid(),
     })
 })

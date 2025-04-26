@@ -856,20 +856,17 @@ components:
       properties:
         title:
           type: string
-        color:
-          type: string
 
     CreateNotev2:
       type: object
       properties:
         title:
           type: string
-        color:
-          type: string
         notebookId:
           type: string
       required:
         notebookId
+        title
     
     NoteWithTags:
       type: object
@@ -878,14 +875,19 @@ components:
           type: string
         title:
           type: string
-        color:
-          type: string
         createdAt:
           type: string
         updatedAt:
           type: string
         tags:
           $ref: "#/components/schemas/TagArray"
+        notebook:
+          type: object
+          properties:
+            id:
+              type: string
+            color:
+              type: string
 
 
     Note:
@@ -895,12 +897,17 @@ components:
           type: string
         title:
           type: string
-        color:
-          type: string
         createdAt:
           type: string
         updatedAt:
           type: string
+        notebook:
+          type: object
+          properties:
+            id:
+              type: string
+            color:
+              type: string
 
 
     
@@ -980,7 +987,7 @@ components:
           type: string
         updatedAt:
           type: string
-        icon:
+        iconName:
           type: string
         tags:
           $ref: "#/components/schemas/TagArray"
@@ -998,7 +1005,14 @@ components:
           type: string
         color:
           type: string
-        iconId:
+          enum:
+            - blue
+            - purple
+            - orange
+            - green
+            - red
+            - pink
+        iconName:
           type: string
 
     CreateNotebookv2:
@@ -1010,7 +1024,7 @@ components:
           type: string
         color:
           type: string
-        iconId:
+        iconName:
           type: string
         userId:
           type: string
@@ -1026,7 +1040,14 @@ components:
           type: string
         color:
           type: string
-          example: red
+          enum:
+            - blue
+            - purple
+            - yellow
+            - green
+            - red
+            - pink
+          example: blue
 
 
     CreateTag:
@@ -1036,7 +1057,14 @@ components:
           type: string
         color:
           type: string
-          example: red
+          enum:
+            - blue
+            - purple
+            - yellow
+            - green
+            - red
+            - pink
+          example: blue
 
 
     TagArray:

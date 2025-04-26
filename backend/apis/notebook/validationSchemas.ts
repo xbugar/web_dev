@@ -8,8 +8,8 @@ export const notebookUpdateRequestSchema = z.object({
     body: z.object({
         title: z.string().min(1).max(255),
         description: z.string().min(1).max(255),
-        color: z.string(),
-        iconId: z.string().nullable(),
+        color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
+        iconName: z.string().nullable(),
     })
 });
 
@@ -19,7 +19,6 @@ export const notebookCreateNoteRequestSchema = z.object({
     }),
     body: z.object({
         title: z.string().min(1).max(255),
-        color: z.string(),
     })
 })
 
@@ -50,8 +49,8 @@ export const notebookCreateRequestSchema = z.object({
     body: z.object({
         title: z.string().min(1).max(255),
         description: z.string().min(1).max(255),
-        color: z.string(),
-        iconId: z.string().nullable(),
+        color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
+        iconName: z.string().nullable(),
         userId: z.string().uuid(),
     })
 })

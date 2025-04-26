@@ -55,7 +55,7 @@ const getNoteContent = async (req: Request, res: Response) => {
     const request = await parseRequest(getNoteContentRequestSchema, req, res);
     if (request === null) return;
 
-    const noteId = request.params.id;
+    const noteId = request.params.noteId;
 
     const newTag = await noteRepository.getContent(noteId);
     if (newTag.isErr) {

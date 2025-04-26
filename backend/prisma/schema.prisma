@@ -46,8 +46,8 @@ model Notebook {
 
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String      @db.Uuid
-  icon       Icon?       @relation(fields: [iconId], references: [id])
-  iconId     String?     @db.Uuid
+  icon       Icon?       @relation(fields: [iconName], references: [name])
+  iconName   String?     @db.Text
   notes      Note[]
   flashDecks FlashDeck[]
   tags       Tag[]
@@ -60,7 +60,6 @@ model Note {
   id String @id @default(uuid()) @db.Uuid
 
   title   String
-  color   String
   content String @default("")
 
   createdAt DateTime @default(now())
@@ -117,8 +116,8 @@ model FlashDeck {
 
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String      @db.Uuid
-  icon       Icon        @relation(fields: [iconId], references: [id])
-  iconId     String      @db.Uuid
+  icon       Icon        @relation(fields: [iconName], references: [name])
+  iconName   String      @db.Text
   notebook   Notebook?   @relation(fields: [notebookId], references: [id])
   notebookId String?     @db.Uuid
   flashCards FlashCard[]
@@ -154,7 +153,7 @@ model FlashAnswer {
 }
 
 model Icon {
-  id   String @id @default(uuid()) @db.Uuid
+  name String @id @db.Text
   icon Bytes
 
   notebooks  Notebook[]

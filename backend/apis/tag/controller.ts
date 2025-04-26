@@ -83,7 +83,7 @@ const deleteTag = async (req: Request, res: Response) => {
     const request = await parseRequest(deleteTagRequestSchema, req, res);
     if (request === null) return;
 
-    const out = await tagRepository.delete(request.params.id);
+    const out = await tagRepository.delete(request.params.tagId);
     if (out.isErr) {
         handleRepositoryErrors(out.error, res);
     }
