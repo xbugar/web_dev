@@ -43,7 +43,7 @@ describe("/notebook", async () => {
                     title: "notebucik",
                     description: "neeimeme",
                     color: "green",
-                    iconId: icon.id
+                    iconName: icon.name
                 }
             );
             console.log(body);
@@ -57,7 +57,7 @@ describe("/notebook", async () => {
                     color: true,
                     createdAt: true,
                     updatedAt: true,
-                    iconId: true,
+                    iconName: true,
                     _count: {
                         select: {
                             notes: true,
@@ -76,7 +76,7 @@ describe("/notebook", async () => {
                     title: "notebucik",
                     description: "neeimeme",
                     color: "green",
-                    iconId: icon.id,
+                    iconName: icon.name,
                     createdAt: notebook.createdAt.toJSON(),
                     updatedAt: notebook.updatedAt.toJSON(),
                     noteCount: notebook._count.notes,
@@ -90,7 +90,7 @@ describe("/notebook", async () => {
                 title: "notebucik 2",
                 description: "neeimeme",
                 color: "green",
-                iconId: null,
+                iconName: null,
                 userId: id
             });
             console.log("totoootototot")
@@ -106,7 +106,7 @@ describe("/notebook", async () => {
                         color: true,
                         createdAt: true,
                         updatedAt: true,
-                        iconId: true,
+                        iconName: true,
                         _count: {
                             select: {
                                 notes: true,
@@ -125,7 +125,7 @@ describe("/notebook", async () => {
                     title: "notebucik 2",
                     description: "neeimeme",
                     color: "green",
-                    iconId: null,
+                    iconName: null,
                     createdAt: notebook.createdAt.toJSON(),
                     updatedAt: notebook.updatedAt.toJSON(),
                     noteCount: notebook._count.notes,
@@ -138,7 +138,7 @@ describe("/notebook", async () => {
                 title: "notebucik",
                 description: "uplne novy a zmeneny description",
                 color: "green",
-                iconId: null
+                iconName: null
             });
             console.log(body);
             expect(status).toBe(200);
@@ -150,7 +150,7 @@ describe("/notebook", async () => {
                     color: true,
                     createdAt: true,
                     updatedAt: true,
-                    iconId: true,
+                    iconName: true,
                     _count: {
                         select: {
                             notes: true,
@@ -170,7 +170,7 @@ describe("/notebook", async () => {
                 color: notebook.color,
                 createdAt: notebook.createdAt.toJSON(),
                 updatedAt: notebook.updatedAt.toJSON(),
-                iconId: notebook.iconId,
+                iconName: notebook.iconName,
                 noteCount: notebook._count.notes,
             });
 
@@ -210,7 +210,7 @@ describe("/notebook", async () => {
                     color: true,
                     createdAt: true,
                     updatedAt: true,
-                    iconId: true,
+                    iconName: true,
                     tags: true,
                     _count: {
                         select: {
@@ -230,7 +230,7 @@ describe("/notebook", async () => {
                 color: notebook.color,
                 createdAt: notebook.createdAt.toJSON(),
                 updatedAt: notebook.updatedAt.toJSON(),
-                iconId: notebook.iconId,
+                iconName: notebook.iconName,
                 noteCount: notebook._count.notes,
                 tags: notebook.tags,
             });
