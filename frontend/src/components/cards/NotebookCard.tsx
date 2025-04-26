@@ -30,7 +30,7 @@ export type NotebookCardProps = {
 export const NotebookCard = ({id, title, description, iconName, color, noteCount, lastUpdated, tags, isLinked = true}: NotebookCardProps) => {
   const Icon = iconMap[iconName];
   const timeAgo = formatDistanceToNow(new Date(lastUpdated), { addSuffix: true });
-  const CardContent = (
+  return (
     <Card className={cn("flex border-l-10 overflow-hidden p-0 py-4 gap-4", lineColor[color as AccentColor])}> {/*TODO*/}
 
       <CardHeader className="flex pl-0 pr-4 gap-2 items-center justify-start">
@@ -42,8 +42,23 @@ export const NotebookCard = ({id, title, description, iconName, color, noteCount
         <div className="flex flex-col w-full gap-1">
 
           <div className="flex justify-between items-center">
-            <CardTitle className="font-serif">{title}</CardTitle>
-            <NotebookNoteDropdown type={"notebook"}/>
+            <CardTitle className="font-serif">{isLinked ? (
+              <Link to={`/notebooks/${id}`} className="hover:underline">
+                {title}
+              </Link>
+            ) : (
+              title
+            )}
+            </CardTitle>
+            <NotebookNoteDropdown
+              id={id}
+              data={{
+                title: title,
+                description: description,
+                color: color,
+                iconName: iconName,
+              }}
+              type={"notebook"}/>
           </div>
 
           <div
@@ -86,9 +101,9 @@ export const NotebookCard = ({id, title, description, iconName, color, noteCount
     </Card>
   )
 
-  if (isLinked) {
-    return <Link to={`/notebooks/${id}`}>{CardContent}</Link>;
-  }
+  // if (isLinked) {
+  //   return <Link to={`/notebooks/${id}`}>{CardContent}</Link>;
+  // }
 
-  return CardContent;
+  // return CardContent;
 }
