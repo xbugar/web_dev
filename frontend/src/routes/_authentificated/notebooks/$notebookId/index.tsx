@@ -2,8 +2,6 @@ import { NoteCard } from '@/components/cards/NoteCard';
 import { createFileRoute } from '@tanstack/react-router'
 import { NotebookCard } from '@/components/cards/NotebookCard';
 import { Section } from '@/components/section/Section';
-import { useParams } from "@tanstack/react-router";
-
 
 import {
   Pencil,
@@ -19,12 +17,15 @@ export const Route = createFileRoute('/_authentificated/notebooks/$notebookId/',
 
 
 function RouteComponent() {
-  const { notebookId } = useParams({ strict: false });
-  console.log(notebookId);
+  const { notebookId } = Route.useParams();
+  console.log("notebookId", notebookId);
+
   const { data: currentNotebook } = useNotebook(notebookId); {/*TODO*/}
+  console.log("currentNotebook", currentNotebook);
+
+
   const { data: notes } =  useNotesByNotebook(notebookId);
-  console.log(currentNotebook);
-  console.log(notes)
+  console.log("notes", notes);
 
   return (
     <>
@@ -32,7 +33,7 @@ function RouteComponent() {
       {currentNotebook && (
         <NotebookCard
           key={notebookId}
-          to={"/notebooks/$notebookId"}
+          id={notebookId}
           title={currentNotebook.title}
           description={currentNotebook.description}
           icon={currentNotebook.icon}
@@ -47,14 +48,14 @@ function RouteComponent() {
       <Section title={"Notes"} Icon={Plus} id={notebookId} type={"note"}/>
       <div className='flex flex-col gap-4'>
 
-        {notes && notes.map(({ id, title, updatedAt, tags }) => (
+        {notes && notes.map(({ id, title, color, updatedAt, tags }) => (
           <NoteCard
             key={id}
             parentId={currentNotebook.id}
             noteId={id}
             title={title}
             titleOfParent={currentNotebook.title}
-            color={currentNotebook.color}
+            color={color}
             lastUpdated={updatedAt}
             content={""} //TODO
             tags={tags}
