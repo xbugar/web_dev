@@ -8,3 +8,10 @@ export type Note = {
   updatedAt: string,
   tags?: Tag[]
 }
+
+export type CreateNote = {
+  title: string,
+  color: string,
+  notebookId?: string,
+}
+

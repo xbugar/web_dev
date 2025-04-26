@@ -8,13 +8,14 @@ export type Notebook = {
   createdAt: string,
   updatedAt: string,
   icon: string,
+  tags?: Tag[],
   noteCount: number,
-  tags?: Tag[]
 }
 
-export type NotebookDataRequest = {
-  title: string;
-  description: string;
-  color: string;
-  iconId: string;
+export type CreateNotebook = {
+  title: string,
+  description: string,
+  color: string,
+  iconId: string,
+  userId?: string
 }

@@ -2,70 +2,59 @@ import { NoteCard } from '@/components/cards/NoteCard';
 import { createFileRoute } from '@tanstack/react-router'
 import { NotebookCard } from '@/components/cards/NotebookCard';
 import { Section } from '@/components/section/Section';
-import { NotebookCardProps } from '@/components/cards/NotebookCard';
+import { useParams } from "@tanstack/react-router";
+
 
 import {
-  BookOpen,
-  ClipboardList,
   Pencil,
   Plus
 } from "lucide-react"
+import { useNotebook } from "@/hooks/useNotebook.ts";
+import { useNotesByNotebook } from "@/hooks/useNotesByNotebook.ts";
 
 
 export const Route = createFileRoute('/_authentificated/notebooks/$notebookId/',) ({
   component: RouteComponent,
 })
 
-function RouteComponent() {
 
-  const notebook: NotebookCardProps = {
-    to: "/notebooks/$notebookId",
-    title: "TODO",
-    description: "Personal tasks and project planning",
-    Icon: ClipboardList,
-    color: "purple",
-    noteCount: 15,
-    tags: [
-      { name: "planning", color: "purple" },
-      { name: "planning", color: "pink" },
-      { name: "planning", color: "purple" },
-      { name: "planning", color: "pink" },
-      { name: "planning", color: "pink" },
-      { name: "planning", color: "pink" },
-      { name: "planning", color: "pink" },
-      { name: "planning", color: "pink" },
-      { name: "planning", color: "pink" }
-    ],
-    lastUpdated: "4 days"
-  }
-  
+function RouteComponent() {
+  const { notebookId } = useParams({ strict: false });
+  const { data: currentNotebook } = useNotebook(notebookId);
+  const { data: notes } =  useNotesByNotebook(notebookId);
+
   return (
     <>
       <Section title={"Notebook preview"} Icon={Pencil}/>
-      <NotebookCard
-        to={"/notebooks/$notebookId"}
-        title={notebook.title}
-        description={notebook.description}
-        Icon={notebook.Icon}
-        color={notebook.color}
-        noteCount={notebook.noteCount}
-        tags={notebook.tags}
-        lastUpdated={notebook.lastUpdated}
-      />
+      {currentNotebook && (
+        <NotebookCard
+          to={"/notebooks/$notebookId"}
+          title={currentNotebook.title}
+          description={currentNotebook.description}
+          icon={currentNotebook.icon}
+          color={currentNotebook.color}
+          noteCount={currentNotebook.noteCount}
+          tags={currentNotebook.tags}
+          lastUpdated={currentNotebook.updatedAt}
+          isLinked={false}
+        />
+      )}
 
       <Section title={"Notes"} Icon={Plus}/>
       <div className='flex flex-col gap-4'>
-        <NoteCard
-          to="/notebooks/$notebookId/$noteId"
-          title="1. Lecture"
-          color="orange"
-          titleOfParent='PB006'
-          lastUpdated="2 "
-          content="something i wrote ..."
-          tags={[
-            {name:"programming", color: "blue"},
-            {name: "semester 3", color: "purple"}]}
-        />
+
+        {notes && notes.map(({ id, title, color, updatedAt, tags }) => (
+          <NoteCard
+            parentId={currentNotebook.id}
+            noteId={id}
+            title={title}
+            titleOfParent={currentNotebook.title}
+            color={color}
+            lastUpdated={updatedAt}
+            content={""} //TODO
+            tags={tags}
+          />
+        ))}
       </div>
     </>
   )

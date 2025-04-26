@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/dialog.tsx"
 
 import { useCreateNotebook} from "@/hooks/useCreateNotebook.ts"
-import { NotebookDataRequest } from "@/types/Notebook.ts";
+import { CreateNotebook } from "@/types/Notebook.ts";
 import { NotebookForm } from "@/components/dialogs/NotebookForm.tsx";
 
 type NotebookCreateDialogProps = {
@@ -18,7 +18,7 @@ type NotebookCreateDialogProps = {
 export const NotebookCreateDialog = ({ open, onOpenChange, userId} : NotebookCreateDialogProps ) => {
   const createNotebook = useCreateNotebook();
 
-  const handleCreate = (data: NotebookDataRequest) => {
+  const handleCreate = (data: CreateNotebook) => {
     createNotebook.mutate(
       { userId, data },
       {

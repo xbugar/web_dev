@@ -5,7 +5,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog.tsx"
 
-import { NotebookDataRequest } from "@/types/Notebook.ts";
+import { CreateNotebook } from "@/types/Notebook.ts";
 import { NotebookForm } from "@/components/dialogs/NotebookForm.tsx";
 import { useEditNotebook } from "@/hooks/useEditNotebook.ts";
 
@@ -13,13 +13,13 @@ type NotebookEditDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   userId: string;
-  initialData: NotebookDataRequest;
+  initialData: CreateNotebook;
 }
 
 export const NotebookEditDialog = ({ open, onOpenChange, userId, initialData } : NotebookEditDialogProps ) => {
   const createNotebook = useEditNotebook();
 
-  const handleCreate = (data: NotebookDataRequest) => {
+  const handleCreate = (data: CreateNotebook) => {
     createNotebook.mutate(
       { userId, data },
       {

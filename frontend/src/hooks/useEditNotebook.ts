@@ -1,12 +1,12 @@
 import { api } from "@/services";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Notebook, NotebookDataRequest } from "@/types/Notebook.ts";
+import { Notebook, CreateNotebook } from "@/types/Notebook.ts";
 
 export const useEditNotebook = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ userId, data } : {userId: string, data: NotebookDataRequest} ) => {
+    mutationFn: async ({ userId, data } : {userId: string, data: CreateNotebook} ) => {
       console.log(data);
       const response = await api.put(`/user/${userId}/notebook`, data);
       return response.data as Notebook;

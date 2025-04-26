@@ -8,7 +8,14 @@ import {
 
 import { Ellipsis, Pencil, Trash2, Copy, Tag, Star } from "lucide-react";
 
-export function NotebookNoteDropdown() {
+type DropdownType = 'note' | 'notebook';
+interface NotebookNoteDropdownProps {
+  type: DropdownType;
+}
+
+export function NotebookNoteDropdown({ type }: NotebookNoteDropdownProps) {
+
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -21,7 +28,12 @@ export function NotebookNoteDropdown() {
         <DropdownMenuItem> <Star className="text-text-lm-secondary dark:text-text-dm-secondary"/> Add to favourites </DropdownMenuItem>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem> <Pencil /> Rename </DropdownMenuItem>
+        {type === "notebook" && (
+          <DropdownMenuItem> <Pencil /> Edit notebook </DropdownMenuItem>
+        )}
+        {type === "note" && (
+          <DropdownMenuItem> <Pencil /> Rename </DropdownMenuItem>
+        )}
         <DropdownMenuItem> <Tag /> Edit tags </DropdownMenuItem>
         <DropdownMenuItem> <Copy /> Copy link</DropdownMenuItem>
 

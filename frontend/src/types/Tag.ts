@@ -3,3 +3,8 @@ export type Tag = {
   name: string,
   color: string,
 }
+
+export type CreateTag = {
+  name: string,
+  color: string,
+}
