@@ -57,7 +57,7 @@ async function createUserWithTags(name: string, mail: string, picture: ProfilePi
 
 async function main() {
     const picture = await addProfilePicture("prisma/mockData/default-profile.jpg");
-    const icon = await addIcon("prisma/mockData/exclamation.svg", "test");
+    const icon = await addIcon("prisma/mockData/exclamation.svg", "default");
 
 
     createUserWithEvents("Natalka", "example@mail.ls",picture).catch(ex => console.error("something went wrong: createUserWithEvents\n", ex));
