@@ -11,6 +11,9 @@ import { useState } from "react";
 import { NotebookEditDialog } from "@/components/dialogs/NotebookEditDialog.tsx";
 import { CreateNotebook } from "@/types/Notebook.ts";
 import { NoteEditDialog } from "@/components/dialogs/NoteEditDialog.tsx";
+import { Note } from "@/types/Note.ts";
+import { NotebookDeleteDialog } from "@/components/dialogs/NotebookDeleteDialog.tsx";
+import { NoteDeleteDialog } from "@/components/dialogs/NoteDeleteDialog.tsx";
 
 type DropdownType = 'note' | 'notebook';
 interface NotebookNoteDropdownProps {
@@ -21,7 +24,8 @@ interface NotebookNoteDropdownProps {
 
 
 export function NotebookNoteDropdown({ id, data, type }: NotebookNoteDropdownProps) {
-  const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
   return (
     <>
@@ -37,32 +41,51 @@ export function NotebookNoteDropdown({ id, data, type }: NotebookNoteDropdownPro
           <DropdownMenuSeparator />
 
           {type === "notebook" && (
-            <DropdownMenuItem onClick={() => setOpen(true)}> <Pencil /> Edit notebook </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setOpenEdit(true)}> <Pencil /> Edit notebook </DropdownMenuItem>
           )}
           {type === "note" && (
-            <DropdownMenuItem onClick={() => setOpen(true)}> <Pencil /> Rename </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setOpenEdit(true)}> <Pencil /> Rename </DropdownMenuItem>
           )}
           <DropdownMenuItem> <Tag /> Edit tags </DropdownMenuItem>
           <DropdownMenuItem> <Copy /> Copy link</DropdownMenuItem>
 
           <DropdownMenuSeparator />
-          <DropdownMenuItem variant="destructive"> <Trash2 /> Delete</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setOpenDelete(true)} variant="destructive"> <Trash2 /> Delete</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
+      {/* Edit dialogs */}
       {type === "notebook" && (
         <NotebookEditDialog
-          open={open}
-          onOpenChange={setOpen}
+          open={openEdit}
+          onOpenChange={setOpenEdit}
           notebookId={id}
-          initialData={data} />
+          initialData={data}
+        />
       )}
       {type === "note" && (
         <NoteEditDialog
-        open={open}
-        onOpenChange={setOpen}
-        noteId={id}
-        initialData={data}/>
+          open={openEdit}
+          onOpenChange={setOpenEdit}
+          noteId={id}
+          initialData={data}
+        />
+      )}
+
+      {/* Delete dialogs */}
+      {type === "notebook" && (
+        <NotebookDeleteDialog
+          open={openDelete}
+          onOpenChange={setOpenDelete}
+          notebookId={id}
+        />
+      )}
+      {type === "note" && (
+        <NoteDeleteDialog
+          open={openDelete}
+          onOpenChange={setOpenDelete}
+          noteId={id}
+        />
       )}
     </>
   )
