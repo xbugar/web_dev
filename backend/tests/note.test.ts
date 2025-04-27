@@ -66,13 +66,13 @@ describe("/note", async () => {
                 where:
                     {
                         userId: id,
-                        title: "notebucik",
+                        title: "note-test-notebook",
                     }
             });
             expect(body).toMatchObject(
                 {
                     id: notebook.id,
-                    title: "notebucik",
+                    title: "note-test-notebook",
                     description: "neeimeme",
                     color: "green",
                     iconName : "test",
