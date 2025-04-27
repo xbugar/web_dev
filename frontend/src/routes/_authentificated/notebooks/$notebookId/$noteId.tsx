@@ -1,10 +1,9 @@
-import { NotebookCard, NotebookCardProps } from '@/components/cards/NotebookCard'
 import MarkdownEditor from '@/components/editor/MarkdownEditor'
 import { Section } from '@/components/section/Section'
 import { createFileRoute } from '@tanstack/react-router'
 import { Pencil } from 'lucide-react'
-import { useParams } from "@tanstack/react-router";
 import { useNoteMetaData } from "@/hooks/useNoteMetaData.ts";
+import { useGetNoteContent } from "@/hooks/useGetNoteContent.ts";
 
 
 export const Route = createFileRoute(
@@ -14,13 +13,27 @@ export const Route = createFileRoute(
 })
 
 function RouteComponent() {
-  const { noteId } = useParams({ strict: false });
-  const { data: noteData } = useNoteMetaData(noteId);
+  const { noteId } = Route.useParams();
+  const { data: noteData, status: metadataStatus, error: metadataErr } = useNoteMetaData(noteId);
+  const { data: noteContent, status: contentStatus, error: contentErr } = useGetNoteContent(noteId);
+
+  if (metadataStatus === "pending" || contentStatus === "pending") {
+    return <div>Loading...</div>
+  }
+
+  if (metadataStatus === "error") {
+    return <div>Error: {metadataErr.message}</div>
+  }
+
+  if (contentStatus === "error") {
+    return <div>Error: {contentErr.message}</div>
+  }
+
   return (
     <>
-      <Section title={noteData?.title ?? "Note"} Icon={Pencil}/>
+      <Section title={noteData?.title ?? "Note"} Icon={Pencil} id={noteId} type={"note"}/>
 
-      <MarkdownEditor />
+      <MarkdownEditor initialData={noteContent}/>
     </>
   )
 }
