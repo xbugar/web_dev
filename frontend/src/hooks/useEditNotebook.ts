@@ -11,7 +11,8 @@ export const useEditNotebook = () => {
       const response = await api.put(`/notebook/${notebookId}`, data);
       return response.data as Notebook;
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({queryKey: ["notebooks", variables.notebookId]});
       queryClient.invalidateQueries({queryKey: ["notebooks"]});
     }
   })
