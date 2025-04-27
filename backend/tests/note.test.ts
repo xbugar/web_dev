@@ -39,7 +39,7 @@ describe("/note", async () => {
             const url = "/user/" + id + "/notebook";
             const {status, body} = await request(app).post(url).send(
                 {
-                    title: "notebucik",
+                    title: "note-test-notebook",
                     description: "neeimeme",
                     color: "green",
                     iconName: "test"
