@@ -5,7 +5,7 @@ export const notesRouter = Router();
 
 notesRouter.get("/:noteId", notesController.getNoteMeta);
 notesRouter.put("/:noteId", notesController.updateNoteMeta);
-notesRouter.delete("/:noteid", notesController.deleteNote);
+notesRouter.delete("/:noteId", notesController.deleteNote);
 notesRouter.get("/:noteId/Content", notesController.getNoteContent);
 notesRouter.put("/:noteId/Content", notesController.updateNoteContent);
 notesRouter.post("/:noteId/tag/:tagId", notesController.addNoteTag);
