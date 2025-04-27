@@ -115,7 +115,7 @@ export function SignupForm() {
                     />
                 </div>
 
-                <Button type="submit" variant="login">
+                <Button type="submit" variant="customSubmit">
                     Create account
                 </Button>
             </form>
