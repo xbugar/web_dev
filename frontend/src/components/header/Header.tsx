@@ -6,6 +6,7 @@ import {
   User
 } from "lucide-react"
 import { HeaderBackButton } from "./HeaderBackButton";
+import { Link } from "@tanstack/react-router";
 
 export function Header() {
   return (
@@ -15,7 +16,7 @@ export function Header() {
         style={{ backgroundImage: `url(${gradient})` }}
       >
         <HeaderBackButton Icon={ArrowLeft}/>
-        <h1 className="text-white font-bold text-3xl font-serif">gradia.</h1>
+        <Link to={"/home"}><h1 className="text-white font-bold text-3xl font-serif">gradia.</h1></Link>
         <HeaderButton to={"/"} Icon={User}/>
       </div>
     </header>

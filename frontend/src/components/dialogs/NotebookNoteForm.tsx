@@ -137,7 +137,7 @@ export function NotebookNoteForm({ type, initialData, onSubmit, isSubmitting, su
         </>
       )}
 
-      <Button type="submit" onClick={handleSubmit} disabled={isSubmitting}>
+      <Button type="submit" variant="customSubmit" onClick={handleSubmit} disabled={isSubmitting}>
         {isSubmitting ? "Saving..." : submitText}
       </Button>
     </div>
