@@ -63,6 +63,10 @@ export const defaultPP = async () => {
 }
 
 export const defaultIcon = async () => {
+    const icon = await prisma.icon.findFirst({where: {name: "test"}});
+    if (icon !== null) {
+        return icon;
+    }
     const file = readFileSync("prisma/mockData/default-profile.jpg");
     return prisma.icon.create({
         data: {
