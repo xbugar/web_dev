@@ -6,13 +6,12 @@ export const useEditNotebook = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ["notebooks"],
     mutationFn: async ({ notebookId, data } : {notebookId: string, data: CreateNotebook} ) => {
       const response = await api.put(`/notebook/${notebookId}`, data);
       return response.data as Notebook;
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({queryKey: ["notebooks", variables.notebookId]});
+      queryClient.invalidateQueries({queryKey: ["notebooks", variables.notebookId, "notes"]});
       queryClient.invalidateQueries({queryKey: ["notebooks"]});
     }
   })

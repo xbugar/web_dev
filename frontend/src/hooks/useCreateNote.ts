@@ -6,13 +6,12 @@ export const useCreateNote = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ["notes"],
     mutationFn: async ({ notebookId, data } : {notebookId: string, data: CreateNote} ) => {
       const response = await api.post(`/notebook/${notebookId}/note`, data);
       return response.data as Note;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["notes"]});
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({queryKey: ["notebooks", variables.notebookId]});
     }
   })
 }

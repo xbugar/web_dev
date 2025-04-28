@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { getNotesFromNotebook } from "@/services/notebookService.ts";
 
-export const useNotesByNotebook = (id: string) => {
+export const useNotesByNotebook = (notebookId: string) => {
   return useQuery({
-    queryKey: ["notes"],
-    queryFn: () => getNotesFromNotebook(id),  })
+    queryKey: ["notebooks", notebookId, "notes"],
+    queryFn: () => getNotesFromNotebook(notebookId),  })
 }

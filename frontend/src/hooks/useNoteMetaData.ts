@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { getNoteMetadata } from "@/services/noteService.ts";
 
-export const useNoteMetaData = (id: string) => {
+export const useNoteMetaData = (noteId: string) => {
   return useQuery({
-    queryKey: ["note", id, "metaData"],
-    queryFn: () => getNoteMetadata(id),  })
+    queryKey: ["notes", noteId, "metadata"],
+    queryFn: () => getNoteMetadata(noteId),  })
 }

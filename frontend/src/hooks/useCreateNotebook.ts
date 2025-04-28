@@ -6,7 +6,6 @@ export const useCreateNotebook = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ["notebooks"],
     mutationFn: async ({ userId, data } : {userId: string, data: CreateNotebook} ) => {
       const response = await api.post(`/user/${userId}/notebook`, data);
       return response.data as Notebook;
