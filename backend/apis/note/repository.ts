@@ -51,7 +51,7 @@ export const noteRepository = {
                 tags: data.query.withTags,
             },
             where: {
-                noteId: data.params.noteId
+                id: data.params.noteId
             },
         }).then(result => Result.ok(result))
             .catch(() => Result.err(new NotFoundError()));
