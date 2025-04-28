@@ -14,10 +14,11 @@ type NoteDeleteDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   noteId: string;
+  notebookId: string;
 }
 
-export const NoteDeleteDialog = ({ open, onOpenChange, noteId} : NoteDeleteDialogProps) => {
-  const deleteNote = useDeleteNote();
+export const NoteDeleteDialog = ({ open, onOpenChange, noteId, notebookId } : NoteDeleteDialogProps) => {
+  const deleteNote = useDeleteNote({notebookId});
 
   const handleDelete = () => {
     deleteNote.mutate(noteId);

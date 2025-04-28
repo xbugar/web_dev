@@ -5,7 +5,6 @@ export const useDeleteNotebook = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ["notebooks"],
     mutationFn: async (notebookId: string) => {
       await api.delete(`/notebook/${notebookId}`);
     },

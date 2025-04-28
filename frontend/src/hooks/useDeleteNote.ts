@@ -1,16 +1,15 @@
 import { api } from "@/services";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useDeleteNote = () => {
+export const useDeleteNote = ({notebookId} : {notebookId: string}) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ["notes"],
     mutationFn: async (noteId: string) => {
       await api.delete(`/note/${noteId}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["notes"]});
+      queryClient.invalidateQueries({queryKey: ["notebooks", notebookId, "notes"]});
     }
   })
 }
