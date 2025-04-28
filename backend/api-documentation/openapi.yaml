@@ -21,37 +21,37 @@ tags:
     description: Fetching data related to tags
 paths:
 
-  /note:
-    post:
-      tags:
-        - note
-      summary:  Create a new note in a notebook specified by notebookId. v2
-      description: Add a new note.
-      operationId: addNotev2
-      requestBody:
-        description: Create a new note
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateNotev2'
-        required: true
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Note'
-        '400':
-          description: Invalid input
-        '422':
-          description: Validation exception
-        default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+#  /note:
+#    post:
+#      tags:
+#        - note
+#      summary:  Create a new note in a notebook specified by notebookId. v2
+#      description: Add a new note.
+#      operationId: addNotev2
+#      requestBody:
+#        description: Create a new note
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/CreateNotev2'
+#        required: true
+#      responses:
+#        '200':
+#          description: Successful operation
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Note'
+#        '400':
+#          description: Invalid input
+#        '422':
+#          description: Validation exception
+#        default:
+#          description: Unexpected error
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
 
 
 
