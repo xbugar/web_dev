@@ -2,70 +2,72 @@ import { NoteCard } from '@/components/cards/NoteCard';
 import { createFileRoute } from '@tanstack/react-router'
 import { NotebookCard } from '@/components/cards/NotebookCard';
 import { Section } from '@/components/section/Section';
-import { NotebookCardProps } from '@/components/cards/NotebookCard';
 
 import {
-  BookOpen,
-  ClipboardList,
-  Pencil,
   Plus
 } from "lucide-react"
+import { useNotebook } from "@/hooks/useNotebook.ts";
+import { useNotesByNotebook } from "@/hooks/useNotesByNotebook.ts";
 
 
 export const Route = createFileRoute('/_authentificated/notebooks/$notebookId/',) ({
   component: RouteComponent,
 })
 
-function RouteComponent() {
 
-  const notebook: NotebookCardProps = {
-    to: "/notebooks/$notebookId",
-    title: "TODO",
-    description: "Personal tasks and project planning",
-    Icon: ClipboardList,
-    color: "purple",
-    noteCount: 15,
-    tags: [
-      { name: "planning", color: "purple" },
-      { name: "planning", color: "pink" },
-      { name: "planning", color: "purple" },
-      { name: "planning", color: "pink" },
-      { name: "planning", color: "pink" },
-      { name: "planning", color: "pink" },
-      { name: "planning", color: "pink" },
-      { name: "planning", color: "pink" },
-      { name: "planning", color: "pink" }
-    ],
-    lastUpdated: "4 days"
+function RouteComponent() {
+  const { notebookId } = Route.useParams();
+
+  const { data: currentNotebook, isPending: isPendingNotebook, isError: isErrorNotebook, error: errorNotebook } = useNotebook(notebookId); {/*TODO*/}
+
+  const { data: notes, isPending: isPendingNote, isError: isErrorNote, error: errorNote } =  useNotesByNotebook(notebookId);
+
+  if (isPendingNotebook || isPendingNote ) {
+    return <div>Loading...</div>
   }
-  
+
+  if (isErrorNotebook) {
+    return <div>Error: {errorNotebook.message}</div>
+  }
+
+  if (isErrorNote) {
+    return <div>Error: {errorNote.message}</div>
+  }
+
   return (
     <>
-      <Section title={"Notebook preview"} Icon={Pencil}/>
-      <NotebookCard
-        to={"/notebooks/$notebookId"}
-        title={notebook.title}
-        description={notebook.description}
-        Icon={notebook.Icon}
-        color={notebook.color}
-        noteCount={notebook.noteCount}
-        tags={notebook.tags}
-        lastUpdated={notebook.lastUpdated}
-      />
-
-      <Section title={"Notes"} Icon={Plus}/>
-      <div className='flex flex-col gap-4'>
-        <NoteCard
-          to="/notebooks/$notebookId/$noteId"
-          title="1. Lecture"
-          color="orange"
-          titleOfParent='PB006'
-          lastUpdated="2 "
-          content="something i wrote ..."
-          tags={[
-            {name:"programming", color: "blue"},
-            {name: "semester 3", color: "purple"}]}
+      <Section title={"Notebook preview"} id={notebookId} type={"notebook"}/>
+      {currentNotebook && (
+        <NotebookCard
+          key={notebookId}
+          id={notebookId}
+          title={currentNotebook.title}
+          description={currentNotebook.description}
+          iconName={currentNotebook.iconName}
+          color={currentNotebook.color}
+          noteCount={currentNotebook.noteCount}
+          tags={currentNotebook.tags}
+          lastUpdated={currentNotebook.updatedAt}
+          isLinked={false}
         />
+      )}
+
+      <Section title={"Notes"} Icon={Plus} id={notebookId} type={"note"}/>
+      <div className='flex flex-col gap-4'>
+
+        {notes && notes.map(({ id, title, updatedAt, tags }) => (
+          <NoteCard
+            key={id}
+            parentId={currentNotebook.id}
+            noteId={id}
+            title={title}
+            titleOfParent={currentNotebook.title}
+            color={currentNotebook.color}
+            lastUpdated={updatedAt}
+            content={""} //TODO
+            tags={tags}
+          />
+        ))}
       </div>
     </>
   )

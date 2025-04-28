@@ -84,7 +84,7 @@ export function LoginForm() {
                         />
                     </div>
 
-                <Button type="submit" variant="login">
+                <Button type="submit" variant="customSubmit">
                     Log in
                 </Button>
             </form>
