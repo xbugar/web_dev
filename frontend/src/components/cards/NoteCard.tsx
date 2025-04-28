@@ -33,7 +33,8 @@ export function NoteCard( { parentId, noteId, title, titleOfParent, color, lastU
         <div className="flex justify-between items-center self-stretch">
           <Link to={`/notebooks/${parentId}/${noteId}`}><CardTitle>{title}</CardTitle></Link>
           <NotebookNoteDropdown
-            id={noteId}
+            noteId={noteId}
+            notebookId={parentId}
             data={{
               title: title
             }}

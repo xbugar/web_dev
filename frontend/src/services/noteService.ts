@@ -5,7 +5,6 @@ export const getNoteMetadata = async (id: string) : Promise<Note> => {
   return api.get(`/note/${id}`).then(response => response.data as Note);
 }
 
-export const getNoteContent = async (id: string) : Promise<string> => {
+export const getNoteContent = async (id: string) : Promise<{ content: string }> => {
   return api.get(`/note/${id}/content`).then(response => response.data);
 }
-

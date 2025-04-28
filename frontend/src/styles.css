@@ -186,3 +186,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+.ProseMirror {
+  outline: none !important;
+  border: none !important;
+  padding: 0 !important;
+  min-height: 150px; /* still needed so it's not tiny */
+  background: transparent !important;
+  box-shadow: none !important;
+}
