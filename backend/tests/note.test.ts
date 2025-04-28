@@ -2,13 +2,12 @@ import {describe, expect, it} from "vitest";
 import request from "supertest";
 import app from "../test.index";
 import {prisma} from "./utils/prisma";
-import {defaultIcon} from "../apis/utils";
 
 describe("/note", async () => {
     describe("happy path", async () => {
         let id: string;
         let notebookId: string;
-        let tagId: string;
+        //let tagId: string;
         let noteid: string;
         it('creates a user in database and sends it back with 200', async () => {
             const {status, body} = await request(app).post('/user').send({
@@ -35,7 +34,6 @@ describe("/note", async () => {
 
         it(`should return 200 and create a notebook`, async () => {
 
-            const icon = await defaultIcon();
             const url = "/user/" + id + "/notebook";
             const {status, body} = await request(app).post(url).send(
                 {
