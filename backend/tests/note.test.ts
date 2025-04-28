@@ -9,7 +9,7 @@ describe("/note", async () => {
         let id: string;
         let notebookId: string;
         let tagId: string;
-        let noteid:string;
+        let noteid: string;
         it('creates a user in database and sends it back with 200', async () => {
             const {status, body} = await request(app).post('/user').send({
                 firstName: 'John',
@@ -17,7 +17,7 @@ describe("/note", async () => {
                 email: 'john_note@doe.com',
                 password: '123456',
             });
-            console.log(body);
+
             const newUser = await prisma.user.findFirst({where: {email: "john_note@doe.com"}});
             // 3
             expect(status).toBe(200);
@@ -45,7 +45,7 @@ describe("/note", async () => {
                     iconName: "test"
                 }
             );
-            console.log(body);
+
 
             expect(status).toBe(200);
             const notebook = await prisma.notebook.findFirstOrThrow({
@@ -75,7 +75,7 @@ describe("/note", async () => {
                     title: "note-test-notebook",
                     description: "neeimeme",
                     color: "green",
-                    iconName : "test",
+                    iconName: "test",
                     createdAt: notebook.createdAt.toJSON(),
                     updatedAt: notebook.updatedAt.toJSON(),
                     noteCount: notebook._count.notes,
@@ -88,7 +88,7 @@ describe("/note", async () => {
             const {status, body} = await request(app).post(`/notebook/${notebookId}/note`).send({
                 title: "notikk",
             });
-            console.log(body);
+
             expect(status).toBe(200);
             expect(body).toMatchObject({
                 title: "notikk",
@@ -96,12 +96,34 @@ describe("/note", async () => {
             noteid = body.id;
         });
 
-        it('should retrieve the creeated note', async () => {
+        it('should retrieve the created note', async () => {
             const {status, body} = await request(app).get(`/note/${noteid}`).send({});
+            expect(status).toBe(200);
+            expect(body).toMatchObject({
+                title: "notikk",
+            });
+        });
+
+        it('should add content to the note', async () => {
+            const {
+                status,
+                body
+            } = await request(app).put(`/note/${noteid}/content`).send({content:"this is a content of a note"});
             console.log(body);
             expect(status).toBe(200);
-
-
+            const note = await prisma.note.findUniqueOrThrow({
+                where: {
+                    id: noteid
+                }, select: {content: true}
+            });
+            expect(note.content).toStrictEqual("this is a content of a note");
         });
+
+        it('should retrieve the content of a note',async ()=>{
+            const{ status, body} = await request(app).get(`/note/${noteid}/content/`).send();
+            console.log(body);
+            expect(status).toBe(200);
+            expect(body).toStrictEqual({content:"this is a content of a note"});
+        })
     });
 });
