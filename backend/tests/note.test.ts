@@ -125,5 +125,17 @@ describe("/note", async () => {
             expect(status).toBe(200);
             expect(body).toStrictEqual({content:"this is a content of a note"});
         })
+
+        it('should retrieve note and notebook update time and they match',async () => {
+            const {status:statusNote, body:note} = await request(app).get(`/note/${noteid}`).send({});
+            expect(statusNote).toBe(200);
+            expect(note).toMatchObject({
+                title: "notikk",
+            });
+            const {status:statusNotebook, body:notebook} = await request(app).get(`/notebook/${notebookId}`).send({});
+
+            expect(statusNotebook).toBe(200);
+            expect(note.updatedAt).toStrictEqual(notebook.updatedAt);
+        })
     });
 });
