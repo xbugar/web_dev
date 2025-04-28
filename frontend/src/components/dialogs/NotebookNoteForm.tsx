@@ -3,6 +3,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { useState } from "react"
+import { AccentColor, iconColor } from "@/components/cards/cardColors.tsx";
+import { cn } from "@/lib/utils";
 
 const availableColors = [
   { label: "Red", value: "red" },
@@ -109,6 +111,7 @@ export function NotebookNoteForm({ type, initialData, onSubmit, isSubmitting, su
               <SelectContent>
                 {availableColors.map(({ label, value }) => (
                   <SelectItem key={value} value={value}>
+                    <div className={cn("w-1 h-4 rounded-2xl", iconColor[value as AccentColor])}></div>
                     {label}
                   </SelectItem>
                 ))}

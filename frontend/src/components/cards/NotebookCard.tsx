@@ -22,22 +22,22 @@ export type NotebookCardProps = {
   iconName: string;
   color: string;
   noteCount: number;
-  lastUpdated: string; // todo
-  tags?: { name: string; color: TagColor}[];
+  lastUpdated: string;
+  tags?: { name: string; color: string}[];
   isLinked?: boolean;
 }
 
 export const NotebookCard = ({id, title, description, iconName, color, noteCount, lastUpdated, tags, isLinked = true}: NotebookCardProps) => {
-  const Icon = iconMap[iconName];
+  const Icon : LucideIcon = iconMap[iconName];
   const timeAgo = formatDistanceToNow(new Date(lastUpdated), { addSuffix: true });
-  console.log("som v notecard", id);
+  console.log(tags);
   return (
-    <Card className={cn("flex border-l-10 overflow-hidden p-0 py-4 gap-4", lineColor[color as AccentColor])}> {/*TODO*/}
+    <Card className={cn("flex border-l-10 overflow-hidden p-0 py-4 gap-4", lineColor[color as AccentColor])}>
 
       <CardHeader className="flex pl-0 pr-4 gap-2 items-center justify-start">
 
-        <div className={cn("p-2.5 rounded-r-md", iconColor[color as AccentColor])}>  {/*TODO*/}
-          <BookOpen className="text-white w-6 h-6"/> {/*TODO*/}
+        <div className={cn("p-2.5 rounded-r-md", iconColor[color as AccentColor])}>
+          <BookOpen className="text-white w-6 h-6"/>
         </div>
 
         <div className="flex flex-col w-full gap-1">
@@ -84,7 +84,7 @@ export const NotebookCard = ({id, title, description, iconName, color, noteCount
 
               <div className="flex pl-4 gap-2 overflow-x-auto hide-scrollbar relative">
                 {tags.map((tag, index) => (
-                  <Tag name={tag.name} color={"blue"} key={index}></Tag> // TODO
+                  <Tag name={tag.name} color={tag.color as TagColor} key={index}></Tag>
                 ))}
                   <div className="ml-5"></div>
               </div>
