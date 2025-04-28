@@ -6,7 +6,7 @@ import {
 
 export type Tag = {
     id: string;
-    tag: string;
+    name: string;
     color: string;
     userId: string;
 };

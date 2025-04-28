@@ -1,10 +1,10 @@
 import { prisma } from "../client"
 
-export async function createTag(userId: string, tag: string, color: string) {
+export async function createTag(userId: string, name: string, color: string) {
     return prisma.tag.create({
         data: {
             userId: userId,
-            tag: tag,
+            name: name,
             color: color
         }
     })

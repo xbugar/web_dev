@@ -8,7 +8,7 @@ export const tagRepository = {
         return prisma.tag.create({
             data: {
                 userId: tag.userId,
-                tag: tag.tag,
+                name: tag.name,
                 color: tag.color
             }
         }).then(result => Result.ok(result))
@@ -37,7 +37,7 @@ export const tagRepository = {
                 id: tag.params.tagId
             },
             data: {
-                tag: tag.body.tag,
+                name: tag.body.name,
                 color: tag.body.color
             }
         }).then(result => Result.ok(result))

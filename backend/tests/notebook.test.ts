@@ -185,7 +185,7 @@ describe("/notebook", async () => {
         it("should add new tag to the notebook", async () => {
             const tag = await prisma.tag.create({
                 data: {
-                    tag: "testovaci tag",
+                    name: "testovaci tag",
                     color: "purple",
                     userId: id,
                 }
