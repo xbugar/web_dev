@@ -8,7 +8,7 @@ import {
 import { Link } from "@tanstack/react-router";
 import { AccentColor, iconColor, lineColor } from "@/components/cards/cardColors";
 import { NotebookNoteDropdown } from "@/components/NotebookNoteDropdown";
-import { LucideIcon, Notebook, Timer } from "lucide-react";
+import { BookOpen, LucideIcon, Notebook, Timer } from "lucide-react";
 import { Tag, TagColor } from "@/components/Tag"
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from 'date-fns';
@@ -37,7 +37,7 @@ export const NotebookCard = ({id, title, description, iconName, color, noteCount
       <CardHeader className="flex pl-0 pr-4 gap-2 items-center justify-start">
 
         <div className={cn("p-2.5 rounded-r-md", iconColor[color as AccentColor])}>
-          <Icon className="text-white w-6 h-6"/>
+          <BookOpen className="text-white w-6 h-6"/>
         </div>
 
         <div className="flex flex-col w-full gap-1">
