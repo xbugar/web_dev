@@ -4,7 +4,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu.tsx";
 
 import { Ellipsis, Pencil, Trash2, Copy, Tag, Star } from "lucide-react";
 import { useState } from "react";

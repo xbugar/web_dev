@@ -7,9 +7,9 @@ import {
 
 import { Link  } from "@tanstack/react-router"
 import { AccentColor, lineColor } from "@/components/cards/cardColors"
-import { NotebookNoteDropdown } from "@/components/NotebookNoteDropdown"
+import { NotebookNoteDropdown } from "@/components/cards/NotebookNoteDropdown.tsx"
 import { Timer } from "lucide-react"
-import { Tag, TagColor } from "@/components/Tag"
+import { Tag, TagColor } from "@/components/cards/Tag.tsx"
 import { cn } from "@/lib/utils.ts";
 import { formatDistanceToNow } from 'date-fns';
 

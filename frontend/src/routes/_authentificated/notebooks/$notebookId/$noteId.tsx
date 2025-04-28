@@ -1,8 +1,7 @@
 import { Section } from '@/components/section/Section'
 import { createFileRoute } from '@tanstack/react-router'
-import { Pencil } from 'lucide-react'
 import { useNoteMetaData } from "@/hooks/useNoteMetaData.ts";
-import Editor from "@/components/Editor.tsx";
+import Editor from "@/components/editor/Editor.tsx";
 
 export const Route = createFileRoute(
   '/_authentificated/notebooks/$notebookId/$noteId',
