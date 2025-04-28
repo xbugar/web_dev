@@ -13,11 +13,12 @@ type NoteEditDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   noteId: string;
+  notebookId: string;
   initialData: Note;
 }
 
-export const NoteEditDialog = ({ open, onOpenChange, noteId, initialData } : NoteEditDialogProps ) => {
-  const editNote = useEditNote();
+export const NoteEditDialog = ({ open, onOpenChange, noteId, notebookId, initialData } : NoteEditDialogProps ) => {
+  const editNote = useEditNote({notebookId});
 
   const handleEdit = (data: CreateNote) => {
     editNote.mutate(

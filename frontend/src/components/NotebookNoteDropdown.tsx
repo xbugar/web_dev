@@ -17,13 +17,14 @@ import { NoteDeleteDialog } from "@/components/dialogs/NoteDeleteDialog.tsx";
 
 type DropdownType = 'note' | 'notebook';
 interface NotebookNoteDropdownProps {
-  id: string;
+  notebookId: string;
+  noteId: string;
   data: CreateNotebook | Note;
   type: DropdownType;
 }
 
 
-export function NotebookNoteDropdown({ id, data, type }: NotebookNoteDropdownProps) {
+export function NotebookNoteDropdown({ notebookId, noteId, data, type }: NotebookNoteDropdownProps) {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
@@ -59,7 +60,7 @@ export function NotebookNoteDropdown({ id, data, type }: NotebookNoteDropdownPro
         <NotebookEditDialog
           open={openEdit}
           onOpenChange={setOpenEdit}
-          notebookId={id}
+          notebookId={notebookId}
           initialData={data}
         />
       )}
@@ -67,7 +68,8 @@ export function NotebookNoteDropdown({ id, data, type }: NotebookNoteDropdownPro
         <NoteEditDialog
           open={openEdit}
           onOpenChange={setOpenEdit}
-          noteId={id}
+          noteId={noteId}
+          notebookId={notebookId}
           initialData={data}
         />
       )}
@@ -77,14 +79,15 @@ export function NotebookNoteDropdown({ id, data, type }: NotebookNoteDropdownPro
         <NotebookDeleteDialog
           open={openDelete}
           onOpenChange={setOpenDelete}
-          notebookId={id}
+          notebookId={notebookId}
         />
       )}
       {type === "note" && (
         <NoteDeleteDialog
           open={openDelete}
           onOpenChange={setOpenDelete}
-          noteId={id}
+          noteId={noteId}
+          notebookId={notebookId}
         />
       )}
     </>
