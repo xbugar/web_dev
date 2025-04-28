@@ -6,7 +6,7 @@ export type Note = {
   createdAt: string,
   updatedAt: string,
   tags?: Tag[]
-  notebook: [id: string, color:string],
+  notebook: { id: string; color: string },
 }
 
 export type CreateNote = {
