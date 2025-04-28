@@ -57,13 +57,12 @@ const getNoteContent = async (req: Request, res: Response) => {
 
     const noteId = request.params.noteId;
 
-    const newTag = await noteRepository.getContent(noteId);
-    if (newTag.isErr) {
-        handleRepositoryErrors(newTag.error, res);
+    const content = await noteRepository.getContent(noteId);
+    if (content.isErr) {
+        handleRepositoryErrors(content.error, res);
         return;
     }
-
-    res.status(200).send(newTag.value);
+    res.status(200).send({content:content.unwrap()});
 };
 
 
@@ -71,13 +70,13 @@ const updateNoteContent = async (req: Request, res: Response) => {
     const request = await parseRequest(updateNoteContentRequestSchema, req, res);
     if (request === null) return;
 
-    const newTag = await noteRepository.updateContent(request);
-    if (newTag.isErr) {
-        handleRepositoryErrors(newTag.error, res);
+    const content = await noteRepository.updateContent(request);
+    if (content.isErr) {
+        handleRepositoryErrors(content.error, res);
         return;
     }
 
-    res.status(200).send(newTag.value);
+    res.status(200).send(content.value);
 };
 
 const addNoteTag = async (req: Request, res: Response) => {
