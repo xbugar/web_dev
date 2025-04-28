@@ -1,17 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { getNotebookById } from "@/services/notebookService.ts";
 
-export function useNotebook(id: string)  {
+export function useNotebook(notebookId: string)  {
   return useQuery({
-    queryKey: ["notebooks", id],
+    queryKey: ["notebooks", notebookId],
     queryFn: () => {
-      if (!id) {
-        return Promise.reject(new Error("No notebook ID provided"));
-      }
-      return getNotebookById(id);
+    //   if (!notebookId) {
+    //     return Promise.reject(new Error("No notebook ID provided"));
+    //   }
+      return getNotebookById(notebookId);
     },
-    enabled: !!id,
-    retry: 1,
-    staleTime: 1000 * 60 * 5,
+    // enabled: !!notebookId,
+    // retry: 1,
+    // staleTime: 1000 * 60 * 5,
   });
+
 }

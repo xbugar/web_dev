@@ -52,7 +52,8 @@ export const NotebookCard = ({id, title, description, iconName, color, noteCount
             )}
             </CardTitle>
             <NotebookNoteDropdown
-              id={id}
+              notebookId={id}
+              noteId={""}
               data={{
                 title: title,
                 description: description,
