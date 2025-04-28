@@ -1,6 +1,38 @@
 
 stages:
+  - eslint
+  - typecheck
   - integration-test
+
+eslint-backend:
+  image: node:20
+  stage: eslint
+  tags:
+    - shared-fi
+  script:
+    - cd backend
+    - npm install
+    - npm run lint
+
+eslint-frontend:
+  image: node:20
+  stage: eslint
+  tags:
+    - shared-fi
+  script:
+    - cd frontend
+    - npm install
+    - npm run lint
+
+typecheck-backend:
+  image: node:20
+  stage: typecheck
+  tags:
+    - shared-fi
+  script:
+    - cd frontend
+    - npm install
+    - npm run typecheck
 
 integration-test:
 
