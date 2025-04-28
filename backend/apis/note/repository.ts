@@ -34,7 +34,7 @@ export const noteRepository = {
     },
 
     async getMeta(data: GetMeta): Promise<Result<NoteMeta[]>> {
-        return prisma.note.findMany({
+        return prisma.note.findUniqueOrThrow({
             select: {
                 id: true,
                 title: true,
@@ -51,10 +51,10 @@ export const noteRepository = {
                 tags: data.query.withTags,
             },
             where: {
-                notebookId: data.params.noteId
+                noteId: data.params.noteId
             },
         }).then(result => Result.ok(result))
-            .catch(() => Result.err(new InternalError()));
+            .catch(() => Result.err(new NotFoundError()));
     },
 
     async delete(id: string): Promise<Result<null>> {
