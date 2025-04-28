@@ -155,7 +155,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
   
-  /note/{noteId}/content/:
+  /note/{noteId}/content:
     get:
       tags:
         - note
