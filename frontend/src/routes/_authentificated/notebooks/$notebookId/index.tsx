@@ -43,10 +43,10 @@ function RouteComponent() {
           id={notebookId}
           title={currentNotebook.title}
           description={currentNotebook.description}
-          icon={currentNotebook.icon}
+          iconName={currentNotebook.iconName}
           color={currentNotebook.color}
           noteCount={currentNotebook.noteCount}
-          // tags={currentNotebook.tags}
+          tags={currentNotebook.tags}
           lastUpdated={currentNotebook.updatedAt}
           isLinked={false}
         />
@@ -65,7 +65,7 @@ function RouteComponent() {
             color={currentNotebook.color}
             lastUpdated={updatedAt}
             content={""} //TODO
-            // tags={tags}
+            tags={tags}
           />
         ))}
       </div>

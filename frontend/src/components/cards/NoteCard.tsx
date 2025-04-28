@@ -22,7 +22,7 @@ type NoteCardProps = {
   color: string
   lastUpdated: string
   content: string
-  tags?: { name: string; color: TagColor}[]
+  tags?: { name: string; color: string}[]
 }
 
 export function NoteCard( { parentId, noteId, title, titleOfParent, color, lastUpdated, content, tags }: NoteCardProps ) {
@@ -48,8 +48,8 @@ export function NoteCard( { parentId, noteId, title, titleOfParent, color, lastU
         </div>
       </CardHeader>
       <div className="flex pl-3 pr-3 gap-2">
-      {tags && tags.map((tag, index) => ( //TODO
-              <Tag name={tag.name} color={tag.color} key={index}></Tag>
+      {tags && tags.map((tag, index) => (
+              <Tag name={tag.name} color={tag.color as TagColor} key={index}></Tag>
           ))}
       </div>
       <CardDescription className="pl-3 pr-3 pb-3"> {content} </CardDescription>

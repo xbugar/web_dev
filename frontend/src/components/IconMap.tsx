@@ -25,4 +25,5 @@ export const iconMap: Record<string, LucideIcon> = {
   Brain,
   Code,
   Languages,
+  "default": BookOpen,
 };
