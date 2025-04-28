@@ -9,7 +9,7 @@ export const useDeleteNote = ({notebookId} : {notebookId: string}) => {
       await api.delete(`/note/${noteId}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["notebooks", notebookId, "notes"]});
+      queryClient.invalidateQueries({queryKey: ["notebooks", notebookId]});
     }
   })
 }
