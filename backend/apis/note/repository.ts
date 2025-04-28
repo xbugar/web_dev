@@ -33,7 +33,7 @@ export const noteRepository = {
             .catch(() => Result.err(new InternalError()));
     },
 
-    async getMeta(data: GetMeta): Promise<Result<NoteMeta[]>> {
+    async getMeta(data: GetMeta): Promise<Result<NoteMeta>> {
         return prisma.note.findUniqueOrThrow({
             select: {
                 id: true,
