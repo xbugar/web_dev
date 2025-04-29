@@ -1,47 +1,55 @@
-import { useEditor, EditorContent } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import { Bold, Italic, Strikethrough, Heading1, Heading2, Underline, List, ListOrdered } from 'lucide-react'
-import { Underline as UnderlineTiptap } from '@tiptap/extension-underline'
-import { useEffect, useState } from "react";
-import { Markdown } from "tiptap-markdown";
-import { useEditNoteContent } from "@/hooks/useEditNoteCotent.ts";
-import { useNoteContent } from "@/hooks/useNoteContent.ts";
-
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import {
+  Bold,
+  Italic,
+  Strikethrough,
+  Heading1,
+  Heading2,
+  Underline,
+  List,
+  ListOrdered,
+} from 'lucide-react';
+import { Underline as UnderlineTiptap } from '@tiptap/extension-underline';
+import { useEffect, useState } from 'react';
+import { Markdown } from 'tiptap-markdown';
+import { useEditNoteContent } from '@/hooks/useEditNoteCotent.ts';
+import { useNoteContent } from '@/hooks/useNoteContent.ts';
 
 type EditorProps = {
-  noteId: string
-  notebookId: string
-}
+  noteId: string;
+  notebookId: string;
+};
 
 const Editor = ({ noteId, notebookId }: EditorProps) => {
-  const [, setEditorContent] = useState('')
+  const [, setEditorContent] = useState('');
 
-  const { data: noteData, isLoading } = useNoteContent(notebookId, noteId)
-  console.log(noteData)
-  const editNoteContent = useEditNoteContent({ id: notebookId })
+  const { data: noteData, isLoading } = useNoteContent(notebookId, noteId);
+  console.log(noteData);
+  const editNoteContent = useEditNoteContent({ id: notebookId });
 
   const editor = useEditor({
-    extensions:  [StarterKit, UnderlineTiptap, Markdown],
-    content: " ",
+    extensions: [StarterKit, UnderlineTiptap, Markdown],
+    content: ' ',
     onUpdate: ({ editor }) => {
-      setEditorContent(editor.storage.markdown.getMarkdown())
-    }
-  })
+      setEditorContent(editor.storage.markdown.getMarkdown());
+    },
+  });
 
   useEffect(() => {
     if (editor && noteData) {
-      editor.commands.setContent(noteData.content)
+      editor.commands.setContent(noteData.content);
     }
-  }, [editor, noteData])
+  }, [editor, noteData]);
 
   const handleSave = () => {
-    if (!editor) return
+    if (!editor) return;
 
     editNoteContent.mutate({
       noteId: noteId,
       content: editor.storage.markdown.getMarkdown(),
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -54,11 +62,11 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
   }, [editor, noteId]);
 
   if (!editor) {
-    return null
+    return null;
   }
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
@@ -69,19 +77,19 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={`p-2 rounded ${editor.isActive('bold') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
         >
-          <Bold/>
+          <Bold />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleItalic().run()}
           className={`p-2 rounded ${editor.isActive('italic') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
         >
-          <Italic/>
+          <Italic />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleStrike().run()}
           className={`p-2 rounded ${editor.isActive('strike') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
         >
-          <Strikethrough/>
+          <Strikethrough />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleUnderline().run()}
@@ -114,13 +122,10 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
         >
           <ListOrdered />
         </button>
-
       </div>
       <EditorContent editor={editor} className="focus:outline-none border-0 p-0 rounded" />
     </div>
-  )
-}
+  );
+};
 
-
-
-export default Editor
+export default Editor;

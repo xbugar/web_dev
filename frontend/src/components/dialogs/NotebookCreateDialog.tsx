@@ -1,32 +1,32 @@
 import {
   Dialog,
-  DialogContent, DialogDescription,
+  DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog.tsx"
+} from '@/components/ui/dialog.tsx';
 
-import { useCreateNotebook} from "@/hooks/useCreateNotebook.ts"
-import { CreateNotebook } from "@/types/Notebook.ts";
-import { NotebookNoteForm } from "@/components/dialogs/NotebookNoteForm.tsx";
+import { useCreateNotebook } from '@/hooks/useCreateNotebook.ts';
+import { CreateNotebook } from '@/types/Notebook.ts';
+import { NotebookNoteForm } from '@/components/dialogs/NotebookNoteForm.tsx';
 
 type NotebookCreateDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   userId: string;
-}
+};
 
-export const NotebookCreateDialog = ({ open, onOpenChange, userId} : NotebookCreateDialogProps ) => {
+export const NotebookCreateDialog = ({ open, onOpenChange, userId }: NotebookCreateDialogProps) => {
   const createNotebook = useCreateNotebook();
 
   const handleCreate = (data: CreateNotebook) => {
     createNotebook.mutate(
       { userId, data },
       {
-        onSuccess: () =>
-          onOpenChange(false),
-      }
-    )
-  }
+        onSuccess: () => onOpenChange(false),
+      },
+    );
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -39,9 +39,9 @@ export const NotebookCreateDialog = ({ open, onOpenChange, userId} : NotebookCre
           type="notebook"
           onSubmit={handleCreate}
           isSubmitting={createNotebook.isPending}
-          submitText={"Create"}/>
+          submitText={'Create'}
+        />
       </DialogContent>
     </Dialog>
-  )
-}
-
+  );
+};
