@@ -62,9 +62,11 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex-col mb-20">
+        <EditorContent editor={editor} className="flex-1 focus:outline-none border-0 p-0 rounded" />
+
       {/* Toolbar */}
-      <div className="flex justify-center gap-4 border-b p-2">
+      <div className="fixed bottom-0 w-full bg-white dark:bg-black flex justify-center gap-4 border-t p-2">
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={`p-2 rounded ${editor.isActive('bold') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
@@ -114,9 +116,7 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
         >
           <ListOrdered />
         </button>
-
-      </div>
-      <EditorContent editor={editor} className="focus:outline-none border-0 p-0 rounded" />
+      </div >
     </div>
   )
 }
