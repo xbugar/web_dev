@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button.tsx"
 import { useState } from "react"
 import { AccentColor, availableColors, iconColor } from "@/components/cards/cardColors.tsx";
 import { cn } from "@/lib/utils";
-import { iconOptions } from "@/components/cards/IconMap.tsx";
+import { iconOptions } from "@/components/cards/IconOptions.tsx";
 
 type NotebookFormProps = {
   type: "notebook" | "note";

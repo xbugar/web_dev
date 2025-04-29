@@ -12,7 +12,7 @@ import { LucideIcon, Notebook, Timer } from "lucide-react";
 import { Tag, TagColor } from "@/components/cards/Tag.tsx"
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from 'date-fns';
-import { iconMap } from "@/components/cards/IconMap.tsx";
+import { iconMap } from "@/components/cards/IconOptions.tsx";
 
 export type NotebookCardProps = {
   id: string;
