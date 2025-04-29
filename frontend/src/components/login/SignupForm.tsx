@@ -19,7 +19,11 @@ const formSchema = z.object({
     lastName: z.string().min(1, {message: "Input your name"}).max(50, {message: "Input too long"}),
     email: z.string().min(1, {message: "Input your email address"}).email({message: "Invalid email address"}),
     password: z.string().min(8, {message: "Password has to have at least 8 characters"}).max(50, {message: "Password too long"}),
-})
+    confirmPassword: z.string().min(8, { message: "Please confirm your password" }),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
+});
 
 export function SignupForm() {
     // 1. Define your form.
@@ -30,6 +34,7 @@ export function SignupForm() {
             lastName: "",
             email: "",
             password: "",
+            confirmPassword: ""
         },
     })
 
@@ -113,6 +118,23 @@ export function SignupForm() {
                             </FormItem>
                         )}
                     />
+
+                  <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormControl>
+                          <PasswordInput
+                            placeholder="Confirm Password"
+                            type="password"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
 
                 <Button type="submit" variant="customSubmit">
