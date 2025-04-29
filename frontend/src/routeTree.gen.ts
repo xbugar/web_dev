@@ -11,12 +11,30 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as PublicRouteImport } from './routes/_public/route'
+import { Route as AuthentificatedRouteImport } from './routes/_authentificated/route'
 import { Route as IndexImport } from './routes/index'
-import { Route as NotebooksIndexImport } from './routes/notebooks/index'
-import { Route as NotebooksNotebookIdIndexImport } from './routes/notebooks/$notebookId/index'
-import { Route as NotebooksNotebookIdNoteIdImport } from './routes/notebooks/$notebookId/$noteId'
+import { Route as PublicSignUpImport } from './routes/_public/sign-up'
+import { Route as PublicLoginImport } from './routes/_public/login'
+import { Route as AuthentificatedPomodoroImport } from './routes/_authentificated/pomodoro'
+import { Route as AuthentificatedHomeImport } from './routes/_authentificated/home'
+import { Route as AuthentificatedFlashcardsImport } from './routes/_authentificated/flashcards'
+import { Route as AuthentificatedCalendarImport } from './routes/_authentificated/calendar'
+import { Route as AuthentificatedNotebooksIndexImport } from './routes/_authentificated/notebooks/index'
+import { Route as AuthentificatedNotebooksNotebookIdIndexImport } from './routes/_authentificated/notebooks/$notebookId/index'
+import { Route as AuthentificatedNotebooksNotebookIdNoteIdImport } from './routes/_authentificated/notebooks/$notebookId/$noteId'
 
 // Create/Update Routes
+
+const PublicRouteRoute = PublicRouteImport.update({
+  id: '/_public',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthentificatedRouteRoute = AuthentificatedRouteImport.update({
+  id: '/_authentificated',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -24,23 +42,62 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const NotebooksIndexRoute = NotebooksIndexImport.update({
-  id: '/notebooks/',
-  path: '/notebooks/',
-  getParentRoute: () => rootRoute,
+const PublicSignUpRoute = PublicSignUpImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => PublicRouteRoute,
 } as any)
 
-const NotebooksNotebookIdIndexRoute = NotebooksNotebookIdIndexImport.update({
-  id: '/notebooks/$notebookId/',
-  path: '/notebooks/$notebookId/',
-  getParentRoute: () => rootRoute,
+const PublicLoginRoute = PublicLoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => PublicRouteRoute,
 } as any)
 
-const NotebooksNotebookIdNoteIdRoute = NotebooksNotebookIdNoteIdImport.update({
-  id: '/notebooks/$notebookId/$noteId',
-  path: '/notebooks/$notebookId/$noteId',
-  getParentRoute: () => rootRoute,
+const AuthentificatedPomodoroRoute = AuthentificatedPomodoroImport.update({
+  id: '/pomodoro',
+  path: '/pomodoro',
+  getParentRoute: () => AuthentificatedRouteRoute,
 } as any)
+
+const AuthentificatedHomeRoute = AuthentificatedHomeImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AuthentificatedRouteRoute,
+} as any)
+
+const AuthentificatedFlashcardsRoute = AuthentificatedFlashcardsImport.update({
+  id: '/flashcards',
+  path: '/flashcards',
+  getParentRoute: () => AuthentificatedRouteRoute,
+} as any)
+
+const AuthentificatedCalendarRoute = AuthentificatedCalendarImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => AuthentificatedRouteRoute,
+} as any)
+
+const AuthentificatedNotebooksIndexRoute =
+  AuthentificatedNotebooksIndexImport.update({
+    id: '/notebooks/',
+    path: '/notebooks/',
+    getParentRoute: () => AuthentificatedRouteRoute,
+  } as any)
+
+const AuthentificatedNotebooksNotebookIdIndexRoute =
+  AuthentificatedNotebooksNotebookIdIndexImport.update({
+    id: '/notebooks/$notebookId/',
+    path: '/notebooks/$notebookId/',
+    getParentRoute: () => AuthentificatedRouteRoute,
+  } as any)
+
+const AuthentificatedNotebooksNotebookIdNoteIdRoute =
+  AuthentificatedNotebooksNotebookIdNoteIdImport.update({
+    id: '/notebooks/$notebookId/$noteId',
+    path: '/notebooks/$notebookId/$noteId',
+    getParentRoute: () => AuthentificatedRouteRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -53,88 +110,225 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/notebooks/': {
-      id: '/notebooks/'
+    '/_authentificated': {
+      id: '/_authentificated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthentificatedRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/_public': {
+      id: '/_public'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof PublicRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/_authentificated/calendar': {
+      id: '/_authentificated/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof AuthentificatedCalendarImport
+      parentRoute: typeof AuthentificatedRouteImport
+    }
+    '/_authentificated/flashcards': {
+      id: '/_authentificated/flashcards'
+      path: '/flashcards'
+      fullPath: '/flashcards'
+      preLoaderRoute: typeof AuthentificatedFlashcardsImport
+      parentRoute: typeof AuthentificatedRouteImport
+    }
+    '/_authentificated/home': {
+      id: '/_authentificated/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AuthentificatedHomeImport
+      parentRoute: typeof AuthentificatedRouteImport
+    }
+    '/_authentificated/pomodoro': {
+      id: '/_authentificated/pomodoro'
+      path: '/pomodoro'
+      fullPath: '/pomodoro'
+      preLoaderRoute: typeof AuthentificatedPomodoroImport
+      parentRoute: typeof AuthentificatedRouteImport
+    }
+    '/_public/login': {
+      id: '/_public/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof PublicLoginImport
+      parentRoute: typeof PublicRouteImport
+    }
+    '/_public/sign-up': {
+      id: '/_public/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof PublicSignUpImport
+      parentRoute: typeof PublicRouteImport
+    }
+    '/_authentificated/notebooks/': {
+      id: '/_authentificated/notebooks/'
       path: '/notebooks'
       fullPath: '/notebooks'
-      preLoaderRoute: typeof NotebooksIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthentificatedNotebooksIndexImport
+      parentRoute: typeof AuthentificatedRouteImport
     }
-    '/notebooks/$notebookId/$noteId': {
-      id: '/notebooks/$notebookId/$noteId'
+    '/_authentificated/notebooks/$notebookId/$noteId': {
+      id: '/_authentificated/notebooks/$notebookId/$noteId'
       path: '/notebooks/$notebookId/$noteId'
       fullPath: '/notebooks/$notebookId/$noteId'
-      preLoaderRoute: typeof NotebooksNotebookIdNoteIdImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthentificatedNotebooksNotebookIdNoteIdImport
+      parentRoute: typeof AuthentificatedRouteImport
     }
-    '/notebooks/$notebookId/': {
-      id: '/notebooks/$notebookId/'
+    '/_authentificated/notebooks/$notebookId/': {
+      id: '/_authentificated/notebooks/$notebookId/'
       path: '/notebooks/$notebookId'
       fullPath: '/notebooks/$notebookId'
-      preLoaderRoute: typeof NotebooksNotebookIdIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthentificatedNotebooksNotebookIdIndexImport
+      parentRoute: typeof AuthentificatedRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface AuthentificatedRouteRouteChildren {
+  AuthentificatedCalendarRoute: typeof AuthentificatedCalendarRoute
+  AuthentificatedFlashcardsRoute: typeof AuthentificatedFlashcardsRoute
+  AuthentificatedHomeRoute: typeof AuthentificatedHomeRoute
+  AuthentificatedPomodoroRoute: typeof AuthentificatedPomodoroRoute
+  AuthentificatedNotebooksIndexRoute: typeof AuthentificatedNotebooksIndexRoute
+  AuthentificatedNotebooksNotebookIdNoteIdRoute: typeof AuthentificatedNotebooksNotebookIdNoteIdRoute
+  AuthentificatedNotebooksNotebookIdIndexRoute: typeof AuthentificatedNotebooksNotebookIdIndexRoute
+}
+
+const AuthentificatedRouteRouteChildren: AuthentificatedRouteRouteChildren = {
+  AuthentificatedCalendarRoute: AuthentificatedCalendarRoute,
+  AuthentificatedFlashcardsRoute: AuthentificatedFlashcardsRoute,
+  AuthentificatedHomeRoute: AuthentificatedHomeRoute,
+  AuthentificatedPomodoroRoute: AuthentificatedPomodoroRoute,
+  AuthentificatedNotebooksIndexRoute: AuthentificatedNotebooksIndexRoute,
+  AuthentificatedNotebooksNotebookIdNoteIdRoute:
+    AuthentificatedNotebooksNotebookIdNoteIdRoute,
+  AuthentificatedNotebooksNotebookIdIndexRoute:
+    AuthentificatedNotebooksNotebookIdIndexRoute,
+}
+
+const AuthentificatedRouteRouteWithChildren =
+  AuthentificatedRouteRoute._addFileChildren(AuthentificatedRouteRouteChildren)
+
+interface PublicRouteRouteChildren {
+  PublicLoginRoute: typeof PublicLoginRoute
+  PublicSignUpRoute: typeof PublicSignUpRoute
+}
+
+const PublicRouteRouteChildren: PublicRouteRouteChildren = {
+  PublicLoginRoute: PublicLoginRoute,
+  PublicSignUpRoute: PublicSignUpRoute,
+}
+
+const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
+  PublicRouteRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/notebooks': typeof NotebooksIndexRoute
-  '/notebooks/$notebookId/$noteId': typeof NotebooksNotebookIdNoteIdRoute
-  '/notebooks/$notebookId': typeof NotebooksNotebookIdIndexRoute
+  '': typeof PublicRouteRouteWithChildren
+  '/calendar': typeof AuthentificatedCalendarRoute
+  '/flashcards': typeof AuthentificatedFlashcardsRoute
+  '/home': typeof AuthentificatedHomeRoute
+  '/pomodoro': typeof AuthentificatedPomodoroRoute
+  '/login': typeof PublicLoginRoute
+  '/sign-up': typeof PublicSignUpRoute
+  '/notebooks': typeof AuthentificatedNotebooksIndexRoute
+  '/notebooks/$notebookId/$noteId': typeof AuthentificatedNotebooksNotebookIdNoteIdRoute
+  '/notebooks/$notebookId': typeof AuthentificatedNotebooksNotebookIdIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/notebooks': typeof NotebooksIndexRoute
-  '/notebooks/$notebookId/$noteId': typeof NotebooksNotebookIdNoteIdRoute
-  '/notebooks/$notebookId': typeof NotebooksNotebookIdIndexRoute
+  '': typeof PublicRouteRouteWithChildren
+  '/calendar': typeof AuthentificatedCalendarRoute
+  '/flashcards': typeof AuthentificatedFlashcardsRoute
+  '/home': typeof AuthentificatedHomeRoute
+  '/pomodoro': typeof AuthentificatedPomodoroRoute
+  '/login': typeof PublicLoginRoute
+  '/sign-up': typeof PublicSignUpRoute
+  '/notebooks': typeof AuthentificatedNotebooksIndexRoute
+  '/notebooks/$notebookId/$noteId': typeof AuthentificatedNotebooksNotebookIdNoteIdRoute
+  '/notebooks/$notebookId': typeof AuthentificatedNotebooksNotebookIdIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/notebooks/': typeof NotebooksIndexRoute
-  '/notebooks/$notebookId/$noteId': typeof NotebooksNotebookIdNoteIdRoute
-  '/notebooks/$notebookId/': typeof NotebooksNotebookIdIndexRoute
+  '/_authentificated': typeof AuthentificatedRouteRouteWithChildren
+  '/_public': typeof PublicRouteRouteWithChildren
+  '/_authentificated/calendar': typeof AuthentificatedCalendarRoute
+  '/_authentificated/flashcards': typeof AuthentificatedFlashcardsRoute
+  '/_authentificated/home': typeof AuthentificatedHomeRoute
+  '/_authentificated/pomodoro': typeof AuthentificatedPomodoroRoute
+  '/_public/login': typeof PublicLoginRoute
+  '/_public/sign-up': typeof PublicSignUpRoute
+  '/_authentificated/notebooks/': typeof AuthentificatedNotebooksIndexRoute
+  '/_authentificated/notebooks/$notebookId/$noteId': typeof AuthentificatedNotebooksNotebookIdNoteIdRoute
+  '/_authentificated/notebooks/$notebookId/': typeof AuthentificatedNotebooksNotebookIdIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | ''
+    | '/calendar'
+    | '/flashcards'
+    | '/home'
+    | '/pomodoro'
+    | '/login'
+    | '/sign-up'
     | '/notebooks'
     | '/notebooks/$notebookId/$noteId'
     | '/notebooks/$notebookId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | ''
+    | '/calendar'
+    | '/flashcards'
+    | '/home'
+    | '/pomodoro'
+    | '/login'
+    | '/sign-up'
     | '/notebooks'
     | '/notebooks/$notebookId/$noteId'
     | '/notebooks/$notebookId'
   id:
     | '__root__'
     | '/'
-    | '/notebooks/'
-    | '/notebooks/$notebookId/$noteId'
-    | '/notebooks/$notebookId/'
+    | '/_authentificated'
+    | '/_public'
+    | '/_authentificated/calendar'
+    | '/_authentificated/flashcards'
+    | '/_authentificated/home'
+    | '/_authentificated/pomodoro'
+    | '/_public/login'
+    | '/_public/sign-up'
+    | '/_authentificated/notebooks/'
+    | '/_authentificated/notebooks/$notebookId/$noteId'
+    | '/_authentificated/notebooks/$notebookId/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  NotebooksIndexRoute: typeof NotebooksIndexRoute
-  NotebooksNotebookIdNoteIdRoute: typeof NotebooksNotebookIdNoteIdRoute
-  NotebooksNotebookIdIndexRoute: typeof NotebooksNotebookIdIndexRoute
+  AuthentificatedRouteRoute: typeof AuthentificatedRouteRouteWithChildren
+  PublicRouteRoute: typeof PublicRouteRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  NotebooksIndexRoute: NotebooksIndexRoute,
-  NotebooksNotebookIdNoteIdRoute: NotebooksNotebookIdNoteIdRoute,
-  NotebooksNotebookIdIndexRoute: NotebooksNotebookIdIndexRoute,
+  AuthentificatedRouteRoute: AuthentificatedRouteRouteWithChildren,
+  PublicRouteRoute: PublicRouteRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -148,22 +342,67 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/notebooks/",
-        "/notebooks/$notebookId/$noteId",
-        "/notebooks/$notebookId/"
+        "/_authentificated",
+        "/_public"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/notebooks/": {
-      "filePath": "notebooks/index.tsx"
+    "/_authentificated": {
+      "filePath": "_authentificated/route.tsx",
+      "children": [
+        "/_authentificated/calendar",
+        "/_authentificated/flashcards",
+        "/_authentificated/home",
+        "/_authentificated/pomodoro",
+        "/_authentificated/notebooks/",
+        "/_authentificated/notebooks/$notebookId/$noteId",
+        "/_authentificated/notebooks/$notebookId/"
+      ]
     },
-    "/notebooks/$notebookId/$noteId": {
-      "filePath": "notebooks/$notebookId/$noteId.tsx"
+    "/_public": {
+      "filePath": "_public/route.tsx",
+      "children": [
+        "/_public/login",
+        "/_public/sign-up"
+      ]
     },
-    "/notebooks/$notebookId/": {
-      "filePath": "notebooks/$notebookId/index.tsx"
+    "/_authentificated/calendar": {
+      "filePath": "_authentificated/calendar.tsx",
+      "parent": "/_authentificated"
+    },
+    "/_authentificated/flashcards": {
+      "filePath": "_authentificated/flashcards.tsx",
+      "parent": "/_authentificated"
+    },
+    "/_authentificated/home": {
+      "filePath": "_authentificated/home.tsx",
+      "parent": "/_authentificated"
+    },
+    "/_authentificated/pomodoro": {
+      "filePath": "_authentificated/pomodoro.tsx",
+      "parent": "/_authentificated"
+    },
+    "/_public/login": {
+      "filePath": "_public/login.tsx",
+      "parent": "/_public"
+    },
+    "/_public/sign-up": {
+      "filePath": "_public/sign-up.tsx",
+      "parent": "/_public"
+    },
+    "/_authentificated/notebooks/": {
+      "filePath": "_authentificated/notebooks/index.tsx",
+      "parent": "/_authentificated"
+    },
+    "/_authentificated/notebooks/$notebookId/$noteId": {
+      "filePath": "_authentificated/notebooks/$notebookId/$noteId.tsx",
+      "parent": "/_authentificated"
+    },
+    "/_authentificated/notebooks/$notebookId/": {
+      "filePath": "_authentificated/notebooks/$notebookId/index.tsx",
+      "parent": "/_authentificated"
     }
   }
 }

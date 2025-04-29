@@ -1,14 +1,24 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
-  component: Index,
-})
+  component: RouteComponent,
+});
 
-function Index() {
+function RouteComponent() {
   return (
-    <div className="bg-avocado-600 bg-prim font-serif">
-      <h3 className="text-lm-primary">Welcome Home! Welcome to Gradia.</h3>
-      <p className='text-text-lm-secondary font-sans text-xs'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos odio culpa voluptatum voluptates et voluptatibus quas id voluptate excepturi eius, illum esse accusamus incidunt quaerat sint deleniti perferendis rem a?</p>
-    </div>
-  )
+    <>
+      <h1>LANDING PAGE</h1>
+      <div className="flex gap-2">
+        <Link to={'/home'} className="bg-red-500">
+          HOME
+        </Link>
+        <Link to={'/login'} className="bg-red-500">
+          LOGIN
+        </Link>
+        <Link to={'/sign-up'} className="bg-red-500">
+          SIGN UP
+        </Link>
+      </div>
+    </>
+  );
 }
