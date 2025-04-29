@@ -43,7 +43,6 @@ export const iconMap: Record<string, LucideIcon> = {
   Layers,
   ClipboardList,
   PenTool,
-  BookOpen,
   Book,
   FileText,
   ShieldCheck,
@@ -56,7 +55,7 @@ export const iconMap: Record<string, LucideIcon> = {
   Sun,
 };
 
-export const iconOptions = availableIcons.map((iconName) => {
-  const IconComponent = iconMap[iconName];
+export const iconOptions = availableIcons.map((iconName ) => {
+  const IconComponent = iconMap[iconName] ?? iconMap["Default"];
   return { iconName, IconComponent };
 });
