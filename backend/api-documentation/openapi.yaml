@@ -4,7 +4,7 @@ info:
   description: >-
     This is a work in progress documentation for gradia REST API
   contact:
-    email: 536294@muni.cz
+    email: ""
 
   version: 1.0.12
 
@@ -21,22 +21,54 @@ tags:
     description: Fetching data related to tags
 paths:
 
+#  /note:
+#    post:
+#      tags:
+#        - note
+#      summary:  Create a new note in a notebook specified by notebookId. v2
+#      description: Add a new note.
+#      operationId: addNotev2
+#      requestBody:
+#        description: Create a new note
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/CreateNotev2'
+#        required: true
+#      responses:
+#        '200':
+#          description: Successful operation
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Note'
+#        '400':
+#          description: Invalid input
+#        '422':
+#          description: Validation exception
+#        default:
+#          description: Unexpected error
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Error'
+
   /note/{noteId}:
     put:
       tags:
         - note
       summary: Update the metadata (anything but content) of a note
-      description: Update 
+      description: Update
       operationId: updateNoteMetadata
       parameters:
         - name: noteId
           in: path
-          description: ID of pet to return
+          description: ""
           required: true
           schema:
             type: string
       requestBody:
-        description: Update an existent pet in the store
+        description: ""
         content:
           application/json:
             schema:
@@ -70,13 +102,13 @@ paths:
       parameters:
         - name: noteId
           in: path
-          description: ID of pet to return
+          description: ""
           required: true
           schema:
             type: string
         - name: withTags
           in: query
-          required: true 
+          required: true
           schema:
             type: boolean
       responses:
@@ -113,9 +145,9 @@ paths:
             type: string
       responses:
         '200':
-          description: Pet deleted
+          description: Note deleted
         '400':
-          description: Invalid pet value
+          description: Invalid note id
         default:
           description: Unexpected error
           content:
@@ -123,37 +155,42 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
   
-  /note/{noteId}/content/:
+  /note/{noteId}/content:
     get:
-        tags:
-          - note
-        summary: 'Retrieves the content of a note'
-        description: 'fdsafdsa'
-        operationId: getNoteContent
-        parameters:
-          - name: noteId
-            in: path
-            description: ID of pet to return
-            required: true
-            schema:
-              type: string
-        responses:
-          '200':
-            description: Successful operation
-            content:
-              application/json:
-                schema:
-                  type: string
-          '400':
-            description: Invalid ID supplied
-          '404':
-            description: Note not found
-          default:
-            description: Unexpected error
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Error'
+      tags:
+        - note
+      summary: 'Retrieves the content of a note'
+      description: 'fdsafdsa'
+      operationId: getNoteContent
+      parameters:
+        - name: noteId
+          in: path
+          description: ID of note content to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+                required:
+                  content
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Note not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     put:
       tags:
         - note
@@ -172,7 +209,12 @@ paths:
         content:
           application/json:
             schema:
-              type: string
+              type: object
+              properties:
+                content:
+                  type: string
+              required:
+                content
         required: true
       responses:
         '200':
@@ -185,38 +227,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /note/{noteId}/tags/:
-    get:
-        tags:
-          - note
-        summary: 'Retrieves tags of a note'
-        description: ''
-        operationId: getNoteTags
-        parameters:
-          - name: noteId
-            in: path
-            description: id of the note we want data from
-            required: true
-            schema:
-              type: string
-        responses:
-          '200':
-            description: Successful operation
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/TagArray'
-          '400':
-            description: Invalid ID supplied
-          '404':
-            description: Note not found
-          default:
-            description: Unexpected error
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Error'
-    
+
   /note/{noteId}/tag/{tagId}:
     post:
       tags:
@@ -249,7 +260,7 @@ paths:
     delete:
       tags:
         - note
-      summary: adds a tag to a note.
+      summary: removes tag from note.
       description: ""
       operationId: removeTagFromNote
       parameters:
@@ -274,23 +285,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  
+
+  /notebook:
+    post:
+      tags:
+        - notebook
+      summary: Add a new notebook. v2
+      description: Add a new notebook.
+      operationId: addNotebookv2
+      requestBody:
+        description: Create a new notebook
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNotebookv2'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notebook'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /notebook/{notebookId}:
     put:
       tags:
         - notebook
       summary: Update an existing notebook.
-      description: Update an existing pet by Id.
+      description: Update an existing notebook by Id.
       operationId: updateNotebook
       parameters:
         - name: notebookId
           in: path
-          description: ID of pet to return
+          description: ""
           required: true
           schema:
             type: string
       requestBody:
-        description: Update an existent pet in the store
+        description: new metadata for the notebook
         content:
           application/json:
             schema:
@@ -324,10 +367,15 @@ paths:
       parameters:
         - name: notebookId
           in: path
-          description: ID of pet to return
+          description: ID of notebook to return
           required: true
           schema:
             type: string
+        - name: withTags
+          in: query
+          required: true
+          schema:
+            type: boolean
       responses:
         '200':
           description: successful operation
@@ -381,7 +429,7 @@ paths:
       parameters:
         - name: notebookId
           in: path
-          description: ID of pet to return
+          description: ID of notebook
           required: true
           schema:
             type: string
@@ -397,9 +445,6 @@ paths:
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Note'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/Note'
         '400':
@@ -422,7 +467,7 @@ paths:
       parameters:
         - name: notebookId
           in: path
-          description: ID of pet to return
+          description: ID of notebook
           required: true
           schema:
             type: string
@@ -434,7 +479,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Notebook'
+                  $ref: '#/components/schemas/Note'
         '400':
           description: Invalid ID supplied
         '404':
@@ -445,37 +490,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /notebook/{notebookId}/tags/:
-    get:
-        tags:
-          - notebook
-        summary: 'Retrieves tags of a notebook'
-        description: ''
-        operationId: getNotebookTags
-        parameters:
-          - name: notebookId
-            in: path
-            description: id of the note we want data from
-            required: true
-            schema:
-              type: string
-        responses:
-          '200':
-            description: Successful operation
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/TagArray'
-          '400':
-            description: Invalid ID supplied
-          '404':
-            description: Note not found
-          default:
-            description: Unexpected error
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Error'
+
   /notebook/{notebookId}/tag/{tagId}:
     post:
       tags:
@@ -508,7 +523,7 @@ paths:
     delete:
       tags:
         - notebook
-      summary: adds a tag to a notebook.
+      summary: removes tag from  notebook.
       description: ""
       operationId: removeTagFromnotebook
       parameters:
@@ -533,7 +548,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-   
+
   /user:
     post:
       tags:
@@ -580,7 +595,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/ResponseUser'
         '400':
           description: Invalid id supplied
         '404':
@@ -653,7 +668,7 @@ paths:
     get:
       tags:
         - user
-      summary: Get user by email.
+      summary: Get users notebooks
       description: Get users notebooks based on the userId
       operationId: getUserNotebooksByID
       parameters:
@@ -663,6 +678,11 @@ paths:
           required: true
           schema:
             type: string
+        - name: withTags
+          in: query
+          required: true
+          schema:
+            type: boolean
       responses:
         '200':
           description: successful operation
@@ -720,8 +740,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-     
-     
+
+
   /tag:
     post:
       tags:
@@ -834,21 +854,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-                
+
 components:
   schemas:
-   
-  
+
+
     CreateNote:
       type: object
       properties:
         title:
           type: string
-        color:
+
+    CreateNotev2:
+      type: object
+      properties:
+        title:
+          type: string
+        notebookId:
           type: string
       required:
-      - title
-      - color 
+        notebookId
+        title
     
     NoteWithTags:
       type: object
@@ -857,21 +883,21 @@ components:
           type: string
         title:
           type: string
-        color:
-          type: string
         createdAt:
           type: string
         updatedAt:
           type: string
         tags:
-         $ref: "#/components/schemas/TagArray"
-      required:
-      - id 
-      - title
-      - color 
-      - createdAt
-      - updatedAt
-         
+          $ref: "#/components/schemas/TagArray"
+        notebook:
+          type: object
+          properties:
+            id:
+              type: string
+            color:
+              type: string
+
+
     Note:
       type: object
       properties:
@@ -879,18 +905,18 @@ components:
           type: string
         title:
           type: string
-        color:
-          type: string
         createdAt:
           type: string
         updatedAt:
           type: string
-      required:
-      - id 
-      - title
-      - color 
-      - createdAt
-      - updatedAt
+        notebook:
+          type: object
+          properties:
+            id:
+              type: string
+            color:
+              type: string
+
 
     
     User:
@@ -911,10 +937,23 @@ components:
         password:
           type: string
           example: '12345'
-      required:
-       - id 
-       - email
-       - password
+    
+    ResponseUser:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 10
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+    
     
     CreateUser:
       type: object
@@ -931,17 +970,15 @@ components:
         password:
           type: string
           example: '12345'
-      required:
-        - email
-        - password
-        
+
+
     
     ProfilePicture:
       type: object
       properties:
         id:
           type: string
-      
+
     
     Notebook:
       type: object
@@ -958,21 +995,15 @@ components:
           type: string
         updatedAt:
           type: string
-        icon:
+        iconName:
           type: string
         tags:
           $ref: "#/components/schemas/TagArray"
-      required:
-        - id
-        - title
-        - descripion
-        - color
-        - createdAt
-        - updatedAt
-        - icon
-        
-        
-        
+        noteCount:
+          type: integer
+
+
+
     CreateNotebook:
       type: object
       properties:
@@ -982,14 +1013,32 @@ components:
           type: string
         color:
           type: string
-        iconId:
+          enum:
+            - blue
+            - purple
+            - orange
+            - green
+            - red
+            - pink
+        iconName:
+          type: string
+
+    CreateNotebookv2:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        iconName:
+          type: string
+        userId:
           type: string
       required:
-        - title
-        - description
-        - color
-        - iconId
-      
+        userId
+
     Tag:
       type: object
       properties:
@@ -999,12 +1048,16 @@ components:
           type: string
         color:
           type: string
-          example: red
-      required:
-        - id
-        - name
-        - color
-      
+          enum:
+            - blue
+            - purple
+            - yellow
+            - green
+            - red
+            - pink
+          example: blue
+
+
     CreateTag:
       type: object
       properties:
@@ -1012,15 +1065,20 @@ components:
           type: string
         color:
           type: string
-          example: red
-      required:
-        - name
-        - color
-        
+          enum:
+            - blue
+            - purple
+            - yellow
+            - green
+            - red
+            - pink
+          example: blue
+
+
     TagArray:
       type: array
-      items: 
-       $ref: '#/components/schemas/Tag'
+      items:
+        $ref: '#/components/schemas/Tag'
     
     ApiResponse:
       type: object
@@ -1032,9 +1090,8 @@ components:
           type: string
         message:
           type: string
-      xml:
-        name: '##default'
-   
+
+
     Error:
       type: object
       properties:

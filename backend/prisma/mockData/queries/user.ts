@@ -13,19 +13,3 @@ export async function addUser(firstName: string, lastName: string, email: string
     })
 }
 
-export async function removeUser(mail: string) {
-    return prisma.user.delete({
-        where: {
-            email: mail
-        }
-    })
-}
-
-
-export async function getUserByEmail(email: string) {
-    return prisma.user.findUnique({ where: { email: email } })
-}
-
-
-
-

@@ -1,11 +1,26 @@
-import {Response,Request} from "express";
 import express from "express";
-import {PrismaClient} from "@prisma/client";
+
 import swaggerUi from "swagger-ui-express";
 import fs from "node:fs";
 import yaml from "yaml";
+import cors from 'cors';
+import {userRouter} from "./apis/user/router";
+import {notebookRouter} from "./apis/notebook/router";
+import {notesRouter} from "./apis/note/router";
+import {tagsRouter} from "./apis/tag/router";
 
 const app = express();
+
+//this should probably be configured in a specific way when deployed
+app.use(cors());
+
+app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
+app.use('/user', userRouter);
+app.use('/notebook', notebookRouter);
+app.use('/note',notesRouter);
+app.use('/tag', tagsRouter);
 
 // Setup Swagger UI for API documentation
 const swaggerYaml = fs.readFileSync("./api-documentation/openapi.yaml", "utf8");
@@ -18,8 +33,8 @@ if (process.env.NODE_ENV !== "production") {
         swaggerUi.setup(swaggerDocument)
     );
 }
-
-
+// maybe just delete this
+/*
 const prisma = new PrismaClient();
 app.use(express.json());
 
@@ -29,7 +44,7 @@ app.get("/", async (req:Request, res:Response) => {
     res.json(
         users
     );
-});
+});*/
 
 const PORT = 3000;
 
