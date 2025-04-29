@@ -18,8 +18,18 @@ const lineColor: Record<AccentColor, string> = {
   pink: "border-l-accent-pink"
 }
 
+const availableColors = [
+  { label: "Red", value: "red" },
+  { label: "Blue", value: "blue" },
+  { label: "Green", value: "green" },
+  { label: "Orange", value: "orange" },
+  { label: "Purple", value: "purple" },
+  { label: "Pink", value: "pink" },
+];
+
 export {
   iconColor,
-  lineColor
+  lineColor,
+  availableColors
 };
 export type { AccentColor };

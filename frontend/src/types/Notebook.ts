@@ -7,7 +7,7 @@ export type Notebook = {
   color: string,
   createdAt: string,
   updatedAt: string,
-  icon: string,
+  iconName: string,
   tags?: Tag[],
   noteCount: number,
 }

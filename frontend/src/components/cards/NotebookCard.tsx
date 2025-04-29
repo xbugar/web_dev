@@ -8,7 +8,7 @@ import {
 import { Link } from "@tanstack/react-router";
 import { AccentColor, iconColor, lineColor } from "@/components/cards/cardColors";
 import { NotebookNoteDropdown } from "@/components/cards/NotebookNoteDropdown.tsx";
-import { BookOpen, LucideIcon, Notebook, Timer } from "lucide-react";
+import { LucideIcon, Notebook, Timer } from "lucide-react";
 import { Tag, TagColor } from "@/components/cards/Tag.tsx"
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from 'date-fns';
@@ -28,16 +28,15 @@ export type NotebookCardProps = {
 }
 
 export const NotebookCard = ({id, title, description, iconName, color, noteCount, lastUpdated, tags, isLinked = true}: NotebookCardProps) => {
-  const Icon : LucideIcon = iconMap[iconName];
+  const IconComponent : LucideIcon = iconMap[iconName];
   const timeAgo = formatDistanceToNow(new Date(lastUpdated), { addSuffix: true });
-  console.log(tags);
   return (
     <Card className={cn("flex border-l-10 overflow-hidden p-0 py-4 gap-4", lineColor[color as AccentColor])}>
 
       <CardHeader className="flex pl-0 pr-4 gap-2 items-center justify-start">
 
         <div className={cn("p-2.5 rounded-r-md", iconColor[color as AccentColor])}>
-          <BookOpen className="text-white w-6 h-6"/>
+          <IconComponent className="text-white w-6 h-6"/>
         </div>
 
         <div className="flex flex-col w-full gap-1">
@@ -67,7 +66,7 @@ export const NotebookCard = ({id, title, description, iconName, color, noteCount
             className="text-text-lm-secondary dark:text-text-dm-secondary flex justify-between items-center self-stretch">
             <div className="flex justify-start items-center gap-1">
               <Notebook className="w-4 h-4"/>
-              <CardDescription> {noteCount} notes </CardDescription>
+              <CardDescription> {noteCount} {noteCount == 1 ? "note" : "notes"} </CardDescription>
             </div>
             <div className="flex justify-start items-center gap-1">
               <Timer className="w-4 h-4"/>

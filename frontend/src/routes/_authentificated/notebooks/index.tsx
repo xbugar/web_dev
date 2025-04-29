@@ -18,13 +18,13 @@ function RouteComponent() {
       <Section title={"Notebooks"} Icon={Plus} id={userId} type="notebook"/>
 
       <div className='flex flex-col gap-4'>
-        {notebooks && notebooks.map(({ id, title, description, icon, color, noteCount, tags, updatedAt }) => (
+        {notebooks && notebooks.map(({ id, title, description, iconName, color, noteCount, tags, updatedAt }) => (
           <NotebookCard
             key={id}
             id={id}
             title={title}
             description={description}
-            iconName={icon}
+            iconName={iconName}
             color={color}
             noteCount={noteCount}
             tags={tags}

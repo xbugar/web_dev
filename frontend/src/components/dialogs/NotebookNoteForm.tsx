@@ -3,25 +3,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { useState } from "react"
-import { AccentColor, iconColor } from "@/components/cards/cardColors.tsx";
+import { AccentColor, availableColors, iconColor } from "@/components/cards/cardColors.tsx";
 import { cn } from "@/lib/utils";
-
-const availableColors = [
-  { label: "Red", value: "red" },
-  { label: "Blue", value: "blue" },
-  { label: "Green", value: "green" },
-  { label: "Orange", value: "orange" },
-  { label: "Purple", value: "purple" },
-  { label: "Pink", value: "pink" },
-];
-
-const availableIcons = [
-  { label: "Default", value: "default"},
-  { label: "Book", value: "book" },
-  { label: "Pen", value: "pen" },
-  { label: "Folder", value: "folder" },
-  { label: "Star", value: "star" },
-];
+import { iconOptions } from "@/components/cards/IconMap.tsx";
 
 type NotebookFormProps = {
   type: "notebook" | "note";
@@ -45,7 +29,7 @@ export function NotebookNoteForm({ type, initialData, onSubmit, isSubmitting, su
   const [title, setTitle] = useState(initialData?.title || "");
   const [description, setDescription] = useState(initialData?.description || "");
   const [color, setColor] = useState(initialData?.color || "");
-  const [iconName, setIcon] = useState(initialData?.iconName || "default");
+  const [iconName, setIcon] = useState(initialData?.iconName || "Default");
 
   const handleSubmit = () => {
     if (!title) return;
@@ -94,48 +78,53 @@ export function NotebookNoteForm({ type, initialData, onSubmit, isSubmitting, su
               id="description"
               placeholder="Enter description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value?? "")}
               className="col-span-3"
             />
           </div>
 
-          {/* Color */}
-          <div className="grid items-center gap-4">
-            <Label htmlFor="color" className="text-right">
-              Color
-            </Label>
-            <Select value={color} onValueChange={(value) => setColor(value)}>
-              <SelectTrigger className="col-span-3">
-                <SelectValue placeholder="Select a color" />
-              </SelectTrigger>
-              <SelectContent>
-                {availableColors.map(({ label, value }) => (
-                  <SelectItem key={value} value={value}>
-                    <div className={cn("w-1 h-4 rounded-2xl", iconColor[value as AccentColor])}></div>
-                    {label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <div className="flex justify-left items-center gap-4">
+            {/* Color */}
+            <div className="grid items-center gap-4">
+              <Label htmlFor="color" className="text-right">
+                Color
+              </Label>
+              <Select value={color} onValueChange={(value) => setColor(value)}>
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Select a color" />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableColors.map(({ label, value }) => (
+                    <SelectItem key={value} value={value}>
+                      <div className={cn("w-1 h-4 rounded-xl", iconColor[value as AccentColor])}></div>
+                      {label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-          {/* Icon */}
-          <div className="grid items-center gap-4">
-            <Label htmlFor="icon" className="text-right">
-              Icon
-            </Label>
-            <Select value={iconName} onValueChange={(value) => setIcon(value)}>
-              <SelectTrigger className="col-span-3">
-                <SelectValue placeholder="Select an icon" />
-              </SelectTrigger>
-              <SelectContent>
-                {availableIcons.map(({ label, value }) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            {/* Icon */}
+            <div className="grid items-center gap-4">
+              <Label htmlFor="icon" className="text-right">
+                Icon
+              </Label>
+              <Select value={iconName} onValueChange={(iconName) => setIcon(iconName)}>
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Select an icon" />
+                </SelectTrigger>
+                <SelectContent>
+                  {iconOptions .map(({iconName, IconComponent}) => (
+                    <SelectItem key={iconName} value={iconName}>
+                      <div className={cn("p-1 rounded-md", iconColor[color as AccentColor])}>
+                        <IconComponent className="w-4 h-4 text-white" />
+                      </div>
+                      {iconName}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </>
       )}

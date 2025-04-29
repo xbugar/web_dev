@@ -1,4 +1,5 @@
 import {
+  LucideIcon,
   Cpu,
   Layers,
   ClipboardList,
@@ -10,10 +11,34 @@ import {
   Brain,
   Code,
   Languages,
-  LucideIcon,
+  Folder,
+  Sun,
+  Star,
+  Pen
 } from "lucide-react";
 
+const availableIcons = [
+  "Default",
+  "Cpu",
+  "Layers",
+  "ClipboardList",
+  "PenTool",
+  "BookOpen",
+  "Book",
+  "FileText",
+  "ShieldCheck",
+  "Brain",
+  "Code",
+  "Languages",
+  "Pen",
+  "Folder",
+  "Star",
+  "Sun",
+];
+
 export const iconMap: Record<string, LucideIcon> = {
+  "Default": BookOpen,
+
   Cpu,
   Layers,
   ClipboardList,
@@ -25,5 +50,13 @@ export const iconMap: Record<string, LucideIcon> = {
   Brain,
   Code,
   Languages,
-  "default": BookOpen,
+  Pen,
+  Folder,
+  Star,
+  Sun,
 };
+
+export const iconOptions = availableIcons.map((iconName) => {
+  const IconComponent = iconMap[iconName];
+  return { iconName, IconComponent };
+});
