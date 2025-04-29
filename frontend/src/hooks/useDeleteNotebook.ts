@@ -1,5 +1,5 @@
-import { api } from "@/services";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { api } from '@/services';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useDeleteNotebook = () => {
   const queryClient = useQueryClient();
@@ -9,7 +9,7 @@ export const useDeleteNotebook = () => {
       await api.delete(`/notebook/${notebookId}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["notebooks"]});
-    }
-  })
-}
+      queryClient.invalidateQueries({ queryKey: ['notebooks'] });
+    },
+  });
+};

@@ -1,33 +1,38 @@
 import {
   Dialog,
-  DialogContent, DialogDescription,
+  DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog.tsx"
+} from '@/components/ui/dialog.tsx';
 
-import { CreateNotebook } from "@/types/Notebook.ts";
-import { NotebookNoteForm } from "@/components/dialogs/NotebookNoteForm.tsx";
-import { useEditNotebook } from "@/hooks/useEditNotebook.ts";
+import { CreateNotebook } from '@/types/Notebook.ts';
+import { NotebookNoteForm } from '@/components/dialogs/NotebookNoteForm.tsx';
+import { useEditNotebook } from '@/hooks/useEditNotebook.ts';
 
 type NotebookEditDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   notebookId: string;
   initialData: CreateNotebook;
-}
+};
 
-export const NotebookEditDialog = ({ open, onOpenChange, notebookId, initialData } : NotebookEditDialogProps ) => {
+export const NotebookEditDialog = ({
+  open,
+  onOpenChange,
+  notebookId,
+  initialData,
+}: NotebookEditDialogProps) => {
   const editNotebook = useEditNotebook();
 
   const handleEdit = (data: CreateNotebook) => {
     editNotebook.mutate(
       { notebookId, data },
       {
-        onSuccess: () =>
-          onOpenChange(false),
-      }
-    )
-  }
+        onSuccess: () => onOpenChange(false),
+      },
+    );
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -40,11 +45,10 @@ export const NotebookEditDialog = ({ open, onOpenChange, notebookId, initialData
           type="notebook"
           onSubmit={handleEdit}
           isSubmitting={editNotebook.isPending}
-          submitText={"Edit"}
+          submitText={'Edit'}
           initialData={initialData}
         />
       </DialogContent>
     </Dialog>
-  )
-}
-
+  );
+};

@@ -14,30 +14,30 @@ import {
   Folder,
   Sun,
   Star,
-  Pen
-} from "lucide-react";
+  Pen,
+} from 'lucide-react';
 
 const availableIcons = [
-  "Default",
-  "Cpu",
-  "Layers",
-  "ClipboardList",
-  "PenTool",
-  "BookOpen",
-  "Book",
-  "FileText",
-  "ShieldCheck",
-  "Brain",
-  "Code",
-  "Languages",
-  "Pen",
-  "Folder",
-  "Star",
-  "Sun",
+  'Default',
+  'Cpu',
+  'Layers',
+  'ClipboardList',
+  'PenTool',
+  'BookOpen',
+  'Book',
+  'FileText',
+  'ShieldCheck',
+  'Brain',
+  'Code',
+  'Languages',
+  'Pen',
+  'Folder',
+  'Star',
+  'Sun',
 ];
 
 export const iconMap: Record<string, LucideIcon> = {
-  "Default": BookOpen,
+  Default: BookOpen,
 
   Cpu,
   Layers,
@@ -55,7 +55,7 @@ export const iconMap: Record<string, LucideIcon> = {
   Sun,
 };
 
-export const iconOptions = availableIcons.map((iconName ) => {
-  const IconComponent = iconMap[iconName] ?? iconMap["Default"];
+export const iconOptions = availableIcons.map(iconName => {
+  const IconComponent = iconMap[iconName] ?? iconMap['Default'];
   return { iconName, IconComponent };
 });
