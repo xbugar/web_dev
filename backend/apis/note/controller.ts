@@ -1,6 +1,6 @@
-﻿import { Request, Response } from "express";
-import { handleRepositoryErrors, parseRequest } from "../utils";
-import { noteRepository } from "./repository";
+﻿import {Request, Response} from "express";
+import {handleRepositoryErrors, parseRequest} from "../utils";
+import {noteRepository} from "./repository";
 
 import {
     getNoteMetaRequestSchema,
@@ -10,6 +10,7 @@ import {
     addNoteTagRequestSchema,
     removeNoteTagRequestSchema, deleteNoteRequestSchema,
 } from "./validationSchema";
+import {tagRepository} from "../tag/repository";
 import {ownership} from "../ownership";
 
 //TODO: at some magical future point in time that will never happen
@@ -77,7 +78,7 @@ const getNoteContent = async (req: Request, res: Response) => {
         handleRepositoryErrors(content.error, res);
         return;
     }
-    res.status(200).send({content:content.unwrap()});
+    res.status(200).send({content: content.unwrap()});
 };
 
 
@@ -104,10 +105,15 @@ const addNoteTag = async (req: Request, res: Response) => {
         || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
         return;
     }
+    // this part is
+    let tag = await tagRepository.getOrCreate(request.body);
+    if (tag.isErr) {
+        handleRepositoryErrors(tag.error, res);
+        return;
+    }
 
-    const note = request.params;
 
-    const newTag = await noteRepository.addTag(note);
+    const newTag = await noteRepository.addTag({noteId: request.params.noteId, tagId: tag.value.id});
     if (newTag.isErr) {
         handleRepositoryErrors(newTag.error, res);
         return;
@@ -124,15 +130,13 @@ const removeNoteTag = async (req: Request, res: Response) => {
         return;
     }
 
-    const note = request.params;
-
-    const newTag = await noteRepository.removeTag(note);
-    if (newTag.isErr) {
-        handleRepositoryErrors(newTag.error, res);
+    const queryResult = await noteRepository.removeTag(request.params);
+    if (queryResult.isErr) {
+        handleRepositoryErrors(queryResult.error, res);
         return;
     }
 
-    res.status(200).send(newTag.value);
+    res.status(200).send(null);
 };
 
 export const notesController = {

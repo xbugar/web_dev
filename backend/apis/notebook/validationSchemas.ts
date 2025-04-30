@@ -37,7 +37,7 @@ export const notebookOnlyIdRequestSchema = z.object({
     })
 });
 
-export const notebookTagOperationRequestSchema = z.object({
+export const notebookDeleteTagRequestSchema = z.object({
     params: z.object({
         notebookId: z.string().uuid(),
         tagId: z.string().uuid()
@@ -52,4 +52,15 @@ export const notebookCreateRequestSchema = z.object({
         color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
         iconName: z.string().nullable(),
     })
-})
+});
+
+export const notebookAddTagRequestSchema = z.object({
+    params: z.object({
+        notebookId: z.string().uuid()
+    }),
+    body: z.object({
+        name: z.string().min(1).max(32),
+        color: z.enum(["blue" , "purple" , "yellow" , "green" , "red" , "pink"]),
+        userId: z.string().uuid(),
+    })
+});

@@ -189,22 +189,22 @@ describe("/notebook", async () => {
             expect(status).toBe(200);
             expect(body.length).toBe(2);
         });
+        it("should add new tag to the notebook", async () => {
 
-        // TODO: do something with this
-        // it("should add new tag to the notebook", async () => {
-        //     const tag = await prisma.tag.create({
-        //         data: {
-        //             name: "testovaci tag",
-        //             color: "purple",
-        //             userId: id,
-        //         }
-        //     });
-        //     tagId = tag.id;
-        //     const {status, body} = await request(app).post(`/notebook/${notebookId}/tag/${tagId}`).send({});
-        //
-        //     expect(status).toBe(200);
-        //
-        // });
+            const {status, body} = await request(app).post(`/notebook/${notebookId}/tag`).send({
+                name: "testovaci tag",
+                color: "purple",
+                userId: id,
+            });
+
+            expect(status).toBe(200);
+            expect(body).toMatchObject({
+                name: "testovaci tag",
+                color: "purple",
+                userId: id,
+            });
+            tagId = body.id;
+        });
 
         it("should retrieve the notebook by id", async () => {
             const {status, body} = await request(app).get(`/notebook/${notebookId}`).set("Cookie", cookie).send({});
@@ -243,15 +243,14 @@ describe("/notebook", async () => {
                 tags: notebook.tags,
             });
         });
+        it("should remove one of the tags added before", async () => {
+            const {status, body} = await request(app).delete(`/notebook/${notebookId}/tag/${tagId}`).send({});
 
-        // TODO: same shit
-        // it("should remove one of the tags added before", async () => {
-        //     const {status,body} = await request(app).delete(`/notebook/${notebookId}/tag/${tagId}`).send({});
-        //
-        //     expect(status).toBe(200);
-        // })
+            expect(status).toBe(200);
+        })
 
         it('should delete the notebook', async () => {
+            const {status, body} = await request(app).delete(`/notebook/${notebookId}`).send({});
             const {status,body} = await request(app).delete(`/notebook/${notebookId}`).set("Cookie", cookie).send({});
 
             expect(status).toBe(200);

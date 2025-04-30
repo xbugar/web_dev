@@ -44,8 +44,12 @@ export const updateNoteContentRequestSchema = z.object({
 
 export const addNoteTagRequestSchema = z.object({
     params: z.object({
-        noteId: z.string().uuid(),
-        tagId: z.string().uuid(),
+        noteId: z.string().uuid()
+    }),
+    body: z.object({
+        name: z.string().min(1).max(32),
+        color: z.enum(["blue" , "purple" , "yellow" , "green" , "red" , "pink"]),
+        userId: z.string().uuid(),
     })
 });
 

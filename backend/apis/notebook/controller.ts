@@ -1,37 +1,42 @@
 import {Request, Response} from "express";
 import {handleRepositoryErrors, parseRequest} from "../utils";
 import {
-    notebookCreateNoteRequestSchema, notebookCreateRequestSchema,
+    notebookAddTagRequestSchema,
+    notebookCreateNoteRequestSchema, notebookCreateRequestSchema, notebookDeleteTagRequestSchema,
     notebookGetRequestSchema,
     notebookOnlyIdRequestSchema,
-    notebookTagOperationRequestSchema,
     notebookUpdateRequestSchema
 } from "./validationSchemas";
 import {notebookRepository} from "./repository";
 import {noteRepository} from "../note/repository";
+import {tagRepository} from "../tag/repository";
 import {AuthError} from "../types";
 import {ownership} from "../ownership";
 import {use} from "passport";
 
 
 const addTag = async (req: Request, res: Response) => {
-    const request = await parseRequest(notebookTagOperationRequestSchema, req, res);
-    if (!request
-        || !await ownership.notebook(request.params.notebookId, req.session.passport?.user.id, res)
-        || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
+    let request = await parseRequest(notebookAddTagRequestSchema, req, res);
+     if (!request
+        || !await ownership.notebook(request.params.notebookId, req.session.passport?.user.id, res)) {
+        return;
+    }
+    let tag = await tagRepository.getOrCreate(request.body);
+    if (tag.isErr) {
+        handleRepositoryErrors(tag.error, res);
         return;
     }
 
-    const operation = await notebookRepository.modifyTag(request.params.notebookId, {connect: {id: request.params.tagId}});
-    if (operation.isErr) {
-        handleRepositoryErrors(operation.error, res);
+    let result = await notebookRepository.modifyTag(request.params.notebookId, {connect: {id: tag.value.id}});
+    if (result.isErr) {
+        handleRepositoryErrors(result.error, res);
         return;
     }
-    res.status(200).send();
-}
+    res.status(200).send(tag.unwrap());
+};
 
 const removeTag = async (req: Request, res: Response) => {
-    const request = await parseRequest(notebookTagOperationRequestSchema, req, res);
+    let request = await parseRequest(notebookDeleteTagRequestSchema, req, res);
     if (!request
         || !await ownership.notebook(request.params.notebookId, req.session.passport?.user.id, res)
         || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
