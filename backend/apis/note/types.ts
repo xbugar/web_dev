@@ -3,7 +3,6 @@ import {
     getNoteMetaRequestSchema,
     updateNoteMetaRequestSchema,
     updateNoteContentRequestSchema,
-    addNoteTagRequestSchema,
     removeNoteTagRequestSchema
 } from "./validationSchema";
 import { Tag } from "../tag/types";
@@ -29,5 +28,4 @@ export type AddTag = {
 export type UpdateMeta = z.infer<typeof updateNoteMetaRequestSchema>;
 export type GetMeta = z.infer<typeof getNoteMetaRequestSchema>;
 export type UpdateContent = z.infer<typeof updateNoteContentRequestSchema>;
-
 export type RemoveTag = z.infer<typeof removeNoteTagRequestSchema>["params"];
