@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import {ZodSchema, ZodTypeDef} from "zod";
 import {fromZodError} from "zod-validation-error";
-import {InternalError, NotFoundError} from "./types";
+import {AuthError, InternalError, NotFoundError} from "./types";
 import {prisma} from "./prismaClient";
 import {readFileSync} from "fs";
 
@@ -10,7 +10,6 @@ export const handleRepositoryErrors = (e: Error, res: Response) => {
         const response: Error = {
             name: e.name || "NotFoundError",
             message: e.message || "Entity not found",
-            // cause: e.cause,
         };
 
         res.status(404).send(response);
@@ -18,7 +17,11 @@ export const handleRepositoryErrors = (e: Error, res: Response) => {
         res.status(500).send({
             name: e.name || "InternalError",
             message: e.message || "Something went wrong on our side.",
-            // cause: e.cause,
+        });
+    } else if (e instanceof AuthError) {
+        res.status(401).send({
+            name: e.name || "AuthError",
+            message: e.message || "Not authorized",
         });
     } else {
         res.status(500).send({

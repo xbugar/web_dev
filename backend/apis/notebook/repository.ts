@@ -243,5 +243,21 @@ export const notebookRepository = {
             });
     },
 
+    async getUserId(notebookId: string): Promise<Result<string>> {
+        return await prisma.notebook.findUniqueOrThrow({
+            select: {
+                userId: true
+            },
+            where: {
+                id: notebookId,
+            }
+        }).then((res) => Result.ok(res.userId))
+            .catch((error: any) => {
+                if (process.env.NODE_ENV !== "production") {
+                    return Result.err(new NotFoundError(error.message));
+                }
+                return Result.err(new NotFoundError());
+            });
+    }
 
 }

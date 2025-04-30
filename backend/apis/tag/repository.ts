@@ -12,13 +12,23 @@ export const tagRepository = {
                 color: tag.color
             }
         }).then(result => Result.ok(result))
-            .catch(() => Result.err(new InternalError()));
+            .catch((error: any) => {
+                if (process.env.NODE_ENV !== "production") {
+                    return Result.err(new InternalError(error.message));
+                }
+                return Result.err(new InternalError());
+            });
     },
 
     async getAll(): Promise<Result<Tag[]>> {
         return prisma.tag.findMany({})
             .then(result => Result.ok(result))
-            .catch(() => Result.err(new InternalError()));
+            .catch((error: any) => {
+                if (process.env.NODE_ENV !== "production") {
+                    return Result.err(new NotFoundError(error.message));
+                }
+                return Result.err(new NotFoundError());
+            });
     },
 
     async get(id: string): Promise<Result<Tag>> {
@@ -27,7 +37,12 @@ export const tagRepository = {
                 id: id
             }
         }).then(result => Result.ok(result))
-            .catch(() => Result.err(new NotFoundError()));
+            .catch((error: any) => {
+                if (process.env.NODE_ENV !== "production") {
+                    return Result.err(new NotFoundError(error.message));
+                }
+                return Result.err(new NotFoundError());
+            });
     },
 
 
@@ -41,7 +56,12 @@ export const tagRepository = {
                 color: tag.body.color
             }
         }).then(result => Result.ok(result))
-            .catch(() => Result.err(new InternalError()));
+            .catch((error: any) => {
+                if (process.env.NODE_ENV !== "production") {
+                    return Result.err(new NotFoundError(error.message));
+                }
+                return Result.err(new NotFoundError());
+            });
     },
 
 
@@ -51,7 +71,12 @@ export const tagRepository = {
                 userId: userId
             }
         }).then(result => Result.ok(result))
-            .catch(() => Result.err(new InternalError()));
+            .catch((error: any) => {
+                if (process.env.NODE_ENV !== "production") {
+                    return Result.err(new NotFoundError(error.message));
+                }
+                return Result.err(new NotFoundError());
+            });
     },
 
 
@@ -61,6 +86,28 @@ export const tagRepository = {
                 id: id
             }
         }).then(() => Result.ok(null))
-            .catch(() => Result.err(new InternalError()));
+            .catch((error: any) => {
+                if (process.env.NODE_ENV !== "production") {
+                    return Result.err(new NotFoundError(error.message));
+                }
+                return Result.err(new NotFoundError());
+            });
+    },
+
+    async getUserId(tagId: string): Promise<Result<string>> {
+        return prisma.tag.findUniqueOrThrow({
+            select: {
+                userId: true
+            },
+            where: {
+                id: tagId
+            }
+        }).then((tag) => Result.ok(tag.userId))
+            .catch((error: any) => {
+                if (process.env.NODE_ENV !== "production") {
+                    return Result.err(new NotFoundError(error.message));
+                }
+                return Result.err(new NotFoundError());
+            });
     }
 }

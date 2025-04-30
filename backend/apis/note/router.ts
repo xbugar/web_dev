@@ -1,9 +1,11 @@
 ﻿import { Router } from "express";
 import { notesController } from "./controller";
+import {isAuthenticated} from "../auth/middleware";
+import passport from "passport";
 
 export const notesRouter = Router();
 
-notesRouter.get("/:noteId", notesController.getNoteMeta);
+notesRouter.get("/:noteId", passport.session(), isAuthenticated, notesController.getNoteMeta);
 notesRouter.put("/:noteId", notesController.updateNoteMeta);
 notesRouter.delete("/:noteId", notesController.deleteNote);
 notesRouter.get("/:noteId/Content", notesController.getNoteContent);

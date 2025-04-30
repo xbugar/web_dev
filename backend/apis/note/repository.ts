@@ -215,6 +215,27 @@ export const noteRepository = {
                     return Result.err(new InternalError());
                 }
             );
+    },
+
+    async getUserId(noteId: string): Promise<Result<string>> {
+        return prisma.note.findUniqueOrThrow({
+            select: {
+                notebook: {
+                    select: {
+                        userId: true
+                    }
+                }
+            },
+            where: { id: noteId }
+        }).then(note => Result.ok(note.notebook.userId))
+            .catch(
+                (error: any) => {
+                    if (process.env.NODE_ENV !== "production") {
+                        return Result.err(new NotFoundError(error.message));
+                    }
+                    return Result.err(new NotFoundError());
+                }
+            );
     }
 }
 

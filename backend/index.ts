@@ -8,6 +8,12 @@ import {userRouter} from "./apis/user/router";
 import {notebookRouter} from "./apis/notebook/router";
 import {notesRouter} from "./apis/note/router";
 import {tagsRouter} from "./apis/tag/router";
+import passport from "passport";
+import {passportStrategy} from "./apis/auth/passportStrategy";
+import {PrismaStore} from "./apis/auth/prismaStore";
+import session from "express-session";
+import {isAuthenticated} from "./apis/auth/middleware";
+import { authRouter } from "./apis/auth/router";
 
 const app = express();
 
@@ -17,10 +23,11 @@ app.use(cors());
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
-app.use('/user', userRouter);
-app.use('/notebook', notebookRouter);
-app.use('/note',notesRouter);
-app.use('/tag', tagsRouter);
+app.use('/auth', authRouter);
+app.use('/user', passport.session(), isAuthenticated, userRouter);
+app.use('/notebook', passport.session(), isAuthenticated, notebookRouter);
+app.use('/note', passport.session(), isAuthenticated, notesRouter);
+app.use('/tag', passport.session(), isAuthenticated, tagsRouter);
 
 // Setup Swagger UI for API documentation
 const swaggerYaml = fs.readFileSync("./api-documentation/openapi.yaml", "utf8");
@@ -33,18 +40,20 @@ if (process.env.NODE_ENV !== "production") {
         swaggerUi.setup(swaggerDocument)
     );
 }
-// maybe just delete this
-/*
-const prisma = new PrismaClient();
-app.use(express.json());
 
-// Get all users
-app.get("/", async (req:Request, res:Response) => {
-    const users = await prisma.user.findMany({});
-    res.json(
-        users
-    );
-});*/
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+passport.use(passportStrategy());
+app.use(
+    session({
+        store: new PrismaStore(),
+        secret: "keyboard cat",
+        resave: false,
+        saveUninitialized: false,
+        cookie: { secure: false, httpOnly: true }
+    })
+);
 
 const PORT = 3000;
 
