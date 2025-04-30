@@ -244,7 +244,7 @@ describe("/notebook", async () => {
             });
         });
         it("should remove one of the tags added before", async () => {
-            const {status, body} = await request(app).delete(`/notebook/${notebookId}/tag/${tagId}`).send({});
+            const {status} = await request(app).delete(`/notebook/${notebookId}/tag/${tagId}`).send({});
 
             expect(status).toBe(200);
         })
@@ -252,6 +252,7 @@ describe("/notebook", async () => {
         it('should delete the notebook', async () => {
             const {status, body} = await request(app).delete(`/notebook/${notebookId}`).send({});
             const {status,body} = await request(app).delete(`/notebook/${notebookId}`).set("Cookie", cookie).send({});
+            const {status} = await request(app).delete(`/notebook/${notebookId}`).send({});
 
             expect(status).toBe(200);
             const notebook = await prisma.notebook.findFirst({where: {id: notebookId}});
