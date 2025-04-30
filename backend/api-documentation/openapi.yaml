@@ -924,6 +924,9 @@ components:
           type: string
         color:
           type: string
+        userId:
+          description: This might not be necessary when auth is fully implemented but for now there is no way around this
+          type: string
       required:
         name
         color

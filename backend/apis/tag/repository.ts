@@ -1,7 +1,7 @@
-import { Result } from "@badrap/result";
-import { prisma } from "../prismaClient";
-import { InternalError, NotFoundError } from "../types";
-import { CreateTag, Tag, UpdateTag } from "./types";
+import {Result} from "@badrap/result";
+import {prisma} from "../prismaClient";
+import {InternalError, NotFoundError} from "../types";
+import {CreateTag, Tag, TagRequest, UpdateTag} from "./types";
 
 export const tagRepository = {
     async create(tag: CreateTag, userId: string): Promise<Result<Tag>> {
@@ -43,6 +43,38 @@ export const tagRepository = {
                 }
                 return Result.err(new NotFoundError());
             });
+    },
+
+    async getOrCreate(tagFilter: TagRequest): Promise<Result<Tag>> {
+        try {
+            const tag = await prisma.$transaction(async (tx) => {
+
+                let tag = await tx.tag.findFirst({
+                    where: {
+                        name: tagFilter.name,
+                        color: tagFilter.color,
+                        userId: tagFilter.userId,
+                    }
+                });
+
+                if (tag == null) {
+                    tag = await tx.tag.create({
+                        data: {
+                            name: tagFilter.name,
+                            color: tagFilter.color,
+                            userId: tagFilter.userId,
+                        }
+                    });
+                }
+                return tag;
+            })
+            return Result.ok(tag);
+        } catch (error: any) {
+            if (process.env.NODE_ENV !== "production") {
+                return Result.err(new NotFoundError(error.message));
+            }
+            return Result.err(new NotFoundError());
+        }
     },
 
 
