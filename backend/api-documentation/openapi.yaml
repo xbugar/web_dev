@@ -230,7 +230,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /note/{noteId}/tag/{tagId}:
+  /note/{noteId}/tag:
     post:
       tags:
         - note
@@ -244,21 +244,29 @@ paths:
           required: true
           schema:
             type: string
-        - name: tagId
-          in: path
-          description: id of tag
-          required: true
-          schema:
-            type: string
+      requestBody:
+        description: Name and color of a tag.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagNameColor'
+
       responses:
         '200':
           description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
         default:
           description: Unexpected error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+  /note/{noteId}/tag/{tagId}:
+
     delete:
       tags:
         - note
@@ -493,7 +501,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /notebook/{notebookId}/tag/{tagId}:
+  /notebook/{notebookId}/tag:
     post:
       tags:
         - notebook
@@ -507,21 +515,27 @@ paths:
           required: true
           schema:
             type: string
-        - name: tagId
-          in: path
-          description: id of tag
-          required: true
-          schema:
-            type: string
+      requestBody:
+        description: Name and color of a tag.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagNameColor'
       responses:
         '200':
           description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
         default:
           description: Unexpected error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+  /notebook/{notebookId}/tag/{tagId}:
     delete:
       tags:
         - notebook
@@ -903,7 +917,16 @@ paths:
 
 components:
   schemas:
-
+    TagNameColor:
+      type: object
+      properties:
+        name:
+          type: string
+        color:
+          type: string
+      required:
+        name
+        color
 
     CreateNote:
       type: object
