@@ -132,6 +132,16 @@ describe("/notebook", async () => {
             );
         });
 
+        it('should return 200 and two existing notebooks for this user', async () => {
+            const {status, body} = await request(app).get('/user/' + id + '/notebooks').send({});
+            console.log('/user/' + id + '/notebooks');
+            console.log(body);
+            expect(status).toBe(200);
+            expect(body.length).toBe(2);
+            //const notebooks= await prisma.user.findUniqueOrThrow({where:{id:id},select:{notebooks:true}});
+            //expect(body).toMatchObject(notebooks.notebooks);
+        });
+
         it('should change the description of a notebook  and return 200 ', async () => {
             const {status, body} = await request(app).put("/notebook/" + notebookId).send({
                 title: "notebucik",
@@ -185,7 +195,7 @@ describe("/notebook", async () => {
         it("should add new tag to the notebook", async () => {
             const tag = await prisma.tag.create({
                 data: {
-                    tag: "testovaci tag",
+                    name: "testovaci tag",
                     color: "purple",
                     userId: id,
                 }

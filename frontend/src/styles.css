@@ -1,13 +1,37 @@
-@import url("https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap");
-@import "tailwindcss";
-@import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@layer utilities {
+  .hide-scrollbar {
+    /* Firefox */
+    scrollbar-width: none;
+    /* IE 10+ / Edge */
+    -ms-overflow-style: none;
+  }
+  /* WebKit browsers */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @theme {
   /* fonts */
-  --font-serif: "Funnel Display", "serif";
-  --font-sans: "Funnel Sans", "sans-serif";
+  --font-serif: 'Funnel Display', 'serif';
+  --font-sans: 'Funnel Sans', 'sans-serif';
+
+  --color-black: oklch(0.14 0 0);
+  --color-white: oklch(0.99 0 0);
+
+  --color-black-secondary: oklch(0.16 0 0);
+  --color-white-secondary: oklch(0.96 0 0);
+
+  --shadow-ours:
+    inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075), 0 0 0 1px hsla(0, 0%, 0%, 0.05),
+    0 0.3px 0.4px hsla(0, 0%, 0%, 0.02), 0 0.9px 1.5px hsla(0, 0%, 0%, 0.045),
+    0 3.5px 6px hsla(0, 0%, 0%, 0.09);
 
   /* colors that are same on DM and LM */
   --color-text-primary-black: oklch(0.14 0 0);
@@ -27,7 +51,7 @@
   --color-bg-dm-secondary: oklch(0.16 0 0);
 
   /* colors for LM */
-  --color-color-lm-primary:  oklch(0.14 0 0);
+  --color-color-lm-primary: oklch(0.14 0 0);
   /*--color-lm-secondary: oklch(0.45 0.313214 264.052);*/
 
   --color-text-lm-primary: oklch(0.14 0 0);
@@ -87,7 +111,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: oklch(0.99 0 0);
   --foreground: oklch(0.13 0.028 261.692);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.13 0.028 261.692);
@@ -121,7 +145,7 @@
 }
 
 .dark {
-  --background: oklch(0.13 0.028 261.692);
+  --background: oklch(0.14 0 0);
   --foreground: oklch(0.985 0.002 247.839);
   --card: oklch(0.21 0.034 264.665);
   --card-foreground: oklch(0.985 0.002 247.839);
@@ -161,4 +185,13 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.ProseMirror {
+  outline: none !important;
+  border: none !important;
+  padding: 0 !important;
+  min-height: 150px; /* still needed so it's not tiny */
+  background: transparent !important;
+  box-shadow: none !important;
 }

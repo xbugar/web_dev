@@ -2,7 +2,7 @@ import { z } from "zod"
 
 export const createTagRequestSchema = z.object({
     body: z.object({
-        tag: z.string().min(1).max(32),
+        name: z.string().min(1).max(32),
         color: z.enum(["blue" , "purple" , "yellow" , "green" , "red" , "pink"]),
         userId: z.string().uuid()
     })
@@ -21,7 +21,7 @@ export const updateTagRequestSchema = z.object({
         tagId: z.string().uuid()
     }),
     body: z.object({
-        tag: z.string().min(1).max(32).optional(),
+        name: z.string().min(1).max(32).optional(),
         color: z.enum(["blue" , "purple" , "yellow" , "green" , "red" , "pink"]).optional(),
     })
 });
