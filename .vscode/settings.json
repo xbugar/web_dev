@@ -5,7 +5,7 @@
 
   // 2. Run ESLint fixes after formatting
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "always"
   },
 
   // 3. Tell the ESLint extension to use your flat config

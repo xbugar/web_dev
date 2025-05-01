@@ -25,6 +25,8 @@
   --color-black: oklch(0.14 0 0);
   --color-white: oklch(0.99 0 0);
 
+  --color-white-text-secondary: oklch(0.74 0 0);
+
   --color-black-secondary: oklch(0.16 0 0);
   --color-white-secondary: oklch(0.96 0 0);
 
@@ -33,6 +35,7 @@
     0 0.3px 0.4px hsla(0, 0%, 0%, 0.02), 0 0.9px 1.5px hsla(0, 0%, 0%, 0.045),
     0 3.5px 6px hsla(0, 0%, 0%, 0.09);
 
+  /* THIS IS REFERENCE PLEASE DONT USE */
   /* colors that are same on DM and LM */
   --color-text-primary-black: oklch(0.14 0 0);
   --color-text-primary-white: oklch(0.99 0 0);

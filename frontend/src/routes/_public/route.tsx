@@ -2,27 +2,29 @@ import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
 import gradient from '@/assets/gradient.webp';
 
 export const Route = createFileRoute('/_public')({
-  component: RouteComponent,
+  component: LoginAndRegisterLayout,
 });
 
-function RouteComponent() {
+function LoginAndRegisterLayout() {
   return (
     <>
-      <div className="bg-bg-lm-primary dark:bg-bg-dm-primary flex flex-col justify-center items-center p-2 h-screen">
+      <div className="bg-bg-lm-primary dark:bg-bg-dm-primary p-2 h-dvh">
         <div
-          className="flex p-2 flex-col gap-2.5 bg-no-repeat bg-cover bg-center h-full w-full"
-          style={{ backgroundImage: `url(${gradient})`, borderRadius: ` 25px` }}
+          className="flex flex-col bg-no-repeat bg-cover bg-center h-full w-full rounded-3xl"
+          style={{ backgroundImage: `url(${gradient})` }}
         >
-          <div className="flex items-center p-4 self-stretch justify-between">
-            <div className="justify-center text-white text-3xl font-bold font-serif leading-loose">
-              <Link to="/">gradia.</Link>
-            </div>
-            <div className="w-28 text-center justify-center text-white text-xs font-serif">
-              Write it down, make it happen.
+          <div className="flex py-4 px-5 items-center justify-between">
+            <Link to="/" className="text-white text-4xl font-bold font-serif">
+              gradia.
+            </Link>
+            <div className="text-center text-white text-sm font-serif">
+              Write it down,
+              <br />
+              make it happen.
             </div>
           </div>
 
-          <div className="flex text-white self-stretch p-4 h-full justify-center">
+          <div className="h-full flex justify-center items-center p-8 text-white">
             <Outlet />
           </div>
         </div>

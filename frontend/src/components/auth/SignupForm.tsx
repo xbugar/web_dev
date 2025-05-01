@@ -57,22 +57,22 @@ export function SignupForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="inline-flex p-6 flex-col justify-center items-start gap-14 self-stretch"
+        className="flex flex-col justify-center w-full gap-14"
       >
-        <div className="self-stretch flex flex-col justify-center items-center gap-2">
-          <div className="text-center justify-center text-white text-3xl font-bold font-serif">
+        <div className="flex flex-col justify-center items-center gap-2">
+          <div className="text-center text-white text-3xl font-bold font-serif">
             Create an account
           </div>
-          <div className="flex gap-2">
-            <div>Already have an account?</div>
-            <div className="underline">
-              <Link to="/login">Log in</Link>
-            </div>
+          <div className="flex gap-2 text-md font-light">
+            <div className="text-white-text-secondary">Already have an account?</div>
+            <Link to="/login" className="underline">
+              Log in
+            </Link>
           </div>
         </div>
 
-        <div className="self-stretch flex flex-col justify-start items-center gap-5">
-          <div className="self-stretch inline-flex justify-start items-center gap-4">
+        <div className="flex flex-col items-center gap-5">
+          <div className="inline-flex gap-5">
             <FormField
               control={form.control}
               name="firstName"
@@ -139,7 +139,7 @@ export function SignupForm() {
           />
         </div>
 
-        <Button type="submit" variant="customSubmit">
+        <Button type="submit" variant="submit">
           Create account
         </Button>
       </form>
