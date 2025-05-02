@@ -40,13 +40,13 @@ export function LoginForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col justify-center w-full gap-14"
+        className="flex w-full flex-col justify-center gap-14"
       >
-        <div className="flex flex-col justify-center items-center gap-2">
-          <div className="text-center text-white text-3xl font-bold font-serif">
+        <div className="flex flex-col items-center justify-center gap-2">
+          <div className="text-center font-serif text-3xl font-bold text-white">
             Log in to account
           </div>
-          <div className="flex gap-2 text-md font-light">
+          <div className="text-md flex gap-2 font-light">
             <div className="text-white-text-secondary">Don&apos;t have an account?</div>
             <Link to="/sign-up" className="underline">
               Create one
@@ -61,7 +61,7 @@ export function LoginForm() {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <Input placeholder="Email" {...field} />
+                  <Input placeholder="Email" variant="inputAlt" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -74,7 +74,12 @@ export function LoginForm() {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <PasswordInput placeholder="Password" type="password" {...field} />
+                  <PasswordInput
+                    placeholder="Password"
+                    type="password"
+                    variant="inputAlt"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -82,7 +87,7 @@ export function LoginForm() {
           />
         </div>
 
-        <Button type="submit" variant="submit">
+        <Button type="submit" variant="submitAlternative">
           Log in
         </Button>
       </form>

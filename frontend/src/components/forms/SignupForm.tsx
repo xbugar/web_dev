@@ -57,13 +57,13 @@ export function SignupForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col justify-center w-full gap-14"
+        className="flex w-full flex-col justify-center gap-14"
       >
-        <div className="flex flex-col justify-center items-center gap-2">
-          <div className="text-center text-white text-3xl font-bold font-serif">
+        <div className="flex flex-col items-center justify-center gap-2">
+          <div className="text-center font-serif text-3xl font-bold text-white">
             Create an account
           </div>
-          <div className="flex gap-2 text-md font-light">
+          <div className="text-md flex gap-2 font-light">
             <div className="text-white-text-secondary">Already have an account?</div>
             <Link to="/login" className="underline">
               Log in
@@ -79,7 +79,7 @@ export function SignupForm() {
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormControl>
-                    <Input placeholder="First Name" {...field} />
+                    <Input placeholder="First Name" variant="inputAlt" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -91,7 +91,7 @@ export function SignupForm() {
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormControl>
-                    <Input placeholder="Last Name" {...field} />
+                    <Input placeholder="Last Name" variant="inputAlt" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -105,7 +105,7 @@ export function SignupForm() {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <Input placeholder="Email" {...field} />
+                  <Input placeholder="Email" variant="inputAlt" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -118,7 +118,12 @@ export function SignupForm() {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <PasswordInput placeholder="Password" type="password" {...field} />
+                  <PasswordInput
+                    placeholder="Password"
+                    type="password"
+                    variant="inputAlt"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -131,7 +136,12 @@ export function SignupForm() {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <PasswordInput placeholder="Confirm Password" type="password" {...field} />
+                  <PasswordInput
+                    placeholder="Confirm Password"
+                    type="password"
+                    variant="inputAlt"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -139,7 +149,7 @@ export function SignupForm() {
           />
         </div>
 
-        <Button type="submit" variant="submit">
+        <Button type="submit" variant="submitAlternative">
           Create account
         </Button>
       </form>

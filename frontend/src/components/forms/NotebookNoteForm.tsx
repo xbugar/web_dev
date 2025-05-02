@@ -12,6 +12,8 @@ import { useState } from 'react';
 import { AccentColor, availableColors, iconColor } from '@/components/cards/cardColors.tsx';
 import { cn } from '@/lib/utils';
 import { iconOptions } from '@/components/cards/IconOptions.tsx';
+import { NotebookCard } from '../cards/NotebookCard';
+import { DialogClose, DialogFooter } from '../ui/dialog';
 
 type NotebookFormProps = {
   type: 'notebook' | 'note';
@@ -40,8 +42,8 @@ export function NotebookNoteForm({
 }: NotebookFormProps) {
   const [title, setTitle] = useState(initialData?.title || '');
   const [description, setDescription] = useState(initialData?.description || '');
-  const [color, setColor] = useState(initialData?.color || '');
-  const [iconName, setIcon] = useState(initialData?.iconName || 'Default');
+  const [color, setColor] = useState(initialData?.color || 'red');
+  const [iconName, setIcon] = useState(initialData?.iconName || 'BookOpen');
 
   const handleSubmit = () => {
     if (!title) return;
@@ -63,9 +65,74 @@ export function NotebookNoteForm({
   };
 
   return (
-    <div className="grid gap-4 py-4">
+    <div className="grid gap-6">
+      {type === 'notebook' && (
+        <>
+          <div className="grid items-center gap-2">
+            <Label htmlFor="create-notebook-card-preview" className="text-right">
+              Preview
+            </Label>
+            <NotebookCard
+              id="create-notebook-card-preview"
+              key={''}
+              title={title}
+              description={description}
+              iconName={iconName}
+              color={color}
+              noteCount={0}
+              lastUpdated={new Date().toString()}
+              isLinked={false}
+            />
+          </div>
+
+          <div className="flex justify-between gap-5">
+            {/* Color */}
+            <div className="flex w-full flex-col">
+              <Label htmlFor="color" className="text-right">
+                Color
+              </Label>
+              <Select value={color} onValueChange={value => setColor(value)}>
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Select a color" />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableColors.map(({ label, value }) => (
+                    <SelectItem key={value} value={value}>
+                      <div
+                        className={cn('h-5 w-5 rounded-xl', iconColor[value as AccentColor])}
+                      ></div>
+                      {label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Icon */}
+            <div className="flex w-full flex-col">
+              <Label htmlFor="icon" className="text-right">
+                Icon
+              </Label>
+              <Select value={iconName} onValueChange={iconName => setIcon(iconName)}>
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Select an icon" />
+                </SelectTrigger>
+                <SelectContent>
+                  {iconOptions.map(({ iconName, IconComponent }) => (
+                    <SelectItem key={iconName} value={iconName}>
+                      <IconComponent className="h-4 w-4 text-black dark:text-white" />
+                      {iconName}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </>
+      )}
+
       {/* Title */}
-      <div className="grid items-center gap-4">
+      <div className="grid items-center">
         <Label htmlFor="title" className="text-right">
           Title
         </Label>
@@ -81,7 +148,7 @@ export function NotebookNoteForm({
       {type === 'notebook' && (
         <>
           {/* Description */}
-          <div className="grid items-center gap-4">
+          <div className="grid items-center">
             <Label htmlFor="description" className="text-right">
               Description
             </Label>
@@ -93,58 +160,15 @@ export function NotebookNoteForm({
               className="col-span-3"
             />
           </div>
-
-          <div className="flex justify-left items-center gap-4">
-            {/* Color */}
-            <div className="grid items-center gap-4">
-              <Label htmlFor="color" className="text-right">
-                Color
-              </Label>
-              <Select value={color} onValueChange={value => setColor(value)}>
-                <SelectTrigger className="col-span-3">
-                  <SelectValue placeholder="Select a color" />
-                </SelectTrigger>
-                <SelectContent>
-                  {availableColors.map(({ label, value }) => (
-                    <SelectItem key={value} value={value}>
-                      <div
-                        className={cn('w-1 h-4 rounded-xl', iconColor[value as AccentColor])}
-                      ></div>
-                      {label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Icon */}
-            <div className="grid items-center gap-4">
-              <Label htmlFor="icon" className="text-right">
-                Icon
-              </Label>
-              <Select value={iconName} onValueChange={iconName => setIcon(iconName)}>
-                <SelectTrigger className="col-span-3">
-                  <SelectValue placeholder="Select an icon" />
-                </SelectTrigger>
-                <SelectContent>
-                  {iconOptions.map(({ iconName, IconComponent }) => (
-                    <SelectItem key={iconName} value={iconName}>
-                      <div className={cn('p-1 rounded-md', iconColor[color as AccentColor])}>
-                        <IconComponent className="w-4 h-4 text-white" />
-                      </div>
-                      {iconName}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
         </>
       )}
 
-      <Button type="submit" variant="customSubmit" onClick={handleSubmit} disabled={isSubmitting}>
-        {isSubmitting ? 'Saving...' : submitText}
-      </Button>
+      <DialogFooter className="flex-row-reverse">
+        <DialogClose>Cancel</DialogClose>
+        <Button type="submit" variant="submit" onClick={handleSubmit} disabled={isSubmitting}>
+          {isSubmitting ? 'Saving...' : submitText}
+        </Button>
+      </DialogFooter>
     </div>
   );
 }
