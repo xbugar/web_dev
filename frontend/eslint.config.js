@@ -7,7 +7,6 @@ import tseslint from 'typescript-eslint';
 import prettierPlugin from 'eslint-plugin-prettier';
 import airbnbTypeScript from 'eslint-config-airbnb-typescript';
 import * as prettierConfig from 'eslint-config-prettier';
-import tailwindcss from 'eslint-plugin-tailwindcss'; // Add Tailwind CSS plugin
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -25,7 +24,6 @@ export default tseslint.config(
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       prettier: prettierPlugin,
-      tailwindcss, // Add Tailwind CSS plugin
     },
     settings: {
       react: {
@@ -57,13 +55,6 @@ export default tseslint.config(
 
       // Disable old requirement to import React in JSX files
       'react/react-in-jsx-scope': 'off',
-
-      'max-len': ['error', { code: 100, ignoreStrings: true, ignoreTemplateLiterals: true }],
-
-      // Tailwind CSS rules
-      'tailwindcss/classnames-order': 'warn', // Enforce class name order
-      'tailwindcss/no-custom-classname': 'off', // Allow custom class names
-      'tailwindcss/no-contradicting-classname': 'error', // Prevent conflicting class names
     },
   },
 

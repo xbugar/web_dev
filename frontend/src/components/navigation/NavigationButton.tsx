@@ -20,8 +20,8 @@ export function NavigationButton({ to, Icon, label }: NavigationButtonProps) {
         <Button
           asChild
           variant={'navigation'}
-          className={cn('flex items-center gap-2 justify-start', {
-            'bg-black dark:bg-white text-white dark:text-black': isActive,
+          className={cn('flex items-center justify-start gap-2', {
+            'bg-black text-white dark:bg-white dark:text-black': isActive,
           })}
         >
           <Link to={to}>
