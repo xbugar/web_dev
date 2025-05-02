@@ -14,7 +14,15 @@ For windows: Win + r -> services.msc -> find postgres
 
 
 setting up the database
+
 ```
+#first time running the database
+cp .env.example .env
+docker compose -f docker-compose.postgres.yml up -d
+npx prisma migrate dev --name pb138
+npx prisma generate
+
+
 npm run devdb:up # sets up the development database
 npm run devdb:down # shuts down the development database
 npx prisma db seed # creates mocked data

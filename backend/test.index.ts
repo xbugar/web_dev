@@ -40,7 +40,7 @@ app.use(
 
 app.use(passport.initialize());
 
-app.use('/auth', passport.session(), authRouter);
+app.use('/auth', authRouter);
 app.use('/user', passport.session(), isAuthenticated, userRouter);
 app.use('/notebook', passport.session(), isAuthenticated, notebookRouter);
 app.use('/note', passport.session(), isAuthenticated, notesRouter);

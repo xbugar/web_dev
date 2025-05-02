@@ -1,13 +1,18 @@
-﻿import {describe, expect, it} from 'vitest'
+﻿import {beforeAll, describe, expect, it} from 'vitest'
 import request from 'supertest'
 import app from '../test.index'
 import {prisma} from "./utils/prisma";
 import {defaultIcon} from "../apis/utils";
+import resetDb from "./utils/reset-db";
 
 describe('/auth', async () => {
+    beforeAll(async () => {
+        await resetDb()
+
+    })
     describe('all auth operations happy path', async () => {
         let cookie: string;
-        it('registers a user and logs him in. sends it back with 200', async () => {
+        it('registers a user and automatically logs him in. sends it back with 200', async () => {
             let res = await request(app).post('/auth/register').send({
                 firstName: 'John',
                 lastName: 'Doe',
@@ -21,25 +26,20 @@ describe('/auth', async () => {
                 }
             });
 
-            console.log(res)
 
-            // expect(res.status).toBe(201);
-            // expect(body).toStrictEqual({});
             expect(newUser).not.toBeNull();
 
-            expect(res.status).toBe(201);
+            expect(res.status).toBe(200);
             expect(res.body).toStrictEqual({})
             cookie = res.headers['set-cookie'][0];
-
-            const auto = await prisma.session.findMany()
-            console.log(cookie)
-            console.log(auto)
         });
 
         it('creates a users notebook', async () => {
             const icon = await defaultIcon();
             const url = "/user/notebook";
-            const {status, body} = await request(app).post(url).set('Cookie', cookie).send(
+            const {status, body} = await request(app).post(url)
+                .set('Cookie', cookie)
+                .send(
                 {
                     title: "notebucik",
                     description: "neeimeme",
@@ -48,6 +48,31 @@ describe('/auth', async () => {
                 }
             );
             expect(status).toBe(200);
+        });
+
+        it('logs out a user and sends it back with 200', async () => {
+            const {status, body} = await request(app).post('/auth/logout')
+                .set("Cookie", cookie)
+                .send({})
+            expect(status).toBe(200);
+        });
+
+        it('should not create the notebook as the user has logged out and should not send a response', async () => {
+            const icon = await defaultIcon();
+            const url = "/user/notebook";
+
+            await expect(async () => {
+                await request(app)
+                    .post(url)
+                    .set('Cookie', cookie)
+                    .send({
+                        title: "notebucik",
+                        description: "neeimeme",
+                        color: "green",
+                        iconName: icon.name
+                    })
+                    .timeout(500); // Set a timeout to ensure no response is sent
+            }).rejects.toThrow('Timeout of 500ms exceeded');
         });
     });
 });

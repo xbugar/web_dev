@@ -58,7 +58,7 @@ const remove = async (req: Request, res: Response) => {
         res.status(400).send("No user Id provided");
         return;
     }
-    let maybeUser = await userRepository.delete(req.params.userId);
+    let maybeUser = await userRepository.delete(userId);
     if (maybeUser.isErr) {
         handleRepositoryErrors(maybeUser.error, res);
         return;
@@ -82,11 +82,9 @@ const getNotebooks = async (req: Request, res: Response) => {
 }
 
 const createNotebook = async (req: Request, res: Response) => {
-    console.log("KURVAAAAAAAAAAAAAAAAAAAAAAA")
     const userId = req.session.passport?.user.id;
     let request = await parseRequest(userCreateNotebookRequestSchema, req, res);
     if (!request || !userId) {
-        console.log(userId)
         return;
     }
     let notebook = await notebookRepository.createFromUser(request, userId);

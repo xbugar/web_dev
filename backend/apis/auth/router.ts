@@ -2,12 +2,13 @@
 import {authController} from "./controller";
 import passport from "passport";
 import {User} from "../user/types";
+import {isAuthenticated} from "./middleware";
 
 export const authRouter = Router();
 
 authRouter.post("/login", passport.authenticate("local"), authController.login);
 authRouter.post("/register", authController.register);
-authRouter.post("/logout", passport.session(), (req, res, next) => {
+authRouter.post("/logout", passport.session(), isAuthenticated, (req, res, next) => {
     req.logout(
         {
             keepSessionInfo: false,
