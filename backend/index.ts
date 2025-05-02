@@ -10,10 +10,11 @@ import {notesRouter} from "./apis/note/router";
 import {tagsRouter} from "./apis/tag/router";
 import passport from "passport";
 import {passportStrategy} from "./apis/auth/passportStrategy";
-import {PrismaStore} from "./apis/auth/prismaStore";
+import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import session from "express-session";
 import {isAuthenticated} from "./apis/auth/middleware";
 import { authRouter } from "./apis/auth/router";
+import {PrismaClient} from "@prisma/client";
 
 const app = express();
 
@@ -21,6 +22,24 @@ const app = express();
 app.use(cors());
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+passport.use(passportStrategy());
+app.use(
+    session({
+        secret: "keyboard cat",
+        resave: false,
+        saveUninitialized: false,
+        cookie: { secure: false, httpOnly: true },
+        store: new PrismaSessionStore(
+            new PrismaClient(),
+            {
+                checkPeriod: 2 * 60 * 1000,  //ms
+                dbRecordIdIsSessionId: true,
+            }
+        )
+    })
+);
 
 app.use(express.urlencoded({ extended: true }));
 app.use('/auth', authRouter);
@@ -41,19 +60,6 @@ if (process.env.NODE_ENV !== "production") {
     );
 }
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-passport.use(passportStrategy());
-app.use(
-    session({
-        store: new PrismaStore(),
-        secret: "keyboard cat",
-        resave: false,
-        saveUninitialized: false,
-        cookie: { secure: false, httpOnly: true }
-    })
-);
 
 const PORT = 3000;
 

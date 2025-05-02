@@ -87,7 +87,7 @@ export const userRepository = {
             });
     },
 
-    async update(userUpdateRequest: UserUpdateRequest): Promise<Result<UserResponse, Error>> {
+    async update(userUpdateRequest: UserUpdateRequest, userId: string): Promise<Result<UserResponse, Error>> {
         return await prisma.user.update(
             {
                 select: {
@@ -97,7 +97,7 @@ export const userRepository = {
                     email: true
                 },
                 where: {
-                    id: userUpdateRequest.params.userId
+                    id: userId
                 },
                 data: {
                     firstName: userUpdateRequest.body.firstName ?? undefined,

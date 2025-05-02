@@ -8,11 +8,20 @@ CREATE TABLE "User" (
     "lastName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "isAdmin" BOOLEAN NOT NULL DEFAULT false,
-    "hashedPassword" TEXT NOT NULL,
-    "passwordSalt" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "profilePictureId" UUID,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Session" (
+    "id" UUID NOT NULL,
+    "expires" TIMESTAMP(3) NOT NULL,
+    "sessionData" TEXT NOT NULL,
+    "userId" UUID NOT NULL,
+
+    CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -41,7 +50,6 @@ CREATE TABLE "Notebook" (
 CREATE TABLE "Note" (
     "id" UUID NOT NULL,
     "title" TEXT NOT NULL,
-    "color" TEXT NOT NULL,
     "content" TEXT NOT NULL DEFAULT '',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -119,7 +127,7 @@ CREATE TABLE "Icon" (
 -- CreateTable
 CREATE TABLE "Tag" (
     "id" UUID NOT NULL,
-    "tag" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
     "color" TEXT NOT NULL,
     "userId" UUID NOT NULL,
 
@@ -171,9 +179,6 @@ CREATE INDEX "Notebook_userId_updatedAt_idx" ON "Notebook"("userId", "updatedAt"
 CREATE INDEX "Notebook_userId_title_idx" ON "Notebook"("userId", "title");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Note_notebookId_key" ON "Note"("notebookId");
-
--- CreateIndex
 CREATE INDEX "Note_notebookId_title_idx" ON "Note"("notebookId", "title");
 
 -- CreateIndex
@@ -205,6 +210,9 @@ CREATE INDEX "_FlashDeckToTag_B_index" ON "_FlashDeckToTag"("B");
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_profilePictureId_fkey" FOREIGN KEY ("profilePictureId") REFERENCES "ProfilePicture"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Notebook" ADD CONSTRAINT "Notebook_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -51,6 +51,5 @@ export const notebookCreateRequestSchema = z.object({
         description: z.string().min(1).max(255),
         color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
         iconName: z.string().nullable(),
-        userId: z.string().uuid(),
     })
 })

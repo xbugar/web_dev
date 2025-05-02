@@ -17,8 +17,6 @@ export type NotebookCreateNoteRequest = z.infer<typeof notebookCreateNoteRequest
 export type NotebookCreateRequest = z.infer<typeof notebookCreateRequestSchema>;
 export type NotebookFilter = {
     withTags: boolean;
-    userId: string;
-
 }
 
 export type NotebookResponse = {

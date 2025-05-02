@@ -13,7 +13,7 @@ import {
 
 
 export const notebookRepository = {
-    async createFromUser(request: UserCreateNotebookRequest): Promise<Result<NotebookResponse>> {
+    async createFromUser(request: UserCreateNotebookRequest, userId: string): Promise<Result<NotebookResponse>> {
 
         return await prisma.notebook.create({
             select: {
@@ -33,7 +33,7 @@ export const notebookRepository = {
 
             data: {
                 ...request.body,
-                userId: request.params.userId,
+                userId: userId,
             }
         }).then(notebook => Result.ok({
             id: notebook.id,
@@ -53,7 +53,7 @@ export const notebookRepository = {
             });
     },
 
-    async create(request: NotebookCreateRequest): Promise<Result<NotebookResponse>> {
+    async create(request: NotebookCreateRequest, userId: string): Promise<Result<NotebookResponse>> {
         return await prisma.notebook.create({
             select: {
                 id: true,
@@ -71,6 +71,7 @@ export const notebookRepository = {
             },
             data: {
                 ...request.body,
+                userId: userId
             }
 
         }).then(notebook => Result.ok({
@@ -181,7 +182,7 @@ export const notebookRepository = {
             );
     },
 
-    async getAll(filter: NotebookFilter): Promise<Result<NotebookResponse[]>> {
+    async getAll(withTags: boolean, userId: string): Promise<Result<NotebookResponse[]>> {
         return await prisma.notebook.findMany(
             {
                 select: {
@@ -192,7 +193,7 @@ export const notebookRepository = {
                     createdAt: true,
                     updatedAt: true,
                     iconName: true,
-                    tags: filter.withTags,
+                    tags: withTags,
                     _count: {
                         select: {
                             notes: true,
@@ -200,7 +201,7 @@ export const notebookRepository = {
                     }
                 },
                 where: {
-                    userId: filter.userId,
+                    userId: userId,
                 }
             }
         ).then(notebooks => Result.ok(notebooks.map((notebook) => {

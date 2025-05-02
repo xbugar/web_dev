@@ -1,12 +1,12 @@
 ﻿import {Router} from "express";
-import {authControler} from "./controller";
+import {authController} from "./controller";
 import passport from "passport";
 import {User} from "../user/types";
 
 export const authRouter = Router();
 
-authRouter.post("/login", authControler.register);
-authRouter.post("/register", passport.authenticate("local"), authControler.login);
+authRouter.post("/login", passport.authenticate("local"), authController.login);
+authRouter.post("/register", authController.register);
 authRouter.post("/logout", passport.session(), (req, res, next) => {
     req.logout(
         {
@@ -19,5 +19,22 @@ authRouter.post("/logout", passport.session(), (req, res, next) => {
             res.status(200).end();
         }
     );
+});
+
+
+passport.serializeUser((_user, cb) => {
+    process.nextTick(() => {
+        const user = _user as User;
+        return cb(null, {
+            id: user.id,
+            email: user.email
+        });
+    });
+});
+
+passport.deserializeUser((user, cb) => {
+    process.nextTick(() => {
+        return cb(null, user!);
+    });
 });
 

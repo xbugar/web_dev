@@ -4,10 +4,10 @@ import { InternalError, NotFoundError } from "../types";
 import { CreateTag, Tag, UpdateTag } from "./types";
 
 export const tagRepository = {
-    async create(tag: CreateTag): Promise<Result<Tag>> {
+    async create(tag: CreateTag, userId: string): Promise<Result<Tag>> {
         return prisma.tag.create({
             data: {
-                userId: tag.userId,
+                userId: userId,
                 name: tag.name,
                 color: tag.color
             }

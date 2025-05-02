@@ -12,8 +12,7 @@ export const isAuthenticated = (
     _res: Response,
     next: NextFunction
 ) => {
-    console.log(req.session);
 
     if (req.session.passport?.user) next();
-    else next("route");
+    else next("route")
 };

@@ -11,6 +11,7 @@ import {notebookRepository} from "./repository";
 import {noteRepository} from "../note/repository";
 import {AuthError} from "../types";
 import {ownership} from "../ownership";
+import {use} from "passport";
 
 
 const addTag = async (req: Request, res: Response) => {
@@ -62,9 +63,10 @@ const put = async (req: Request, res: Response) => {
 }
 
 const remove = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
     let request = await parseRequest(notebookOnlyIdRequestSchema, req, res);
     if (!request
-        || !await ownership.notebook(request.params.notebookId, req.session.passport?.user.id, res)) {
+        || !await ownership.notebook(request.params.notebookId, userId, res)) {
         return;
     }
 
@@ -77,9 +79,10 @@ const remove = async (req: Request, res: Response) => {
 }
 
 const get = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
     let request = await parseRequest(notebookGetRequestSchema, req, res);
     if (!request
-        || !await ownership.notebook(request.params.notebookId, req.session.passport?.user.id, res)) {
+        || !await ownership.notebook(request.params.notebookId, userId, res)) {
         return;
     }
 
@@ -92,9 +95,10 @@ const get = async (req: Request, res: Response) => {
 }
 
 const createNote = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
     let request = await parseRequest(notebookCreateNoteRequestSchema, req, res);
     if (!request
-        || !await ownership.notebook(request.params.notebookId, req.session.passport?.user.id, res)) {
+        || !await ownership.notebook(request.params.notebookId, userId, res)) {
         return;
     }
 
@@ -107,9 +111,10 @@ const createNote = async (req: Request, res: Response) => {
 }
 
 const getAllNotes = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
     let request = await parseRequest(notebookOnlyIdRequestSchema, req, res);
     if (!request
-        || !await ownership.notebook(request.params.notebookId, req.session.passport?.user.id, res)) {
+        || !await ownership.notebook(request.params.notebookId, userId, res)) {
         return;
     }
 
@@ -123,17 +128,13 @@ const getAllNotes = async (req: Request, res: Response) => {
 }
 
 const post = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
     let request = await parseRequest(notebookCreateRequestSchema, req, res);
-    if (!request) {
+    if (!request || !userId) {
         return;
     }
 
-    if (req.session.passport?.user.id != request.body.userId) {
-        handleRepositoryErrors(new AuthError(), res);
-        return
-    }
-
-    let notebook = await notebookRepository.create(request);
+    let notebook = await notebookRepository.create(request, userId);
     if (notebook.isErr) {
         handleRepositoryErrors(notebook.error, res);
         return;

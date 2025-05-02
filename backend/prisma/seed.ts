@@ -42,7 +42,7 @@ async function createUserWithFlashDeck(name: string, mail: string, picture: Prof
 }
 
 async function createUserWithTags(name: string, mail: string, picture: ProfilePicture, icon: Icon, tagName: string, color: string) {
-    const user = await addUser(name, "", mail, "", "", picture.id);
+    const user = await addUser(name, "", mail, "", picture.id);
     const tag = await createTag(user.id, tagName, color);
     const notebook = await createNotebook(user.id, icon.name, "tagged Notebook", "", getRandomColor());
     const flashDeck = await createFlashDeck(user.id, icon.name, "tagged FlashDeck", "", getRandomColor());

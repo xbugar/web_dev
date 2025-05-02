@@ -11,18 +11,19 @@ import {
     getTagRequestSchema
 } from "./validationSchema";
 import {ownership} from "../ownership";
+import {use} from "passport";
 
 
 const createTag = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
     const request = await parseRequest(createTagRequestSchema, req, res);
-    if (!request
-        || req.session.passport?.user.id != request.body.userId) {
+    if (!request || !userId) {
         return;
     }
 
     const tag = request.body;
 
-    const newTag = await tagRepository.create(tag);
+    const newTag = await tagRepository.create(tag, userId);
     if (newTag.isErr) {
         handleRepositoryErrors(newTag.error, res);
         return;
@@ -47,9 +48,10 @@ const getAllTags = async (req: Request, res: Response) => {
 }
 
 const getTag = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
     const request = await parseRequest(getTagRequestSchema, req, res);
     if (!request
-        || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
+        || !await ownership.tag(request.params.tagId, userId, res)) {
         return;
     }
 
@@ -63,9 +65,10 @@ const getTag = async (req: Request, res: Response) => {
 }
 
 const updateTag = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
     const request = await parseRequest(updateTagRequestSchema, req, res);
     if (!request
-        || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
+        || !await ownership.tag(request.params.tagId, userId, res)) {
         return;
     }
 
@@ -78,13 +81,13 @@ const updateTag = async (req: Request, res: Response) => {
 }
 
 const getUserTags = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
     const request = await parseRequest(getUserTagsRequestSchema, req, res);
-    if (!request
-        || req.session.passport?.user.id != request.params.userId) {
+    if (!request || !userId) {
         return;
     }
 
-    const tags = await tagRepository.getUserTags(request.params.userId);
+    const tags = await tagRepository.getUserTags(userId);
     if (tags.isErr) {
         handleRepositoryErrors(tags.error, res);
         return;
@@ -95,9 +98,10 @@ const getUserTags = async (req: Request, res: Response) => {
 
 
 const deleteTag = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
     const request = await parseRequest(deleteTagRequestSchema, req, res);
     if (!request
-        || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
+        || !await ownership.tag(request.params.tagId, userId, res)) {
         return;
     }
 
