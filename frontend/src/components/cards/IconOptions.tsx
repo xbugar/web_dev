@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 
 const availableIcons = [
-  'Default',
   'Cpu',
   'Layers',
   'ClipboardList',
@@ -37,12 +36,11 @@ const availableIcons = [
 ];
 
 export const iconMap: Record<string, LucideIcon> = {
-  Default: BookOpen,
-
   Cpu,
   Layers,
   ClipboardList,
   PenTool,
+  BookOpen,
   Book,
   FileText,
   ShieldCheck,
@@ -56,6 +54,6 @@ export const iconMap: Record<string, LucideIcon> = {
 };
 
 export const iconOptions = availableIcons.map(iconName => {
-  const IconComponent = iconMap[iconName] ?? iconMap['Default'];
+  const IconComponent = iconMap[iconName];
   return { iconName, IconComponent };
 });

@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/dialog.tsx';
 
 import { CreateNote, Note } from '@/types/Note.ts';
-import { NotebookNoteForm } from '@/components/dialogs/NotebookNoteForm.tsx';
+import { NotebookNoteForm } from '@/components/forms/NotebookNoteForm';
 import { useEditNote } from '@/hooks/useEditNote.ts';
 
 type NoteEditDialogProps = {

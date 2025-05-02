@@ -20,7 +20,7 @@ export function Section({ title, Icon, id, type }: SectionProps) {
         <h2>{title}</h2>
         {Icon && (
           <>
-            <Button variant="outline" onClick={() => setOpen(true)}>
+            <Button variant="section" onClick={() => setOpen(true)}>
               <Icon />
             </Button>
           </>
