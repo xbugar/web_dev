@@ -9,10 +9,13 @@ declare module "express-session" {
 
 export const isAuthenticated = (
     req: Request,
-    _res: Response,
+    res: Response,
     next: NextFunction
 ) => {
 
     if (req.session.passport?.user) next();
-    else next("route")
+    else {
+        res.status(404).send({message: "Unauthorized"});
+        next("route")
+    }
 };

@@ -40,13 +40,13 @@ describe('/auth', async () => {
             const {status, body} = await request(app).post(url)
                 .set('Cookie', cookie)
                 .send(
-                {
-                    title: "notebucik",
-                    description: "neeimeme",
-                    color: "green",
-                    iconName: icon.name
-                }
-            );
+                    {
+                        title: "notebucik",
+                        description: "neeimeme",
+                        color: "green",
+                        iconName: icon.name
+                    }
+                );
             expect(status).toBe(200);
         });
 
@@ -57,22 +57,20 @@ describe('/auth', async () => {
             expect(status).toBe(200);
         });
 
-        it('should not create the notebook as the user has logged out and should not send a response', async () => {
+        it('should not create the notebook as the user has logged out and should send 404', async () => {
             const icon = await defaultIcon();
             const url = "/user/notebook";
-
-            await expect(async () => {
-                await request(app)
-                    .post(url)
-                    .set('Cookie', cookie)
-                    .send({
+            const {status, body} = await request(app).post(url)
+                .set('Cookie', cookie)
+                .send(
+                    {
                         title: "notebucik",
                         description: "neeimeme",
                         color: "green",
                         iconName: icon.name
-                    })
-                    .timeout(500); // Set a timeout to ensure no response is sent
-            }).rejects.toThrow('Timeout of 500ms exceeded');
+                    }
+                );
+            expect(status).toBe(404);
         });
     });
 });
