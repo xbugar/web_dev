@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/ca
 import { Link } from '@tanstack/react-router';
 import { AccentColor, iconColor, lineColor } from '@/components/cards/cardColors';
 import { NotebookNoteDropdown } from '@/components/cards/NotebookNoteDropdown.tsx';
-import { LucideIcon, Notebook, Timer } from 'lucide-react';
+import { Ellipsis, LucideIcon, Notebook, Timer } from 'lucide-react';
 import { Tag, TagColor } from '@/components/cards/Tag.tsx';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
@@ -38,50 +38,59 @@ export const NotebookCard = ({
   return (
     <Card
       className={cn(
-        'flex border-l-10 overflow-hidden p-0 py-4 gap-4',
+        'flex gap-4 overflow-hidden border-l-10 p-0 py-4',
         lineColor[color as AccentColor],
       )}
     >
-      <CardHeader className="flex pl-0 pr-4 gap-2 items-center justify-start">
-        <div className={cn('p-2.5 rounded-r-md', iconColor[color as AccentColor])}>
-          <IconComponent className="text-white w-6 h-6" />
+      <CardHeader className="flex items-center justify-start gap-2 pr-4 pl-0">
+        <div className={cn('rounded-r-md p-2.5', iconColor[color as AccentColor])}>
+          <IconComponent className="h-6 w-6 text-white" />
         </div>
 
-        <div className="flex flex-col w-full gap-1">
-          <div className="flex justify-between items-center">
+        <div className="flex w-full flex-col gap-1">
+          <div className="flex items-center justify-between">
             <CardTitle className="font-serif">
               {isLinked ? (
-                <Link to={`/notebooks/${id}`} className="hover:underline">
+                <Link
+                  to={`/notebooks/$notebookId`}
+                  params={{ notebookId: id }}
+                  className="line-clamp-1"
+                >
                   {title}
                 </Link>
               ) : (
                 title
               )}
             </CardTitle>
-            <NotebookNoteDropdown
-              notebookId={id}
-              noteId={''}
-              data={{
-                title: title,
-                description: description,
-                color: color,
-                iconName: iconName,
-              }}
-              type={'notebook'}
-            />
+            {isLinked ? (
+              <NotebookNoteDropdown
+                notebookId={id}
+                noteId={''}
+                data={{
+                  title: title,
+                  description: description,
+                  color: color,
+                  iconName: iconName,
+                }}
+                type={'notebook'}
+              />
+            ) : (
+              <button className="hover:bg-muted rounded-[10%] p-0">
+                <Ellipsis className="h-5 w-5 text-black dark:text-white" />
+              </button>
+            )}
           </div>
 
-          <div className="text-text-lm-secondary dark:text-text-dm-secondary flex justify-between items-center self-stretch">
-            <div className="flex justify-start items-center gap-1">
-              <Notebook className="w-4 h-4" />
+          <div className="text-black-text-secondary dark:text-white-text-secondary flex items-center justify-between self-stretch">
+            <div className="flex gap-1">
+              <Notebook className="h-4 w-4" />
               <CardDescription>
-                {' '}
-                {noteCount} {noteCount == 1 ? 'note' : 'notes'}{' '}
+                {noteCount} {noteCount == 1 ? 'note' : 'notes'}
               </CardDescription>
             </div>
-            <div className="flex justify-start items-center gap-1">
-              <Timer className="w-4 h-4" />
-              <CardDescription> Updated {timeAgo} </CardDescription>
+            <div className="flex gap-1">
+              <Timer className="h-4 w-4" />
+              <CardDescription> {timeAgo} </CardDescription>
             </div>
           </div>
         </div>
@@ -89,7 +98,7 @@ export const NotebookCard = ({
 
       {tags && (
         <div className="relative mr-4">
-          <div className="flex pl-4 gap-2 overflow-x-auto hide-scrollbar relative">
+          <div className="hide-scrollbar relative flex gap-2 overflow-x-auto pl-4">
             {tags.map((tag, index) => (
               <Tag name={tag.name} color={tag.color as TagColor} key={index}></Tag>
             ))}
@@ -98,12 +107,12 @@ export const NotebookCard = ({
 
           {/* shadow on the left side */}
           {/* <div className="pointer-events-none absolute top-0 left-0 h-full w-3 bg-gradient-to-r from-white-secondary dark:from-black-secondary to-transparent"></div> */}
-          <div className="pointer-events-none absolute top-0 right-0 h-full w-4 bg-gradient-to-l from-white-secondary dark:from-black-secondary to-transparent"></div>
+          <div className="from-white-secondary dark:from-black-secondary pointer-events-none absolute top-0 right-0 h-full w-4 bg-gradient-to-l to-transparent"></div>
         </div>
       )}
 
       {description && (
-        <CardDescription className="px-4 line-clamp-2"> {description} </CardDescription>
+        <CardDescription className="line-clamp-2 px-4"> {description} </CardDescription>
       )}
     </Card>
   );

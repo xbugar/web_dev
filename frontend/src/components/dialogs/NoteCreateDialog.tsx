@@ -8,7 +8,7 @@ import {
 
 import { useCreateNote } from '@/hooks/useCreateNote.ts';
 import { CreateNote } from '@/types/Note.ts';
-import { NotebookNoteForm } from '@/components/dialogs/NotebookNoteForm.tsx';
+import { NotebookNoteForm } from '@/components/forms/NotebookNoteForm';
 
 type NoteCreateDialogProps = {
   open: boolean;

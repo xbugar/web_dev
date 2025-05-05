@@ -75,25 +75,25 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
       <div className="flex justify-center gap-4 border-b p-2">
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
-          className={`p-2 rounded ${editor.isActive('bold') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
+          className={`rounded p-2 ${editor.isActive('bold') ? 'bg-black text-white dark:bg-white dark:text-black' : ''}`}
         >
           <Bold />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={`p-2 rounded ${editor.isActive('italic') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
+          className={`rounded p-2 ${editor.isActive('italic') ? 'bg-black text-white dark:bg-white dark:text-black' : ''}`}
         >
           <Italic />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleStrike().run()}
-          className={`p-2 rounded ${editor.isActive('strike') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
+          className={`rounded p-2 ${editor.isActive('strike') ? 'bg-black text-white dark:bg-white dark:text-black' : ''}`}
         >
           <Strikethrough />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleUnderline().run()}
-          className={`p-2 rounded ${editor.isActive('underline') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
+          className={`rounded p-2 ${editor.isActive('underline') ? 'bg-black text-white dark:bg-white dark:text-black' : ''}`}
         >
           <Underline />
         </button>
@@ -112,18 +112,18 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
 
         <button
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={`p-2 rounded ${editor.isActive('bulletList') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
+          className={`rounded p-2 ${editor.isActive('bulletList') ? 'bg-black text-white dark:bg-white dark:text-black' : ''}`}
         >
           <List />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={`p-2 rounded ${editor.isActive('orderedList') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
+          className={`rounded p-2 ${editor.isActive('orderedList') ? 'bg-black text-white dark:bg-white dark:text-black' : ''}`}
         >
           <ListOrdered />
         </button>
       </div>
-      <EditorContent editor={editor} className="focus:outline-none border-0 p-0 rounded" />
+      <EditorContent editor={editor} className="rounded border-0 p-0 focus:outline-none" />
     </div>
   );
 };

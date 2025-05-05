@@ -13,7 +13,7 @@ function RouteComponent() {
   return (
     <>
       <Header />
-      <section className="px-4 mb-20">
+      <section className="mb-20 px-4">
         <Outlet />
       </section>
       {!params && <Navigation />}

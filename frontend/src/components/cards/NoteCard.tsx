@@ -33,14 +33,14 @@ export function NoteCard({
   return (
     <Card
       className={cn(
-        'flex border-l-10 overflow-hidden p-0 pt-3 gap-3',
+        'flex gap-3 overflow-hidden border-l-10 p-0 pt-3',
         lineColor[color as AccentColor],
       )}
     >
       {' '}
       {/*TODO*/}
-      <CardHeader className="pl-3 pr-3 gap-0">
-        <div className="flex justify-between items-center self-stretch">
+      <CardHeader className="gap-0 pr-3 pl-3">
+        <div className="flex items-center justify-between self-stretch">
           <Link to={`/notebooks/${parentId}/${noteId}`}>
             <CardTitle>{title}</CardTitle>
           </Link>
@@ -53,21 +53,21 @@ export function NoteCard({
             type={'note'}
           />
         </div>
-        <div className="flex justify-between items-start self-stretch">
+        <div className="flex items-start justify-between self-stretch">
           <CardDescription>{titleOfParent}</CardDescription>
           <div className="flex gap-1">
-            <Timer className="text-text-lm-secondary dark:text-text-dm-secondary w-4 h-4" />
+            <Timer className="text-text-lm-secondary dark:text-text-dm-secondary h-4 w-4" />
             <CardDescription> Updated {timeAgo}</CardDescription>
           </div>
         </div>
       </CardHeader>
-      <div className="flex pl-3 pr-3 gap-2">
+      <div className="flex gap-2 pr-3 pl-3">
         {tags &&
           tags.map((tag, index) => (
             <Tag name={tag.name} color={tag.color as TagColor} key={index}></Tag>
           ))}
       </div>
-      <CardDescription className="pl-3 pr-3 pb-3"> {content} </CardDescription>
+      <CardDescription className="pr-3 pb-3 pl-3"> {content} </CardDescription>
     </Card>
   );
 }

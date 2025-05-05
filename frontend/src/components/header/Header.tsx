@@ -7,14 +7,14 @@ import { Link } from '@tanstack/react-router';
 
 export function Header() {
   return (
-    <header className="w-full sticky top-0 right-0 px-2 py-2 backdrop-blur-md rounded-b-md z-50">
+    <header className="sticky top-0 right-0 z-50 w-full rounded-b-md px-2 py-2 backdrop-blur-md">
       <div
-        className="bg-cover bg-center flex items-center justify-between p-2 rounded-md shadow-ours"
+        className="shadow-ours flex items-center justify-between rounded-md bg-cover bg-center p-2"
         style={{ backgroundImage: `url(${gradient})` }}
       >
         <HeaderBackButton Icon={ArrowLeft} />
         <Link to={'/home'}>
-          <h1 className="text-white font-bold text-3xl font-serif">gradia.</h1>
+          <h1 className="font-serif text-3xl font-bold text-white">gradia.</h1>
         </Link>
         <HeaderButton to={'/'} Icon={User} />
       </div>

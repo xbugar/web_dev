@@ -40,28 +40,28 @@ export function LoginForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex p-6 flex-col justify-center gap-14 "
+        className="flex w-full flex-col justify-center gap-14"
       >
-        <div className="self-stretch flex flex-col justify-center items-center gap-2">
-          <div className="text-center justify-center text-white text-3xl font-bold font-serif">
-            Log into account
+        <div className="flex flex-col items-center justify-center gap-2">
+          <div className="text-center font-serif text-3xl font-bold text-white">
+            Log in to account
           </div>
-          <div className="flex gap-2">
-            <div>Don&apos;t have an account?</div>
-            <div className="underline">
-              <Link to="/sign-up">Create one</Link>
-            </div>
+          <div className="text-md flex gap-2 font-light">
+            <div className="text-white-text-secondary">Don&apos;t have an account?</div>
+            <Link to="/sign-up" className="underline">
+              Create one
+            </Link>
           </div>
         </div>
 
-        <div className="flex self-stretch flex-col items-center gap-5">
+        <div className="flex flex-col items-center gap-5">
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <Input placeholder="Email" {...field} />
+                  <Input placeholder="Email" variant="inputAlt" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -74,7 +74,12 @@ export function LoginForm() {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <PasswordInput placeholder="Password" type="password" {...field} />
+                  <PasswordInput
+                    placeholder="Password"
+                    type="password"
+                    variant="inputAlt"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -82,7 +87,7 @@ export function LoginForm() {
           />
         </div>
 
-        <Button type="submit" variant="customSubmit">
+        <Button type="submit" variant="submitAlternative">
           Log in
         </Button>
       </form>
