@@ -1,0 +1,27 @@
+
+stages:
+  - integration-test
+
+integration-test:
+
+  image: node:20
+  services:
+    - name: postgres:latest
+      alias: postgres_db
+      variables:
+        POSTGRES_PASSWORD: prisma
+        POSTGRES_DB: pb138
+  variables:
+    DATABASE_URL: "postgresql://postgres:prisma@postgres_db:5432/pb138?schema=public"
+  stage: integration-test
+  tags:
+    - shared-fi
+
+  script:
+    - cd backend
+    - npm install
+    - npx prisma migrate dev
+    - npx prisma db seed
+    - echo "Waiting for services to be ready..."
+    - sleep 2
+    - npm run test

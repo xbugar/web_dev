@@ -1,0 +1,24 @@
+import { prisma } from '../client'
+
+export async function createNotebook(userId: string, iconName: string, title: string, description: string, color: string) {
+    return prisma.notebook.create({
+        data: {
+            title: title,
+            description: description,
+            userId: userId,
+            iconName: iconName,
+            color: color,
+        }
+    })
+}
+
+export async function createNote(notebookId: string, title: string, content: string) {
+    return prisma.note.create({
+        data: {
+            title: title,
+            notebookId: notebookId,
+            content: content,
+        }
+    })
+}
+

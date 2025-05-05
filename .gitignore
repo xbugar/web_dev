@@ -3,6 +3,6 @@ node_modules/
 
 
 # DATABASE
-.env
+backend/.env
 db/*.js
 db/queries/*.js
