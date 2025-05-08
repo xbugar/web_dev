@@ -47,7 +47,7 @@
     "deploy:up": "docker compose -f docker-compose.yml up --build -d",
     "deploy:down": "docker compose -f docker-compose.yml down --remove-orphans",
     "dev": "ts-node index.ts",
-    "db:deploy": "npx prisma migrate deploy && npx prisma generate && npx prisma db seed",
+    "db:deploy": "npx prisma migrate deploy && npx prisma generate",
     "test": "vitest --config vitest.config.integration.ts ",
     "test:ui": "vitest -c vitest.config.integration.ts --ui",
     "lint": "eslint .",
