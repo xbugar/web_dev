@@ -191,17 +191,15 @@ describe("/notebook", async () => {
         });
         it("should add new tag to the notebook", async () => {
 
-            const {status, body} = await request(app).post(`/notebook/${notebookId}/tag`).send({
+            const {status, body} = await request(app).post(`/notebook/${notebookId}/tag`).set("Cookie", cookie).send({
                 name: "testovaci tag",
                 color: "purple",
-                userId: id,
             });
 
             expect(status).toBe(200);
             expect(body).toMatchObject({
                 name: "testovaci tag",
                 color: "purple",
-                userId: id,
             });
             tagId = body.id;
         });
@@ -244,15 +242,13 @@ describe("/notebook", async () => {
             });
         });
         it("should remove one of the tags added before", async () => {
-            const {status} = await request(app).delete(`/notebook/${notebookId}/tag/${tagId}`).send({});
+            const {status} = await request(app).delete(`/notebook/${notebookId}/tag/${tagId}`).set("Cookie", cookie).send({});
 
             expect(status).toBe(200);
         })
 
         it('should delete the notebook', async () => {
-            const {status, body} = await request(app).delete(`/notebook/${notebookId}`).send({});
-            const {status,body} = await request(app).delete(`/notebook/${notebookId}`).set("Cookie", cookie).send({});
-            const {status} = await request(app).delete(`/notebook/${notebookId}`).send({});
+            const {status} = await request(app).delete(`/notebook/${notebookId}`).set("Cookie", cookie).send({});
 
             expect(status).toBe(200);
             const notebook = await prisma.notebook.findFirst({where: {id: notebookId}});

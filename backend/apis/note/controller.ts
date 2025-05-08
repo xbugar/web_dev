@@ -102,11 +102,11 @@ const addNoteTag = async (req: Request, res: Response) => {
     const request = await parseRequest(addNoteTagRequestSchema, req, res);
     if (!request
         || !await ownership.notebook(request.params.noteId, req.session.passport?.user.id, res)
-        || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
+        || !req.session.passport?.user.id ) {
         return;
     }
     // this part is
-    let tag = await tagRepository.getOrCreate(request.body);
+    let tag = await tagRepository.getOrCreate(request.body,req.session.passport?.user.id);
     if (tag.isErr) {
         handleRepositoryErrors(tag.error, res);
         return;

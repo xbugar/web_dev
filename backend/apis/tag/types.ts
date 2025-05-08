@@ -14,7 +14,6 @@ export type Tag = {
 export type TagRequest = {
     name: string,
     color: string,
-    userId:string,
 }
 
 export type CreateTag = z.infer<typeof createTagRequestSchema>["body"];
