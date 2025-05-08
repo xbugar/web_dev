@@ -45,7 +45,7 @@ export const tagRepository = {
             });
     },
 
-    async getOrCreate(tagFilter: TagRequest): Promise<Result<Tag>> {
+    async getOrCreate(tagFilter: TagRequest,userId:string): Promise<Result<Tag>> {
         try {
             const tag = await prisma.$transaction(async (tx) => {
 
@@ -53,7 +53,7 @@ export const tagRepository = {
                     where: {
                         name: tagFilter.name,
                         color: tagFilter.color,
-                        userId: tagFilter.userId,
+                        userId: userId,
                     }
                 });
 
@@ -62,7 +62,7 @@ export const tagRepository = {
                         data: {
                             name: tagFilter.name,
                             color: tagFilter.color,
-                            userId: tagFilter.userId,
+                            userId: userId,
                         }
                     });
                 }
