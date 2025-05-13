@@ -1,7 +1,5 @@
 import resetDb from './reset-db'
-import {beforeAll, beforeEach} from 'vitest'
-import {prisma} from "./prisma";
-import {defaultPP} from "../../apis/utils";
+import {beforeAll} from 'vitest'
 
 beforeAll(async () => {
     await resetDb()

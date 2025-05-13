@@ -10,11 +10,17 @@ import {
     addNoteTagRequestSchema,
     removeNoteTagRequestSchema, deleteNoteRequestSchema,
 } from "./validationSchema";
+import {ownership} from "../ownership";
 
-
+//TODO: at some magical future point in time that will never happen
+//You need transaction here -> if a user ceases to be an owner after the first check, you would still carry out the update.
+// You can create a separate repository call that bundles these 2 into a transaction.
 const updateNoteMeta = async (req: Request, res: Response) => {
     const request = await parseRequest(updateNoteMetaRequestSchema, req, res);
-    if (request === null) return;
+    if (!request
+        || !await ownership.note(request.params.noteId, req.session.passport?.user.id, res)) {
+        return;
+    }
 
     const newTag = await noteRepository.updateMeta(request);
     if (newTag.isErr) {
@@ -27,7 +33,10 @@ const updateNoteMeta = async (req: Request, res: Response) => {
 
 const getNoteMeta = async (req: Request, res: Response) => {
     const request = await parseRequest(getNoteMetaRequestSchema, req, res);
-    if (request === null) return;
+    if (!request
+        || !await ownership.note(request.params.noteId, req.session.passport?.user.id, res)) {
+        return;
+    }
 
     const newTag = await noteRepository.getMeta(request);
     if (newTag.isErr) {
@@ -40,7 +49,10 @@ const getNoteMeta = async (req: Request, res: Response) => {
 
 const deleteNote = async (req: Request, res: Response) => {
     const request = await parseRequest(deleteNoteRequestSchema, req, res);
-    if (request === null) return;
+    if (!request
+        || !await ownership.note(request.params.noteId, req.session.passport?.user.id, res)) {
+        return;
+    }
 
     const newTag = await noteRepository.delete(request.params.noteId);
     if (newTag.isErr) {
@@ -53,7 +65,10 @@ const deleteNote = async (req: Request, res: Response) => {
 
 const getNoteContent = async (req: Request, res: Response) => {
     const request = await parseRequest(getNoteContentRequestSchema, req, res);
-    if (request === null) return;
+    if (!request
+        || !await ownership.note(request.params.noteId, req.session.passport?.user.id, res)) {
+        return;
+    }
 
     const noteId = request.params.noteId;
 
@@ -68,7 +83,10 @@ const getNoteContent = async (req: Request, res: Response) => {
 
 const updateNoteContent = async (req: Request, res: Response) => {
     const request = await parseRequest(updateNoteContentRequestSchema, req, res);
-    if (request === null) return;
+    if (!request
+        || !await ownership.note(request.params.noteId, req.session.passport?.user.id, res)) {
+        return;
+    }
 
     const content = await noteRepository.updateContent(request);
     if (content.isErr) {
@@ -81,7 +99,11 @@ const updateNoteContent = async (req: Request, res: Response) => {
 
 const addNoteTag = async (req: Request, res: Response) => {
     const request = await parseRequest(addNoteTagRequestSchema, req, res);
-    if (request === null) return;
+    if (!request
+        || !await ownership.notebook(request.params.noteId, req.session.passport?.user.id, res)
+        || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
+        return;
+    }
 
     const note = request.params;
 
@@ -96,7 +118,11 @@ const addNoteTag = async (req: Request, res: Response) => {
 
 const removeNoteTag = async (req: Request, res: Response) => {
     const request = await parseRequest(removeNoteTagRequestSchema, req, res);
-    if (request === null) return;
+    if (!request
+        || !await ownership.notebook(request.params.noteId, req.session.passport?.user.id, res)
+        || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
+        return;
+    }
 
     const note = request.params;
 

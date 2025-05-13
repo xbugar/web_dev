@@ -12,11 +12,10 @@ import {notebookRepository} from "../notebook/repository";
 
 
 const get = async (req: Request, res: Response): Promise<void> => {
-    if (!req.params.userId) {
-        res.status(400).send("No user Id provided");
-        return;
-    }
-    let maybeUser = await userRepository.findById(req.params.userId);
+    const userId = req.session.passport?.user.id;
+    if (!userId) { return; }
+
+    let maybeUser = await userRepository.findById(userId);
     if (maybeUser.isErr) {
         handleRepositoryErrors(maybeUser.error, res);
         return;
@@ -40,23 +39,26 @@ const post = async (req: Request, res: Response) => {
     res.status(200).send(maybeUser.unwrap());
 }
 const put = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
     let request = await parseRequest(userUpdateRequestSchema, req, res);
-    if (!request) {
+    if (!request || !userId) {
         return;
     }
-    let maybeUser = await userRepository.update(request);
+    let maybeUser = await userRepository.update(request, userId);
     if (maybeUser.isErr) {
         handleRepositoryErrors(maybeUser.error, res);
         return;
     }
     res.status(200).send(maybeUser.unwrap());
 }
+
 const remove = async (req: Request, res: Response) => {
-    if (!req.params.userId) {
+    const userId = req.session.passport?.user.id;
+    if (!userId) {
         res.status(400).send("No user Id provided");
         return;
     }
-    let maybeUser = await userRepository.delete(req.params.userId);
+    let maybeUser = await userRepository.delete(userId);
     if (maybeUser.isErr) {
         handleRepositoryErrors(maybeUser.error, res);
         return;
@@ -65,15 +67,13 @@ const remove = async (req: Request, res: Response) => {
 }
 
 const getNotebooks = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
     let request = await parseRequest(userGetNotebooksRequestSchema, req, res);
-    if (!request) {
+    if (!request || !userId) {
         return;
     }
 
-    let notebooks = await notebookRepository.getAll({
-        userId: request.params.userId,
-        withTags: request.query.withTags
-    });
+    let notebooks = await notebookRepository.getAll(request.query.withTags, userId);
     if (notebooks.isErr) {
         handleRepositoryErrors(notebooks.error, res);
         return;
@@ -82,17 +82,17 @@ const getNotebooks = async (req: Request, res: Response) => {
 }
 
 const createNotebook = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
     let request = await parseRequest(userCreateNotebookRequestSchema, req, res);
-    if (!request) {
+    if (!request || !userId) {
         return;
     }
-    let notebook = await notebookRepository.createFromUser(request);
+    let notebook = await notebookRepository.createFromUser(request, userId);
     if (notebook.isErr) {
         handleRepositoryErrors(notebook.error, res);
         return;
     }
     res.status(200).send(notebook.unwrap());
-
 }
 
 export const userController = {

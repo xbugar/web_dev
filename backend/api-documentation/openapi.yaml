@@ -11,6 +11,8 @@ info:
 servers:
   - url: https://we-dont-have.io
 tags:
+  - name: auth
+    description: Auth operations
   - name: user
     description: Operations about user
   - name: notebook
@@ -549,6 +551,87 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Login user.
+      description: Logins a  user
+      operationId: loginUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUser'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Register user.
+      description: Registers a  user
+      operationId: registerUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUser'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/logout:
+    post:
+      tags:
+        - auth
+      summary: Logout user.
+      description: Logouts a user
+      operationId: LogoutUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogoutUser'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /user:
     post:
       tags:
@@ -575,20 +658,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /user/{userId}:
     get:
       tags:
         - user
       summary: Get user by id.
       description: Get user detail based on id.
       operationId: getUserById
-      parameters:
-        - name: userId
-          in: path
-          description: The id that needs to be fetched.
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: successful operation
@@ -612,13 +687,6 @@ paths:
       summary: Update user resource.
       description: This can only be done by the logged in user.
       operationId: updateUser
-      parameters:
-        - name: userId
-          in: path
-          description: id that need to be modified
-          required: true
-          schema:
-            type: string
       requestBody:
         description: Update an existent user in the store
         content:
@@ -644,13 +712,6 @@ paths:
       summary: Delete user resource.
       description: This can only be done by the logged in user.
       operationId: deleteUser
-      parameters:
-        - name: userId
-          in: path
-          description: The id that needs to be deleted
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           description: User deleted
@@ -664,20 +725,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /user/{userId}/notebooks:
+  /user/notebooks:
     get:
       tags:
         - user
       summary: Get users notebooks
-      description: Get users notebooks based on the userId
+      description: Get users notebooks based on the sessionId
       operationId: getUserNotebooksByID
       parameters:
-        - name: userId
-          in: path
-          description: The id of the user whose notebooks need to be fetched.
-          required: true
-          schema:
-            type: string
         - name: withTags
           in: query
           required: true
@@ -692,8 +747,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Notebook'
-        '400':
-          description: Invalid userId supplied
         '404':
           description: User not found
         default:
@@ -702,20 +755,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /user/{userId}/notebook:
+  /user/notebook:
     post:
       tags:
         - user
       summary: Add a new notebook.
       description: Add a new notebook.
       operationId: addNotebook
-      parameters:
-        - name: userId
-          in: path
-          description: The id that needs to be fetched.
-          required: true
-          schema:
-            type: string
       requestBody:
         description: Create a new notebook
         content:
@@ -953,8 +999,35 @@ components:
         email:
           type: string
           example: john@email.com
-    
-    
+
+    LoginUser:
+      type: object
+      properties:
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+
+    RegisterUser:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+
+    LogoutUser:
+      type: object
     CreateUser:
       type: object
       properties:
@@ -1034,10 +1107,6 @@ components:
           type: string
         iconName:
           type: string
-        userId:
-          type: string
-      required:
-        userId
 
     Tag:
       type: object

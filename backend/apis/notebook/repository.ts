@@ -10,10 +10,10 @@ import {
     NotebookResponse,
     NotebookUpdateRequestSchema, TagOperation
 } from "./types";
-
+import {repackageToNotFoundError, repackageToInternalError} from "../utils";
 
 export const notebookRepository = {
-    async createFromUser(request: UserCreateNotebookRequest): Promise<Result<NotebookResponse>> {
+    async createFromUser(request: UserCreateNotebookRequest, userId: string): Promise<Result<NotebookResponse>> {
 
         return await prisma.notebook.create({
             select: {
@@ -33,7 +33,7 @@ export const notebookRepository = {
 
             data: {
                 ...request.body,
-                userId: request.params.userId,
+                userId: userId,
             }
         }).then(notebook => Result.ok({
             id: notebook.id,
@@ -45,15 +45,10 @@ export const notebookRepository = {
             iconName: notebook.iconName,
             noteCount: notebook._count.notes,
         }))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new InternalError(error.message));
-                }
-                return Result.err(new InternalError());
-            });
+            .catch((error: any) => repackageToInternalError(error));
     },
 
-    async create(request: NotebookCreateRequest): Promise<Result<NotebookResponse>> {
+    async create(request: NotebookCreateRequest, userId: string): Promise<Result<NotebookResponse>> {
         return await prisma.notebook.create({
             select: {
                 id: true,
@@ -71,6 +66,7 @@ export const notebookRepository = {
             },
             data: {
                 ...request.body,
+                userId: userId
             }
 
         }).then(notebook => Result.ok({
@@ -83,12 +79,7 @@ export const notebookRepository = {
             iconName: notebook.iconName,
             noteCount: notebook._count.notes,
         }))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new InternalError(error.message));
-                }
-                return Result.err(new InternalError());
-            });
+            .catch((error: any) => repackageToInternalError(error));
     },
 
     async update(request: NotebookUpdateRequestSchema): Promise<Result<NotebookResponse>> {
@@ -119,12 +110,7 @@ export const notebookRepository = {
             iconName: notebook.iconName,
             noteCount: notebook._count.notes,
         }))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            })
+            .catch((error: any) => repackageToNotFoundError(error))
     },
 
     async get(notebookId: string, withTags: boolean): Promise<Result<NotebookResponse>> {
@@ -158,12 +144,7 @@ export const notebookRepository = {
             tags: notebook.tags,
             noteCount: notebook._count.notes,
         }))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            });
+            .catch((error: any) => repackageToNotFoundError(error));
     },
 
     async delete(notebookId: string): Promise<Result<Notebook>> {
@@ -172,16 +153,10 @@ export const notebookRepository = {
                 where: {id: notebookId},
             }
         ).then(notebook => Result.ok(notebook))
-            .catch((error: any) => {
-                    if (process.env.NODE_ENV !== "production") {
-                        return Result.err(new NotFoundError(error.message));
-                    }
-                    return Result.err(new NotFoundError());
-                }
-            );
+            .catch((error: any) => repackageToNotFoundError(error));
     },
 
-    async getAll(filter: NotebookFilter): Promise<Result<NotebookResponse[]>> {
+    async getAll(withTags: boolean, userId: string): Promise<Result<NotebookResponse[]>> {
         return await prisma.notebook.findMany(
             {
                 select: {
@@ -192,7 +167,7 @@ export const notebookRepository = {
                     createdAt: true,
                     updatedAt: true,
                     iconName: true,
-                    tags: filter.withTags,
+                    tags: withTags,
                     _count: {
                         select: {
                             notes: true,
@@ -200,7 +175,7 @@ export const notebookRepository = {
                     }
                 },
                 where: {
-                    userId: filter.userId,
+                    userId: userId,
                 }
             }
         ).then(notebooks => Result.ok(notebooks.map((notebook) => {
@@ -218,12 +193,7 @@ export const notebookRepository = {
                 }
             }
         )))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new InternalError(error.message));
-                }
-                return Result.err(new InternalError());
-            });
+            .catch((error: any) => repackageToInternalError(error));
     },
 
     async modifyTag(notebookId: string, tagOperation: TagOperation): Promise<Result<null>> {
@@ -235,13 +205,19 @@ export const notebookRepository = {
                 tags: tagOperation
             }
         }).then(() => Result.ok(null))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            });
+            .catch((error: any) => repackageToNotFoundError(error));
     },
 
+    async getUserId(notebookId: string): Promise<Result<string>> {
+        return await prisma.notebook.findUniqueOrThrow({
+            select: {
+                userId: true
+            },
+            where: {
+                id: notebookId,
+            }
+        }).then((res) => Result.ok(res.userId))
+            .catch((error: any) => repackageToNotFoundError(error));
+    }
 
 }

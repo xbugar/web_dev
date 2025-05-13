@@ -18,14 +18,14 @@ function getRandomColor() {
 }
 
 async function createUserWithEvents(name: string, mail: string, picture: ProfilePicture) {
-    const user = await addUser(name, "", mail, "", "", picture.id);
+    const user = await addUser(name, "", mail, "", picture.id);
     const userEvent = await createEvent(user.id, "", new Date(), new Date(), Importance.HIGH, getRandomColor(), "");
     await addEventTime(userEvent.id, new Date(), new Date());
     return user;
 }
 
 async function createUserWithNotebook(name: string, mail: string, picture: ProfilePicture, icon: Icon, noteContent: string) {
-    const user = await addUser(name, "", mail, "", "", picture.id);
+    const user = await addUser(name, "", mail, "", picture.id);
     const userNotebook = await createNotebook(user.id, icon.name, "test Notebook", "", getRandomColor());
     await createNote(userNotebook.id, "test Note", noteContent);
     return user;
@@ -33,7 +33,7 @@ async function createUserWithNotebook(name: string, mail: string, picture: Profi
 
 
 async function createUserWithFlashDeck(name: string, mail: string, picture: ProfilePicture, icon: Icon) {
-    const user = await addUser(name, "", mail, "", "", picture.id);
+    const user = await addUser(name, "", mail, "", picture.id);
     const userFlashDeck = await createFlashDeck(user.id, icon.name, "test FlashDeck", "", getRandomColor());
     const userFlashCard = await createFlashCard(userFlashDeck.id, "Are traps gay?");
     const userFlashAnswer1 = createFlashAnswer(userFlashCard.id, "yes", false);
@@ -42,7 +42,7 @@ async function createUserWithFlashDeck(name: string, mail: string, picture: Prof
 }
 
 async function createUserWithTags(name: string, mail: string, picture: ProfilePicture, icon: Icon, tagName: string, color: string) {
-    const user = await addUser(name, "", mail, "", "", picture.id);
+    const user = await addUser(name, "", mail, "", picture.id);
     const tag = await createTag(user.id, tagName, color);
     const notebook = await createNotebook(user.id, icon.name, "tagged Notebook", "", getRandomColor());
     const flashDeck = await createFlashDeck(user.id, icon.name, "tagged FlashDeck", "", getRandomColor());
@@ -64,7 +64,7 @@ async function main() {
     createUserWithNotebook("Janka", "example@mail.cd", picture, icon, "test Note").catch(ex => console.error("something went wrong: createUserWithNoteBook\n", ex));
     createUserWithFlashDeck("Jozef", "example@mail.rm", picture, icon).catch(ex => console.error("something went wrong: createUserWithFlashDeck\n", ex));
     createUserWithTags("Tomas", "example@mail.ps", picture, icon, "pb138", "#987456").catch(ex => console.error(ex));
-    addUser("andrej", "", "example@mail.sh", "", "", picture.id).catch(ex => console.error(ex));
+    addUser("andrej", "", "example@mail.sh", "",picture.id).catch(ex => console.error(ex));
 
     for (let i = 0; i < 20; i++) {
         createUserWithEvents(faker.person.firstName(), faker.internet.email(), picture).catch(ex => console.error("something went wrong: createUserWithEvents\n", ex));

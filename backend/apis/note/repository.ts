@@ -1,9 +1,8 @@
 ﻿import {Result} from "@badrap/result";
 import {prisma} from "../prismaClient";
-import {InternalError, NotFoundError} from "../types";
 import {AddTag, GetMeta, NoteMeta, RemoveTag, UpdateContent, UpdateMeta} from "./types";
 import {NotebookCreateNoteRequest} from "../notebook/types";
-
+import {repackageToNotFoundError, repackageToInternalError} from "../utils";
 
 export const noteRepository = {
     async updateMeta(meta: UpdateMeta): Promise<Result<NoteMeta>> {
@@ -45,13 +44,8 @@ export const noteRepository = {
             return Result.ok(result);
 
         } catch (error: any) {
-            if (process.env.NODE_ENV !== "production") {
-                return Result.err(new InternalError(error.message));
-            }
-            return Result.err(new InternalError());
+            return repackageToInternalError(error);
         }
-
-
     },
 
     async getMeta(data: GetMeta): Promise<Result<NoteMeta>> {
@@ -75,7 +69,7 @@ export const noteRepository = {
                 id: data.params.noteId
             },
         }).then(result => Result.ok(result))
-            .catch(() => Result.err(new NotFoundError()));
+            .catch((error:any) => repackageToNotFoundError(error));
     },
 
     async delete(id: string): Promise<Result<null>> {
@@ -106,10 +100,7 @@ export const noteRepository = {
             return Result.ok(null);
         } catch
             (error: any) {
-            if (process.env.NODE_ENV !== "production") {
-                return Result.err(new InternalError(error.message));
-            }
-            return Result.err(new InternalError());
+            return repackageToInternalError(error);
         }
     },
 
@@ -122,7 +113,7 @@ export const noteRepository = {
                 id: id
             }
         }).then(result => Result.ok(result.content))
-            .catch(() => Result.err(new NotFoundError()));
+            .catch((error:any) => repackageToNotFoundError(error));
     },
 
     async updateContent(data: UpdateContent): Promise<Result<null>> {
@@ -147,10 +138,7 @@ export const noteRepository = {
 
             return Result.ok(null);
         } catch (error: any) {
-            if (process.env.NODE_ENV !== "production") {
-                return Result.err(new InternalError(error.message));
-            }
-            return Result.err(new InternalError());
+            return repackageToInternalError(error);
         }
     },
 
@@ -196,10 +184,7 @@ export const noteRepository = {
             });
             return Result.ok(result);
         } catch (error: any) {
-            if (process.env.NODE_ENV !== "production") {
-                return Result.err(new InternalError(error.message));
-            }
-            return Result.err(new InternalError());
+            return repackageToInternalError(error);
         }
 
     },
@@ -246,10 +231,7 @@ export const noteRepository = {
             });
             return Result.ok(result);
         } catch (error: any) {
-            if (process.env.NODE_ENV !== "production") {
-                return Result.err(new InternalError(error.message));
-            }
-            return Result.err(new InternalError());
+            return repackageToInternalError(error);
         }
 
     },
@@ -292,10 +274,7 @@ export const noteRepository = {
             })
             return Result.ok(result);
         } catch (error: any) {
-            if (process.env.NODE_ENV !== "production") {
-                return Result.err(new InternalError(error.message));
-            }
-            return Result.err(new InternalError());
+            return repackageToInternalError(error);
         }
 
     },
@@ -321,13 +300,22 @@ export const noteRepository = {
             }
         }).then(notes => Result.ok(notes))
             .catch(
-                (error: any) => {
-                    if (process.env.NODE_ENV !== "production") {
-                        return Result.err(new InternalError(error.message));
+                (error: any) => repackageToInternalError(error));
+    },
+
+    async getUserId(noteId: string): Promise<Result<string>> {
+        return prisma.note.findUniqueOrThrow({
+            select: {
+                notebook: {
+                    select: {
+                        userId: true
                     }
-                    return Result.err(new InternalError());
                 }
-            );
+            },
+            where: {id: noteId}
+        }).then(note => Result.ok(note.notebook.userId))
+            .catch(
+                (error: any) => repackageToNotFoundError(error));
     }
 }
 

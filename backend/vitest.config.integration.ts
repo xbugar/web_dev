@@ -1,4 +1,3 @@
-// vitest.config.integration.ts
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
@@ -6,7 +5,7 @@ export default defineConfig({
         include: ['tests/**/*.test.ts'],
         maxConcurrency: 1,
         setupFiles: ['tests/utils/setup.ts'],
-
+        clearMocks: true,
     },
     resolve: {
         alias: {
@@ -14,6 +13,7 @@ export default defineConfig({
             notebook: '/apis/notebook',
             tag: '/apis/tag',
             user: '/apis/user',
+            auth: '/apis/auth',
         }
     }
 })

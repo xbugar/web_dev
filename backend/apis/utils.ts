@@ -1,16 +1,16 @@
 import {Request, Response} from "express";
 import {ZodSchema, ZodTypeDef} from "zod";
 import {fromZodError} from "zod-validation-error";
-import {InternalError, NotFoundError} from "./types";
+import {AuthError, InternalError, NotFoundError} from "./types";
 import {prisma} from "./prismaClient";
 import {readFileSync} from "fs";
+import {Result} from "@badrap/result";
 
 export const handleRepositoryErrors = (e: Error, res: Response) => {
     if (e instanceof NotFoundError) {
         const response: Error = {
             name: e.name || "NotFoundError",
             message: e.message || "Entity not found",
-            // cause: e.cause,
         };
 
         res.status(404).send(response);
@@ -18,7 +18,11 @@ export const handleRepositoryErrors = (e: Error, res: Response) => {
         res.status(500).send({
             name: e.name || "InternalError",
             message: e.message || "Something went wrong on our side.",
-            // cause: e.cause,
+        });
+    } else if (e instanceof AuthError) {
+        res.status(401).send({
+            name: e.name || "AuthError",
+            message: e.message || "Not authorized",
         });
     } else {
         res.status(500).send({
@@ -74,4 +78,18 @@ export const defaultIcon = async () => {
             icon: file
         }
     });
+}
+
+export function repackageToNotFoundError(error:any){
+    if (process.env.NODE_ENV !== "production") {
+        return Result.err(new NotFoundError(error.message));
+    }
+    return Result.err(new NotFoundError());
+}
+
+export function repackageToInternalError(error:any){
+    if (process.env.NODE_ENV !== "production") {
+        return Result.err(new InternalError(error.message));
+    }
+    return Result.err(new InternalError());
 }
