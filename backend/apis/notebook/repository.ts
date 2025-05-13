@@ -10,7 +10,7 @@ import {
     NotebookResponse,
     NotebookUpdateRequestSchema, TagOperation
 } from "./types";
-
+import {repackageToNotFoundError, repackageToInternalError} from "../utils";
 
 export const notebookRepository = {
     async createFromUser(request: UserCreateNotebookRequest, userId: string): Promise<Result<NotebookResponse>> {
@@ -45,12 +45,7 @@ export const notebookRepository = {
             iconName: notebook.iconName,
             noteCount: notebook._count.notes,
         }))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new InternalError(error.message));
-                }
-                return Result.err(new InternalError());
-            });
+            .catch((error: any) => repackageToInternalError(error));
     },
 
     async create(request: NotebookCreateRequest, userId: string): Promise<Result<NotebookResponse>> {
@@ -84,12 +79,7 @@ export const notebookRepository = {
             iconName: notebook.iconName,
             noteCount: notebook._count.notes,
         }))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new InternalError(error.message));
-                }
-                return Result.err(new InternalError());
-            });
+            .catch((error: any) => repackageToInternalError(error));
     },
 
     async update(request: NotebookUpdateRequestSchema): Promise<Result<NotebookResponse>> {
@@ -120,12 +110,7 @@ export const notebookRepository = {
             iconName: notebook.iconName,
             noteCount: notebook._count.notes,
         }))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            })
+            .catch((error: any) => repackageToNotFoundError(error))
     },
 
     async get(notebookId: string, withTags: boolean): Promise<Result<NotebookResponse>> {
@@ -159,12 +144,7 @@ export const notebookRepository = {
             tags: notebook.tags,
             noteCount: notebook._count.notes,
         }))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            });
+            .catch((error: any) => repackageToNotFoundError(error));
     },
 
     async delete(notebookId: string): Promise<Result<Notebook>> {
@@ -173,13 +153,7 @@ export const notebookRepository = {
                 where: {id: notebookId},
             }
         ).then(notebook => Result.ok(notebook))
-            .catch((error: any) => {
-                    if (process.env.NODE_ENV !== "production") {
-                        return Result.err(new NotFoundError(error.message));
-                    }
-                    return Result.err(new NotFoundError());
-                }
-            );
+            .catch((error: any) => repackageToNotFoundError(error));
     },
 
     async getAll(withTags: boolean, userId: string): Promise<Result<NotebookResponse[]>> {
@@ -219,12 +193,7 @@ export const notebookRepository = {
                 }
             }
         )))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new InternalError(error.message));
-                }
-                return Result.err(new InternalError());
-            });
+            .catch((error: any) => repackageToInternalError(error));
     },
 
     async modifyTag(notebookId: string, tagOperation: TagOperation): Promise<Result<null>> {
@@ -236,12 +205,7 @@ export const notebookRepository = {
                 tags: tagOperation
             }
         }).then(() => Result.ok(null))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            });
+            .catch((error: any) => repackageToNotFoundError(error));
     },
 
     async getUserId(notebookId: string): Promise<Result<string>> {
@@ -253,12 +217,7 @@ export const notebookRepository = {
                 id: notebookId,
             }
         }).then((res) => Result.ok(res.userId))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            });
+            .catch((error: any) => repackageToNotFoundError(error));
     }
 
 }
