@@ -52,7 +52,7 @@ app.use('/tag', passport.session(), isAuthenticated, tagsRouter);
 const swaggerYaml = fs.readFileSync("./api-documentation/openapi.yaml", "utf8");
 const swaggerDocument = yaml.parse(swaggerYaml);
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV === "dev-with-docs") {
     app.use(
         "/api-documentation",
         swaggerUi.serve,

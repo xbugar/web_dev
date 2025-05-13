@@ -9,7 +9,7 @@ info:
   version: 1.0.12
 
 servers:
-  - url: https://we-dont-have.io
+  - url: https://backend-511443014815.europe-west1.run.app
 tags:
   - name: auth
     description: Auth operations
