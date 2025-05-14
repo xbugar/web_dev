@@ -22,15 +22,15 @@ const register = async (req: Request, res: Response) => {
         handleRepositoryErrors(user.error, res);
         return;
     }
-
-
+    res.status(200).send({message:"success"});
+/*
     req.login(user.value, (err) => {
         if (err) {
             console.log("login in register failed");
             throw err;
         }
         res.status(200).end();
-    });
+    });*/
 }
 
 const login = async (req: Request, res: Response) => {
@@ -39,7 +39,7 @@ const login = async (req: Request, res: Response) => {
         return;
     }
 
-    res.status(200).end();
+    res.status(200).send({sessionId:req.session.id});
 }
 
 export const authController = {

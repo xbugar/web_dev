@@ -16,11 +16,11 @@ export function Section({ title, Icon, id, type }: SectionProps) {
 
   return (
     <>
-      <div className="py-2 mt-2 flex flex-row justify-between items-center font-bold text-2xl font-serif">
+      <div className="mt-2 flex flex-row items-center justify-between py-2 font-serif text-2xl font-bold">
         <h2>{title}</h2>
         {Icon && (
           <>
-            <Button variant="outline" onClick={() => setOpen(true)}>
+            <Button variant="section" onClick={() => setOpen(true)}>
               <Icon />
             </Button>
           </>

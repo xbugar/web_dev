@@ -2,6 +2,7 @@ import {Result} from "@badrap/result";
 import {prisma} from "../prismaClient";
 import {InternalError, NotFoundError} from "../types";
 import {CreateTag, Tag, TagRequest, UpdateTag} from "./types";
+import {repackageToNotFoundError,repackageToInternalError} from "../utils";
 
 export const tagRepository = {
     async create(tag: CreateTag, userId: string): Promise<Result<Tag>> {
@@ -12,23 +13,13 @@ export const tagRepository = {
                 color: tag.color
             }
         }).then(result => Result.ok(result))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new InternalError(error.message));
-                }
-                return Result.err(new InternalError());
-            });
+            .catch((error: any) => repackageToInternalError(error));
     },
 
     async getAll(): Promise<Result<Tag[]>> {
         return prisma.tag.findMany({})
             .then(result => Result.ok(result))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            });
+            .catch((error: any) => repackageToNotFoundError(error));
     },
 
     async get(id: string): Promise<Result<Tag>> {
@@ -37,12 +28,7 @@ export const tagRepository = {
                 id: id
             }
         }).then(result => Result.ok(result))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            });
+            .catch((error: any) =>repackageToNotFoundError(error));
     },
 
     async getOrCreate(tagFilter: TagRequest,userId:string): Promise<Result<Tag>> {
@@ -70,10 +56,7 @@ export const tagRepository = {
             })
             return Result.ok(tag);
         } catch (error: any) {
-            if (process.env.NODE_ENV !== "production") {
-                return Result.err(new NotFoundError(error.message));
-            }
-            return Result.err(new NotFoundError());
+            return  repackageToNotFoundError(error);
         }
     },
 
@@ -88,12 +71,7 @@ export const tagRepository = {
                 color: tag.body.color
             }
         }).then(result => Result.ok(result))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            });
+            .catch((error: any) => repackageToNotFoundError(error));
     },
 
 
@@ -103,12 +81,7 @@ export const tagRepository = {
                 userId: userId
             }
         }).then(result => Result.ok(result))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            });
+            .catch((error: any) => repackageToNotFoundError(error));
     },
 
 
@@ -118,12 +91,7 @@ export const tagRepository = {
                 id: id
             }
         }).then(() => Result.ok(null))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            });
+            .catch((error: any) => repackageToNotFoundError(error));
     },
 
     async getUserId(tagId: string): Promise<Result<string>> {
@@ -135,11 +103,6 @@ export const tagRepository = {
                 id: tagId
             }
         }).then((tag) => Result.ok(tag.userId))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            });
+            .catch((error: any) => repackageToNotFoundError(error));
     }
 }

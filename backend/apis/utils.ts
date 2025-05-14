@@ -4,6 +4,7 @@ import {fromZodError} from "zod-validation-error";
 import {AuthError, InternalError, NotFoundError} from "./types";
 import {prisma} from "./prismaClient";
 import {readFileSync} from "fs";
+import {Result} from "@badrap/result";
 
 export const handleRepositoryErrors = (e: Error, res: Response) => {
     if (e instanceof NotFoundError) {
@@ -58,7 +59,7 @@ export const parseRequest = async <
 
 //TODO get rid of these abominations
 export const defaultPP = async () => {
-    let profilePicture = await prisma.profilePicture.findFirst();
+    const profilePicture = await prisma.profilePicture.findFirst();
     if (!profilePicture) {
         throw new NotFoundError("No profile picture in database");
     }
@@ -77,4 +78,18 @@ export const defaultIcon = async () => {
             icon: file
         }
     });
+}
+
+export function repackageToNotFoundError(error:any){
+    if (process.env.NODE_ENV !== "production") {
+        return Result.err(new NotFoundError(error.message));
+    }
+    return Result.err(new NotFoundError());
+}
+
+export function repackageToInternalError(error:any){
+    if (process.env.NODE_ENV !== "production") {
+        return Result.err(new InternalError(error.message));
+    }
+    return Result.err(new InternalError());
 }

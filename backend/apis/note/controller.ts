@@ -13,7 +13,9 @@ import {
 import {tagRepository} from "../tag/repository";
 import {ownership} from "../ownership";
 
-
+//TODO: at some magical future point in time that will never happen
+//You need transaction here -> if a user ceases to be an owner after the first check, you would still carry out the update.
+// You can create a separate repository call that bundles these 2 into a transaction.
 const updateNoteMeta = async (req: Request, res: Response) => {
     const request = await parseRequest(updateNoteMetaRequestSchema, req, res);
     if (!request

@@ -19,8 +19,11 @@ import {PrismaClient} from "@prisma/client";
 const app = express();
 
 //this should probably be configured in a specific way when deployed
-app.use(cors());
-
+app.use(cors({
+    origin: "http://localhost:5173",  // Adjust if necessary
+    credentials: true
+}));
+app.set('trust proxy', 1);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,7 +33,7 @@ app.use(
         secret: "keyboard cat",
         resave: false,
         saveUninitialized: false,
-        cookie: { secure: false, httpOnly: true },
+        cookie: { secure: true, sameSite:"none" ,httpOnly :false},
         store: new PrismaSessionStore(
             new PrismaClient(),
             {
@@ -52,7 +55,7 @@ app.use('/tag', passport.session(), isAuthenticated, tagsRouter);
 const swaggerYaml = fs.readFileSync("./api-documentation/openapi.yaml", "utf8");
 const swaggerDocument = yaml.parse(swaggerYaml);
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV === "dev-with-docs") {
     app.use(
         "/api-documentation",
         swaggerUi.serve,
@@ -61,7 +64,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 
-const PORT = 3000;
+const PORT = parseInt(process.env.PORT ?? "3000");
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

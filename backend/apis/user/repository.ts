@@ -1,9 +1,9 @@
 import {prisma} from "../prismaClient";
-import {InternalError, NotFoundError} from "../types"
 import {Result} from "@badrap/result";
 import {UserResponse, UserCreateRequest, UserUpdateRequest, User} from "./types"
-import {defaultPP} from "../utils";
+import {defaultPP,repackageToNotFoundError,repackageToInternalError} from "../utils";
 import argon2 from "argon2";
+
 
 export const userRepository = {
     async create(user: UserCreateRequest): Promise<Result<UserResponse, Error>> {
@@ -25,24 +25,14 @@ export const userRepository = {
             }
         })
             .then(newUser => Result.ok(newUser))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new InternalError(error.message));
-                }
-                return Result.err(new InternalError());
-            });
+            .catch((error: any) => repackageToInternalError(error));
     },
 
     async delete(userId: string): Promise<Result<null, Error>> {
         return await prisma.user.delete({where: {id: userId}})
             .then(
                 () => Result.ok(null)
-            ).catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            });
+            ).catch((error: any) => repackageToNotFoundError(error));
     },
 
     async findById(userId: string): Promise<Result<UserResponse, Error>> {
@@ -57,12 +47,7 @@ export const userRepository = {
                     id: userId
                 }
         }).then(user => Result.ok(user))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            });
+            .catch((error: any) => repackageToNotFoundError(error));
 
     },
 
@@ -79,12 +64,7 @@ export const userRepository = {
                     email: email
                 }
         }).then(user => Result.ok(user))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-            });
+            .catch((error: any) => repackageToNotFoundError(error));
     },
 
     async update(userUpdateRequest: UserUpdateRequest, userId: string): Promise<Result<UserResponse, Error>> {
@@ -108,12 +88,6 @@ export const userRepository = {
 
             }
         ).then(modifiedUser => Result.ok(modifiedUser))
-            .catch((error: any) => {
-                if (process.env.NODE_ENV !== "production") {
-                    return Result.err(new NotFoundError(error.message));
-                }
-                return Result.err(new NotFoundError());
-
-            });
+            .catch((error: any) => repackageToNotFoundError(error));
     }
 }

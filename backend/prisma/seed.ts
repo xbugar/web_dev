@@ -53,8 +53,8 @@ async function createUserWithFlashDeck(name: string, mail: string, picture: Prof
     const user = await addUser(name, "", mail, "",  picture.id);
     const userFlashDeck = await createFlashDeck(user.id, icon, "test FlashDeck", "", getRandomValue(colors));
     const userFlashCard = await createFlashCard(userFlashDeck.id, "Are traps gay?");
-    const userFlashAnswer1 = createFlashAnswer(userFlashCard.id, "yes", false);
-    const userFlashAnswer2 = createFlashAnswer(userFlashCard.id, "no", true);
+    await createFlashAnswer(userFlashCard.id, "yes", false);
+    await createFlashAnswer(userFlashCard.id, "no", true);
     return user;
 }
 

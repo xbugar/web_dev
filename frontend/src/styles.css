@@ -25,6 +25,9 @@
   --color-black: oklch(0.14 0 0);
   --color-white: oklch(0.99 0 0);
 
+  --color-white-text-secondary: oklch(0.74 0 0);
+  --color-black-text-secondary: oklch(0.34 0 0);
+
   --color-black-secondary: oklch(0.16 0 0);
   --color-white-secondary: oklch(0.96 0 0);
 
@@ -33,34 +36,35 @@
     0 0.3px 0.4px hsla(0, 0%, 0%, 0.02), 0 0.9px 1.5px hsla(0, 0%, 0%, 0.045),
     0 3.5px 6px hsla(0, 0%, 0%, 0.09);
 
+  /* THIS IS REFERENCE PLEASE DONT USE */
   /* colors that are same on DM and LM */
-  --color-text-primary-black: oklch(0.14 0 0);
+  /* --color-text-primary-black: oklch(0.14 0 0);
   --color-text-primary-white: oklch(0.99 0 0);
-  --color-text-secondary-white: oklch(0.74 0 0);
+  --color-text-secondary-white: oklch(0.74 0 0); */
 
   /* colors for DM */
-  --color-color-dm-primary: oklch(0.99 0 0);
+  /* --color-color-dm-primary: oklch(0.99 0 0); */
   /*--color-dm-secondary: oklch(0.45 0.313214 264.052);*/
 
-  --color-text-dm-primary: oklch(0.99 0 0);
+  /* --color-text-dm-primary: oklch(0.99 0 0);
   --color-text-dm-primary-inverted: oklch(0.14 0 0);
   --color-text-dm-secondary: oklch(0.8 0 0);
 
   --color-bg-dm-primary: oklch(0.14 0 0);
   --color-bg-dm-primary-inverted: oklch(0.99 0 0);
-  --color-bg-dm-secondary: oklch(0.16 0 0);
+  --color-bg-dm-secondary: oklch(0.16 0 0); */
 
   /* colors for LM */
-  --color-color-lm-primary: oklch(0.14 0 0);
+  /* --color-color-lm-primary: oklch(0.14 0 0); */
   /*--color-lm-secondary: oklch(0.45 0.313214 264.052);*/
 
-  --color-text-lm-primary: oklch(0.14 0 0);
+  /* --color-text-lm-primary: oklch(0.14 0 0);
   --color-text-lm-primary-inverted: oklch(0.99 0 0);
   --color-text-lm-secondary: oklch(0.37 0 0);
 
   --color-bg-lm-primary: oklch(0.99 0 0);
   --color-bg-lm-primary-inverted: oklch(0.14 0 0);
-  --color-bg-lm-secondary: oklch(0.96 0 0);
+  --color-bg-lm-secondary: oklch(0.96 0 0); */
 
   /* accent colors */
   --color-accent-blue: oklch(0.49 0.2432 264.4);
