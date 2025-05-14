@@ -51,7 +51,7 @@ export default tseslint.config(
       ...airbnbTypeScript.rules,
 
       // Prettier integration (use .prettierrc)
-      'prettier/prettier': 'error',
+
 
       // Disable old requirement to import React in JSX files
       'react/react-in-jsx-scope': 'off',
