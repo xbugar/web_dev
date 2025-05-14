@@ -8,7 +8,6 @@ export type Tag = {
     id: string;
     name: string;
     color: string;
-    userId: string;
 };
 
 export type TagRequest = {
