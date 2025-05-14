@@ -11,7 +11,7 @@ export const Route = createFileRoute('/_authentificated/notebooks/')({
 });
 
 function RouteComponent() {
-  const userId = '017d764e-dd13-4b90-8fa8-304e0457245f';
+  const userId = 'ce3f2263-f59a-41df-9a3d-aa83e7d2d437';
   const { data: notebooks } = useUserNotebooks(userId);
   return (
     <>
