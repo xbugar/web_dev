@@ -72,7 +72,7 @@ async function createUserWithTags(name: string, mail: string, picture: ProfilePi
 }
 
 async function seedAllIcons() {
-    for (let iconName of icons) {
+    for (const iconName of icons) {
         if (iconName === "Default") {
             continue;
         }
