@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { PasswordInput } from '@/components/ui/password-input.tsx';
 import { Link } from '@tanstack/react-router';
+import { useLoginUser } from "@/hooks/useLoginUser.ts";
 
 const formSchema = z.object({
   email: z
@@ -20,6 +21,7 @@ const formSchema = z.object({
 });
 
 export function LoginForm() {
+  const loginUser = useLoginUser();
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,6 +36,7 @@ export function LoginForm() {
     // Do something with the form values.
     // This will be type-safe and validated.
     console.log(values);
+    loginUser.mutate(values);
   }
 
   return (

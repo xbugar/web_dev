@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { PasswordInput } from '@/components/ui/password-input.tsx';
 import { Link } from '@tanstack/react-router';
+import { useRegisterUser } from "@/hooks/useRegisterUser.ts";
 
 const formSchema = z
   .object({
@@ -34,6 +35,7 @@ const formSchema = z
   });
 
 export function SignupForm() {
+  const registerUser = useRegisterUser();
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,6 +53,7 @@ export function SignupForm() {
     // Do something with the form values.
     // This will be type-safe and validated.
     console.log(values);
+    registerUser.mutate(values);
   }
 
   return (
