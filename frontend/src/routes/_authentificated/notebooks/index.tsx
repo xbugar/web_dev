@@ -12,7 +12,7 @@ export const Route = createFileRoute('/_authentificated/notebooks/')({
 
 function RouteComponent() {
   const userId = 'ce3f2263-f59a-41df-9a3d-aa83e7d2d437';
-  const { data: notebooks } = useUserNotebooks(userId);
+  const { data: notebooks } = useUserNotebooks();
   return (
     <>
       <Section title={'Notebooks'} Icon={Plus} id={userId} type="notebook" />

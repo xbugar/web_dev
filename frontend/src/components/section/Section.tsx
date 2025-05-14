@@ -28,7 +28,7 @@ export function Section({ title, Icon, id, type }: SectionProps) {
       </div>
 
       {type === 'notebook' && (
-        <NotebookCreateDialog open={open} onOpenChange={setOpen} userId={id} />
+        <NotebookCreateDialog open={open} onOpenChange={setOpen} />
       )}
 
       {type === 'note' && <NoteCreateDialog open={open} onOpenChange={setOpen} notebookId={id} />}
