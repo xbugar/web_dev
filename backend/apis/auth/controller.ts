@@ -23,14 +23,14 @@ const register = async (req: Request, res: Response) => {
         return;
     }
 
-
+/*
     req.login(user.value, (err) => {
         if (err) {
             console.log("login in register failed");
             throw err;
         }
         res.status(200).end();
-    });
+    });*/
 }
 
 const login = async (req: Request, res: Response) => {
@@ -38,8 +38,7 @@ const login = async (req: Request, res: Response) => {
     if (!request) {
         return;
     }
-
-    res.status(200).end();
+    res.status(200).send({sessionId:req.session.id}).end();
 }
 
 export const authController = {
