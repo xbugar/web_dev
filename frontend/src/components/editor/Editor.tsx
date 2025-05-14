@@ -1,55 +1,47 @@
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import {
-  Bold,
-  Italic,
-  Strikethrough,
-  Heading1,
-  Heading2,
-  Underline,
-  List,
-  ListOrdered,
-} from 'lucide-react';
-import { Underline as UnderlineTiptap } from '@tiptap/extension-underline';
-import { useEffect, useState } from 'react';
-import { Markdown } from 'tiptap-markdown';
-import { useEditNoteContent } from '@/hooks/useEditNoteCotent.ts';
-import { useNoteContent } from '@/hooks/useNoteContent.ts';
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import { Bold, Italic, Strikethrough, Heading1, Heading2, Underline, List, ListOrdered } from 'lucide-react'
+import { Underline as UnderlineTiptap } from '@tiptap/extension-underline'
+import { useEffect, useState } from "react";
+import { Markdown } from "tiptap-markdown";
+import { useEditNoteContent } from "@/hooks/useEditNoteCotent.ts";
+import { useNoteContent } from "@/hooks/useNoteContent.ts";
+
 
 type EditorProps = {
-  noteId: string;
-  notebookId: string;
-};
+  noteId: string
+  notebookId: string
+}
 
 const Editor = ({ noteId, notebookId }: EditorProps) => {
-  const [, setEditorContent] = useState('');
+  const [, setEditorContent] = useState('')
 
-  const { data: noteData, isLoading } = useNoteContent(notebookId, noteId);
-  console.log(noteData);
-  const editNoteContent = useEditNoteContent({ id: notebookId });
+  const { data: noteData, isLoading } = useNoteContent(notebookId, noteId)
+  console.log(noteData)
+  const editNoteContent = useEditNoteContent({ id: notebookId })
 
   const editor = useEditor({
-    extensions: [StarterKit, UnderlineTiptap, Markdown],
-    content: ' ',
+    extensions:  [StarterKit, UnderlineTiptap, Markdown],
+    content: " ",
     onUpdate: ({ editor }) => {
-      setEditorContent(editor.storage.markdown.getMarkdown());
-    },
-  });
+      setEditorContent(editor.storage.markdown.getMarkdown())
+    }
+  })
 
   useEffect(() => {
     if (editor && noteData) {
-      editor.commands.setContent(noteData.content);
+      editor.commands.setContent(noteData.content)
     }
-  }, [editor, noteData]);
+  }, [editor, noteData])
 
   const handleSave = () => {
-    if (!editor) return;
+    if (!editor) return
 
     editNoteContent.mutate({
       noteId: noteId,
       content: editor.storage.markdown.getMarkdown(),
-    });
-  };
+    })
+  }
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -62,38 +54,40 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
   }, [editor, noteId]);
 
   if (!editor) {
-    return null;
+    return null
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex-col mb-20">
+      <EditorContent editor={editor} className="flex-1 focus:outline-none border-0 p-0 rounded" />
+
       {/* Toolbar */}
-      <div className="flex justify-center gap-4 border-b p-2">
+      <div className="fixed bottom-0 w-full bg-white dark:bg-black flex justify-center gap-4 border-t p-2">
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
-          className={`rounded p-2 ${editor.isActive('bold') ? 'bg-black text-white dark:bg-white dark:text-black' : ''}`}
+          className={`p-2 rounded ${editor.isActive('bold') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
         >
-          <Bold />
+          <Bold/>
         </button>
         <button
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={`rounded p-2 ${editor.isActive('italic') ? 'bg-black text-white dark:bg-white dark:text-black' : ''}`}
+          className={`p-2 rounded ${editor.isActive('italic') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
         >
-          <Italic />
+          <Italic/>
         </button>
         <button
           onClick={() => editor.chain().focus().toggleStrike().run()}
-          className={`rounded p-2 ${editor.isActive('strike') ? 'bg-black text-white dark:bg-white dark:text-black' : ''}`}
+          className={`p-2 rounded ${editor.isActive('strike') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
         >
-          <Strikethrough />
+          <Strikethrough/>
         </button>
         <button
           onClick={() => editor.chain().focus().toggleUnderline().run()}
-          className={`rounded p-2 ${editor.isActive('underline') ? 'bg-black text-white dark:bg-white dark:text-black' : ''}`}
+          className={`p-2 rounded ${editor.isActive('underline') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
         >
           <Underline />
         </button>
@@ -112,20 +106,21 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
 
         <button
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={`rounded p-2 ${editor.isActive('bulletList') ? 'bg-black text-white dark:bg-white dark:text-black' : ''}`}
+          className={`p-2 rounded ${editor.isActive('bulletList') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
         >
           <List />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={`rounded p-2 ${editor.isActive('orderedList') ? 'bg-black text-white dark:bg-white dark:text-black' : ''}`}
+          className={`p-2 rounded ${editor.isActive('orderedList') ? 'bg-black dark:bg-white text-white dark:text-black' : ''}`}
         >
           <ListOrdered />
         </button>
-      </div>
-      <EditorContent editor={editor} className="rounded border-0 p-0 focus:outline-none" />
+      </div >
     </div>
-  );
-};
+  )
+}
 
-export default Editor;
+
+
+export default Editor
