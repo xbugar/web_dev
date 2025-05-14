@@ -19,8 +19,11 @@ import {PrismaClient} from "@prisma/client";
 const app = express();
 
 //this should probably be configured in a specific way when deployed
-app.use(cors());
-
+app.use(cors({
+    origin: "http://localhost:5173",  // Adjust if necessary
+    credentials: true
+}));
+app.set('trust proxy', 1);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,7 +33,7 @@ app.use(
         secret: "keyboard cat",
         resave: false,
         saveUninitialized: false,
-        cookie: { secure: false, httpOnly: true },
+        cookie: { secure: true, sameSite:"none" ,httpOnly :false},
         store: new PrismaSessionStore(
             new PrismaClient(),
             {
