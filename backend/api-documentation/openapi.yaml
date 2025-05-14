@@ -566,10 +566,14 @@ paths:
               $ref: '#/components/schemas/LoginUser'
       responses:
         '200':
-          description: successful operation
+          description: successful operation, this is probably not the correct way to access teh sessionId its here just for debugging purposes
           content:
             application/json:
               schema:
+                  type: object
+                  properties:
+                    sessionId:
+                      type: string
 
         default:
           description: Unexpected error
@@ -594,10 +598,14 @@ paths:
       responses:
         '200':
           description: successful operation
-          content:
-            application/json:
-              schema:
-                type: object
+#          content:
+ #           application/json:
+  #            schema:
+   #             type: object
+    #            properties:
+     #             sessionId:
+      #              type: string
+
         default:
           description: Unexpected error
           content:
@@ -1023,6 +1031,9 @@ components:
           type: string
           example: john@email.com
         password:
+          type: string
+          example: '12345'
+        confirmPassword:
           type: string
           example: '12345'
 
