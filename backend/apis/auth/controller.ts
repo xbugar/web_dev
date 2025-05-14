@@ -22,7 +22,7 @@ const register = async (req: Request, res: Response) => {
         handleRepositoryErrors(user.error, res);
         return;
     }
-    res.status(200);
+    res.status(200).send({message:"success"});
 /*
     req.login(user.value, (err) => {
         if (err) {
@@ -39,7 +39,7 @@ const login = async (req: Request, res: Response) => {
         return;
     }
 
-    res.status(200).setHeader("Set-Cookie", "session_id=value; Secure; HttpOnly; SameSite=None").send({sessionId:req.session.id});
+    res.status(200).send({sessionId:req.session.id});
 }
 
 export const authController = {
