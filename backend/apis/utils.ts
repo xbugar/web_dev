@@ -59,7 +59,7 @@ export const parseRequest = async <
 
 //TODO get rid of these abominations
 export const defaultPP = async () => {
-    let profilePicture = await prisma.profilePicture.findFirst();
+    const profilePicture = await prisma.profilePicture.findFirst();
     if (!profilePicture) {
         throw new NotFoundError("No profile picture in database");
     }
