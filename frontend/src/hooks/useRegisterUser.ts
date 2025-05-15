@@ -9,6 +9,7 @@ export const useRegisterUser = () => {
     mutationFn:  postRegisterUser,
 
     onSuccess: () => {
+      console.log("jupi");
       navigate({ to: '/login' });
     },
 
