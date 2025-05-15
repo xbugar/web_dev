@@ -113,7 +113,12 @@ export function NotebookNoteDropdown({
 
       {/* Tag Dialog */}
       {type === 'note' && (
-        <NoteTagDialog open={openEditTags} onOpenChange={setOpenEditTags} noteId={noteId} />
+        <NoteTagDialog
+          open={openEditTags}
+          onOpenChange={setOpenEditTags}
+          noteId={noteId}
+          notebookId={notebookId}
+        />
       )}
       {/*{type === 'notebook' && (*/}
       {/*  <NotebookTagDialog*/}
