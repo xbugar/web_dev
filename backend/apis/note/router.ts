@@ -8,6 +8,6 @@ notesRouter.put("/:noteId", notesController.updateNoteMeta);
 notesRouter.delete("/:noteId", notesController.deleteNote);
 notesRouter.get("/:noteId/content", notesController.getNoteContent);
 notesRouter.put("/:noteId/content", notesController.updateNoteContent);
-notesRouter.post("/:noteId/tag/:tagId", notesController.addNoteTag);
-notesRouter.delete("/:noteId/tag/:tagId", notesController.removeNoteTag);
+notesRouter.post("/:noteId/tag", notesController.addNoteTag);
+notesRouter.delete("/:noteId/tag", notesController.removeNoteTag);
 

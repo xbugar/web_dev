@@ -101,7 +101,7 @@ const updateNoteContent = async (req: Request, res: Response) => {
 const addNoteTag = async (req: Request, res: Response) => {
     const request = await parseRequest(addNoteTagRequestSchema, req, res);
     if (!request
-        || !await ownership.notebook(request.params.noteId, req.session.passport?.user.id, res)
+        || !await ownership.note(request.params.noteId, req.session.passport?.user.id, res)
         || !req.session.passport?.user.id ) {
         return;
     }
@@ -125,7 +125,7 @@ const addNoteTag = async (req: Request, res: Response) => {
 const removeNoteTag = async (req: Request, res: Response) => {
     const request = await parseRequest(removeNoteTagRequestSchema, req, res);
     if (!request
-        || !await ownership.notebook(request.params.noteId, req.session.passport?.user.id, res)
+        || !await ownership.note(request.params.noteId, req.session.passport?.user.id, res)
         || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
         return;
     }
