@@ -10,6 +10,7 @@ export const useCreateTagNotebook = (notebookId : string) => {
       return postTagToNotebook(notebookId, data);
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notebooks'] });
       queryClient.invalidateQueries({ queryKey: ['notebooks', notebookId] });
       queryClient.invalidateQueries({ queryKey:['tags'] });
     },
