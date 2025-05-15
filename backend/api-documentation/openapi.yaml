@@ -594,7 +594,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-
+  /auth/status:
+    get:
+      tags:
+        - auth
+      summary: Check the session status
+      operationId: checkStatus
+      responses:
+        '200':
+          description: session still active
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '401':
+          description: session expired
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /auth/login:
     post:
       tags:
