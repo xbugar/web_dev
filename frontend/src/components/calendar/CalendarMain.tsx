@@ -13,7 +13,7 @@ export function CalendarMain() {
       setDate(selected)
       const formatted = selected.toISOString().split('T')[0] // e.g. 2025-06-15
       navigate({
-        to: "/_authentificated/calendar/$calendarDay",
+        to: "/calendar/$calendarDay",
         params: { calendarDay: formatted },
       })
     }
