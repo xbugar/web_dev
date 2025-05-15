@@ -31,8 +31,6 @@ export const TagDeleteDialog = ({
     deleteTag.mutate({noteId, tagId});
   };
 
-  console.log("snazim sa vymazat tag z notu");
-
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>

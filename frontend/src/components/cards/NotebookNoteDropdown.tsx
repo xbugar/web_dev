@@ -14,7 +14,6 @@ import { NoteEditDialog } from '@/components/dialogs/NoteEditDialog.tsx';
 import { Note } from '@/types/Note.ts';
 import { NotebookDeleteDialog } from '@/components/dialogs/NotebookDeleteDialog.tsx';
 import { NoteDeleteDialog } from '@/components/dialogs/NoteDeleteDialog.tsx';
-// import { NotebookTagDialog } from "@/components/dialogs/NotebookTagDialog.tsx";
 import { NoteTagDialog } from "@/components/dialogs/NoteTagDialog.tsx";
 
 type DropdownType = 'note' | 'notebook';
