@@ -1,7 +1,16 @@
-import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
+import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router';
 import gradient from '@/assets/gradient.webp';
+import { useAuthStore } from '@/lib/authStore';
 
 export const Route = createFileRoute('/_public')({
+  loader: () => {
+    const { auth } = useAuthStore.getState();
+    if (auth.isAuth) {
+      throw redirect({
+        to: '/home',
+      });
+    }
+  },
   component: LoginAndRegisterLayout,
 });
 

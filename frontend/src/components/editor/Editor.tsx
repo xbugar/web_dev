@@ -1,6 +1,6 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { Bold, Italic, Strikethrough, Heading1, Heading2, Underline, List, ListOrdered } from 'lucide-react'
+import { Bold, Italic, Strikethrough, Underline, List, ListOrdered } from 'lucide-react'
 import { Underline as UnderlineTiptap } from '@tiptap/extension-underline'
 import { useEffect, useState } from "react";
 import { Markdown } from "tiptap-markdown";
