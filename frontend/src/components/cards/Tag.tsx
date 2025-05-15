@@ -11,6 +11,15 @@ const tagStyle: Record<TagColor, string> = {
   pink: 'border-transparent bg-pink-900 text-pink-400',
 };
 
+const tagMap: Record<TagColor, string> = {
+  blue: 'bg-blue-900',
+  purple: 'bg-purple-900',
+  yellow: 'bg-yellow-900',
+  green: 'bg-green-900',
+  red: 'bg-red-900',
+  pink: 'bg-pink-900',
+};
+
 type TagProps = {
   name: string;
   color: TagColor;
@@ -20,5 +29,14 @@ function Tag({ name, color }: TagProps) {
   return <Badge className={`${tagStyle[color]} rounded-2xl text-xs`}>{name}</Badge>;
 }
 
-export { Tag };
+const availableColors = [
+  { label: 'Red', value: 'red' },
+  { label: 'Blue', value: 'blue' },
+  { label: 'Green', value: 'green' },
+  { label: 'Yellow', value: 'yellow' },
+  { label: 'Purple', value: 'purple' },
+  { label: 'Pink', value: 'pink' },
+];
+
+export { Tag, availableColors, tagMap };
 export type { TagProps, TagColor };

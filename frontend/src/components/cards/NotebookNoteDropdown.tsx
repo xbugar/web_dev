@@ -14,6 +14,8 @@ import { NoteEditDialog } from '@/components/dialogs/NoteEditDialog.tsx';
 import { Note } from '@/types/Note.ts';
 import { NotebookDeleteDialog } from '@/components/dialogs/NotebookDeleteDialog.tsx';
 import { NoteDeleteDialog } from '@/components/dialogs/NoteDeleteDialog.tsx';
+// import { NotebookTagDialog } from "@/components/dialogs/NotebookTagDialog.tsx";
+import { NoteTagDialog } from "@/components/dialogs/NoteTagDialog.tsx";
 
 type DropdownType = 'note' | 'notebook';
 interface NotebookNoteDropdownProps {
@@ -24,13 +26,14 @@ interface NotebookNoteDropdownProps {
 }
 
 export function NotebookNoteDropdown({
-  notebookId,
-  noteId,
-  data,
-  type,
-}: NotebookNoteDropdownProps) {
+                                       notebookId,
+                                       noteId,
+                                       data,
+                                       type,
+                                     }: NotebookNoteDropdownProps) {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [openEditTags, setOpenEditTags] = useState(false);
 
   return (
     <>
@@ -43,36 +46,30 @@ export function NotebookNoteDropdown({
 
         <DropdownMenuContent className="m-2 text-xs">
           <DropdownMenuItem>
-            {' '}
-            <Star className="text-text-lm-secondary dark:text-text-dm-secondary" /> Add to
-            favourites{' '}
+            <Star className="text-text-lm-secondary dark:text-text-dm-secondary" />
+            Add to favourites
           </DropdownMenuItem>
           <DropdownMenuSeparator />
 
           {type === 'notebook' && (
             <DropdownMenuItem onClick={() => setOpenEdit(true)}>
-              {' '}
-              <Pencil /> Edit notebook{' '}
+              <Pencil /> Edit notebook
             </DropdownMenuItem>
           )}
           {type === 'note' && (
             <DropdownMenuItem onClick={() => setOpenEdit(true)}>
-              {' '}
-              <Pencil /> Rename{' '}
+              <Pencil /> Rename
             </DropdownMenuItem>
           )}
-          <DropdownMenuItem>
-            {' '}
-            <Tag /> Edit tags{' '}
+          <DropdownMenuItem onClick={() => setOpenEditTags(true)}>
+            <Tag /> Edit tags
           </DropdownMenuItem>
           <DropdownMenuItem>
-            {' '}
             <Copy /> Copy link
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => setOpenDelete(true)} variant="destructive">
-            {' '}
             <Trash2 /> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -93,7 +90,7 @@ export function NotebookNoteDropdown({
           onOpenChange={setOpenEdit}
           noteId={noteId}
           notebookId={notebookId}
-          initialData={data}
+          initialData={data as Note}
         />
       )}
 
@@ -113,6 +110,18 @@ export function NotebookNoteDropdown({
           notebookId={notebookId}
         />
       )}
+
+      {/* Tag Dialog */}
+      {type === 'note' && (
+        <NoteTagDialog open={openEditTags} onOpenChange={setOpenEditTags} noteId={noteId} />
+      )}
+      {/*{type === 'notebook' && (*/}
+      {/*  <NotebookTagDialog*/}
+      {/*    open={openEditTags}*/}
+      {/*    onOpenChange={setOpenEditTags}*/}
+      {/*    notebookId={notebookId}*/}
+      {/*  />*/}
+      {/*)}*/}
     </>
   );
 }
