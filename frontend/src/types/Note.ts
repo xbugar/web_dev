@@ -1,11 +1,11 @@
-import { Tag } from '@/types/Tag.ts';
+import { TagType } from '@/types/TagType.ts';
 
 export type Note = {
   id: string;
   title: string;
   createdAt: string;
   updatedAt: string;
-  tags?: Tag[];
+  tags?: TagType[];
   notebook: { id: string; color: string };
 };
 

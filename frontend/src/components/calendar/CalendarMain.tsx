@@ -3,15 +3,17 @@
 import * as React from "react"
 import { useNavigate } from "@tanstack/react-router"
 import { Calendar } from "@/components/ui/calendar"
+import { format, parseISO } from "date-fns";
 
-export function CalendarMain() {
-  const [date, setDate] = React.useState<Date | undefined>(new Date())
+export function CalendarMain({ selectedDay }: { selectedDay?: string }) {
+  const selectedFromParam = selectedDay ? parseISO(selectedDay) : new Date()
+  const [date, setDate] = React.useState<Date | undefined>(selectedFromParam)
   const navigate = useNavigate()
 
   const handleSelect = (selected: Date | undefined) => {
     if (selected) {
       setDate(selected)
-      const formatted = selected.toISOString().split('T')[0] // e.g. 2025-06-15
+      const formatted = format(selected, 'yyyy-MM-dd')
       navigate({
         to: "/calendar/$calendarDay",
         params: { calendarDay: formatted },

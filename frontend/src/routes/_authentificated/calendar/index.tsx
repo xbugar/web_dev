@@ -1,27 +1,49 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { CalendarMain } from '@/components/calendar/CalendarMain.tsx'
-import { Button } from '@/components/ui/button.tsx';
-import { ArrowRight } from "lucide-react";
-import { EventCard } from "@/components/cards/EventCard.tsx";
+import { Event } from "@/types/Event.ts";
+import { Events } from "@/components/calendar/Events.tsx";
 
 export const Route = createFileRoute('/_authentificated/calendar/')({
   component: RouteComponent,
 });
 
+export const mockEvents: Event[] = [
+  {
+    id: "1",
+    title: "Project Kickoff",
+    description: "Initial meeting with the team.",
+    tags: [
+      { id:"1", name: "Work", color: "blue" },
+      { id:"2", name: "Meeting", color: "green" },
+    ],
+    timeFrom: "2025-05-15T10:00:00.000Z",
+    timeTo: "2025-05-15T11:00:00.000Z",
+  },
+  {
+    id: "2",
+    title: "Design Review",
+    description: "Review UI designs with stakeholders.",
+    tags: [{ id:"3", name: "Design", color: "purple" }],
+    timeFrom: "2025-05-15T14:00:00.000Z",
+    timeTo: "2025-05-16T15:30:00.000Z",
+  },
+  {
+    id: "3",
+    title: "Dev All-Day Workshop",
+    description: "Deep dive into backend architecture.",
+    tags: [{ id:"4", name: "Workshop", color: "yellow" }],
+    timeFrom: "2025-04-17T08:00:00.000Z",
+    timeTo: "2025-06-18T18:00:00.000Z",
+  },
+];
+
+
 function RouteComponent() {
+  const today = new Date();
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       <CalendarMain />
-      <div className="mt-2 flex flex-row items-center justify-between py-2 font-serif text-2xl font-bold">
-        <h2>Events and deadlines</h2>
-        <Button variant="section">
-          <Link to={"/events"}><ArrowRight /></Link>
-        </Button>
-      </div>
-      <EventCard title={'Java vnitro'} description={'dfnsnf'} tag={{
-        name: '!',
-        color: 'red'
-      }} date={'2025-06-15T00:11:42.470Z'} time={'20:00'} color={'red'} />
+      <Events events={mockEvents} selectedDay={today} />
     </div>
   )
 }

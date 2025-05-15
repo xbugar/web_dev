@@ -1,4 +1,4 @@
-import { Tag } from '@/types/Tag.ts';
+import { TagType } from '@/types/TagType.ts';
 
 export type Notebook = {
   id: string;
@@ -8,7 +8,7 @@ export type Notebook = {
   createdAt: string;
   updatedAt: string;
   iconName: string;
-  tags?: Tag[];
+  tags?: TagType[];
   noteCount: number;
 };
 

@@ -8,15 +8,16 @@ export const Route = createFileRoute('/_authentificated')({
 
 function RouteComponent() {
   const matchRoute = useMatchRoute();
-  const params = matchRoute({ to: '/notebooks/$notebookId/$noteId' });
-  console.log(params);
+  const paramsNote = matchRoute({ to: '/notebooks/$notebookId/$noteId' });
+  const paramsEvent = matchRoute({ to: '/events/$eventId' });
+
   return (
     <>
       <Header />
       <section className="mb-20 px-4">
         <Outlet />
       </section>
-      {!params && <Navigation />}
+      {!paramsNote && !paramsEvent && <Navigation />}
     </>
   );
 }

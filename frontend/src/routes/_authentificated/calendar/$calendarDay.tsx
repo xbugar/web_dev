@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { CalendarMain } from "@/components/calendar/CalendarMain.tsx";
 
 export const Route = createFileRoute('/_authentificated/calendar/$calendarDay')(
   {
@@ -8,5 +9,11 @@ export const Route = createFileRoute('/_authentificated/calendar/$calendarDay')(
 
 function RouteComponent() {
   const calendarDay = Route.useParams().calendarDay;
-  return <div>You selected: {calendarDay}</div>
+
+  return (
+    <div>
+      <CalendarMain selectedDay={calendarDay} />
+      <div>You selected: {calendarDay}</div>
+    </div>
+  )
 }
