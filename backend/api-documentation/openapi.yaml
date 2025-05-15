@@ -240,7 +240,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /note/{noteId}/tag/{tagId}:
+  /note/{noteId}/tag:
     post:
       security:
         - cookieAuth: [ ]
@@ -256,21 +256,29 @@ paths:
           required: true
           schema:
             type: string
-        - name: tagId
-          in: path
-          description: id of tag
-          required: true
-          schema:
-            type: string
+      requestBody:
+        description: Name and color of a tag.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagNameColor'
+
       responses:
         '200':
           description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
         default:
           description: Unexpected error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+  /note/{noteId}/tag/{tagId}:
+
     delete:
       security:
         - cookieAuth: [ ]
@@ -519,7 +527,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /notebook/{notebookId}/tag/{tagId}:
+  /notebook/{notebookId}/tag:
     post:
       security:
         - cookieAuth: [ ]
@@ -535,21 +543,27 @@ paths:
           required: true
           schema:
             type: string
-        - name: tagId
-          in: path
-          description: id of tag
-          required: true
-          schema:
-            type: string
+      requestBody:
+        description: Name and color of a tag.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagNameColor'
       responses:
         '200':
           description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
         default:
           description: Unexpected error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+  /notebook/{notebookId}/tag/{tagId}:
     delete:
       security:
         - cookieAuth: [ ]
@@ -955,7 +969,19 @@ paths:
 
 components:
   schemas:
-
+    TagNameColor:
+      type: object
+      properties:
+        name:
+          type: string
+        color:
+          type: string
+        userId:
+          description: This might not be necessary when auth is fully implemented but for now there is no way around this
+          type: string
+      required:
+        name
+        color
 
     CreateNote:
       type: object
