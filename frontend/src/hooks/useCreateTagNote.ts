@@ -13,6 +13,7 @@ export const useCreateTagNote = (notebookId : string) => {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['notebooks', notebookId] });
       queryClient.invalidateQueries({ queryKey:['notes', variables.noteId, 'metadata'] });
+      queryClient.invalidateQueries({ queryKey:['tags' ] });
     },
   });
 };
