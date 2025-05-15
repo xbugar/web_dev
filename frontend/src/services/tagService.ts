@@ -16,3 +16,7 @@ export const postTag = async (createTag: CreateTag): Promise<TagType> => {
 export const putTag = async (id: string, tag: TagType): Promise<void> => {
   return api.put(`/tag/${id}`, tag);
 };
+
+export const deleteTagFromNote = async (noteId: string, tagId: string): Promise<void> => {
+  return api.delete(`/note/${noteId}/tag/${tagId}`);
+}
