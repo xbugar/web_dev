@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteTagFromNote } from "@/services/tagService.ts";
+import { deleteTagFromNote } from "@/services/noteService.ts";
 
 export const useDeleteTagFromNote = ({ notebookId }: { notebookId: string }) => {
   const queryClient = useQueryClient();
