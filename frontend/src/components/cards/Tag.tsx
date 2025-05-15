@@ -23,10 +23,18 @@ const tagMap: Record<TagColor, string> = {
 type TagProps = {
   name: string;
   color: TagColor;
+  x? : boolean;
 };
 
-function Tag({ name, color }: TagProps) {
-  return <Badge className={`${tagStyle[color]} rounded-2xl text-xs`}>{name}</Badge>;
+function Tag({ name, color, x }: TagProps) {
+  return <Badge className={`${tagStyle[color]} rounded-2xl text-xs`}>
+    {name}
+    {x &&
+      <div className="text-white-secondary">
+          ×
+      </div>
+    }
+  </Badge>;
 }
 
 const availableColors = [

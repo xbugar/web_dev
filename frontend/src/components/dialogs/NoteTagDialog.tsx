@@ -46,14 +46,17 @@ export function NoteTagDialog({ open, onOpenChange, noteId, notebookId }: NoteTa
           <DialogDescription></DialogDescription>
         </DialogHeader>
         {noteData && noteData.tags && noteData.tags.length > 0 ? (
-          <div className="hide-scrollbar max-h-24 overflow-y-auto mb-4">
+          <div className="hide-scrollbar max-h-24 overflow-y-auto mb-4 pt-4">
             <div className="flex flex-wrap gap-2 justify-center">
               {noteData.tags.map((tag, index) => (
-                <Tag
-                  name={tag.name}
-                  color={tag.color as TagColor}
-                  key={index}
-                />
+                <div key={index} className="relative">
+                  <Tag
+                    name={tag.name}
+                    color={tag.color as TagColor}
+                    key={index}
+                    x={true}
+                  />
+                </div>
               ))}
             </div>
             {/* shadow on the left side */}
