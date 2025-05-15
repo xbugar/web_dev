@@ -6,28 +6,27 @@ import {
   DialogTitle
 } from "@/components/ui/dialog";
 import { CreateTag } from "@/types/TagType.ts";
-import { useNoteMetaData } from "@/hooks/useNoteMetaData.ts";
 import { TagColor } from "@/components/cards/Tag.tsx";
-import { useCreateTagNote } from "@/hooks/useCreateTagNote.ts";
 import { Tag } from "@/components/cards/Tag.tsx"
-import { Note } from "@/types/Note.ts";
 import { TagForm } from "@/components/forms/TagForm.tsx";
-import { NoteTagDeleteDialog } from "@/components/dialogs/NoteTagDeleteDialog.tsx";
 import { useState } from "react";
 import { useAllTags } from "@/hooks/useAllTags.ts";
+import { useCreateTagNotebook } from "@/hooks/useCreateTagNotebook.ts";
+import { useNotebook } from "@/hooks/useNotebook.ts";
+import { Notebook } from "@/types/Notebook.ts";
+import { NotebookTagDeleteDialog } from "@/components/dialogs/NotebookTagDeleteDialog.tsx";
 
-interface NoteTagDialogProps {
+interface NotebookTagDialog {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  noteId: string;
   notebookId: string;
 }
 
-export function NoteTagDialog({ open, onOpenChange, noteId, notebookId }: NoteTagDialogProps) {
-  const createTag = useCreateTagNote(notebookId);
-  const noteMetaData = useNoteMetaData(noteId);
+export function NotebookTagDialog({ open, onOpenChange, notebookId }: NotebookTagDialog) {
+  const createTag = useCreateTagNotebook(notebookId);
+  const notebookPromise = useNotebook(notebookId);
   const allTags = useAllTags();
-  const noteData : Note = noteMetaData.data as Note;
+  const notebookData : Notebook = notebookPromise.data as Notebook;
 
   const [openDeleteTag, setOpenDeleteTag] = useState(false);
   const [deleteTagId, setDeleteTagId] = useState<string>("");
@@ -38,7 +37,7 @@ export function NoteTagDialog({ open, onOpenChange, noteId, notebookId }: NoteTa
     }
 
     try {
-      createTag.mutate({noteId, data});
+      createTag.mutate({notebookId, data});
     } catch (err) {
       console.error("Error while creating a tag:", err);
     }
@@ -53,10 +52,10 @@ export function NoteTagDialog({ open, onOpenChange, noteId, notebookId }: NoteTa
             <DialogDescription></DialogDescription>
           </DialogHeader>
           <div>
-            {noteData && noteData.tags && noteData.tags.length > 0 ? (
+            {notebookData && notebookData.tags && notebookData.tags.length > 0 ? (
               <div className="hide-scrollbar max-h-24 overflow-y-auto mb-4">
                 <div className="flex flex-wrap gap-2 justify-center">
-                  {noteData.tags.map((tag, index) => (
+                  {notebookData.tags.map((tag, index) => (
                     <div key={index} className="relative">
                       <div onClick={() => {
                         setOpenDeleteTag(true);
@@ -92,10 +91,9 @@ export function NoteTagDialog({ open, onOpenChange, noteId, notebookId }: NoteTa
         </DialogContent>
       </Dialog>
 
-      <NoteTagDeleteDialog
+      <NotebookTagDeleteDialog
         open={openDeleteTag}
         onOpenChange={setOpenDeleteTag}
-        noteId={noteId}
         notebookId={notebookId}
         tagId={deleteTagId}
       />

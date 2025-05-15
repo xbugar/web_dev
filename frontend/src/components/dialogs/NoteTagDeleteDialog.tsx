@@ -18,7 +18,7 @@ type TagDeleteDialogProps = {
   tagId: string;
 };
 
-export const TagDeleteDialog = ({
+export const NoteTagDeleteDialog = ({
                                    open,
                                    onOpenChange,
                                    noteId,

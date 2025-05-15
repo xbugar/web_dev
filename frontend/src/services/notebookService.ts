@@ -16,9 +16,9 @@ export const getNotesFromNotebook = async (notebookId: string): Promise<Note[]> 
 };
 
 export const postTagToNotebook = async (notebookId: string, data: CreateTag): Promise<TagType> => {
-  return api.post(`/note/${notebookId}/tag`, data).then((res) => res.data as TagType)
+  return api.post(`/notebook/${notebookId}/tag`, data).then((res) => res.data as TagType)
 }
 
 export const deleteTagFromNotebook = async (notebookId: string, tagId: string): Promise<void> => {
-  return api.delete(`/note/${notebookId}/tag/${tagId}`);
+  return api.delete(`/notebook/${notebookId}/tag/${tagId}`);
 }
