@@ -19,8 +19,11 @@ import { Route as PublicLoginImport } from './routes/_public/login'
 import { Route as AuthentificatedPomodoroImport } from './routes/_authentificated/pomodoro'
 import { Route as AuthentificatedHomeImport } from './routes/_authentificated/home'
 import { Route as AuthentificatedFlashcardsImport } from './routes/_authentificated/flashcards'
+import { Route as AuthentificatedEventsImport } from './routes/_authentificated/events'
 import { Route as AuthentificatedCalendarImport } from './routes/_authentificated/calendar'
 import { Route as AuthentificatedNotebooksIndexImport } from './routes/_authentificated/notebooks/index'
+import { Route as AuthentificatedCalendarIndexImport } from './routes/_authentificated/calendar/index'
+import { Route as AuthentificatedCalendarCalendarDayImport } from './routes/_authentificated/calendar/$calendarDay'
 import { Route as AuthentificatedNotebooksNotebookIdIndexImport } from './routes/_authentificated/notebooks/$notebookId/index'
 import { Route as AuthentificatedNotebooksNotebookIdNoteIdImport } from './routes/_authentificated/notebooks/$notebookId/$noteId'
 
@@ -72,6 +75,12 @@ const AuthentificatedFlashcardsRoute = AuthentificatedFlashcardsImport.update({
   getParentRoute: () => AuthentificatedRouteRoute,
 } as any)
 
+const AuthentificatedEventsRoute = AuthentificatedEventsImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => AuthentificatedRouteRoute,
+} as any)
+
 const AuthentificatedCalendarRoute = AuthentificatedCalendarImport.update({
   id: '/calendar',
   path: '/calendar',
@@ -83,6 +92,20 @@ const AuthentificatedNotebooksIndexRoute =
     id: '/notebooks/',
     path: '/notebooks/',
     getParentRoute: () => AuthentificatedRouteRoute,
+  } as any)
+
+const AuthentificatedCalendarIndexRoute =
+  AuthentificatedCalendarIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthentificatedCalendarRoute,
+  } as any)
+
+const AuthentificatedCalendarCalendarDayRoute =
+  AuthentificatedCalendarCalendarDayImport.update({
+    id: '/$calendarDay',
+    path: '/$calendarDay',
+    getParentRoute: () => AuthentificatedCalendarRoute,
   } as any)
 
 const AuthentificatedNotebooksNotebookIdIndexRoute =
@@ -131,6 +154,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthentificatedCalendarImport
       parentRoute: typeof AuthentificatedRouteImport
     }
+    '/_authentificated/events': {
+      id: '/_authentificated/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof AuthentificatedEventsImport
+      parentRoute: typeof AuthentificatedRouteImport
+    }
     '/_authentificated/flashcards': {
       id: '/_authentificated/flashcards'
       path: '/flashcards'
@@ -166,6 +196,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicSignUpImport
       parentRoute: typeof PublicRouteImport
     }
+    '/_authentificated/calendar/$calendarDay': {
+      id: '/_authentificated/calendar/$calendarDay'
+      path: '/$calendarDay'
+      fullPath: '/calendar/$calendarDay'
+      preLoaderRoute: typeof AuthentificatedCalendarCalendarDayImport
+      parentRoute: typeof AuthentificatedCalendarImport
+    }
+    '/_authentificated/calendar/': {
+      id: '/_authentificated/calendar/'
+      path: '/'
+      fullPath: '/calendar/'
+      preLoaderRoute: typeof AuthentificatedCalendarIndexImport
+      parentRoute: typeof AuthentificatedCalendarImport
+    }
     '/_authentificated/notebooks/': {
       id: '/_authentificated/notebooks/'
       path: '/notebooks'
@@ -192,8 +236,26 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
+interface AuthentificatedCalendarRouteChildren {
+  AuthentificatedCalendarCalendarDayRoute: typeof AuthentificatedCalendarCalendarDayRoute
+  AuthentificatedCalendarIndexRoute: typeof AuthentificatedCalendarIndexRoute
+}
+
+const AuthentificatedCalendarRouteChildren: AuthentificatedCalendarRouteChildren =
+  {
+    AuthentificatedCalendarCalendarDayRoute:
+      AuthentificatedCalendarCalendarDayRoute,
+    AuthentificatedCalendarIndexRoute: AuthentificatedCalendarIndexRoute,
+  }
+
+const AuthentificatedCalendarRouteWithChildren =
+  AuthentificatedCalendarRoute._addFileChildren(
+    AuthentificatedCalendarRouteChildren,
+  )
+
 interface AuthentificatedRouteRouteChildren {
-  AuthentificatedCalendarRoute: typeof AuthentificatedCalendarRoute
+  AuthentificatedCalendarRoute: typeof AuthentificatedCalendarRouteWithChildren
+  AuthentificatedEventsRoute: typeof AuthentificatedEventsRoute
   AuthentificatedFlashcardsRoute: typeof AuthentificatedFlashcardsRoute
   AuthentificatedHomeRoute: typeof AuthentificatedHomeRoute
   AuthentificatedPomodoroRoute: typeof AuthentificatedPomodoroRoute
@@ -203,7 +265,8 @@ interface AuthentificatedRouteRouteChildren {
 }
 
 const AuthentificatedRouteRouteChildren: AuthentificatedRouteRouteChildren = {
-  AuthentificatedCalendarRoute: AuthentificatedCalendarRoute,
+  AuthentificatedCalendarRoute: AuthentificatedCalendarRouteWithChildren,
+  AuthentificatedEventsRoute: AuthentificatedEventsRoute,
   AuthentificatedFlashcardsRoute: AuthentificatedFlashcardsRoute,
   AuthentificatedHomeRoute: AuthentificatedHomeRoute,
   AuthentificatedPomodoroRoute: AuthentificatedPomodoroRoute,
@@ -234,12 +297,15 @@ const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof PublicRouteRouteWithChildren
-  '/calendar': typeof AuthentificatedCalendarRoute
+  '/calendar': typeof AuthentificatedCalendarRouteWithChildren
+  '/events': typeof AuthentificatedEventsRoute
   '/flashcards': typeof AuthentificatedFlashcardsRoute
   '/home': typeof AuthentificatedHomeRoute
   '/pomodoro': typeof AuthentificatedPomodoroRoute
   '/login': typeof PublicLoginRoute
   '/sign-up': typeof PublicSignUpRoute
+  '/calendar/$calendarDay': typeof AuthentificatedCalendarCalendarDayRoute
+  '/calendar/': typeof AuthentificatedCalendarIndexRoute
   '/notebooks': typeof AuthentificatedNotebooksIndexRoute
   '/notebooks/$notebookId/$noteId': typeof AuthentificatedNotebooksNotebookIdNoteIdRoute
   '/notebooks/$notebookId': typeof AuthentificatedNotebooksNotebookIdIndexRoute
@@ -248,12 +314,14 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof PublicRouteRouteWithChildren
-  '/calendar': typeof AuthentificatedCalendarRoute
+  '/events': typeof AuthentificatedEventsRoute
   '/flashcards': typeof AuthentificatedFlashcardsRoute
   '/home': typeof AuthentificatedHomeRoute
   '/pomodoro': typeof AuthentificatedPomodoroRoute
   '/login': typeof PublicLoginRoute
   '/sign-up': typeof PublicSignUpRoute
+  '/calendar/$calendarDay': typeof AuthentificatedCalendarCalendarDayRoute
+  '/calendar': typeof AuthentificatedCalendarIndexRoute
   '/notebooks': typeof AuthentificatedNotebooksIndexRoute
   '/notebooks/$notebookId/$noteId': typeof AuthentificatedNotebooksNotebookIdNoteIdRoute
   '/notebooks/$notebookId': typeof AuthentificatedNotebooksNotebookIdIndexRoute
@@ -264,12 +332,15 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authentificated': typeof AuthentificatedRouteRouteWithChildren
   '/_public': typeof PublicRouteRouteWithChildren
-  '/_authentificated/calendar': typeof AuthentificatedCalendarRoute
+  '/_authentificated/calendar': typeof AuthentificatedCalendarRouteWithChildren
+  '/_authentificated/events': typeof AuthentificatedEventsRoute
   '/_authentificated/flashcards': typeof AuthentificatedFlashcardsRoute
   '/_authentificated/home': typeof AuthentificatedHomeRoute
   '/_authentificated/pomodoro': typeof AuthentificatedPomodoroRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/sign-up': typeof PublicSignUpRoute
+  '/_authentificated/calendar/$calendarDay': typeof AuthentificatedCalendarCalendarDayRoute
+  '/_authentificated/calendar/': typeof AuthentificatedCalendarIndexRoute
   '/_authentificated/notebooks/': typeof AuthentificatedNotebooksIndexRoute
   '/_authentificated/notebooks/$notebookId/$noteId': typeof AuthentificatedNotebooksNotebookIdNoteIdRoute
   '/_authentificated/notebooks/$notebookId/': typeof AuthentificatedNotebooksNotebookIdIndexRoute
@@ -281,11 +352,14 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/calendar'
+    | '/events'
     | '/flashcards'
     | '/home'
     | '/pomodoro'
     | '/login'
     | '/sign-up'
+    | '/calendar/$calendarDay'
+    | '/calendar/'
     | '/notebooks'
     | '/notebooks/$notebookId/$noteId'
     | '/notebooks/$notebookId'
@@ -293,12 +367,14 @@ export interface FileRouteTypes {
   to:
     | '/'
     | ''
-    | '/calendar'
+    | '/events'
     | '/flashcards'
     | '/home'
     | '/pomodoro'
     | '/login'
     | '/sign-up'
+    | '/calendar/$calendarDay'
+    | '/calendar'
     | '/notebooks'
     | '/notebooks/$notebookId/$noteId'
     | '/notebooks/$notebookId'
@@ -308,11 +384,14 @@ export interface FileRouteTypes {
     | '/_authentificated'
     | '/_public'
     | '/_authentificated/calendar'
+    | '/_authentificated/events'
     | '/_authentificated/flashcards'
     | '/_authentificated/home'
     | '/_authentificated/pomodoro'
     | '/_public/login'
     | '/_public/sign-up'
+    | '/_authentificated/calendar/$calendarDay'
+    | '/_authentificated/calendar/'
     | '/_authentificated/notebooks/'
     | '/_authentificated/notebooks/$notebookId/$noteId'
     | '/_authentificated/notebooks/$notebookId/'
@@ -353,6 +432,7 @@ export const routeTree = rootRoute
       "filePath": "_authentificated/route.tsx",
       "children": [
         "/_authentificated/calendar",
+        "/_authentificated/events",
         "/_authentificated/flashcards",
         "/_authentificated/home",
         "/_authentificated/pomodoro",
@@ -370,6 +450,14 @@ export const routeTree = rootRoute
     },
     "/_authentificated/calendar": {
       "filePath": "_authentificated/calendar.tsx",
+      "parent": "/_authentificated",
+      "children": [
+        "/_authentificated/calendar/$calendarDay",
+        "/_authentificated/calendar/"
+      ]
+    },
+    "/_authentificated/events": {
+      "filePath": "_authentificated/events.tsx",
       "parent": "/_authentificated"
     },
     "/_authentificated/flashcards": {
@@ -391,6 +479,14 @@ export const routeTree = rootRoute
     "/_public/sign-up": {
       "filePath": "_public/sign-up.tsx",
       "parent": "/_public"
+    },
+    "/_authentificated/calendar/$calendarDay": {
+      "filePath": "_authentificated/calendar/$calendarDay.tsx",
+      "parent": "/_authentificated/calendar"
+    },
+    "/_authentificated/calendar/": {
+      "filePath": "_authentificated/calendar/index.tsx",
+      "parent": "/_authentificated/calendar"
     },
     "/_authentificated/notebooks/": {
       "filePath": "_authentificated/notebooks/index.tsx",
