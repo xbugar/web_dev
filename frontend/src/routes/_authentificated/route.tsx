@@ -1,8 +1,17 @@
 import { Header } from '@/components/header/Header';
 import { Navigation } from '@/components/navigation/Navigation';
-import { createFileRoute, Outlet, useMatchRoute } from '@tanstack/react-router';
+import { useAuthStore } from '@/lib/authStore';
+import { createFileRoute, Outlet, redirect, useMatchRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_authentificated')({
+  loader: () => {
+    const { auth } = useAuthStore.getState();
+    if (!auth.isAuth) {
+      throw redirect({
+        to: '/login',
+      });
+    }
+  },
   component: RouteComponent,
 });
 
