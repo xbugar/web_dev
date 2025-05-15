@@ -9,5 +9,5 @@ notesRouter.delete("/:noteId", notesController.deleteNote);
 notesRouter.get("/:noteId/content", notesController.getNoteContent);
 notesRouter.put("/:noteId/content", notesController.updateNoteContent);
 notesRouter.post("/:noteId/tag", notesController.addNoteTag);
-notesRouter.delete("/:noteId/tag", notesController.removeNoteTag);
+notesRouter.delete("/:noteId/tag/:tagId", notesController.removeNoteTag);
 
