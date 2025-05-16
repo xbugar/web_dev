@@ -54,13 +54,13 @@ app.use('/tag', passport.session(), isAuthenticated, tagsRouter);
 // Setup Swagger UI for API documentation
 const swaggerYaml = fs.readFileSync("./api-documentation/openapi.yaml", "utf8");
 const swaggerDocument = yaml.parse(swaggerYaml);
-
+app.use(
+    "/api-documentation",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument)
+);
 if (process.env.NODE_ENV === "dev-with-docs") {
-    app.use(
-        "/api-documentation",
-        swaggerUi.serve,
-        swaggerUi.setup(swaggerDocument)
-    );
+
 }
 
 

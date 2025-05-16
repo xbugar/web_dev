@@ -82,32 +82,25 @@ model Event {
     id String @id @default(uuid()) @db.Uuid
 
     title       String
-    description String
-    importance  Importance
-    color       String
+    description String?
+    timeFrom    DateTime
+    timeTo      DateTime
+    repeats     Repeat
 
-    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId     String      @db.Uuid
-    eventTimes EventTime[]
-    tags       Tag[]
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @db.Uuid
+    tags   Tag[]
 
     @@index([userId, title])
 }
 
-enum Importance {
-    LOW
-    MEDIUM
-    HIGH
-}
-
-model EventTime {
-    id String @id @default(uuid()) @db.Uuid
-
-    dateTimeStart DateTime
-    dateTimeEnd   DateTime
-
-    event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
-    eventId String @db.Uuid
+enum Repeat {
+    NEVER
+    DAY
+    WEEK
+    TWO_WEEKS
+    MONTH
+    YEAR
 }
 
 model FlashDeck {

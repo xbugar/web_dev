@@ -21,6 +21,8 @@ tags:
     description: Note fetching and modification
   - name: tag
     description: Fetching data related to tags
+  - name: event
+    description: event
 paths:
 
   #  /note:
@@ -54,6 +56,217 @@ paths:
   #            application/json:
   #              schema:
   #                $ref: '#/components/schemas/Error'
+
+  /event:
+    get:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - event
+      summary: Get all users tags
+      description: Get
+      operationId: getUserEvents
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Note not found
+        '422':
+          description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - event
+      summary: Create Event
+      description: Post
+      operationId: createUserEvents
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEvent'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Note not found
+        '422':
+          description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /event/{eventId}:
+    delete:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - event
+      summary: delete Event
+      description: Get
+      operationId: getUserEvents
+      parameters:
+        - name: eventId
+          in: path
+          description: ""
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Note not found
+        '422':
+          description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    put:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - event
+      summary: update Event
+      description: Get
+      operationId: getUserEvents
+      parameters:
+        - name: eventId
+          in: path
+          description: ""
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEvent'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Note not found
+        '422':
+          description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /event/{eventId}/tag:
+    post:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - event
+      summary: adds a tag to a note.
+      description: ""
+      operationId: addTagToNote
+      parameters:
+        - name: eventId
+          in: path
+          description: id of note
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Name and color of a tag.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagNameColor'
+
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /event/{eventId}/tag/{tagId}:
+
+    delete:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - event
+      summary: removes tag from note.
+      description: ""
+      operationId: removeTagFromNote
+      parameters:
+        - name: eventId
+          in: path
+          description: id of note
+          required: true
+          schema:
+            type: string
+        - name: tagId
+          in: path
+          description: id of tag
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
 
   /note/{noteId}:
     put:
@@ -1051,6 +1264,80 @@ components:
             color:
               type: string
 
+    CreateEvent:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        timeFrom:
+          type: string
+        timeTo:
+          type: string
+        repeat:
+          type: string
+          enum:
+            - Never
+            - Every Day
+            - Every Week
+            - Every 2 Weeks
+            - Every Month
+      required:
+        - title
+        - timeFrom
+        - timeTo
+        - repeat
+
+
+    UpdateEvent:
+      type: object
+      properties:        
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        timeFrom:
+          type: string
+        timeTo:
+          type: string
+        repeat:
+          type: string
+          enum:
+            - Never
+            - Every Day
+            - Every Week
+            - Every 2 Weeks
+            - Every Month
+
+
+
+
+
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+        timeFrom:
+          type: string
+        timeTo:
+          type: string
+
 
     Note:
       type: object
@@ -1070,8 +1357,7 @@ components:
               type: string
             color:
               type: string
-
-
+    
     
     User:
       type: object
@@ -1154,15 +1440,12 @@ components:
         password:
           type: string
           example: '12345'
-
-
     
     ProfilePicture:
       type: object
       properties:
         id:
           type: string
-
     
     Notebook:
       type: object
