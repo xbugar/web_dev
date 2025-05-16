@@ -34,7 +34,7 @@ export function TagForm({ initialData, onSubmit, isSubmitting, submitText, allTa
   return (
     <div className="grid gap-4">
       <div className="flex flex-col">
-        <h3>
+        <h3 className="font-serif font-semibold text-lg">
           Choose from all tags
         </h3>
         <Select
@@ -60,7 +60,7 @@ export function TagForm({ initialData, onSubmit, isSubmitting, submitText, allTa
       </div>
 
       <div className="grid gap-4">
-        <h3>
+        <h3 className="font-serif font-semibold text-lg">
           Create new tag
         </h3>
         <div className="flex justify-between gap-2">

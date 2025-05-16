@@ -77,7 +77,7 @@ export function NotebookTagDialog({ open, onOpenChange, notebookId }: NotebookTa
                   className="from-white-secondary dark:from-black-secondary pointer-events-none absolute top-0 right-0 h-full w-4 bg-gradient-to-l to-transparent"></div>
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground italic mb-4">No tags</p>
+              <p className="text-sm text-muted-foreground text-center italic mb-4">No tags</p>
             )}
           </div>
 

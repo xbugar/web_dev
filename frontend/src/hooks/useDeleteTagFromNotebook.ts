@@ -9,6 +9,7 @@ export const useDeleteTagFromNotebook = ({ notebookId }: { notebookId: string })
       return deleteTagFromNotebook(notebookId, tagId);
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notebooks'] });
       queryClient.invalidateQueries({ queryKey: ['notebooks', notebookId] });
       queryClient.invalidateQueries({ queryKey:['tags'] });
     },
