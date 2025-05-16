@@ -39,12 +39,12 @@ export function NotebookNoteDropdown({
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="hover:bg-muted rounded-[10%] p-0">
+          <button className=" hover:bg-muted rounded-[10%] p-0">
             <Ellipsis className="h-5 w-5 text-black dark:text-white" />
           </button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent className="m-2 text-xs">
+        <DropdownMenuContent className="bg-white-secondary dark:bg-black-secondary m-2 text-xs">
           <DropdownMenuItem>
             <Star className="text-text-lm-secondary dark:text-text-dm-secondary" />
             Add to favourites
