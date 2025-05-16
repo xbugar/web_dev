@@ -44,7 +44,7 @@ app.use(
     })
 );
 
-app.use(express.urlencoded({ extended: true }));
+
 app.use('/auth', authRouter);
 app.use('/user', passport.session(), isAuthenticated, userRouter);
 app.use('/notebook', passport.session(), isAuthenticated, notebookRouter);

@@ -1,6 +1,5 @@
 import {Result} from "@badrap/result";
 import {prisma} from "../prismaClient";
-import {InternalError, NotFoundError} from "../types";
 import {CreateTag, Tag, TagRequest, UpdateTag} from "./types";
 import {repackageToNotFoundError, repackageToInternalError} from "../utils";
 
@@ -14,13 +13,13 @@ export const tagRepository = {
                 color: tag.color
             }
         }).then(result => Result.ok(result))
-            .catch((error: any) => repackageToInternalError(error));
+            .catch((error) => repackageToInternalError(error));
     },
 
     async getAll(): Promise<Result<Tag[]>> {
         return prisma.tag.findMany({select: {id: true, name: true, color: true}})
             .then(result => Result.ok(result))
-            .catch((error: any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     },
 
     async get(id: string): Promise<Result<Tag>> {
@@ -30,7 +29,7 @@ export const tagRepository = {
                 id: id
             }
         }).then(result => Result.ok(result))
-            .catch((error: any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     },
 
     async getOrCreate(tagFilter: TagRequest, userId: string): Promise<Result<Tag>> {
@@ -59,7 +58,7 @@ export const tagRepository = {
                 return tag;
             })
             return Result.ok(tag);
-        } catch (error: any) {
+        } catch (error) {
             return repackageToNotFoundError(error);
         }
     },
@@ -75,7 +74,7 @@ export const tagRepository = {
                 color: tag.body.color
             }
         }).then(result => Result.ok(result))
-            .catch((error: any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     },
 
 
@@ -85,7 +84,7 @@ export const tagRepository = {
                 userId: userId
             }
         }).then(result => Result.ok(result))
-            .catch((error: any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     },
 
 
@@ -95,7 +94,7 @@ export const tagRepository = {
                 id: id
             }
         }).then(() => Result.ok(null))
-            .catch((error: any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     },
 
     async getUserId(tagId: string): Promise<Result<string>> {
@@ -107,6 +106,6 @@ export const tagRepository = {
                 id: tagId
             }
         }).then((tag) => Result.ok(tag.userId))
-            .catch((error: any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     }
 }

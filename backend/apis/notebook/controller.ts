@@ -10,25 +10,23 @@ import {
 import {notebookRepository} from "./repository";
 import {noteRepository} from "../note/repository";
 import {tagRepository} from "../tag/repository";
-import {AuthError} from "../types";
 import {ownership} from "../ownership";
-import {use} from "passport";
 
 
 const addTag = async (req: Request, res: Response) => {
-    let request = await parseRequest(notebookAddTagRequestSchema, req, res);
+    const request = await parseRequest(notebookAddTagRequestSchema, req, res);
      if (!request
         || !await ownership.notebook(request.params.notebookId, req.session.passport?.user.id, res)
         || !req.session.passport?.user.id) {
         return;
     }
-    let tag = await tagRepository.getOrCreate(request.body,req.session.passport?.user.id);
+    const tag = await tagRepository.getOrCreate(request.body,req.session.passport?.user.id);
     if (tag.isErr) {
         handleRepositoryErrors(tag.error, res);
         return;
     }
 
-    let result = await notebookRepository.modifyTag(request.params.notebookId, {connect: {id: tag.value.id}});
+    const result = await notebookRepository.modifyTag(request.params.notebookId, {connect: {id: tag.value.id}});
     if (result.isErr) {
         handleRepositoryErrors(result.error, res);
         return;
@@ -37,7 +35,7 @@ const addTag = async (req: Request, res: Response) => {
 };
 
 const removeTag = async (req: Request, res: Response) => {
-    let request = await parseRequest(notebookDeleteTagRequestSchema, req, res);
+    const request = await parseRequest(notebookDeleteTagRequestSchema, req, res);
     if (!request
         || !await ownership.notebook(request.params.notebookId, req.session.passport?.user.id, res)
         || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {

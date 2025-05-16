@@ -1,4 +1,4 @@
-import {Icon, Importance, PrismaClient, ProfilePicture} from "@prisma/client";
+import {Importance, PrismaClient, ProfilePicture} from "@prisma/client";
 import {addProfilePicture} from "./mockData/queries/profilePicture";
 import {addUser} from "./mockData/queries/user";
 import {createEvent, addEventTime} from "./mockData/queries/event";
@@ -72,7 +72,7 @@ async function createUserWithTags(name: string, mail: string, picture: ProfilePi
 }
 
 async function seedAllIcons() {
-    for (let iconName of icons) {
+    for (const iconName of icons) {
         await addIcon("prisma/mockData/exclamation.svg", iconName);
     }
 }

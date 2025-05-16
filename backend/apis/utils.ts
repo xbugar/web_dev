@@ -80,15 +80,15 @@ export const defaultIcon = async () => {
     });
 }
 
-export function repackageToNotFoundError(error:any){
-    if (process.env.NODE_ENV !== "production") {
+export function repackageToNotFoundError(error:unknown){
+    if (process.env.NODE_ENV !== "production"&& error instanceof Error) {
         return Result.err(new NotFoundError(error.message));
     }
     return Result.err(new NotFoundError());
 }
 
-export function repackageToInternalError(error:any){
-    if (process.env.NODE_ENV !== "production") {
+export function repackageToInternalError(error :unknown){
+    if (process.env.NODE_ENV !== "production" && error instanceof Error) {
         return Result.err(new InternalError(error.message));
     }
     return Result.err(new InternalError());

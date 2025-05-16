@@ -30,7 +30,8 @@ describe("/notebook", async () => {
             console.log(newUser);
 
             expect(res.status).toBe(200);
-            expect(res.body).toStrictEqual({});
+            expect(res.body).toStrictEqual({"message": "success",
+            });
             expect(newUser).not.toBeNull();
 
             cookie = res.headers['set-cookie'][0];

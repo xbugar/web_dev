@@ -106,7 +106,7 @@ const addNoteTag = async (req: Request, res: Response) => {
         return;
     }
     // this part is
-    let tag = await tagRepository.getOrCreate(request.body,req.session.passport?.user.id);
+    const tag = await tagRepository.getOrCreate(request.body,req.session.passport?.user.id);
     if (tag.isErr) {
         handleRepositoryErrors(tag.error, res);
         return;

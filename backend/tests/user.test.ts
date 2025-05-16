@@ -25,7 +25,7 @@ describe('/user', async () => {
             expect(newUser).not.toBeNull();
 
             expect(res.status).toBe(200);
-            expect(res.body).toStrictEqual({})
+            expect(res.body).toStrictEqual({"message": "success",})
             cookie = res.headers['set-cookie'][0];
         });
 
