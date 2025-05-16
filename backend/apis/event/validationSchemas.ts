@@ -25,7 +25,7 @@ export const eventUpdateSchema = z.object({
 
 export const eventDeleteSchema = z.object({
     params: z.object({
-        id: z.string().uuid(),
+        eventId: z.string().uuid(),
     })
 });
 

@@ -1,6 +1,6 @@
 ﻿import {
     eventAddTagRequestSchema,
-    eventCreateSchema,
+    eventCreateSchema, eventDeleteSchema,
     eventDeleteTagRequestSchema,
     eventUpdateSchema
 } from "./validationSchemas";
@@ -46,7 +46,7 @@ const get = async (req: Request, res: Response) => {
 
 const deleteEvent = async (req: Request, res: Response) => {
     const userId = req.session.passport?.user.id;
-    const request = await parseRequest(eventUpdateSchema, req, res);
+    const request = await parseRequest(eventDeleteSchema, req, res);
     if (!request || !userId
         || !await ownership.event(request.params.eventId, userId, res)) {
         return;
@@ -62,7 +62,7 @@ const deleteEvent = async (req: Request, res: Response) => {
 
 const update = async (req: Request, res: Response) => {
     const userId = req.session.passport?.user.id;
-    const request = parseRequest(eventUpdateSchema, req, res);
+    const request = await parseRequest(eventUpdateSchema, req, res);
     if (!request || !userId
         || !await ownership.event(request.params.eventId, userId, res)) {
         return;
