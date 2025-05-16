@@ -13,6 +13,7 @@ import { Button } from '../ui/button';
 import { postLogoutUser } from '@/services/authService';
 import { useAuthStore } from '@/lib/authStore';
 import { useNavigate } from '@tanstack/react-router';
+import { useState } from 'react';
 
 type UserSettingsDialogProps = {
   open: boolean;
@@ -21,11 +22,14 @@ type UserSettingsDialogProps = {
 
 export const UserSettingsDialog = ({ open, onOpenChange }: UserSettingsDialogProps) => {
   const [selectedTheme, setTheme] = useTheme();
+  const [isPending, setIsPending] = useState(false);
 
   const navigate = useNavigate();
   const setAuth = useAuthStore(s => s.setAuth);
+  const auth = useAuthStore(s => s.auth);
 
   async function onSubmit() {
+    setIsPending(true);
     try {
       await postLogoutUser();
       console.log('Logout successful');
@@ -33,6 +37,8 @@ export const UserSettingsDialog = ({ open, onOpenChange }: UserSettingsDialogPro
       navigate({ to: '/login' });
     } catch (error) {
       console.error('Logout failed:', error);
+    } finally {
+      setIsPending(false);
     }
   }
 
@@ -43,9 +49,14 @@ export const UserSettingsDialog = ({ open, onOpenChange }: UserSettingsDialogPro
           <DialogTitle>User settings</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
-        <Button variant={'submit'} onClick={onSubmit}>
-          Logout
+        <Button
+          variant="submit"
+          onClick={onSubmit}
+          loading={isPending || !auth.isAuth}
+        >
+          Log out
         </Button>
+
         <div className="flex justify-between gap-5">
           {/* Theme */}
           <div className="flex w-full flex-col">

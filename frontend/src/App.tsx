@@ -5,7 +5,7 @@ import { useAuth } from './hooks/useAuth';
 import { useAuthStore } from './lib/authStore';
 import { routeTree } from './routeTree.gen';
 import { createRouter } from '@tanstack/react-router';
-import { Spinner } from './components/loading/loading';
+import { PageLoading } from './components/loading/PageLoading';
 
 const queryClient = new QueryClient();
 
@@ -27,7 +27,7 @@ function AuthGate() {
     }
   }, [data, setAuth]);
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <PageLoading />;
 
   return <RouterProvider router={router} />;
 }

@@ -1,4 +1,4 @@
-export function Spinner() {
+export function PageLoading() {
   return (
     <div className="flex h-dvh w-full flex-col items-center justify-center gap-2">
       <div className="flex h-screen items-center justify-center">

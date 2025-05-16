@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button.tsx';
 import { PasswordInput } from '@/components/ui/password-input.tsx';
 import { Link } from '@tanstack/react-router';
 import { useLoginUser } from '@/hooks/useLoginUser.ts';
+import { useAuthStore } from '@/lib/authStore';
 
 export const Route = createFileRoute('/_public/login')({
   component: RouteComponent,
@@ -28,6 +29,8 @@ const formSchema = z.object({
 
 function RouteComponent() {
   const loginUser = useLoginUser();
+  const auth = useAuthStore(s => s.auth);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -94,7 +97,11 @@ function RouteComponent() {
           />
         </div>
 
-        <Button type="submit" variant="submitAlternative">
+        <Button
+          type="submit"
+          variant="submitAlternative"
+          loading={loginUser.isPending || auth.isAuth}
+        >
           Log in
         </Button>
       </form>
