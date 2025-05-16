@@ -1,4 +1,4 @@
-import {PrismaClient, ProfilePicture, Repeat} from "@prisma/client";
+import {PrismaClient, ProfilePicture} from "@prisma/client";
 import {addProfilePicture} from "./mockData/queries/profilePicture";
 import {addUser} from "./mockData/queries/user";
 import {createEvent} from "./mockData/queries/event";
@@ -36,7 +36,7 @@ function getRandomValue(array: string[]): string {
 
 async function createUserWithEvents(name: string, mail: string, picture: ProfilePicture) {
     const user = await addUser(name, "", mail, "",  picture.id);
-    await createEvent(user.id, "", new Date(), new Date(), Repeat.TWO_WEEKS);
+    await createEvent(user.id, "", new Date(), new Date(), "Never");
     return user;
 }
 
@@ -62,7 +62,7 @@ async function createUserWithTags(name: string, mail: string, picture: ProfilePi
     const tag = await createTag(user.id, tagName, color);
     const notebook = await createNotebook(user.id, icon, "tagged Notebook", "", getRandomValue(colors));
     const flashDeck = await createFlashDeck(user.id, icon, "tagged FlashDeck", "", getRandomValue(colors));
-    const event = await createEvent(user.id, "tagged Event", new Date(), new Date(), Repeat.YEAR);
+    const event = await createEvent(user.id, "tagged Event", new Date(), new Date(), "Never");
     const note = await createNote(notebook.id, "tagged Note", "");
     await addNotebookTag(tag.id, notebook.id);
     await addEventTag(tag.id, event.id);

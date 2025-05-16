@@ -1,11 +1,11 @@
 ﻿import {prisma} from "../prismaClient";
-import {EventCreateRequest, EventUpdateRequest} from "./types";
+import {AppEvent, EventCreateRequest, EventUpdateRequest} from "./types";
 import {Result} from "@badrap/result";
 import {repackageToInternalError, repackageToNotFoundError} from "../utils";
 import {TagOperation} from "../notebook/types";
 
 export const eventRepository = {
-    async create(userId: string, event: EventCreateRequest): Promise<Result<Event, Error>> {
+    async create(userId: string, event: EventCreateRequest): Promise<Result<AppEvent, Error>> {
         return await prisma.event.create({
             select: {
                 id: true,
@@ -21,11 +21,18 @@ export const eventRepository = {
                 userId: userId,
                 ...event.body
             },
-        }).then(event => Result.ok(event))
+        }).then(event => Result.ok({
+            eventId: event.id,
+            title: event.title,
+            description: event.description,
+            timeFrom: event.timeFrom,
+            timeTo: event.timeTo,
+            tags: event.tags
+        }))
             .catch(error => repackageToInternalError(error));
     },
 
-    async get(userId: string): Promise<Result<Event[], Error>> {
+    async get(userId: string): Promise<Result<AppEvent[], Error>> {
         return await prisma.event.findMany({
             select: {
                 id: true,
@@ -36,24 +43,34 @@ export const eventRepository = {
 
                 tags: true,
             },
-            data: {
+            where: {
                 userId: userId
             }
-        }).then(event => Result.ok(event))
+        }).then(events => Result.ok(events.map((event) => {
+                return {
+                    eventId: event.id,
+                    title: event.title,
+                    description: event.description,
+                    timeFrom: event.timeFrom,
+                    timeTo: event.timeTo,
+                    tags: event.tags
+                }
+            }
+        )))
             .catch(error => repackageToInternalError(error));
     },
 
-    async delete(userId: string, eventId: string): Promise<Result<undefined, Error>> {
+    async delete(userId: string, eventId: string): Promise<Result<null, Error>> {
         return await prisma.event.delete({
-            data: {
+            where: {
                 userId: userId,
                 id: eventId
             }
-        }).then(() => Result.ok())
+        }).then(() => Result.ok(null))
             .catch(error => repackageToNotFoundError(error));
     },
 
-    async update(userId: string, event: EventUpdateRequest): Promise<Result<Event, Error>> {
+    async update(userId: string, event: EventUpdateRequest): Promise<Result<AppEvent, Error>> {
         return await prisma.event.update({
             select: {
                 id: true,
@@ -71,7 +88,14 @@ export const eventRepository = {
             data: {
                 ...event.body
             }
-        }).then(event => Result.ok(event))
+        }).then(event => Result.ok({
+            eventId: event.id,
+            title: event.title,
+            description: event.description,
+            timeFrom: event.timeFrom,
+            timeTo: event.timeTo,
+            tags: event.tags
+        }))
             .catch(error => repackageToNotFoundError(error));
     },
 

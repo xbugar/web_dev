@@ -85,22 +85,13 @@ model Event {
     description String?
     timeFrom    DateTime
     timeTo      DateTime
-    repeat      Repeat
+    repeat      String
 
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String @db.Uuid
     tags   Tag[]
 
     @@index([userId, title])
-}
-
-enum Repeat {
-    NEVER
-    DAY
-    WEEK
-    TWO_WEEKS
-    MONTH
-    YEAR
 }
 
 model FlashDeck {
