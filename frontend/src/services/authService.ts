@@ -10,4 +10,12 @@ export const postRegisterUser = async (user: CreateUser) => {
 
 export const postLoginUser = async (user: LoginUser) => {
   return api.post(`/auth/login`, user);
-}
+};
+
+export const postLogoutUser = async () => {
+  return api.post(`/auth/logout`);
+};
+
+export const getAuthStatus = async (): Promise<boolean> => {
+  return api.get('/auth/status').then(response => response.status == 200);
+};
