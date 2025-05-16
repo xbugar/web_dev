@@ -64,7 +64,21 @@ export function NotebookNoteDropdown({
           <DropdownMenuItem onClick={() => setOpenEditTags(true)}>
             <Tag /> Edit tags
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+            let link = `${window.location.origin}/notebook/${notebookId}`;
+            if (type === 'note') {
+              link += `/note/${noteId}`;
+            }
+            navigator.clipboard.writeText(link)
+              .then(() => {
+                console.log("Link copied:", link);
+              })
+              .catch((err) => {
+                console.error("Failed to copy link:", err);
+              });
+            }}
+          >
             <Copy /> Copy link
           </DropdownMenuItem>
 
