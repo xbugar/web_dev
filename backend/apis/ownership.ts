@@ -3,6 +3,7 @@ import {Response} from "express";
 import {notebookRepository} from "./notebook/repository";
 import {handleRepositoryErrors} from "./utils";
 import {noteRepository} from "./note/repository";
+import {tagRepository} from "./tag/repository";
 
 export const ownership = {
     async notebook(notebookId: string, userId: string | undefined, res: Response) {
@@ -32,7 +33,7 @@ export const ownership = {
     },
 
     async tag(tagId: string, userId: string | undefined, res: Response) {
-        const ownerId = await noteRepository.getUserId(tagId);
+        const ownerId = await tagRepository.getUserId(tagId);
         if (ownerId.isErr) {
             handleRepositoryErrors(ownerId.error, res);
             return false;

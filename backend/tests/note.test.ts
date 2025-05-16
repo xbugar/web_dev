@@ -171,12 +171,13 @@ describe("/note", async () => {
                 color:"blue"
             });
             expect(status).toBe(200);
+            console.log(body);
             tagId = body.id;
         })
         it('should delete  tag from a note', async()=>{
-            const {status, body} = await request(app).delete(`/note/${noteId}/tag/${tagId}`).set("Cookie", cookie).send();
+            const {status} = await request(app).delete(`/note/${noteId}/tag/${tagId}`).set("Cookie", cookie).send();
             expect(status).toBe(200);
-            tagId = body.id;
+
         })
     });
 });

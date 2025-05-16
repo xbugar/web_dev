@@ -23,13 +23,13 @@ const updateNoteMeta = async (req: Request, res: Response) => {
         return;
     }
 
-    const newTag = await noteRepository.updateMeta(request);
-    if (newTag.isErr) {
-        handleRepositoryErrors(newTag.error, res);
+    const note = await noteRepository.updateMeta(request);
+    if (note.isErr) {
+        handleRepositoryErrors(note.error, res);
         return;
     }
 
-    res.status(200).send(newTag.value);
+    res.status(200).send(note.value);
 };
 
 const getNoteMeta = async (req: Request, res: Response) => {
@@ -39,13 +39,13 @@ const getNoteMeta = async (req: Request, res: Response) => {
         return;
     }
 
-    const newTag = await noteRepository.getMeta(request);
-    if (newTag.isErr) {
-        handleRepositoryErrors(newTag.error, res);
+    const note = await noteRepository.getMeta(request);
+    if (note.isErr) {
+        handleRepositoryErrors(note.error, res);
         return;
     }
 
-    res.status(200).send(newTag.value);
+    res.status(200).send(note.value);
 };
 
 const deleteNote = async (req: Request, res: Response) => {
@@ -55,13 +55,13 @@ const deleteNote = async (req: Request, res: Response) => {
         return;
     }
 
-    const newTag = await noteRepository.delete(request.params.noteId);
-    if (newTag.isErr) {
-        handleRepositoryErrors(newTag.error, res);
+    const note = await noteRepository.delete(request.params.noteId);
+    if (note.isErr) {
+        handleRepositoryErrors(note.error, res);
         return;
     }
 
-    res.status(200).send(newTag.value);
+    res.status(200).send(note.value);
 }
 
 const getNoteContent = async (req: Request, res: Response) => {
@@ -113,13 +113,13 @@ const addNoteTag = async (req: Request, res: Response) => {
     }
 
 
-    const newTag = await noteRepository.addTag({noteId: request.params.noteId, tagId: tag.value.id});
-    if (newTag.isErr) {
-        handleRepositoryErrors(newTag.error, res);
+    const note = await noteRepository.addTag({noteId: request.params.noteId, tagId: tag.value.id});
+    if (note.isErr) {
+        handleRepositoryErrors(note.error, res);
         return;
     }
 
-    res.status(200).send(newTag.value);
+    res.status(200).send(tag.unwrap());
 };
 
 const removeNoteTag = async (req: Request, res: Response) => {
