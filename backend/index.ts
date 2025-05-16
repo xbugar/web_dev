@@ -57,7 +57,7 @@ app.use('/event', passport.session(), isAuthenticated, eventRouter)
 const swaggerYaml = fs.readFileSync("./api-documentation/openapi.yaml", "utf8");
 const swaggerDocument = yaml.parse(swaggerYaml);
 
-if (process.env.NODE_ENV === "dev-with-docs") {
+if (process.env.NODE_ENV === "development") {
     app.use(
         "/api-documentation",
         swaggerUi.serve,
