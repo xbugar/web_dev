@@ -7,7 +7,7 @@ export async function createEvent(userId: string, title: string, dateStart: Date
         data: {
             title: title,
             userId: userId,
-            repeats: repeats,
+            repeat: repeats,
             timeFrom: dateStart,
             timeTo: dateEnd,
         }

@@ -85,7 +85,7 @@ model Event {
     description String?
     timeFrom    DateTime
     timeTo      DateTime
-    repeats     Repeat
+    repeat      Repeat
 
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String @db.Uuid
