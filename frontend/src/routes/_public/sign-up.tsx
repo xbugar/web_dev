@@ -80,7 +80,7 @@ function RouteComponent() {
         </div>
 
         <div className="flex flex-col items-center gap-5">
-          <div className="inline-flex gap-5">
+          <div className="inline-flex w-full gap-5">
             <FormField
               control={form.control}
               name="firstName"
