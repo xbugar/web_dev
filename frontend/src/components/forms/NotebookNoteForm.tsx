@@ -134,7 +134,7 @@ export function NotebookNoteForm({
       {/* Title */}
       <div className="grid items-center">
         <Label htmlFor="title" className="text-right">
-          Title
+          Title*
         </Label>
         <Input
           id="title"
@@ -165,8 +165,14 @@ export function NotebookNoteForm({
 
       <DialogFooter className="flex-row-reverse">
         <DialogClose>Cancel</DialogClose>
-        <Button type="submit" variant="submit" onClick={handleSubmit} disabled={isSubmitting}>
-          {isSubmitting ? 'Saving...' : submitText}
+        <Button
+          type="submit"
+          variant="submit"
+          onClick={handleSubmit}
+          disabled={!title}
+          loading={isSubmitting}
+        >
+          {submitText}
         </Button>
       </DialogFooter>
     </div>
