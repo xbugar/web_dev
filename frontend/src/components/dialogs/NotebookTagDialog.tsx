@@ -14,7 +14,8 @@ import { useAllTags } from '@/hooks/useAllTags.ts';
 import { useCreateTagNotebook } from '@/hooks/useCreateTagNotebook.ts';
 import { useNotebook } from '@/hooks/useNotebook.ts';
 import { CreateNotebook, Notebook } from '@/types/Notebook.ts';
-import { NotebookTagDeleteDialog } from '@/components/dialogs/NotebookTagDeleteDialog.tsx';
+import { useDeleteTagFromNotebook } from "@/hooks/useDeleteTagFromNotebook.ts";
+import { DeleteConfirmationDialog } from "@/components/dialogs/DeleteConfirmationDialog.tsx";
 // import { Label } from '@/components/ui/label.tsx';
 // import { NotebookCard } from '../cards/NotebookCard';
 
@@ -27,6 +28,7 @@ interface NotebookTagDialog {
 
 export function NotebookTagDialog({ open, onOpenChange, notebookId }: NotebookTagDialog) {
   const createTag = useCreateTagNotebook(notebookId);
+  const deleteTag = useDeleteTagFromNotebook({ notebookId });
   const notebookPromise = useNotebook(notebookId);
   const allTags = useAllTags();
   const notebookData: Notebook = notebookPromise.data as Notebook;
@@ -44,6 +46,10 @@ export function NotebookTagDialog({ open, onOpenChange, notebookId }: NotebookTa
     } catch (err) {
       console.error('Error while creating a tag:', err);
     }
+  };
+
+  const handleDelete = () => {
+    deleteTag.mutate({notebookId, tagId : deleteTagId});
   };
 
   return (
@@ -111,11 +117,11 @@ export function NotebookTagDialog({ open, onOpenChange, notebookId }: NotebookTa
         </DialogContent>
       </Dialog>
 
-      <NotebookTagDeleteDialog
+      <DeleteConfirmationDialog
         open={openDeleteTag}
         onOpenChange={setOpenDeleteTag}
-        notebookId={notebookId}
-        tagId={deleteTagId}
+        onDelete={handleDelete}
+        isPending={deleteTag.isPending}
       />
     </>
   );
