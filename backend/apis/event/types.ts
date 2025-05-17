@@ -3,7 +3,7 @@ import {eventCreateSchema, eventTagSchema, eventUpdateSchema} from "./validation
 
 
 
-export type AppEvent = {
+export type EventResponse = {
     eventId: string,
     title: string,
     description: string | undefined | null,

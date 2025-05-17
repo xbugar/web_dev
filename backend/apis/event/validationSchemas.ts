@@ -42,7 +42,7 @@ export const eventAddTagRequestSchema = z.object({
     }),
     body: z.object({
         name: z.string().min(1).max(32),
-        color: z.enum(["blue" , "purple" , "yellow" , "green" , "red" , "pink"]),
+        color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
     })
 });
 
@@ -52,4 +52,10 @@ export const eventDeleteTagRequestSchema = z.object({
         tagId: z.string().uuid()
     }),
 });
+
+export const eventGetByDateSchema = z.object({
+    body: z.object({
+        date: z.date(),
+    })
+})
 

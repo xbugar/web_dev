@@ -1,7 +1,7 @@
 ﻿import {
     eventAddTagRequestSchema,
     eventCreateSchema, eventDeleteSchema,
-    eventDeleteTagRequestSchema,
+    eventDeleteTagRequestSchema, eventGetByDateSchema,
     eventUpdateSchema
 } from "./validationSchemas";
 import {handleRepositoryErrors, parseRequest} from "../utils";
@@ -115,6 +115,23 @@ const removeTag = async (req: Request, res: Response) => {
     res.status(200).send();
 }
 
+const getDate = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
+    const request = await parseRequest(eventGetByDateSchema, req, res);
+    if (!userId || !request) {
+        return;
+    }
+
+    const events = await eventRepository.getByDate(userId, request.body.date);
+    if (events.isErr) {
+        handleRepositoryErrors(events.error, res);
+        return;
+    }
+
+    res.status(200).send(events.unwrap());
+}
+
+
 export const eventController = {
     removeTag,
     addTag,
@@ -122,6 +139,7 @@ export const eventController = {
     deleteEvent,
     get,
     createEvent,
+    getDate,
 };
 
 

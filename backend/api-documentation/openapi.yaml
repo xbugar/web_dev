@@ -57,6 +57,8 @@ paths:
   #              schema:
   #                $ref: '#/components/schemas/Error'
 
+
+
   /event:
     get:
       security:
@@ -119,6 +121,44 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  /event/date:
+    get:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - event
+      summary: Get all users tags
+      description: Get
+      operationId: getUserDateEvents
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Date'
+
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Note not found
+        '422':
+          description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /event/{eventId}:
     delete:
       security:
@@ -127,7 +167,7 @@ paths:
         - event
       summary: delete Event
       description: Get
-      operationId: getUserEvents
+      operationId: deleteUserEvent
       parameters:
         - name: eventId
           in: path
@@ -138,10 +178,6 @@ paths:
       responses:
         '200':
           description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Event'
         '400':
           description: Invalid ID supplied
         '404':
@@ -162,7 +198,7 @@ paths:
         - event
       summary: update Event
       description: Get
-      operationId: getUserEvents
+      operationId: updateUserEvents
       parameters:
         - name: eventId
           in: path
@@ -204,7 +240,7 @@ paths:
         - event
       summary: adds a tag to a note.
       description: ""
-      operationId: addTagToNote
+      operationId: addTagToEvent
       parameters:
         - name: eventId
           in: path
@@ -242,7 +278,7 @@ paths:
         - event
       summary: removes tag from note.
       description: ""
-      operationId: removeTagFromNote
+      operationId: removeTagFromEvent
       parameters:
         - name: eventId
           in: path
@@ -1320,7 +1356,11 @@ components:
 
 
 
-
+    Date:
+      type: object
+      properties:
+        date:
+          type: object
 
     Event:
       type: object
@@ -1331,12 +1371,14 @@ components:
           type: string
         description:
           type: string
-        tags:
-          type: array
         timeFrom:
           type: string
         timeTo:
           type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
 
 
     Note:

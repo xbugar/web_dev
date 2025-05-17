@@ -1,11 +1,11 @@
 ﻿import {prisma} from "../prismaClient";
-import {AppEvent, EventCreateRequest, EventUpdateRequest} from "./types";
+import {EventResponse, EventCreateRequest, EventUpdateRequest} from "./types";
 import {Result} from "@badrap/result";
 import {repackageToInternalError, repackageToNotFoundError} from "../utils";
 import {TagOperation} from "../notebook/types";
 
 export const eventRepository = {
-    async create(userId: string, event: EventCreateRequest): Promise<Result<AppEvent, Error>> {
+    async create(userId: string, event: EventCreateRequest): Promise<Result<EventResponse, Error>> {
         return await prisma.event.create({
             select: {
                 id: true,
@@ -32,7 +32,7 @@ export const eventRepository = {
             .catch(error => repackageToInternalError(error));
     },
 
-    async get(userId: string): Promise<Result<AppEvent[], Error>> {
+    async get(userId: string): Promise<Result<EventResponse[], Error>> {
         return await prisma.event.findMany({
             select: {
                 id: true,
@@ -70,7 +70,7 @@ export const eventRepository = {
             .catch(error => repackageToNotFoundError(error));
     },
 
-    async update(userId: string, event: EventUpdateRequest): Promise<Result<AppEvent, Error>> {
+    async update(userId: string, event: EventUpdateRequest): Promise<Result<EventResponse, Error>> {
         return await prisma.event.update({
             select: {
                 id: true,
@@ -122,6 +122,41 @@ export const eventRepository = {
             }
         }).then((res) => Result.ok(res.userId))
             .catch((error) => repackageToNotFoundError(error));
+    },
+
+    async getByDate(userId: string, date: Date): Promise<Result<EventResponse[]>> {
+        const startOfDay = new Date(date);
+        startOfDay.setHours(0, 0, 0, 0);
+
+        const endOfDay = new Date(date);
+        endOfDay.setHours(23, 59, 59, 999);
+        return await prisma.event.findMany({
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                timeFrom: true,
+                timeTo: true,
+
+                tags: true,
+            },
+            where: {
+                userId: userId,
+                OR: [{ timeFrom: { gte: startOfDay, lte: endOfDay}},
+                    { timeTo: { gte: startOfDay, lte: endOfDay}}]
+            },
+        }).then(events => Result.ok(events.map((event) => {
+                return {
+                    eventId: event.id,
+                    title: event.title,
+                    description: event.description,
+                    timeFrom: event.timeFrom,
+                    timeTo: event.timeTo,
+                    tags: event.tags
+                }
+            }
+        )))
+            .catch(error => repackageToInternalError(error));
     }
 }
 

@@ -20,7 +20,7 @@ export type NotebookFilter = {
 export type NotebookResponse = {
     id: string,
     title: string,
-    description: string,
+    description: string | null,
     color: string,
     createdAt: Date,
     updatedAt: Date,

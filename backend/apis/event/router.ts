@@ -9,4 +9,5 @@ eventRouter.delete("/:eventId", eventController.deleteEvent);
 eventRouter.put("/:eventId", eventController.update);
 eventRouter.post("/:eventId/tag", eventController.addTag);
 eventRouter.delete("/:eventId/tag/:tagId", eventController.removeTag);
+eventRouter.get("/:date", eventController.get);
 
