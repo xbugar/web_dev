@@ -3,7 +3,6 @@ import { CalendarSmall } from "@/components/calendar/CalendarSmall.tsx";
 import { Events } from "@/components/calendar/Events.tsx";
 import { Event } from "@/types/Event.ts"
 import { ArrowRight, Plus } from "lucide-react";
-import { Section } from "@/components/section/Section.tsx";
 import { useUserNotebooks } from "@/hooks/useUserNotebooks.ts";
 import { NotebookCard } from "@/components/cards/NotebookCard.tsx";
 import { Button } from "@/components/ui/button.tsx";
