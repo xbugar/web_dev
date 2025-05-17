@@ -4,20 +4,10 @@ import { Link } from '@tanstack/react-router';
 import { AccentColor, lineColor } from '@/components/cards/cardColors';
 import { NotebookNoteDropdown } from '@/components/cards/NotebookNoteDropdown.tsx';
 import { Timer } from 'lucide-react';
-import { Tag, TagColor } from '@/components/cards/Tag.tsx';
+import { Tag } from '@/components/cards/Tag.tsx';
 import { cn } from '@/lib/utils.ts';
 import { formatDistanceToNow } from 'date-fns';
-
-type NoteCardProps = {
-  parentId: string;
-  noteId: string;
-  title: string;
-  titleOfParent: string;
-  color: string;
-  lastUpdated: string;
-  content: string;
-  tags?: { name: string; color: string }[];
-};
+import { NoteCardProps } from '@/types/Note';
 
 export function NoteCard({
   parentId,
@@ -41,7 +31,10 @@ export function NoteCard({
       {/*TODO*/}
       <CardHeader className="gap-0 pr-3 pl-3">
         <div className="flex items-center justify-between self-stretch">
-          <Link to={`/notebooks/${parentId}/${noteId}`}>
+          <Link
+            to="/notebooks/$notebookId/$noteId"
+            params={{ notebookId: parentId, noteId: noteId }}
+          >
             <CardTitle>{title}</CardTitle>
           </Link>
           <NotebookNoteDropdown
@@ -64,7 +57,7 @@ export function NoteCard({
       <div className="flex gap-2 pr-3 pl-3">
         {tags &&
           tags.map((tag, index) => (
-            <Tag name={tag.name} color={tag.color as TagColor} key={index}></Tag>
+            <Tag name={tag.name} color={tag.color as AccentColor} key={index}></Tag>
           ))}
       </div>
       <CardDescription className="pr-3 pb-3 pl-3"> {content} </CardDescription>

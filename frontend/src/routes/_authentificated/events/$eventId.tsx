@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Button } from "@/components/ui/button.tsx";
-import { ArrowRight, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 
 export const Route = createFileRoute('/_authentificated/events/$eventId')({
   component: RouteComponent,

@@ -17,3 +17,14 @@ export type CreateEvent = {
   timeTo: string;
   repeat?: string;
 }
+
+export type EventCardProps = {
+  id: string;
+  title: string;
+  description?: string;
+  tags?: TagType[];
+  from?: string;
+  to?: string;
+  allDay?: boolean;
+  tillDate?: string;
+};

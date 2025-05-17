@@ -9,7 +9,7 @@ import {
 import { Label } from '@/components/ui/label.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { useState } from 'react';
-import { AccentColor, availableColors, iconColor } from '@/components/cards/cardColors.tsx';
+import { AccentColor, accentColors, iconColor } from '../cards/cardColors';
 import { cn } from '@/lib/utils';
 import { iconOptions } from '@/components/cards/IconOptions.tsx';
 import { NotebookCard } from '../cards/NotebookCard';
@@ -96,7 +96,7 @@ export function NotebookNoteForm({
                   <SelectValue placeholder="Select a color" />
                 </SelectTrigger>
                 <SelectContent>
-                  {availableColors.map(({ label, value }) => (
+                  {accentColors.map(({ label, value }) => (
                     <SelectItem key={value} value={value}>
                       <div
                         className={cn('h-5 w-5 rounded-xl', iconColor[value as AccentColor])}
@@ -134,7 +134,7 @@ export function NotebookNoteForm({
       {/* Title */}
       <div className="grid items-center">
         <Label htmlFor="title" className="text-right">
-          Title
+          Title*
         </Label>
         <Input
           id="title"
@@ -165,8 +165,14 @@ export function NotebookNoteForm({
 
       <DialogFooter className="flex-row-reverse">
         <DialogClose>Cancel</DialogClose>
-        <Button type="submit" variant="submit" onClick={handleSubmit} disabled={isSubmitting}>
-          {isSubmitting ? 'Saving...' : submitText}
+        <Button
+          type="submit"
+          variant="submit"
+          onClick={handleSubmit}
+          disabled={!title}
+          loading={isSubmitting}
+        >
+          {submitText}
         </Button>
       </DialogFooter>
     </div>

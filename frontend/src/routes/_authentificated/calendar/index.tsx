@@ -1,13 +1,12 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { CalendarMain } from '@/components/calendar/CalendarMain.tsx'
 import { Event } from "@/types/Event.ts";
 import { Events } from "@/components/calendar/Events.tsx";
-import {Calendar} from "@/components/ui/calendar.tsx"
 export const Route = createFileRoute('/_authentificated/calendar/')({
   component: RouteComponent,
 });
 
-export const mockEvents: Event[] = [
+const mockEvents: Event[] = [
   {
     id: "1",
     title: "Project Kickoff",

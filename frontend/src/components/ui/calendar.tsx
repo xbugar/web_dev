@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import { DayPicker } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
@@ -9,16 +9,16 @@ function Calendar({
                     className,
                     classNames,
                     showOutsideDays = true,
-                    selected,
-                    onSelect,
+                    // selected,
+                    // onSelect,
                     ...props
                   }: React.ComponentProps<typeof DayPicker>) {
   return (
     <div className="font-serif">
       <DayPicker
         showOutsideDays={showOutsideDays}
-        selected={selected}
-        onSelect={onSelect}
+        // selected={selected}
+        // onSelect={onSelect}
         className={cn("border-none", className)}
         classNames={{
           months: "flex flex-col sm:flex-row gap-2 align-center",
@@ -63,12 +63,13 @@ function Calendar({
           ...classNames,
         }}
         components={{
-          Chevron: ({ orientation, ...props }) =>
-            orientation === "left" ? (
-              <ChevronLeft className="size-4" {...props} />
-            ) : (
-              <ChevronRight className="size-4" {...props} />
-            ),
+          Chevron: (props) => {
+            // eslint-disable-next-line react/prop-types
+            if (props.orientation === "left") {
+              return <ChevronLeftIcon {...props} />;
+            }
+            return <ChevronRightIcon {...props} />;
+          },
         }}
         {...props}
       />

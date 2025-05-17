@@ -9,6 +9,17 @@ export type Note = {
   notebook: { id: string; color: string };
 };
 
+export type NoteCardProps = {
+  parentId: string;
+  noteId: string;
+  title: string;
+  titleOfParent: string;
+  color: string;
+  lastUpdated: string;
+  content: string;
+  tags?: { name: string; color: string }[];
+};
+
 export type CreateNote = {
   title: string;
 };

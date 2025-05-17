@@ -4,23 +4,11 @@ import { Link } from '@tanstack/react-router';
 import { AccentColor, iconColor, lineColor } from '@/components/cards/cardColors';
 import { NotebookNoteDropdown } from '@/components/cards/NotebookNoteDropdown.tsx';
 import { Ellipsis, LucideIcon, Notebook, Timer } from 'lucide-react';
-import { Tag, TagColor } from '@/components/cards/Tag.tsx';
+import { Tag } from '@/components/cards/Tag.tsx';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
 import { iconMap } from '@/components/cards/IconOptions.tsx';
-
-export type NotebookCardProps = {
-  id: string;
-  key: string;
-  title: string;
-  description: string;
-  iconName: string;
-  color: string;
-  noteCount: number;
-  lastUpdated: string;
-  tags?: { name: string; color: string }[];
-  isLinked?: boolean;
-};
+import { NotebookCardProps } from '@/types/Notebook';
 
 export const NotebookCard = ({
   id,
@@ -96,11 +84,11 @@ export const NotebookCard = ({
         </div>
       </CardHeader>
 
-      {tags && (
+      {tags && tags.length > 0 && (
         <div className="relative mr-4">
           <div className="hide-scrollbar relative flex gap-2 overflow-x-auto pl-4">
             {tags.map((tag, index) => (
-              <Tag name={tag.name} color={tag.color as TagColor} key={index}></Tag>
+              <Tag name={tag.name} color={tag.color as AccentColor} key={index}></Tag>
             ))}
             <div className="ml-5"></div>
           </div>
