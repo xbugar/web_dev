@@ -7,7 +7,7 @@ import {prisma} from "./utils/prisma";
 
 describe("/event", async () => {
     describe("happy path", async () => {
-        // let eventId: string;
+        let eventId: string;
         // let tagId: string;
         let cookie: string;
         it('registers a user and logs him in. sends it back with 200', async () => {
