@@ -42,7 +42,6 @@ export const NotebookCard = ({
                 <Link
                   to={`/notebooks/$notebookId`}
                   params={{ notebookId: id }}
-                  className="line-clamp-1"
                 >
                   {title}
                 </Link>
@@ -50,6 +49,7 @@ export const NotebookCard = ({
                 title
               )}
             </CardTitle>
+
             {isLinked ? (
               <NotebookNoteDropdown
                 notebookId={id}

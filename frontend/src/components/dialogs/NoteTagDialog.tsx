@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/dialog";
 import { CreateTag } from "@/types/TagType.ts";
 import { useNoteMetaData } from "@/hooks/useNoteMetaData.ts";
-import { TagColor } from "@/components/cards/Tag.tsx";
 import { useCreateTagNote } from "@/hooks/useCreateTagNote.ts";
 import { Tag } from "@/components/cards/Tag.tsx"
 import { Note } from "@/types/Note.ts";
@@ -15,6 +14,7 @@ import { TagForm } from "@/components/forms/TagForm.tsx";
 import { NoteTagDeleteDialog } from "@/components/dialogs/NoteTagDeleteDialog.tsx";
 import { useState } from "react";
 import { useAllTags } from "@/hooks/useAllTags.ts";
+import { AccentColor } from "../cards/cardColors";
 
 interface NoteTagDialogProps {
   open: boolean;
@@ -64,7 +64,7 @@ export function NoteTagDialog({ open, onOpenChange, noteId, notebookId }: NoteTa
                       }}>
                         <Tag
                           name={tag.name}
-                          color={tag.color as TagColor}
+                          color={tag.color as AccentColor}
                           key={index}
                           x={true}
                         />
