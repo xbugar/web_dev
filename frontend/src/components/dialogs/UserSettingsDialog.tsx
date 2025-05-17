@@ -49,11 +49,7 @@ export const UserSettingsDialog = ({ open, onOpenChange }: UserSettingsDialogPro
           <DialogTitle>User settings</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
-        <Button
-          variant="submit"
-          onClick={onSubmit}
-          loading={isPending || !auth.isAuth}
-        >
+        <Button variant="submit" onClick={onSubmit} loading={isPending || !auth.isAuth}>
           Log out
         </Button>
 
@@ -72,13 +68,13 @@ export const UserSettingsDialog = ({ open, onOpenChange }: UserSettingsDialogPro
               </SelectTrigger>
               <SelectContent>
                 <SelectItem key={'auto'} value={'auto'}>
-                  {'auto'}
+                  Auto
                 </SelectItem>
                 <SelectItem key={'light'} value={'light'}>
-                  {'light'}
+                  Light
                 </SelectItem>
                 <SelectItem key={'dark'} value={'dark'}>
-                  {'dark'}
+                  Dark
                 </SelectItem>
               </SelectContent>
             </Select>
