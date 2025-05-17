@@ -12,8 +12,6 @@ describe("/notebook", async () => {
         let tagId: string;
         let cookie: string;
         it('registers a user and logs him in. sends it back with 200', async () => {
-            console.log(await prisma.user.findMany())
-
             const res = await request(app).post('/auth/register').send({
                 firstName: 'John',
                 lastName: 'Doe',
@@ -27,7 +25,6 @@ describe("/notebook", async () => {
                 }
             });
 
-            console.log(newUser);
 
             expect(res.status).toBe(200);
             expect(res.body).toStrictEqual({"message": "success",
@@ -133,8 +130,6 @@ describe("/notebook", async () => {
 
         it('should return 200 and two existing notebooks for this user', async () => {
             const {status, body} = await request(app).get('/user/notebooks').set("Cookie", cookie).send({});
-            console.log('/user/notebooks');
-            console.log(body);
             expect(status).toBe(200);
             expect(body.length).toBe(2);
             //const notebooks= await prisma.user.findUniqueOrThrow({where:{id:id},select:{notebooks:true}});

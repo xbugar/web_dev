@@ -13,7 +13,7 @@ describe('/auth', async () => {
     describe('all auth operations happy path', async () => {
         let cookie: string;
         it('registers a user and automatically logs him in. sends it back with 200', async () => {
-            const res = await request(app).post('/auth/register').send({
+            let res = await request(app).post('/auth/register').send({
                 firstName: 'John',
                 lastName: 'Doe',
                 email: 'john@doe.com',
@@ -30,9 +30,10 @@ describe('/auth', async () => {
             expect(newUser).not.toBeNull();
 
             expect(res.status).toBe(200);
-            expect(res.body).toStrictEqual({})
+            expect(res.body).toStrictEqual({message: "success"})
             cookie = res.headers['set-cookie'][0];
         });
+
 
         it('creates a users notebook', async () => {
             const icon = await defaultIcon();

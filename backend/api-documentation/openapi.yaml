@@ -160,6 +160,47 @@ paths:
                 $ref: '#/components/schemas/Error'
 
   /event/{eventId}:
+    get:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - event
+      summary: update Event
+      description: Get
+      operationId: updateUserEvents
+      parameters:
+        - name: eventId
+          in: path
+          description: ""
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEvent'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Note not found
+        '422':
+          description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
     delete:
       security:
         - cookieAuth: [ ]
@@ -1307,10 +1348,6 @@ components:
           type: string
         description:
           type: string
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
         timeFrom:
           type: string
         timeTo:
@@ -1375,6 +1412,15 @@ components:
           type: string
         timeTo:
           type: string
+        repeat:
+          type: string
+          enum:
+            - Never
+            - Every Day
+            - Every Week
+            - Every 2 Weeks
+            - Every Month
+
         tags:
           type: array
           items:

@@ -4,8 +4,8 @@ export const eventCreateSchema = z.object({
     body: z.object({
         title: z.string(),
         description: z.string().optional(),
-        timeFrom: z.string().datetime(),
-        timeTo: z.string().datetime(),
+        timeFrom: z.coerce.date(),
+        timeTo: z.coerce.date(),
         repeat: z.enum(["Never", "Every Day", "Every Week", "Every 2 Weeks", "Every Month"])
     })
 });
@@ -17,8 +17,8 @@ export const eventUpdateSchema = z.object({
     body: z.object({
         title: z.string().optional(),
         description: z.string().optional(),
-        timeFrom: z.string().datetime().optional(),
-        timeTo: z.string().datetime().optional(),
+        timeFrom: z.coerce.date().optional(),
+        timeTo: z.coerce.date().optional(),
         repeat: z.enum(["Never", "Every Day", "Every Week", "Every 2 Weeks", "Every Month"]).optional(),
     })
 });
@@ -56,6 +56,12 @@ export const eventDeleteTagRequestSchema = z.object({
 export const eventGetByDateSchema = z.object({
     body: z.object({
         date: z.date(),
+    })
+})
+
+export const eventGetByIdSchema = z.object({
+    params: z.object({
+        eventId: z.string().uuid(),
     })
 })
 

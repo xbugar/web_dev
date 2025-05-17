@@ -14,6 +14,7 @@ export const eventRepository = {
 
                 timeFrom: true,
                 timeTo: true,
+                repeat: true,
 
                 tags: true,
             },
@@ -27,6 +28,7 @@ export const eventRepository = {
             description: event.description,
             timeFrom: event.timeFrom,
             timeTo: event.timeTo,
+            repeat: event.repeat,
             tags: event.tags
         }))
             .catch(error => repackageToInternalError(error));
@@ -40,6 +42,7 @@ export const eventRepository = {
                 description: true,
                 timeFrom: true,
                 timeTo: true,
+                repeat: true,
 
                 tags: true,
             },
@@ -53,6 +56,7 @@ export const eventRepository = {
                     description: event.description,
                     timeFrom: event.timeFrom,
                     timeTo: event.timeTo,
+                    repeat: event.repeat,
                     tags: event.tags
                 }
             }
@@ -78,6 +82,7 @@ export const eventRepository = {
                 description: true,
                 timeFrom: true,
                 timeTo: true,
+                repeat: true,
 
                 tags: true,
             },
@@ -94,6 +99,35 @@ export const eventRepository = {
             description: event.description,
             timeFrom: event.timeFrom,
             timeTo: event.timeTo,
+            repeat: event.repeat,
+            tags: event.tags
+        }))
+            .catch(error => repackageToNotFoundError(error));
+    },
+
+    async getById(userId: string, event: EventUpdateRequest): Promise<Result<EventResponse, Error>> {
+        return await prisma.event.findUniqueOrThrow({
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                timeFrom: true,
+                timeTo: true,
+                repeat: true,
+
+                tags: true,
+            },
+            where: {
+                userId: userId,
+                id: event.params.eventId,
+            },
+        }).then(event => Result.ok({
+            eventId: event.id,
+            title: event.title,
+            description: event.description,
+            timeFrom: event.timeFrom,
+            timeTo: event.timeTo,
+            repeat: event.repeat,
             tags: event.tags
         }))
             .catch(error => repackageToNotFoundError(error));
@@ -137,6 +171,7 @@ export const eventRepository = {
                 description: true,
                 timeFrom: true,
                 timeTo: true,
+                repeat: true,
 
                 tags: true,
             },
@@ -152,6 +187,7 @@ export const eventRepository = {
                     description: event.description,
                     timeFrom: event.timeFrom,
                     timeTo: event.timeTo,
+                    repeat: event.repeat,
                     tags: event.tags
                 }
             }

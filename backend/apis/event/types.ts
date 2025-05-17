@@ -9,6 +9,7 @@ export type EventResponse = {
     description: string | undefined | null,
     timeFrom: Date
     timeTo: Date,
+    repeat: string,
 }
 
 export type EventUpdateRequest = z.infer<typeof eventUpdateSchema>

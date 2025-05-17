@@ -15,6 +15,7 @@ const createEvent = async (req: Request, res: Response) => {
     const request = await parseRequest(eventCreateSchema, req, res);
     const userId = req.session.passport?.user.id;
     if (!request || !userId) {
+        console.log("ckcbakjcn");
         return;
     }
 

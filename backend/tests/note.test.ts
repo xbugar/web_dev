@@ -7,7 +7,7 @@ describe("/note", async () => {
     describe("happy path", async () => {
         let notebookId: string;
         let noteId: string;
-        let cookie: string="connect.sid=s%3AZ4o5UQtEP7O-qBBZdRFfv9xbMnMYmM0l.tBssBmpr5z2lEFIMUJOZwfV8ZcmFkNjYKo5OHmRlPUA; Path=/";
+        let cookie: string;
         let tagId:string;
         it('registers a user and logs him in. sends it back with 200', async () => {
 
@@ -28,7 +28,6 @@ describe("/note", async () => {
             expect(res.body).toStrictEqual({ message: 'success' });
             expect(newUser).not.toBeNull();
 
-
         });
         it('should log in the user', async() => {
             const {status,headers} = await request(app).post('/auth/login').send({
@@ -38,7 +37,6 @@ describe("/note", async () => {
             expect(status).toBe(200);
             //expect(body).toStrictEqual({ message: 'success' });
             cookie = headers['set-cookie'][0];
-            console.log(cookie);
         })
 
         it(`should return 200 and create a notebook`, async () => {
@@ -125,7 +123,6 @@ describe("/note", async () => {
                 .put(`/note/${noteId}/content`)
                 .set("Cookie", cookie)
                 .send({content: "this is a content of a note"});
-            console.log(body);
             expect(status).toBe(200);
             const note = await prisma.note.findUniqueOrThrow({
                 where: {
@@ -141,7 +138,6 @@ describe("/note", async () => {
                 .set("Cookie", cookie)
                 .send();
 
-            console.log(body);
             expect(status).toBe(200);
             expect(body).toStrictEqual({content: "this is a content of a note"});
         })
@@ -171,7 +167,6 @@ describe("/note", async () => {
                 color:"blue"
             });
             expect(status).toBe(200);
-            console.log(body);
             tagId = body.id;
         })
         it('should delete  tag from a note', async()=>{
