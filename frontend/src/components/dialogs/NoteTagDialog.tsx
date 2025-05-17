@@ -21,6 +21,7 @@ interface NoteTagDialogProps {
   onOpenChange: (open: boolean) => void;
   noteId: string;
   notebookId: string;
+  initialData: Note;
 }
 
 export function NoteTagDialog({ open, onOpenChange, noteId, notebookId }: NoteTagDialogProps) {

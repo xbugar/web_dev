@@ -103,8 +103,8 @@ export function TagForm({
 
       <DialogFooter className="flex-row-reverse">
         <DialogClose>Cancel</DialogClose>
-        <Button type="submit" variant="submit" onClick={handleSubmit} disabled={isSubmitting}>
-          {isSubmitting ? 'Saving...' : submitText}
+        <Button type="submit" variant="submit" onClick={handleSubmit} loading={isSubmitting}>
+          {submitText}
         </Button>
       </DialogFooter>
     </div>

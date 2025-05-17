@@ -15,7 +15,7 @@ import { NotebookDeleteDialog } from '@/components/dialogs/NotebookDeleteDialog.
 import { NoteDeleteDialog } from '@/components/dialogs/NoteDeleteDialog.tsx';
 import { NoteTagDialog } from '@/components/dialogs/NoteTagDialog.tsx';
 import { NotebookTagDialog } from '@/components/dialogs/NotebookTagDialog.tsx';
-import { NotebookNoteDropdownProps } from '@/types/Notebook';
+import { CreateNotebook, NotebookNoteDropdownProps } from '@/types/Notebook';
 
 export function NotebookNoteDropdown({
   notebookId,
@@ -88,7 +88,7 @@ export function NotebookNoteDropdown({
           open={openEdit}
           onOpenChange={setOpenEdit}
           notebookId={notebookId}
-          initialData={data}
+          initialData={data as CreateNotebook}
         />
       )}
       {type === 'note' && (
@@ -124,6 +124,7 @@ export function NotebookNoteDropdown({
           open={openEditTags}
           onOpenChange={setOpenEditTags}
           notebookId={notebookId}
+          initialData={data as CreateNotebook}
         />
       )}
       {type === 'note' && (
@@ -132,6 +133,7 @@ export function NotebookNoteDropdown({
           onOpenChange={setOpenEditTags}
           noteId={noteId}
           notebookId={notebookId}
+          initialData={data as Note}
         />
       )}
     </>
