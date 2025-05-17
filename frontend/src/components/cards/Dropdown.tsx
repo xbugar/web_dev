@@ -6,7 +6,7 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu.tsx';
 
-import { Ellipsis, Pencil, Trash2, Copy, Tag, Star } from 'lucide-react';
+import { Ellipsis, Pencil, Trash2, Copy, Tag } from 'lucide-react';
 import { useState } from 'react';
 import { NotebookEditDialog } from '@/components/dialogs/NotebookEditDialog.tsx';
 import { NoteEditDialog } from '@/components/dialogs/NoteEditDialog.tsx';
@@ -50,11 +50,11 @@ export function Dropdown({
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className="bg-white-secondary dark:bg-black-secondary m-2 text-xs">
-          <DropdownMenuItem>
+          {/* <DropdownMenuItem>
             <Star className="text-text-lm-secondary dark:text-text-dm-secondary" />
             Add to favourites
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
+          <DropdownMenuSeparator /> */}
 
           {type === 'notebook' && (
             <DropdownMenuItem onClick={() => setOpenEdit(true)}>
