@@ -1,5 +1,6 @@
 import { api } from "@/services/index.ts";
 import { CreateEvent } from "@/types/Event.ts";
+import { CreateTag, TagType } from "@/types/TagType.ts";
 
 
 export const getUserEvents = async(): Promise<Event[]> => {
@@ -18,3 +19,10 @@ export const deleteEvent = async(eventId: string) => {
   return api.delete(`/event/${eventId}`);
 }
 
+export const postTagToEvent = async (eventId: string, data: CreateTag): Promise<TagType> => {
+  return api.post(`/event/${eventId}/tag`, data).then((res) => res.data as TagType)
+}
+
+export const deleteTagFromEvent = async (eventId: string, tagId: string): Promise<void> => {
+  return api.delete(`/event/${eventId}/tag/${tagId}`);
+}
