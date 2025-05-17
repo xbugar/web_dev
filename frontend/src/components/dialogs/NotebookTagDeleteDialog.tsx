@@ -1,14 +1,5 @@
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
 import { useDeleteTagFromNotebook } from "@/hooks/useDeleteTagFromNotebook.ts";
+import { DeleteConfirmationDialog } from "@/components/dialogs/DeleteConfirmationDialog.tsx";
 
 type TagDeleteDialogProps = {
   open: boolean;
@@ -30,22 +21,11 @@ export const NotebookTagDeleteDialog = ({
   };
 
   return (
-    <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete and remove your data from our
-            servers.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>
-            {deleteTag.isPending ? 'Deleting...' : 'Continue'}
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <DeleteConfirmationDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      onDelete={handleDelete}
+      isPending={deleteTag.isPending}
+    />
   );
 };
