@@ -11,18 +11,25 @@ import {
 } from '@/components/ui/select';
 import { DialogClose, DialogFooter } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
-import { CreateTag, TagType } from "@/types/TagType.ts";
-import { tagMap, availableColors, TagColor, Tag } from "@/components/cards/Tag.tsx";
+import { CreateTag, TagType } from '@/types/TagType.ts';
+import { Tag } from '@/components/cards/Tag.tsx';
+import { AccentColor, accentColors, tagColor } from '../cards/cardColors';
 
 type TagFormProps = {
   initialData?: CreateTag;
-  onSubmit: (data: CreateTag ) => void;
+  onSubmit: (data: CreateTag) => void;
   isSubmitting?: boolean;
   submitText: string;
   allTags: TagType[];
 };
 
-export function TagForm({ initialData, onSubmit, isSubmitting, submitText, allTags }: TagFormProps) {
+export function TagForm({
+  initialData,
+  onSubmit,
+  isSubmitting,
+  submitText,
+  allTags,
+}: TagFormProps) {
   const [name, setName] = useState(initialData?.name || '');
   const [color, setColor] = useState(initialData?.color || 'red');
 
@@ -34,11 +41,9 @@ export function TagForm({ initialData, onSubmit, isSubmitting, submitText, allTa
   return (
     <div className="grid gap-4">
       <div className="flex flex-col">
-        <h3 className="font-serif font-semibold text-lg">
-          Choose from all tags
-        </h3>
+        <h3 className="font-serif text-lg font-semibold">Choose from all tags</h3>
         <Select
-          onValueChange={(value) => {
+          onValueChange={value => {
             const selectedTag = allTags.find(tag => tag.id === value);
             if (selectedTag) {
               setName(selectedTag.name);
@@ -52,7 +57,7 @@ export function TagForm({ initialData, onSubmit, isSubmitting, submitText, allTa
           <SelectContent>
             {allTags.map(tag => (
               <SelectItem key={tag.id} value={tag.id}>
-                <Tag name={tag.name} color={tag.color as TagColor}/>
+                <Tag name={tag.name} color={tag.color as AccentColor} />
               </SelectItem>
             ))}
           </SelectContent>
@@ -60,9 +65,7 @@ export function TagForm({ initialData, onSubmit, isSubmitting, submitText, allTa
       </div>
 
       <div className="grid gap-4">
-        <h3 className="font-serif font-semibold text-lg">
-          Create new tag
-        </h3>
+        <h3 className="font-serif text-lg font-semibold">Create new tag</h3>
         <div className="flex justify-between gap-2">
           <div className="flex w-full flex-col">
             <Label htmlFor="tag-name" className="text-right">
@@ -83,12 +86,12 @@ export function TagForm({ initialData, onSubmit, isSubmitting, submitText, allTa
             </Label>
             <Select value={color} onValueChange={value => setColor(value)}>
               <SelectTrigger className="col-span-3">
-                <SelectValue placeholder="Select a color"/>
+                <SelectValue placeholder="Select a color" />
               </SelectTrigger>
               <SelectContent>
-                {availableColors.map(({label, value}) => (
+                {accentColors.map(({ label, value }) => (
                   <SelectItem key={value} value={value}>
-                    <div className={cn('h-5 w-5 rounded-xl', tagMap[value as TagColor])}/>
+                    <div className={cn('h-5 w-5 rounded-xl', tagColor[value as AccentColor])} />
                     {label}
                   </SelectItem>
                 ))}

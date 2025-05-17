@@ -9,28 +9,20 @@ import {
 import { Ellipsis, Pencil, Trash2, Copy, Tag, Star } from 'lucide-react';
 import { useState } from 'react';
 import { NotebookEditDialog } from '@/components/dialogs/NotebookEditDialog.tsx';
-import { CreateNotebook } from '@/types/Notebook.ts';
 import { NoteEditDialog } from '@/components/dialogs/NoteEditDialog.tsx';
 import { Note } from '@/types/Note.ts';
 import { NotebookDeleteDialog } from '@/components/dialogs/NotebookDeleteDialog.tsx';
 import { NoteDeleteDialog } from '@/components/dialogs/NoteDeleteDialog.tsx';
-import { NoteTagDialog } from "@/components/dialogs/NoteTagDialog.tsx";
-import { NotebookTagDialog } from "@/components/dialogs/NotebookTagDialog.tsx";
-
-type DropdownType = 'note' | 'notebook';
-interface NotebookNoteDropdownProps {
-  notebookId: string;
-  noteId: string;
-  data: CreateNotebook | Note;
-  type: DropdownType;
-}
+import { NoteTagDialog } from '@/components/dialogs/NoteTagDialog.tsx';
+import { NotebookTagDialog } from '@/components/dialogs/NotebookTagDialog.tsx';
+import { NotebookNoteDropdownProps } from '@/types/Notebook';
 
 export function NotebookNoteDropdown({
-                                       notebookId,
-                                       noteId,
-                                       data,
-                                       type,
-                                     }: NotebookNoteDropdownProps) {
+  notebookId,
+  noteId,
+  data,
+  type,
+}: NotebookNoteDropdownProps) {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openEditTags, setOpenEditTags] = useState(false);
@@ -39,7 +31,7 @@ export function NotebookNoteDropdown({
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className=" hover:bg-muted rounded-[10%] p-0">
+          <button className="hover:bg-muted rounded-[10%] p-0">
             <Ellipsis className="h-5 w-5 text-black dark:text-white" />
           </button>
         </DropdownMenuTrigger>
@@ -66,17 +58,18 @@ export function NotebookNoteDropdown({
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
-            let link = `${window.location.origin}/notebooks/${notebookId}`;
-            if (type === 'note') {
-              link += `/note/${noteId}`;
-            }
-            navigator.clipboard.writeText(link)
-              .then(() => {
-                console.log("Link copied:", link);
-              })
-              .catch((err) => {
-                console.error("Failed to copy link:", err);
-              });
+              let link = `${window.location.origin}/notebooks/${notebookId}`;
+              if (type === 'note') {
+                link += `/note/${noteId}`;
+              }
+              navigator.clipboard
+                .writeText(link)
+                .then(() => {
+                  console.log('Link copied:', link);
+                })
+                .catch(err => {
+                  console.error('Failed to copy link:', err);
+                });
             }}
           >
             <Copy /> Copy link

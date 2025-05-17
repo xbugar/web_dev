@@ -1,4 +1,4 @@
-import { TagType } from "@/types/TagType.ts";
+import { TagType } from '@/types/TagType.ts';
 
 export type Event = {
   id: string;
@@ -7,4 +7,15 @@ export type Event = {
   tags?: TagType[];
   timeFrom: string;
   timeTo: string;
-}
+};
+
+export type EventCardProps = {
+  id: string;
+  title: string;
+  description?: string;
+  tags?: TagType[];
+  from?: string;
+  to?: string;
+  allDay?: boolean;
+  tillDate?: string;
+};
