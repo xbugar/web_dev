@@ -6,7 +6,7 @@ import {
   DialogTitle
 } from "@/components/ui/dialog";
 import { CreateTag } from "@/types/TagType.ts";
-import { TagColor } from "@/components/cards/Tag.tsx";
+import { AccentColor } from "@/components/cards/cardColors.ts";
 import { Tag } from "@/components/cards/Tag.tsx"
 import { TagForm } from "@/components/forms/TagForm.tsx";
 import { useState } from "react";
@@ -63,7 +63,7 @@ export function NotebookTagDialog({ open, onOpenChange, notebookId }: NotebookTa
                       }}>
                         <Tag
                           name={tag.name}
-                          color={tag.color as TagColor}
+                          color={tag.color as AccentColor}
                           key={index}
                           x={true}
                         />

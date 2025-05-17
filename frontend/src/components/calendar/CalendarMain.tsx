@@ -26,7 +26,7 @@ export function CalendarMain({ selectedDay }: { selectedDay?: string }) {
       mode="single"
       selected={date}
       onSelect={handleSelect}
-      className="rounded-md border"
+      className="rounded-md border pt-2 pb-2"
     />
   )
 }

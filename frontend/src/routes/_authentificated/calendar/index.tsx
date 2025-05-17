@@ -2,7 +2,6 @@ import { createFileRoute } from '@tanstack/react-router';
 import { CalendarMain } from '@/components/calendar/CalendarMain.tsx'
 import { Event } from "@/types/Event.ts";
 import { Events } from "@/components/calendar/Events.tsx";
-
 export const Route = createFileRoute('/_authentificated/calendar/')({
   component: RouteComponent,
 });
@@ -41,7 +40,7 @@ const mockEvents: Event[] = [
 function RouteComponent() {
   const today = new Date();
   return (
-    <div className="flex flex-col gap-2">
+    <div className="pt-2 flex flex-col gap-2">
       <CalendarMain />
       <Events events={mockEvents} selectedDay={today} />
     </div>
