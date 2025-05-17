@@ -13,7 +13,7 @@ describe('/auth', async () => {
     describe('all auth operations happy path', async () => {
         let cookie: string;
         it('registers a user and automatically logs him in. sends it back with 200', async () => {
-            let res = await request(app).post('/auth/register').send({
+            const res = await request(app).post('/auth/register').send({
                 firstName: 'John',
                 lastName: 'Doe',
                 email: 'john@doe.com',

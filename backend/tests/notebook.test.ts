@@ -15,7 +15,7 @@ describe("/notebook", async () => {
             const res = await request(app).post('/auth/register').send({
                 firstName: 'John',
                 lastName: 'Doe',
-                email: 'john_@doe.com',
+                email: 'john_kokot@doe.com',
                 password: '123456',
                 confirmPassword: '123456'
             });
@@ -27,8 +27,7 @@ describe("/notebook", async () => {
 
 
             expect(res.status).toBe(200);
-            expect(res.body).toStrictEqual({"message": "success",
-            });
+            expect(res.body).toStrictEqual({message: "success"});
             expect(newUser).not.toBeNull();
 
             cookie = res.headers['set-cookie'][0];

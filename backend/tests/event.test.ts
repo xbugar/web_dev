@@ -2,13 +2,13 @@
 import request from 'supertest'
 import app from '../test.index'
 import {prisma} from "./utils/prisma";
-import {defaultIcon} from "../apis/utils";
+// import {defaultIcon} from "../apis/utils";
 
 
 describe("/event", async () => {
     describe("happy path", async () => {
-        let eventId: string;
-        let tagId: string;
+        // let eventId: string;
+        // let tagId: string;
         let cookie: string;
         it('registers a user and logs him in. sends it back with 200', async () => {
 
@@ -32,8 +32,6 @@ describe("/event", async () => {
             cookie = res.headers['set-cookie'][0];
         });
         it(`should return 200 and create an event`, async () => {
-
-            const icon = await defaultIcon();
             const url = "/event";
             const {status, body} = await request(app).post(url).set("Cookie", cookie).send(
                 {
@@ -45,6 +43,59 @@ describe("/event", async () => {
                 }
             );
             expect(status).toBe(200);
+
+            const event = await prisma.event.findFirst({
+                where: {
+                    id: body.eventId
+                }
+            });
+            expect(body).toMatchObject({
+                eventId: event.id,
+                title: event.title,
+                description: event.description,
+                timeFrom: event.timeFrom.toISOString(),
+                timeTo: event.timeTo.toISOString(),
+                repeat: "Never",
+            });
+            eventId = body.eventId;
         });
+        it(`should return 200 and update an event`, async () => {
+            const url = `/event/${eventId}`;
+            const {status, body} = await request(app).put(url).set("Cookie", cookie).send(
+                {
+                    title: "opnaocn",
+                    description: "pdvjpwqmnpcm",
+                    timeFrom: Date.now(),
+                    timeTo: Date.now(),
+                    repeat: "Every Day"
+                }
+            );
+            expect(status).toBe(200);
+
+            const event = await prisma.event.findFirst({
+                where: {
+                    id: body.eventId
+                }
+            });
+            expect(body).toMatchObject({
+                eventId: event.id,
+                title: event.title,
+                description: event.description,
+                timeFrom: event.timeFrom.toISOString(),
+                timeTo: event.timeTo.toISOString(),
+                repeat: "Every Day",
+            });
+            // eventId = body.eventId;
+        });
+
+        it(`should return 200 and get user events`, async () => {
+            const url = `/event`;
+            const {status, body} = await request(app).get(url).set("Cookie", cookie).send();
+            expect(status).toBe(200);
+            console.log(body); //check the results
+        });
+
+
+
     });
 });

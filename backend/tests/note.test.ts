@@ -116,10 +116,7 @@ describe("/note", async () => {
         });
 
         it('should add content to the note', async () => {
-            const {
-                status,
-                body
-            } = await request(app)
+            const {status} = await request(app)
                 .put(`/note/${noteId}/content`)
                 .set("Cookie", cookie)
                 .send({content: "this is a content of a note"});

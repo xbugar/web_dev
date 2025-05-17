@@ -57,11 +57,11 @@ export const eventGetByDateSchema = z.object({
     body: z.object({
         date: z.date(),
     })
-})
+});
 
 export const eventGetByIdSchema = z.object({
     params: z.object({
         eventId: z.string().uuid(),
     })
-})
+});
 

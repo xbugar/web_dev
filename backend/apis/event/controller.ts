@@ -15,7 +15,6 @@ const createEvent = async (req: Request, res: Response) => {
     const request = await parseRequest(eventCreateSchema, req, res);
     const userId = req.session.passport?.user.id;
     if (!request || !userId) {
-        console.log("ckcbakjcn");
         return;
     }
 
@@ -30,13 +29,13 @@ const createEvent = async (req: Request, res: Response) => {
 
 
 const get = async (req: Request, res: Response) => {
+    console.log("PLEASE");
     const userId = req.session.passport?.user.id;
-    const request = await parseRequest(eventCreateSchema, req, res);
-    if (!userId || !request) {
+    if (!userId) {
         return;
     }
 
-    const event = await eventRepository.create(userId, request);
+    const event = await eventRepository.get(userId);
     if (event.isErr) {
         handleRepositoryErrors(event.error, res);
         return;
