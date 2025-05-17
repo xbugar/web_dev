@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils.ts';
 import { Tag } from '@/components/cards/Tag.tsx';
 import { formatDistanceToNow } from 'date-fns';
 import { Link } from '@tanstack/react-router';
-import { EventCardProps } from '@/types/Event';
+import { EventCardProps } from '@/types/EventType.ts';
 import { AccentColor } from './cardColors';
 
 export const EventCard = ({

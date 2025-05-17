@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CreateEvent } from "@/types/Event.ts";
+import { CreateEvent } from "@/types/EventType.ts";
 import { postEvent } from "@/services/calendarService.ts";
 
 export const useCreateEvent = () => {
