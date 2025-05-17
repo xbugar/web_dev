@@ -8,3 +8,12 @@ export type Event = {
   timeFrom: string;
   timeTo: string;
 }
+
+export type CreateEvent = {
+  title: string;
+  description?: string;
+  tags?: TagType[];
+  timeFrom: string;
+  timeTo: string;
+  repeat?: string;
+}
