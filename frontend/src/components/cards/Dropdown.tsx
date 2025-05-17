@@ -17,7 +17,7 @@ import { NoteTagDialog } from '@/components/dialogs/NoteTagDialog.tsx';
 import { NotebookTagDialog } from '@/components/dialogs/NotebookTagDialog.tsx';
 import { CreateNotebook, NotebookNoteDropdownProps } from '@/types/Notebook';
 
-export function NotebookNoteDropdown({
+export function Dropdown({
   notebookId,
   noteId,
   data,
@@ -84,58 +84,55 @@ export function NotebookNoteDropdown({
 
       {/* Edit dialogs */}
       {type === 'notebook' && (
-        <NotebookEditDialog
-          open={openEdit}
-          onOpenChange={setOpenEdit}
-          notebookId={notebookId}
-          initialData={data as CreateNotebook}
-        />
-      )}
-      {type === 'note' && (
-        <NoteEditDialog
-          open={openEdit}
-          onOpenChange={setOpenEdit}
-          noteId={noteId}
-          notebookId={notebookId}
-          initialData={data as Note}
-        />
-      )}
-
-      {/* Delete dialogs */}
-      {type === 'notebook' && (
-        <NotebookDeleteDialog
-          open={openDelete}
-          onOpenChange={setOpenDelete}
-          notebookId={notebookId}
-        />
-      )}
-      {type === 'note' && (
-        <NoteDeleteDialog
-          open={openDelete}
-          onOpenChange={setOpenDelete}
-          noteId={noteId}
-          notebookId={notebookId}
-        />
+        <>
+          <NotebookEditDialog
+            open={openEdit}
+            onOpenChange={setOpenEdit}
+            notebookId={notebookId}
+            initialData={data as CreateNotebook}
+          />
+          <NotebookDeleteDialog
+            open={openDelete}
+            onOpenChange={setOpenDelete}
+            notebookId={notebookId}
+          />
+          <NotebookTagDialog
+            open={openEditTags}
+            onOpenChange={setOpenEditTags}
+            notebookId={notebookId}
+            initialData={data as CreateNotebook}
+          />
+        </>
       )}
 
-      {/* Tag Dialog */}
-      {type === 'notebook' && (
-        <NotebookTagDialog
-          open={openEditTags}
-          onOpenChange={setOpenEditTags}
-          notebookId={notebookId}
-          initialData={data as CreateNotebook}
-        />
-      )}
       {type === 'note' && (
-        <NoteTagDialog
-          open={openEditTags}
-          onOpenChange={setOpenEditTags}
-          noteId={noteId}
-          notebookId={notebookId}
-          initialData={data as Note}
-        />
+        <>
+          <NoteEditDialog
+            open={openEdit}
+            onOpenChange={setOpenEdit}
+            noteId={noteId}
+            notebookId={notebookId}
+            initialData={data as Note}
+          />
+          <NoteDeleteDialog
+            open={openDelete}
+            onOpenChange={setOpenDelete}
+            noteId={noteId}
+            notebookId={notebookId}
+          />
+          <NoteTagDialog
+            open={openEditTags}
+            onOpenChange={setOpenEditTags}
+            noteId={noteId}
+            notebookId={notebookId}
+            initialData={data as Note}
+          />
+        </>
       )}
+
+      {/*{type === 'event' && (*/}
+      {/*  */}
+      {/*)}*/}
     </>
   );
 }
