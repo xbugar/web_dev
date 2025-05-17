@@ -75,9 +75,6 @@ export function NoteTagDialog({ open, onOpenChange, noteId, notebookId }: NoteTa
                     </div>
                   ))}
                 </div>
-                {/* shadow on the left side */}
-                {/* <div className="pointer-events-none absolute top-0 left-0 h-full w-3 bg-gradient-to-r from-white-secondary dark:from-black-secondary to-transparent"></div> */}
-                <div className="from-white-secondary dark:from-black-secondary pointer-events-none absolute top-0 right-0 h-full w-4 bg-gradient-to-l to-transparent"></div>
               </div>
             ) : (
               <p className="text-muted-foreground mb-4 text-sm italic">No tags</p>
