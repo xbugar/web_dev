@@ -84,7 +84,7 @@ export const NotebookCard = ({
         </div>
       </CardHeader>
 
-      {tags && (
+      {tags && tags.length > 0 && (
         <div className="relative mr-4">
           <div className="hide-scrollbar relative flex gap-2 overflow-x-auto pl-4">
             {tags.map((tag, index) => (
