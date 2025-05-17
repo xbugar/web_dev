@@ -66,7 +66,7 @@ export function NotebookNoteDropdown({
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
-            let link = `${window.location.origin}/notebook/${notebookId}`;
+            let link = `${window.location.origin}/notebooks/${notebookId}`;
             if (type === 'note') {
               link += `/note/${noteId}`;
             }
