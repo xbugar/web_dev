@@ -54,6 +54,7 @@ export const NotebookCard = ({
               <Dropdown
                 notebookId={id}
                 noteId={''}
+                eventId={''}
                 data={{
                   title: title,
                   description: description,

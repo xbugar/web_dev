@@ -47,6 +47,7 @@ export function NoteCard({
               <Dropdown
                 noteId={noteId}
                 notebookId={parentId}
+                eventId={''}
                 data={{
                   title: title,
                 }}

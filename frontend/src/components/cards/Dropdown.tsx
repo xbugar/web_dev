@@ -16,19 +16,23 @@ import { NoteDeleteDialog } from '@/components/dialogs/NoteDeleteDialog.tsx';
 import { NoteTagDialog } from '@/components/dialogs/NoteTagDialog.tsx';
 import { NotebookTagDialog } from '@/components/dialogs/NotebookTagDialog.tsx';
 import { CreateNotebook } from '@/types/Notebook';
+import { EventType } from "react-hook-form";
+import { EventTagDialog } from "@/components/dialogs/EventTagDialog.tsx";
 
 export type DropdownType = 'note' | 'notebook' | 'event';
 
 export interface DropdownProps {
   notebookId: string;
   noteId: string;
-  data: CreateNotebook | Note;
+  eventId: string;
+  data: CreateNotebook | Note | EventType;
   type: DropdownType;
 }
 
 export function Dropdown({
   notebookId,
   noteId,
+  eventId,
   data,
   type,
 }: DropdownProps) {
@@ -140,9 +144,15 @@ export function Dropdown({
         </>
       )}
 
-      {/*{type === 'event' && (*/}
-      {/*  */}
-      {/*)}*/}
+      {type === 'event' && (
+        <>
+          <EventTagDialog
+            open={openEditTags}
+            onOpenChange={setOpenEditTags}
+            eventId={eventId}
+          />
+        </>
+      )}
     </>
   );
 }
