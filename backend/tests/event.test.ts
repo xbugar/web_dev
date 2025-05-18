@@ -8,7 +8,7 @@ import {prisma} from "./utils/prisma";
 describe("/event", async () => {
     describe("happy path", async () => {
         let eventId: string;
-        // let tagId: string;
+        let tagId: string;
         let cookie: string;
         it('registers a user and logs him in. sends it back with 200', async () => {
 
@@ -44,7 +44,7 @@ describe("/event", async () => {
             );
             expect(status).toBe(200);
 
-            const event = await prisma.event.findFirst({
+            const event = await prisma.event.findFirstOrThrow({
                 where: {
                     id: body.eventId
                 }
@@ -72,7 +72,7 @@ describe("/event", async () => {
             );
             expect(status).toBe(200);
 
-            const event = await prisma.event.findFirst({
+            const event = await prisma.event.findFirstOrThrow({
                 where: {
                     id: body.eventId
                 }
@@ -85,17 +85,44 @@ describe("/event", async () => {
                 timeTo: event.timeTo.toISOString(),
                 repeat: "Every Day",
             });
-            // eventId = body.eventId;
+            eventId = body.eventId;
         });
 
         it(`should return 200 and get user events`, async () => {
             const url = `/event`;
             const {status, body} = await request(app).get(url).set("Cookie", cookie).send();
             expect(status).toBe(200);
-            console.log(body); //check the results
+            // console.log(body); //check the results
         });
 
+        it(`should return 200 and add tag`, async () => {
+            const url = `/event/${eventId}/tag`;
+            const {status, body} = await request(app).post(url).set("Cookie", cookie).send({
+                name: "this is a tag",
+                color: "orange"
+            });
+            expect(status).toBe(200);
+            expect(body).toMatchObject({
+                name: "this is a tag",
+                color: "orange",
+            });
+            tagId = body.id;
+        });
 
+        it(`should return 200 and remove tag`, async () => {
+            const url = `/event/${eventId}/tag/${tagId}`;
+            const {status} = await request(app).delete(url).set("Cookie", cookie).send();
 
+            expect(status).toBe(200);
+        });
+
+        it("should return 200 and get tags by date", async () => {
+            const url = `/event/date`;
+            const {status} = await request(app).get(url).set("Cookie", cookie).send({
+                date: Date.now()
+            });
+
+            expect(status).toBe(200);
+        })
     });
 });

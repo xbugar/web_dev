@@ -29,7 +29,6 @@ const createEvent = async (req: Request, res: Response) => {
 
 
 const get = async (req: Request, res: Response) => {
-    console.log("PLEASE");
     const userId = req.session.passport?.user.id;
     if (!userId) {
         return;
@@ -80,7 +79,7 @@ const addTag = async (req: Request, res: Response) => {
     const userId = req.session.passport?.user.id;
     const request = await parseRequest(eventAddTagRequestSchema, req, res);
     if (!request || !userId
-        || !await ownership.notebook(request.params.eventId, userId, res)) {
+        || !await ownership.event(request.params.eventId, userId, res)) {
         return;
     }
 
