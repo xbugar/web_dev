@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { CalendarSmall } from '@/components/calendar/CalendarSmall.tsx';
 import { Events } from '@/components/calendar/Events.tsx';
-import { Event } from '@/types/Event.ts';
+import { EventType } from '@/types/EventType.ts';
 import { ArrowRight } from 'lucide-react';
 import { useUserNotebooks } from '@/hooks/useUserNotebooks.ts';
 import { NotebookCard } from '@/components/cards/NotebookCard.tsx';
@@ -11,7 +11,7 @@ export const Route = createFileRoute('/_authentificated/home')({
   component: RouteComponent,
 });
 
-const mockEvents: Event[] = [
+const mockEvents: EventType[] = [
   {
     id: '1',
     title: 'Project Kickoff',

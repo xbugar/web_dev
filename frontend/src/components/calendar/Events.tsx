@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button.tsx";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { Event } from "@/types/Event.tsx";
+import { EventType } from "@/types/EventType.tsx";
 import { EventCard } from "@/components/cards/EventCard.tsx";
 import { format, isAfter, isBefore, isSameDay, parseISO } from "date-fns";
 
 export type EventsProps = {
-  events?: Event[];
+  events?: EventType[];
   selectedDay?: Date;
 }
 
