@@ -30,7 +30,7 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
         <Button
           variant={"form"}
           className={cn(
-            "bg-white dark:bg-black ",
+            "bg-white-secondary dark:bg-black-secondary mb-2",
             !selectedDate && "text-muted-foreground"
           )}
         >

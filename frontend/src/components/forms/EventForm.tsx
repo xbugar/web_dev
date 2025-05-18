@@ -46,8 +46,6 @@ export function EventForm({
   const timeToFromParam = initialData?.timeTo || day;
   const [timeFrom, settimeFrom] = React.useState<Date>(timeFromFromParam)
   const [timeTo, settimeTo] = React.useState<Date>(timeToFromParam)
-  // const [timeFrom, settimeFrom] = useState(initialData?.timeFrom || day);
-  // const [timeTo, settimeTo] = useState(initialData?.timeTo || day);
 
   const [repeat, setRepeat] = useState(initialData?.repeat || "Never");
   // const [allDay, setAllDay] = useState(initialData?.allDay || false);
@@ -81,14 +79,14 @@ export function EventForm({
       </div>
 
       {/* Date From */}
-      <div className="flex flex-row gap-10">
-        <Label className="text-sm">Start:</Label>
+      <div className="flex flex-row justify-between border-b border-black-text-secondary dark:border-white-text-secondary ">
+        <Label className="text-sm pb-3">Start:</Label>
         <DatePicker value={timeFrom} onChange={date => date && settimeFrom(date)} />
       </div>
 
       {/* Date To */}
-      <div className="flex flex-row gap-10">
-        <Label className="text-sm font-medium text-gray-700">End:</Label>
+      <div className="flex flex-row justify-between border-b border-black-text-secondary dark:border-white-text-secondary ">
+        <Label className="text-sm pb-3">End:</Label>
         <DatePicker value={timeTo} onChange={date => date && settimeTo(date)} />
       </div>
 
