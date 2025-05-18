@@ -67,7 +67,7 @@ const deleteEvent = async (req: Request, res: Response) => {
         return;
     }
 
-    const resp = await eventRepository.delete(request.params.eventId, userId);
+    const resp = await eventRepository.delete(userId, request.params.eventId);
     if (resp.isErr) {
         handleRepositoryErrors(resp.error, res);
         return;

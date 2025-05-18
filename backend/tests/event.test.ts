@@ -59,6 +59,7 @@ describe("/event", async () => {
             });
             eventId = body.eventId;
         });
+
         it(`should return 200 and update an event`, async () => {
             const url = `/event/${eventId}`;
             const {status, body} = await request(app).put(url).set("Cookie", cookie).send(
@@ -137,7 +138,7 @@ describe("/event", async () => {
             expect(status).toBe(200);
         });
 
-        it("should return 200 and get tags by date", async () => {
+        it("should return 200 and get events by date", async () => {
             const url = "/event/date";
             const {status} = await request(app).get(url).set("Cookie", cookie).send({
                 date: Date.now()
@@ -146,6 +147,15 @@ describe("/event", async () => {
             expect(status).toBe(200);
 
             // console.log(resp.body); // check yourself
-        })
+        });
+
+        it("should return 200 and delete event", async () => {
+            const url = `/event/${eventId}`;
+            const {status} = await request(app).delete(url).set("Cookie", cookie).send();
+
+            expect(status).toBe(200);
+
+            // console.log(resp.body); // check yourself
+        });
     });
 });
