@@ -46,7 +46,7 @@ function RouteComponent() {
   const today = new Date();
   return (
     <div className="pt-2 flex flex-col gap-2">
-      <CalendarMain />
+      <CalendarMain selectedDay={"today"}/>
       <Section title={'Events'} Icon={Plus} type="event" />
       <Events events={mockEvents} selectedDay={today} />
     </div>

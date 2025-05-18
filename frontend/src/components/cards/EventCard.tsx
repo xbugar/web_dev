@@ -7,7 +7,7 @@ import { EventCardProps } from '@/types/EventType.ts';
 import { AccentColor } from './cardColors';
 
 export const EventCard = ({
-  id,
+  eventId,
   title,
   description,
   tags,
@@ -16,8 +16,9 @@ export const EventCard = ({
   allDay,
   tillDate,
 }: EventCardProps) => {
+  console.log('eventId', eventId);
   return (
-    <Link to={`/events/$eventId`} params={{ eventId: id }}>
+    <Link to={`/events/$eventId`} params={{ eventId: eventId }}>
       <Card
         className={cn(
           'flex gap-3 overflow-hidden border-l-10 border-black p-0 pt-3 dark:border-white',

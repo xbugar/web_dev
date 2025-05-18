@@ -13,7 +13,7 @@ export const Route = createFileRoute('/_authentificated/home')({
 
 const mockEvents: EventType[] = [
   {
-    id: '1',
+    eventId: '1',
     title: 'Project Kickoff',
     description: 'Initial meeting with the team.',
     tags: [
@@ -22,22 +22,25 @@ const mockEvents: EventType[] = [
     ],
     timeFrom: '2025-06-15T10:00:00.000Z',
     timeTo: '2025-06-16T11:00:00.000Z',
+    repeat: "Never",
   },
   {
-    id: '2',
+    eventId: '2',
     title: 'Design Review',
     description: 'Review UI designs with stakeholders.',
     tags: [{ id: '3', name: 'Design', color: 'purple' }],
     timeFrom: '2025-06-16T14:00:00.000Z',
     timeTo: '2025-06-16T15:30:00.000Z',
+    repeat: "Never",
   },
   {
-    id: '3',
+    eventId: '3',
     title: 'Dev All-Day Workshop',
     description: 'Deep dive into backend architecture.',
     tags: [{ id: '4', name: 'Workshop', color: 'yellow' }],
     timeFrom: '2025-06-17T08:00:00.000Z',
     timeTo: '2025-06-18T18:00:00.000Z',
+    repeat: "Never",
   },
 ];
 
@@ -47,6 +50,13 @@ function RouteComponent() {
   return (
     <div>
       <CalendarSmall />
+
+      <div className="mt-2 flex flex-row items-center justify-between py-2 font-serif text-2xl font-bold">
+        <h2>Upcoming events</h2>
+        <Button variant="section">
+          <Link to={"/events"}><ArrowRight /></Link>
+        </Button>
+      </div>
 
       <Events events={mockEvents.slice(0, 3)} />
 

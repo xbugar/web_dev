@@ -24,7 +24,7 @@ export const EventDeleteDialog = ({
       onOpenChange={onOpenChange}
       onDelete={handleDelete}
       isPending={deleteEvent.isPending}
-      navigateTo={'/notebooks'}
+      navigateTo={'/events'}
     />
   );
 };

@@ -11,14 +11,14 @@ import { EventForm } from "@/components/forms/EventForm.tsx";
 type EventCreateDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  day: Date;
 };
 
 
-export const EventCreateDialog = ({ open, onOpenChange}: EventCreateDialogProps) => {
+export const EventCreateDialog = ({ open, onOpenChange, day}: EventCreateDialogProps) => {
   const createEvent = useCreateEvent();
 
   const handleCreate = (data: CreateEvent) => {
-    console.log(data);
     createEvent.mutate(
       { data },
       {
@@ -37,6 +37,8 @@ export const EventCreateDialog = ({ open, onOpenChange}: EventCreateDialogProps)
           onSubmit={handleCreate}
           isSubmitting={createEvent.isPending}
           submitText="Create"
+          dateFrom={day}
+          dateTo={day}
         />
       </DialogContent>
     </Dialog>

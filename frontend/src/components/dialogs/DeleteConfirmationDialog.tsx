@@ -49,7 +49,7 @@ export const DeleteConfirmationDialog = ({
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={handleDelete}>
             {isPending ? 'Deleting...' : 'Continue'}
-            {isDeleted && navigateTo && <Navigate to={'/notebooks'}/>}
+            {isDeleted && navigateTo && <Navigate to={navigateTo}/>}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

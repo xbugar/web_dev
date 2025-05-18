@@ -1,6 +1,3 @@
-import { Button } from "@/components/ui/button.tsx";
-import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { EventType } from "@/types/EventType.tsx";
 import { EventCard } from "@/components/cards/EventCard.tsx";
 import { format, isAfter, isBefore, isSameDay, parseISO } from "date-fns";
@@ -15,72 +12,54 @@ export const Events = ({
   selectedDay
 } : EventsProps) => {
   return (
-    <div>
-      {!selectedDay && (
-        <div className="mt-2 flex flex-row items-center justify-between py-2 font-serif text-2xl font-bold">
-          <h2>Upcoming events</h2>
-          <Button variant="section">
-            <Link to={"/events"}><ArrowRight /></Link>
-          </Button>
-        </div>
-      )}
+    <div className="flex flex-col gap-4">
+      {events &&
+        events.map(({ eventId, title, description, tags, timeFrom, timeTo }) => {
+          const from = parseISO(timeFrom);
+          const to = parseISO(timeTo);
 
-      <div className="flex flex-col gap-4">
-        {events &&
-          events.map(({ id, title, description, tags, timeFrom, timeTo }) => {
-            const from = parseISO(timeFrom);
-            const to = parseISO(timeTo);
+          let timeDisplay: { from?: string; to?: string; allDay?: boolean; tillDate?: string };
 
-            let timeDisplay: { from?: string; to?: string; allDay?: boolean; tillDate?: string };
-
-            if (selectedDay) {
-              console.log(format(from, "yyyy-MM-dd HH:mm"), "from")
-              console.log(format(to, "yyyy-MM-dd HH:mm"), "to")
-              const today = new Date();
-              console.log(format(today ,"yyyy-MM-dd HH:mm"), "today")
-              console.log(isSameDay(to, selectedDay));
-
-              if (isSameDay(from, to) && isSameDay(from, selectedDay)) { // single day event
-                timeDisplay = {
-                  from: format(from, 'HH:mm'),
-                  to: format(to, 'HH:mm'),
-                };
-              } else if (isSameDay(to, selectedDay)) { // ending on selected day
-                timeDisplay = {
-                  to: "Ends " + format(to, 'HH:mm'),
-                };
-              } else if (isSameDay(from, selectedDay)) { // starting on selected day
-                timeDisplay = {
-                  from: "Starts " + format(from, 'HH:mm'),
-                };
-              } else if (isBefore(from, selectedDay) && isAfter(to, selectedDay)) { // spans selected day fully
-                timeDisplay = {
-                  allDay: true,
-                };
-              } else {
-                return null;
-              }
-            } else { // all events page
+          if (selectedDay) {
+            if (isSameDay(from, to) && isSameDay(from, selectedDay)) { // single day event
               timeDisplay = {
-                from: format(from, "eee, MMMM d, yyyy HH:mm"),
-                to: format(to, "eee, MMMM d, yyyy HH:mm"),
-                tillDate: format(from, "eee, MMMM d, yyyy HH:mm")
+                from: format(from, 'HH:mm'),
+                to: format(to, 'HH:mm'),
               };
+            } else if (isSameDay(to, selectedDay)) { // ending on selected day
+              timeDisplay = {
+                to: "Ends " + format(to, 'HH:mm'),
+              };
+            } else if (isSameDay(from, selectedDay)) { // starting on selected day
+              timeDisplay = {
+                from: "Starts " + format(from, 'HH:mm'),
+              };
+            } else if (isBefore(from, selectedDay) && isAfter(to, selectedDay)) { // spans selected day fully
+              timeDisplay = {
+                allDay: true,
+              };
+            } else {
+              return null;
             }
+          } else { // all events page
+            timeDisplay = {
+              from: format(from, "eee, MMMM d, yyyy HH:mm"),
+              to: format(to, "eee, MMMM d, yyyy HH:mm"),
+              tillDate: format(from, "eee, MMMM d, yyyy HH:mm")
+            };
+          }
 
-            return (
-              <EventCard
-                key={id}
-                id={id}
-                title={title}
-                description={description}
-                tags={tags}
-                {...timeDisplay}
-              />
-            );
-          })}
-      </div>
-
+          return (
+            <EventCard
+              key={eventId}
+              eventId={eventId}
+              title={title}
+              description={description}
+              tags={tags}
+              {...timeDisplay}
+            />
+          );
+        })}
     </div>
   )
 }

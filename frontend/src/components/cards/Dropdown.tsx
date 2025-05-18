@@ -16,8 +16,10 @@ import { NoteDeleteDialog } from '@/components/dialogs/NoteDeleteDialog.tsx';
 import { NoteTagDialog } from '@/components/dialogs/NoteTagDialog.tsx';
 import { NotebookTagDialog } from '@/components/dialogs/NotebookTagDialog.tsx';
 import { CreateNotebook } from '@/types/Notebook';
-import { EventType } from "react-hook-form";
+import { EventType } from "@/types/EventType.ts";
 import { EventTagDialog } from "@/components/dialogs/EventTagDialog.tsx";
+import { EventEditDialog } from "@/components/dialogs/EventEditDialog.tsx";
+import { EventDeleteDialog } from "@/components/dialogs/EventDeleteDialog.tsx";
 
 export type DropdownType = 'note' | 'notebook' | 'event';
 
@@ -64,6 +66,11 @@ export function Dropdown({
           {type === 'note' && (
             <DropdownMenuItem onClick={() => setOpenEdit(true)}>
               <Pencil /> Rename
+            </DropdownMenuItem>
+          )}
+          {type === 'event' && (
+            <DropdownMenuItem onClick={() => setOpenEdit(true)}>
+              <Pencil /> Edit event
             </DropdownMenuItem>
           )}
           <DropdownMenuItem onClick={() => setOpenEditTags(true)}>
@@ -146,6 +153,8 @@ export function Dropdown({
 
       {type === 'event' && (
         <>
+          <EventEditDialog open={openEdit} onOpenChange={setOpenEdit} eventId={eventId} initialData={data as EventType}/>
+          <EventDeleteDialog open={openDelete} onOpenChange={setOpenDelete} eventId={eventId}></EventDeleteDialog>
           <EventTagDialog
             open={openEditTags}
             onOpenChange={setOpenEditTags}

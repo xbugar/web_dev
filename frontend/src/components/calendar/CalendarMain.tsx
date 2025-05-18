@@ -5,9 +5,9 @@ import { useNavigate } from "@tanstack/react-router"
 import { Calendar } from "@/components/ui/calendar"
 import { format, isToday, parseISO } from "date-fns";
 
-export function CalendarMain({ selectedDay }: { selectedDay?: string }) {
-  // const selectedFromParam = selectedDay ? parseISO(selectedDay) : new Date()
-  const selectedFromParam = selectedDay === "today" ? new Date()  : selectedDay ? parseISO(selectedDay) : new Date();
+export function CalendarMain({ selectedDay }: { selectedDay: string }) {
+  const selectedFromParam = selectedDay === "today" ? new Date()  : parseISO(selectedDay);
+
   const [date, setDate] = React.useState<Date | undefined>(selectedFromParam)
   const navigate = useNavigate()
 

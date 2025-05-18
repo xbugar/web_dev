@@ -3,14 +3,12 @@ import { Button } from '@/components/ui/button.tsx';
 import { useState } from 'react';
 import { NotebookCreateDialog } from '@/components/dialogs/NotebookCreateDialog.tsx';
 import { NoteCreateDialog } from '@/components/dialogs/NoteCreateDialog.tsx';
-import { EventCreateDialog } from "@/components/dialogs/EventCreateDialog.tsx";
-
 
 type SectionProps = {
   title: string;
   Icon?: LucideIcon;
   id?: string;
-  type: 'notebook' | 'note' | 'event';
+  type: 'notebook' | 'note';
 };
 
 export function Section({ title, Icon, id, type }: SectionProps) {
@@ -36,7 +34,6 @@ export function Section({ title, Icon, id, type }: SectionProps) {
         <NoteCreateDialog open={open} onOpenChange={setOpen} notebookId={id} />
       )}
 
-      {type === 'event' && <EventCreateDialog open={open} onOpenChange={setOpen} />}
     </>
   );
 }

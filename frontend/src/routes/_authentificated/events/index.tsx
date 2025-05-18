@@ -1,14 +1,29 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useAllEvents } from "@/hooks/useAllEvents.ts";
+import { Plus } from "lucide-react";
+import { Events } from "@/components/calendar/Events.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import { EventCreateDialog } from "@/components/dialogs/EventCreateDialog.tsx";
+import { useState } from "react";
 
 export const Route = createFileRoute('/_authentificated/events/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return (
-    <div className="mt-2 flex flex-row items-center justify-between py-2 font-serif text-2xl font-bold">
-      <h2>My events</h2>
-    </div>
+  const { data: events } = useAllEvents();
+  const [open, setOpen] = useState(false);
 
+  return (
+    <div>
+      <div className="mt-2 flex flex-row items-center justify-between py-2 font-serif text-2xl font-bold">
+        <h2>Events</h2>
+        <Button variant="section" onClick={() => setOpen(true)}>
+          <Plus />
+        </Button>
+      </div>
+      <EventCreateDialog open={open} onOpenChange={setOpen} day={new Date()} />
+      <Events events={events} />
+    </div>
   )
 }

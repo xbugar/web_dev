@@ -1,9 +1,10 @@
 import { api } from "@/services/index.ts";
-import { CreateEvent } from "@/types/Event.ts";
+import { CreateEvent, EventType } from "@/types/EventType.ts";
+import { CreateTag, TagType } from "@/types/TagType.ts";
 
 
-export const getUserEvents = async(): Promise<Event[]> => {
-  return api.get(`/event`).then(response => response.data as Event[]);
+export const getUserEvents = async(): Promise<CreateEvent[]> => {
+  return api.get(`/event`).then(response => response.data as CreateEvent[]);
 }
 
 export const postEvent = async(createEvent: CreateEvent): Promise<Event> => {

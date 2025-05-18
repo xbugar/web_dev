@@ -9,7 +9,7 @@ export const useCreateEvent = () => {
     mutationFn: async ({ data }: { data: CreateEvent }) => {
       return postEvent(data);
     },
-    onError: async () => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({queryKey: ['events']})
     }
   })

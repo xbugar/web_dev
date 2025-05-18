@@ -1,12 +1,10 @@
 import { Input } from '@/components/ui/input.tsx';
-
 import { Label } from '@/components/ui/label.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { useState } from 'react';
 import { DialogClose, DialogFooter } from '../ui/dialog';
 import * as React from "react";
 import { DatePicker } from "@/components/calendar/DatePicker.tsx"
-// import { Switch } from "@/components/ui/switch.tsx"
 import { Select, SelectTrigger,SelectContent, SelectItem, SelectValue } from "@/components/ui/select.tsx"
 
 
@@ -14,11 +12,14 @@ type EventFormProps = {
   initialData?: {
     title: string;
     description?: string;
-    timeFrom?: Date;
-    timeTo?: Date;
+    timeFrom: string;
+    timeTo: string;
     repeat?: string;
     // allDay?: boolean;
   };
+
+  dateFrom: Date;
+  dateTo: Date;
 
   onSubmit: (data: {
     title: string;
@@ -34,18 +35,19 @@ type EventFormProps = {
 
 export function EventForm({
                                    initialData,
+                                   dateFrom,
+                                   dateTo,
                                    onSubmit,
                                    isSubmitting,
                                    submitText,
                                  }: EventFormProps) {
-  const day = new Date();
+
+
   const [title, setTitle] = useState(initialData?.title || '');
   const [description, setDescription] = useState(initialData?.description || '');
 
-  const timeFromFromParam = initialData?.timeFrom || day;
-  const timeToFromParam = initialData?.timeTo || day;
-  const [timeFrom, settimeFrom] = React.useState<Date>(timeFromFromParam)
-  const [timeTo, settimeTo] = React.useState<Date>(timeToFromParam)
+  const [timeFrom, settimeFrom] = React.useState<Date>(dateFrom)
+  const [timeTo, settimeTo] = React.useState<Date>(dateTo)
 
   const [repeat, setRepeat] = useState(initialData?.repeat || "Never");
   // const [allDay, setAllDay] = useState(initialData?.allDay || false);
