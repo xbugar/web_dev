@@ -1,7 +1,7 @@
 ﻿import {
     eventAddTagRequestSchema,
     eventCreateSchema, eventDeleteSchema,
-    eventDeleteTagRequestSchema, eventGetByDateSchema,
+    eventDeleteTagRequestSchema, eventGetByDateSchema, eventGetByIdSchema,
     eventUpdateSchema
 } from "./validationSchemas";
 import {handleRepositoryErrors, parseRequest} from "../utils";
@@ -35,6 +35,22 @@ const get = async (req: Request, res: Response) => {
     }
 
     const event = await eventRepository.get(userId);
+    if (event.isErr) {
+        handleRepositoryErrors(event.error, res);
+        return;
+    }
+
+    res.status(200).send(event.unwrap());
+}
+
+const getById = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
+    const request = await parseRequest(eventGetByIdSchema, req, res);
+    if (!userId || !request) {
+        return;
+    }
+
+    const event = await eventRepository.getById(userId, request.params.eventId);
     if (event.isErr) {
         handleRepositoryErrors(event.error, res);
         return;
@@ -114,7 +130,7 @@ const removeTag = async (req: Request, res: Response) => {
     res.status(200).send();
 }
 
-const getDate = async (req: Request, res: Response) => {
+const getByDate = async (req: Request, res: Response) => {
     const userId = req.session.passport?.user.id;
     const request = await parseRequest(eventGetByDateSchema, req, res);
     if (!userId || !request) {
@@ -138,7 +154,8 @@ export const eventController = {
     deleteEvent,
     get,
     createEvent,
-    getDate,
+    getByDate,
+    getById
 };
 
 

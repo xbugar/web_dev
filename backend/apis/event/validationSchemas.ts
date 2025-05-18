@@ -55,7 +55,7 @@ export const eventDeleteTagRequestSchema = z.object({
 
 export const eventGetByDateSchema = z.object({
     body: z.object({
-        date: z.date(),
+        date: z.coerce.date(),
     })
 });
 

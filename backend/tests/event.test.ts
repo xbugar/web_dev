@@ -88,6 +88,27 @@ describe("/event", async () => {
             eventId = body.eventId;
         });
 
+        it(`should return 200 and get an event`, async () => {
+            const url = `/event/${eventId}`;
+            const {status, body} = await request(app).get(url).set("Cookie", cookie).send();
+            expect(status).toBe(200);
+
+            const event = await prisma.event.findFirstOrThrow({
+                where: {
+                    id: body.eventId
+                }
+            });
+            expect(body).toMatchObject({
+                eventId: event.id,
+                title: event.title,
+                description: event.description,
+                timeFrom: event.timeFrom.toISOString(),
+                timeTo: event.timeTo.toISOString(),
+                repeat: "Every Day",
+            });
+            eventId = body.eventId;
+        });
+
         it(`should return 200 and get user events`, async () => {
             const url = `/event`;
             const {status, body} = await request(app).get(url).set("Cookie", cookie).send();
@@ -117,12 +138,14 @@ describe("/event", async () => {
         });
 
         it("should return 200 and get tags by date", async () => {
-            const url = `/event/date`;
+            const url = "/event/date";
             const {status} = await request(app).get(url).set("Cookie", cookie).send({
                 date: Date.now()
             });
 
             expect(status).toBe(200);
+
+            // console.log(resp.body); // check yourself
         })
     });
 });

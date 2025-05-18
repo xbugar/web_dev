@@ -105,7 +105,7 @@ export const eventRepository = {
             .catch(error => repackageToNotFoundError(error));
     },
 
-    async getById(userId: string, event: EventUpdateRequest): Promise<Result<EventResponse, Error>> {
+    async getById(userId: string, eventId: string): Promise<Result<EventResponse, Error>> {
         return await prisma.event.findUniqueOrThrow({
             select: {
                 id: true,
@@ -119,7 +119,7 @@ export const eventRepository = {
             },
             where: {
                 userId: userId,
-                id: event.params.eventId,
+                id: eventId,
             },
         }).then(event => Result.ok({
             eventId: event.id,
