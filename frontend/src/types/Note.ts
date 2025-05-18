@@ -18,6 +18,7 @@ export type NoteCardProps = {
   lastUpdated: string;
   content: string;
   tags?: { name: string; color: string }[];
+  isLinked?: boolean;
 };
 
 export type CreateNote = {

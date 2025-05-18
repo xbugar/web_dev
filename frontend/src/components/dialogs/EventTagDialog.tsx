@@ -6,31 +6,29 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { CreateTag } from '@/types/TagType.ts';
-import { useNoteMetaData } from '@/hooks/useNoteMetaData.ts';
-import { useCreateTagNote } from '@/hooks/useCreateTagNote.ts';
 import { Tag } from '@/components/cards/Tag.tsx';
-import { Note } from '@/types/Note.ts';
 import { TagForm } from '@/components/forms/TagForm.tsx';
 import { useState } from 'react';
 import { useAllTags } from '@/hooks/useAllTags.ts';
 import { AccentColor } from '../cards/cardColors';
-import { useDeleteTagFromNote } from "@/hooks/useDeleteTagFromNote.ts";
 import { DeleteConfirmationDialog } from "@/components/dialogs/DeleteConfirmationDialog.tsx";
+import { useCreateTagEvent } from "@/hooks/useCreateTagEvent.ts";
+import { useDeleteTagFromEvent } from "@/hooks/useDeleteTagFromEvent.ts";
+import { useGetEventById } from "@/hooks/useGetEventById.ts";
+import { EventType } from "@/types/EventType.ts";
 
-interface NoteTagDialogProps {
+interface EventTagDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  noteId: string;
-  notebookId: string;
-  initialData: Note;
+  eventId: string;
 }
 
-export function NoteTagDialog({ open, onOpenChange, noteId, notebookId }: NoteTagDialogProps) {
-  const createTag = useCreateTagNote(notebookId);
-  const deleteTag = useDeleteTagFromNote({ notebookId });
-  const noteMetaData = useNoteMetaData(noteId);
+export function EventTagDialog({ open, onOpenChange, eventId }: EventTagDialogProps) {
+  const createTag = useCreateTagEvent();
+  const deleteTag = useDeleteTagFromEvent();
   const allTags = useAllTags();
-  const noteData: Note = noteMetaData.data as Note;
+  const eventPromise = useGetEventById(eventId);
+  const eventData: EventType = eventPromise.data as EventType;
 
   const [openDeleteTag, setOpenDeleteTag] = useState(false);
   const [deleteTagId, setDeleteTagId] = useState<string>('');
@@ -41,14 +39,14 @@ export function NoteTagDialog({ open, onOpenChange, noteId, notebookId }: NoteTa
     }
 
     try {
-      createTag.mutate({ noteId, data });
+      createTag.mutate({ eventId, data });
     } catch (err) {
       console.error('Error while creating a tag:', err);
     }
   };
 
   const handleDelete = () => {
-    deleteTag.mutate({noteId, tagId : deleteTagId});
+    deleteTag.mutate({eventId, tagId : deleteTagId});
   };
 
   return (
@@ -60,10 +58,10 @@ export function NoteTagDialog({ open, onOpenChange, noteId, notebookId }: NoteTa
             <DialogDescription></DialogDescription>
           </DialogHeader>
           <div>
-            {noteData && noteData.tags && noteData.tags.length > 0 ? (
+            {eventData && eventData.tags && eventData.tags.length > 0 ? (
               <div className="hide-scrollbar mb-4 max-h-24 overflow-y-auto">
                 <div className="flex flex-wrap justify-center gap-2">
-                  {noteData.tags.map((tag, index) => (
+                  {eventData.tags.map((tag, index) => (
                     <div key={index} className="relative">
                       <div
                         onClick={() => {

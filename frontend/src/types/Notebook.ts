@@ -1,5 +1,4 @@
 import { TagType } from '@/types/TagType.ts';
-import { Note } from './Note';
 
 export type Notebook = {
   id: string;
@@ -33,12 +32,3 @@ export type NotebookCardProps = {
   tags?: { name: string; color: string }[];
   isLinked?: boolean;
 };
-
-export type DropdownType = 'note' | 'notebook';
-
-export interface NotebookNoteDropdownProps {
-  notebookId: string;
-  noteId: string;
-  data: CreateNotebook | Note;
-  type: DropdownType;
-}

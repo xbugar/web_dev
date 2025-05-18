@@ -1,21 +1,21 @@
-import { useDeleteNotebook } from '@/hooks/useDeleteNotebook.ts';
 import { DeleteConfirmationDialog } from "@/components/dialogs/DeleteConfirmationDialog.tsx";
+import { useDeleteEvent } from "@/hooks/useDeleteEvent.ts";
 
-type NotebookDeleteDialogProps = {
+type EventDeleteDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  notebookId: string;
+  eventId: string;
 };
 
-export const NotebookDeleteDialog = ({
+export const EventDeleteDialog = ({
                                        open,
                                        onOpenChange,
-                                       notebookId,
-                                     }: NotebookDeleteDialogProps) => {
-  const deleteNotebook = useDeleteNotebook();
+                                       eventId,
+                                     }: EventDeleteDialogProps ) => {
+  const deleteEvent = useDeleteEvent({eventId});
 
   const handleDelete = () => {
-    deleteNotebook.mutate(notebookId);
+    deleteEvent.mutate({eventId});
   };
 
   return (
@@ -23,7 +23,7 @@ export const NotebookDeleteDialog = ({
       open={open}
       onOpenChange={onOpenChange}
       onDelete={handleDelete}
-      isPending={deleteNotebook.isPending}
+      isPending={deleteEvent.isPending}
       navigateTo={'/notebooks'}
     />
   );

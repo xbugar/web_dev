@@ -6,7 +6,7 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu.tsx';
 
-import { Ellipsis, Pencil, Trash2, Copy, Tag, Star } from 'lucide-react';
+import { Ellipsis, Pencil, Trash2, Copy, Tag } from 'lucide-react';
 import { useState } from 'react';
 import { NotebookEditDialog } from '@/components/dialogs/NotebookEditDialog.tsx';
 import { NoteEditDialog } from '@/components/dialogs/NoteEditDialog.tsx';
@@ -15,14 +15,27 @@ import { NotebookDeleteDialog } from '@/components/dialogs/NotebookDeleteDialog.
 import { NoteDeleteDialog } from '@/components/dialogs/NoteDeleteDialog.tsx';
 import { NoteTagDialog } from '@/components/dialogs/NoteTagDialog.tsx';
 import { NotebookTagDialog } from '@/components/dialogs/NotebookTagDialog.tsx';
-import { NotebookNoteDropdownProps } from '@/types/Notebook';
+import { CreateNotebook } from '@/types/Notebook';
+import { EventType } from "react-hook-form";
+import { EventTagDialog } from "@/components/dialogs/EventTagDialog.tsx";
 
-export function NotebookNoteDropdown({
+export type DropdownType = 'note' | 'notebook' | 'event';
+
+export interface DropdownProps {
+  notebookId: string;
+  noteId: string;
+  eventId: string;
+  data: CreateNotebook | Note | EventType;
+  type: DropdownType;
+}
+
+export function Dropdown({
   notebookId,
   noteId,
+  eventId,
   data,
   type,
-}: NotebookNoteDropdownProps) {
+}: DropdownProps) {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openEditTags, setOpenEditTags] = useState(false);
@@ -37,11 +50,11 @@ export function NotebookNoteDropdown({
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className="bg-white-secondary dark:bg-black-secondary m-2 text-xs">
-          <DropdownMenuItem>
+          {/* <DropdownMenuItem>
             <Star className="text-text-lm-secondary dark:text-text-dm-secondary" />
             Add to favourites
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
+          <DropdownMenuSeparator /> */}
 
           {type === 'notebook' && (
             <DropdownMenuItem onClick={() => setOpenEdit(true)}>
@@ -82,57 +95,63 @@ export function NotebookNoteDropdown({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* Edit dialogs */}
+      {/* Notebook dialogs */}
       {type === 'notebook' && (
-        <NotebookEditDialog
-          open={openEdit}
-          onOpenChange={setOpenEdit}
-          notebookId={notebookId}
-          initialData={data}
-        />
-      )}
-      {type === 'note' && (
-        <NoteEditDialog
-          open={openEdit}
-          onOpenChange={setOpenEdit}
-          noteId={noteId}
-          notebookId={notebookId}
-          initialData={data as Note}
-        />
+        <>
+          <NotebookEditDialog
+            open={openEdit}
+            onOpenChange={setOpenEdit}
+            notebookId={notebookId}
+            initialData={data as CreateNotebook}
+          />
+          <NotebookDeleteDialog
+            open={openDelete}
+            onOpenChange={setOpenDelete}
+            notebookId={notebookId}
+          />
+          <NotebookTagDialog
+            open={openEditTags}
+            onOpenChange={setOpenEditTags}
+            notebookId={notebookId}
+            initialData={data as CreateNotebook}
+          />
+        </>
       )}
 
-      {/* Delete dialogs */}
-      {type === 'notebook' && (
-        <NotebookDeleteDialog
-          open={openDelete}
-          onOpenChange={setOpenDelete}
-          notebookId={notebookId}
-        />
-      )}
+      {/* Note dialogs */}
       {type === 'note' && (
-        <NoteDeleteDialog
-          open={openDelete}
-          onOpenChange={setOpenDelete}
-          noteId={noteId}
-          notebookId={notebookId}
-        />
+        <>
+          <NoteEditDialog
+            open={openEdit}
+            onOpenChange={setOpenEdit}
+            noteId={noteId}
+            notebookId={notebookId}
+            initialData={data as Note}
+          />
+          <NoteDeleteDialog
+            open={openDelete}
+            onOpenChange={setOpenDelete}
+            noteId={noteId}
+            notebookId={notebookId}
+          />
+          <NoteTagDialog
+            open={openEditTags}
+            onOpenChange={setOpenEditTags}
+            noteId={noteId}
+            notebookId={notebookId}
+            initialData={data as Note}
+          />
+        </>
       )}
 
-      {/* Tag Dialog */}
-      {type === 'notebook' && (
-        <NotebookTagDialog
-          open={openEditTags}
-          onOpenChange={setOpenEditTags}
-          notebookId={notebookId}
-        />
-      )}
-      {type === 'note' && (
-        <NoteTagDialog
-          open={openEditTags}
-          onOpenChange={setOpenEditTags}
-          noteId={noteId}
-          notebookId={notebookId}
-        />
+      {type === 'event' && (
+        <>
+          <EventTagDialog
+            open={openEditTags}
+            onOpenChange={setOpenEditTags}
+            eventId={eventId}
+          />
+        </>
       )}
     </>
   );
