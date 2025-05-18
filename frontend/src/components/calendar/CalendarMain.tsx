@@ -23,11 +23,11 @@ export function CalendarMain({ selectedDay }: { selectedDay: string }) {
   }
 
   return (
-    <Calendar
-      mode="single"
-      selected={date}
-      onSelect={handleSelect}
-      className="rounded-md border pt-2 pb-2"
-    />
+      <Calendar
+        mode="single"
+        selected={date}
+        onSelect={handleSelect}
+        className="rounded-md border pt-2 pb-2"
+      />
   )
 }

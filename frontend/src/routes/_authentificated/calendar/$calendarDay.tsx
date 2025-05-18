@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { useState } from "react";
 import { EventCreateDialog } from "@/components/dialogs/EventCreateDialog.tsx";
 
+
 export const Route = createFileRoute('/_authentificated/calendar/$calendarDay')(
   {
     component: RouteComponent,
@@ -20,6 +21,7 @@ function RouteComponent() {
   const { data: events } = useAllEvents();
   const [open, setOpen] = useState(false);
 
+
   return (
     <div>
       <CalendarMain selectedDay={calendarDay} />
@@ -30,7 +32,7 @@ function RouteComponent() {
       </Button>
     </div>
       <EventCreateDialog open={open} onOpenChange={setOpen} day={dayToPass} />
-      <Events selectedDay={new Date(calendarDay)} events={events} />
+      <Events selectedDay={new Date(dayToPass)} events={events} />
     </div>
   )
 }

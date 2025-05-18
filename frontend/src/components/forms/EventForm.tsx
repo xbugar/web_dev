@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button.tsx';
 import { useState } from 'react';
 import { DialogClose, DialogFooter } from '../ui/dialog';
 import * as React from "react";
-import { DatePicker } from "@/components/calendar/DatePicker.tsx"
 import { Select, SelectTrigger,SelectContent, SelectItem, SelectValue } from "@/components/ui/select.tsx"
+import { DateTimePicker } from "@/components/calendar/DateTimePicker.tsx";
 
 
 type EventFormProps = {
@@ -83,13 +83,13 @@ export function EventForm({
       {/* Date From */}
       <div className="flex flex-row justify-between border-b border-black-text-secondary dark:border-white-text-secondary ">
         <Label className="text-sm pb-3">Start:</Label>
-        <DatePicker value={timeFrom} onChange={date => date && settimeFrom(date)} />
+        <DateTimePicker date={timeFrom} setDate={date => date && settimeFrom(date)}></DateTimePicker>
       </div>
 
       {/* Date To */}
       <div className="flex flex-row justify-between border-b border-black-text-secondary dark:border-white-text-secondary ">
         <Label className="text-sm pb-3">End:</Label>
-        <DatePicker value={timeTo} onChange={date => date && settimeTo(date)} />
+        <DateTimePicker date={timeTo} setDate={date => date && settimeTo(date)}></DateTimePicker>
       </div>
 
       {/*<div className="flex items-center space-x-2">*/}

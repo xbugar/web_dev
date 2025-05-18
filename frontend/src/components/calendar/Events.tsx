@@ -11,6 +11,7 @@ export const Events = ({
   events,
   selectedDay
 } : EventsProps) => {
+  console.log(selectedDay);
   return (
     <div className="flex flex-col gap-4">
       {events &&
