@@ -112,9 +112,9 @@ export function EventForm({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="Never">Never</SelectItem>
-            <SelectItem value="Daily">Daily</SelectItem>
-            <SelectItem value="Weekly">Weekly</SelectItem>
-            <SelectItem value="Monthly">Monthly</SelectItem>
+            <SelectItem value="Every Day">Every Day</SelectItem>
+            <SelectItem value="Every Week">Every Week</SelectItem>
+            <SelectItem value="Every Month">Every Month</SelectItem>
           </SelectContent>
         </Select>
       </div>

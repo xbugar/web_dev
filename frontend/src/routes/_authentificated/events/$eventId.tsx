@@ -2,6 +2,8 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Dropdown } from "@/components/cards/Dropdown.tsx";
 import { useGetEventById } from "@/hooks/useGetEventById.ts";
 import { format } from "date-fns";
+import { Tag } from "@/components/cards/Tag.tsx";
+import { AccentColor } from "@/components/cards/cardColors.ts";
 
 export const Route = createFileRoute('/_authentificated/events/$eventId')({
   component: RouteComponent,
@@ -64,6 +66,13 @@ function RouteComponent() {
                 <div>
                   From {format(new Date(event.timeFrom), "HH:mm EEE, dd MMM yyyy")} <br />
                   To {format(new Date(event.timeTo), "HH:mm EEE, dd MMM yyyy")}
+                </div>
+                <div>
+                    <div className="flex pt-3 gap-2">
+                      {event.tags.map((tag, index) => (
+                        <Tag name={tag.name} color={tag.color as AccentColor} key={index}></Tag>
+                      ))}
+                    </div>
                 </div>
                 <div className="mt-5 border-t-2">
                   <h3> Description </h3>

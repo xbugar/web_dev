@@ -11,7 +11,7 @@ export const useDeleteEvent = ({ eventId }: { eventId: string}) => {
   },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['events', eventId]});
-      // queryClient.invalidateQueries({ queryKey: ['events', eventId]});
+      queryClient.invalidateQueries({ queryKey: ['events'] });
     }
 
   })
