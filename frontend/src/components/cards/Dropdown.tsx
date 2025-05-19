@@ -78,10 +78,16 @@ export function Dropdown({
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
-              let link = `${window.location.origin}/notebooks/${notebookId}`;
-              if (type === 'note') {
-                link += `/note/${noteId}`;
+              let link = '';
+              if (type == 'event') {
+                link = `${window.location.origin}/events/${eventId}`;
+              } else {
+                link = `${window.location.origin}/notebooks/${notebookId}`;
+                if (type === 'note') {
+                  link += `/note/${noteId}`;
+                }
               }
+
               navigator.clipboard
                 .writeText(link)
                 .then(() => {
