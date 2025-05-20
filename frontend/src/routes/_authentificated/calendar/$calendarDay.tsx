@@ -17,6 +17,9 @@ export const Route = createFileRoute('/_authentificated/calendar/$calendarDay')(
 function RouteComponent() {
   const calendarDay = Route.useParams().calendarDay;
   const dayToPass = calendarDay === "today" ? new Date() : new Date(calendarDay);
+  const now = new Date();
+  dayToPass.setHours(now.getHours());
+  dayToPass.setMinutes(0);
 
   const { data: events } = useAllEvents();
   const [open, setOpen] = useState(false);
@@ -32,7 +35,7 @@ function RouteComponent() {
       </Button>
     </div>
       <EventCreateDialog open={open} onOpenChange={setOpen} day={dayToPass} />
-      <Events selectedDay={new Date(dayToPass)} events={events} />
+      <Events selectedDay={dayToPass} events={events} />
     </div>
   )
 }

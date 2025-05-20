@@ -89,7 +89,7 @@ export function EventForm({
       {/* Date To */}
       <div className="flex flex-row justify-between border-b border-black-text-secondary dark:border-white-text-secondary ">
         <Label className="text-sm pb-3">End:</Label>
-        <DateTimePicker date={timeTo} setDate={date => date && settimeTo(date)}></DateTimePicker>
+        <DateTimePicker dateFrom={timeFrom} date={timeTo} setDate={date => date && settimeTo(date)}></DateTimePicker>
       </div>
 
       {/*<div className="flex items-center space-x-2">*/}

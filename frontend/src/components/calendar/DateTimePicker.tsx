@@ -1,16 +1,17 @@
 import * as React from "react"
-import { format } from "date-fns"
+import { format, startOfDay } from "date-fns"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/forms/Popover"
 import { cn } from "@/lib/utils.ts";
 
 type DateTimePickerProps = {
-  date: Date | undefined
+  date: Date
   setDate: (date: Date | undefined) => void
+  dateFrom?: Date
 }
 
-export function DateTimePicker({ date, setDate }: DateTimePickerProps) {
+export function DateTimePicker({ dateFrom, date, setDate }: DateTimePickerProps) {
   const formattedDate = date ? format(date, "PPP") : "Pick a date"
   const timeValue = date ? date.toTimeString().slice(0, 5) : ""
 
@@ -28,6 +29,7 @@ export function DateTimePicker({ date, setDate }: DateTimePickerProps) {
 
   function handleTimeChange(e: React.ChangeEvent<HTMLInputElement>) {
     const time = e.target.value
+    console.log(time)
     if (!time) return
 
     const [hours, minutes] = time.split(":").map(Number)
@@ -41,6 +43,7 @@ export function DateTimePicker({ date, setDate }: DateTimePickerProps) {
       setDate(updated)
     }
   }
+
 
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -56,7 +59,7 @@ export function DateTimePicker({ date, setDate }: DateTimePickerProps) {
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
-          <Calendar mode="single" selected={date} onSelect={handleDateSelect} required />
+          <Calendar mode="single" selected={date} onSelect={handleDateSelect} required disabled={(day) => dateFrom ? startOfDay(day) < startOfDay(dateFrom) : false } />
         </PopoverContent>
       </Popover>
 

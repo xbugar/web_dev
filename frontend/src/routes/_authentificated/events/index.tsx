@@ -14,6 +14,9 @@ function RouteComponent() {
   const { data: events } = useAllEvents();
   const [open, setOpen] = useState(false);
 
+  const day = new Date();
+  day.setMinutes(0);
+
   return (
     <div>
       <div className="mt-2 flex flex-row items-center justify-between py-2 font-serif text-2xl font-bold">
@@ -22,7 +25,7 @@ function RouteComponent() {
           <Plus />
         </Button>
       </div>
-      <EventCreateDialog open={open} onOpenChange={setOpen} day={new Date()} />
+      <EventCreateDialog open={open} onOpenChange={setOpen} day={day} />
       <Events events={events} />
     </div>
   )
