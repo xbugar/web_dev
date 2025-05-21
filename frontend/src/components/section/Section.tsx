@@ -33,6 +33,7 @@ export function Section({ title, Icon, id, type }: SectionProps) {
       {type === 'note' && id && (
         <NoteCreateDialog open={open} onOpenChange={setOpen} notebookId={id} />
       )}
+
     </>
   );
 }

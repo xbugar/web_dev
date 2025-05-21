@@ -25,6 +25,7 @@ const buttonVariants = cva(
           'bg-transparent text-black dark:text-white text-center min-h-12 font-serif text-md w-full',
         submitAlternative: 'bg-white text-black text-center min-h-12 font-serif text-md w-full',
         section: '[&_svg]:h-6 [&_svg]:w-6 text-black dark:text-white p-2 bg-transparent',
+        form: 'rounded p-2'
       },
       // size: {
       //   default: "h-9 px-4 py-2 has-[>svg]:px-3",

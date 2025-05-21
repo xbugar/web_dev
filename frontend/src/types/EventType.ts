@@ -1,12 +1,13 @@
 import { TagType } from "@/types/TagType.ts";
 
-export type Event = {
-  id: string;
+export type EventType = {
+  eventId: string;
   title: string;
-  description?: string;
-  tags?: TagType[];
+  description: string;
+  tags: TagType[];
   timeFrom: string;
   timeTo: string;
+  repeat: string;
 }
 
 export type CreateEvent = {
@@ -18,8 +19,9 @@ export type CreateEvent = {
   repeat?: string;
 }
 
+
 export type EventCardProps = {
-  id: string;
+  eventId: string;
   title: string;
   description?: string;
   tags?: TagType[];

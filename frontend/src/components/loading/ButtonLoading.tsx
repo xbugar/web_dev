@@ -18,6 +18,7 @@ const variantToBgClass: Record<NonNullable<ButtonVariant>, string> = {
   secondary: 'bg-red-600',
   ghost: 'bg-red-600',
   navigation: 'bg-red-600',
+  form: 'bg-red-600',
 };
 
 export function ButtonLoading({ variant }: { variant?: ButtonVariant }) {

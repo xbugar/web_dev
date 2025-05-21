@@ -15,14 +15,29 @@ import { NotebookDeleteDialog } from '@/components/dialogs/NotebookDeleteDialog.
 import { NoteDeleteDialog } from '@/components/dialogs/NoteDeleteDialog.tsx';
 import { NoteTagDialog } from '@/components/dialogs/NoteTagDialog.tsx';
 import { NotebookTagDialog } from '@/components/dialogs/NotebookTagDialog.tsx';
-import { CreateNotebook, NotebookNoteDropdownProps } from '@/types/Notebook';
+import { CreateNotebook } from '@/types/Notebook';
+import { EventType } from "@/types/EventType.ts";
+import { EventTagDialog } from "@/components/dialogs/EventTagDialog.tsx";
+import { EventEditDialog } from "@/components/dialogs/EventEditDialog.tsx";
+import { EventDeleteDialog } from "@/components/dialogs/EventDeleteDialog.tsx";
 
-export function NotebookNoteDropdown({
+export type DropdownType = 'note' | 'notebook' | 'event';
+
+export interface DropdownProps {
+  notebookId: string;
+  noteId: string;
+  eventId: string;
+  data: CreateNotebook | Note | EventType;
+  type: DropdownType;
+}
+
+export function Dropdown({
   notebookId,
   noteId,
+  eventId,
   data,
   type,
-}: NotebookNoteDropdownProps) {
+}: DropdownProps) {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openEditTags, setOpenEditTags] = useState(false);
@@ -53,15 +68,26 @@ export function NotebookNoteDropdown({
               <Pencil /> Rename
             </DropdownMenuItem>
           )}
+          {type === 'event' && (
+            <DropdownMenuItem onClick={() => setOpenEdit(true)}>
+              <Pencil /> Edit event
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem onClick={() => setOpenEditTags(true)}>
             <Tag /> Edit tags
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
-              let link = `${window.location.origin}/notebooks/${notebookId}`;
-              if (type === 'note') {
-                link += `/note/${noteId}`;
+              let link = '';
+              if (type == 'event') {
+                link = `${window.location.origin}/events/${eventId}`;
+              } else {
+                link = `${window.location.origin}/notebooks/${notebookId}`;
+                if (type === 'note') {
+                  link += `/note/${noteId}`;
+                }
               }
+
               navigator.clipboard
                 .writeText(link)
                 .then(() => {
@@ -82,59 +108,65 @@ export function NotebookNoteDropdown({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* Edit dialogs */}
+      {/* Notebook dialogs */}
       {type === 'notebook' && (
-        <NotebookEditDialog
-          open={openEdit}
-          onOpenChange={setOpenEdit}
-          notebookId={notebookId}
-          initialData={data as CreateNotebook}
-        />
-      )}
-      {type === 'note' && (
-        <NoteEditDialog
-          open={openEdit}
-          onOpenChange={setOpenEdit}
-          noteId={noteId}
-          notebookId={notebookId}
-          initialData={data as Note}
-        />
+        <>
+          <NotebookEditDialog
+            open={openEdit}
+            onOpenChange={setOpenEdit}
+            notebookId={notebookId}
+            initialData={data as CreateNotebook}
+          />
+          <NotebookDeleteDialog
+            open={openDelete}
+            onOpenChange={setOpenDelete}
+            notebookId={notebookId}
+          />
+          <NotebookTagDialog
+            open={openEditTags}
+            onOpenChange={setOpenEditTags}
+            notebookId={notebookId}
+            initialData={data as CreateNotebook}
+          />
+        </>
       )}
 
-      {/* Delete dialogs */}
-      {type === 'notebook' && (
-        <NotebookDeleteDialog
-          open={openDelete}
-          onOpenChange={setOpenDelete}
-          notebookId={notebookId}
-        />
-      )}
+      {/* Note dialogs */}
       {type === 'note' && (
-        <NoteDeleteDialog
-          open={openDelete}
-          onOpenChange={setOpenDelete}
-          noteId={noteId}
-          notebookId={notebookId}
-        />
+        <>
+          <NoteEditDialog
+            open={openEdit}
+            onOpenChange={setOpenEdit}
+            noteId={noteId}
+            notebookId={notebookId}
+            initialData={data as Note}
+          />
+          <NoteDeleteDialog
+            open={openDelete}
+            onOpenChange={setOpenDelete}
+            noteId={noteId}
+            notebookId={notebookId}
+          />
+          <NoteTagDialog
+            open={openEditTags}
+            onOpenChange={setOpenEditTags}
+            noteId={noteId}
+            notebookId={notebookId}
+            initialData={data as Note}
+          />
+        </>
       )}
 
-      {/* Tag Dialog */}
-      {type === 'notebook' && (
-        <NotebookTagDialog
-          open={openEditTags}
-          onOpenChange={setOpenEditTags}
-          notebookId={notebookId}
-          initialData={data as CreateNotebook}
-        />
-      )}
-      {type === 'note' && (
-        <NoteTagDialog
-          open={openEditTags}
-          onOpenChange={setOpenEditTags}
-          noteId={noteId}
-          notebookId={notebookId}
-          initialData={data as Note}
-        />
+      {type === 'event' && (
+        <>
+          <EventEditDialog open={openEdit} onOpenChange={setOpenEdit} eventId={eventId} initialData={data as EventType}/>
+          <EventDeleteDialog open={openDelete} onOpenChange={setOpenDelete} eventId={eventId}></EventDeleteDialog>
+          <EventTagDialog
+            open={openEditTags}
+            onOpenChange={setOpenEditTags}
+            eventId={eventId}
+          />
+        </>
       )}
     </>
   );

@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/ca
 
 import { Link } from '@tanstack/react-router';
 import { AccentColor, iconColor, lineColor } from '@/components/cards/cardColors';
-import { NotebookNoteDropdown } from '@/components/cards/NotebookNoteDropdown.tsx';
+import { Dropdown } from '@/components/cards/Dropdown.tsx';
 import { Ellipsis, LucideIcon, Notebook, Timer } from 'lucide-react';
 import { Tag } from '@/components/cards/Tag.tsx';
 import { cn } from '@/lib/utils';
@@ -51,9 +51,10 @@ export const NotebookCard = ({
             </CardTitle>
 
             {isLinked ? (
-              <NotebookNoteDropdown
+              <Dropdown
                 notebookId={id}
                 noteId={''}
+                eventId={''}
                 data={{
                   title: title,
                   description: description,

@@ -1,4 +1,4 @@
-import { CreateEvent } from "@/types/Event.ts";
+import { CreateEvent } from "@/types/EventType.ts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { putEvent } from "@/services/calendarService.ts";
 

@@ -9,23 +9,19 @@ function Calendar({
                     className,
                     classNames,
                     showOutsideDays = true,
-                    // selected,
-                    // onSelect,
                     ...props
                   }: React.ComponentProps<typeof DayPicker>) {
   return (
     <div className="font-serif">
       <DayPicker
         showOutsideDays={showOutsideDays}
-        // selected={selected}
-        // onSelect={onSelect}
         className={cn("border-none", className)}
         classNames={{
           months: "flex flex-col sm:flex-row gap-2 align-center",
           month: "flex flex-col gap-4 text-center",
           caption: "flex justify-center pt-1 relative items-center w-full",
           caption_label: "text-lg font-medium",
-          nav: "absolute flex items-center gap-1",
+          nav: "absolute flex items-center justify-between",
           nav_button: cn(
             Button({ variant: "outline" }),
             "size-7 bg-transparent p-0 opacity-50 hover:opacity-100"

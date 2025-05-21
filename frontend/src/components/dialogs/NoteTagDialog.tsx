@@ -11,10 +11,11 @@ import { useCreateTagNote } from '@/hooks/useCreateTagNote.ts';
 import { Tag } from '@/components/cards/Tag.tsx';
 import { Note } from '@/types/Note.ts';
 import { TagForm } from '@/components/forms/TagForm.tsx';
-import { NoteTagDeleteDialog } from '@/components/dialogs/NoteTagDeleteDialog.tsx';
 import { useState } from 'react';
 import { useAllTags } from '@/hooks/useAllTags.ts';
 import { AccentColor } from '../cards/cardColors';
+import { useDeleteTagFromNote } from "@/hooks/useDeleteTagFromNote.ts";
+import { DeleteConfirmationDialog } from "@/components/dialogs/DeleteConfirmationDialog.tsx";
 
 interface NoteTagDialogProps {
   open: boolean;
@@ -26,6 +27,7 @@ interface NoteTagDialogProps {
 
 export function NoteTagDialog({ open, onOpenChange, noteId, notebookId }: NoteTagDialogProps) {
   const createTag = useCreateTagNote(notebookId);
+  const deleteTag = useDeleteTagFromNote({ notebookId });
   const noteMetaData = useNoteMetaData(noteId);
   const allTags = useAllTags();
   const noteData: Note = noteMetaData.data as Note;
@@ -43,6 +45,10 @@ export function NoteTagDialog({ open, onOpenChange, noteId, notebookId }: NoteTa
     } catch (err) {
       console.error('Error while creating a tag:', err);
     }
+  };
+
+  const handleDelete = () => {
+    deleteTag.mutate({noteId, tagId : deleteTagId});
   };
 
   return (
@@ -90,12 +96,11 @@ export function NoteTagDialog({ open, onOpenChange, noteId, notebookId }: NoteTa
         </DialogContent>
       </Dialog>
 
-      <NoteTagDeleteDialog
+      <DeleteConfirmationDialog
         open={openDeleteTag}
         onOpenChange={setOpenDeleteTag}
-        noteId={noteId}
-        notebookId={notebookId}
-        tagId={deleteTagId}
+        onDelete={handleDelete}
+        isPending={deleteTag.isPending}
       />
     </>
   );

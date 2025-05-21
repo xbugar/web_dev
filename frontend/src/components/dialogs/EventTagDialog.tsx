@@ -6,32 +6,29 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { CreateTag } from '@/types/TagType.ts';
-import { AccentColor } from '@/components/cards/cardColors.ts';
 import { Tag } from '@/components/cards/Tag.tsx';
 import { TagForm } from '@/components/forms/TagForm.tsx';
 import { useState } from 'react';
 import { useAllTags } from '@/hooks/useAllTags.ts';
-import { useCreateTagNotebook } from '@/hooks/useCreateTagNotebook.ts';
-import { useNotebook } from '@/hooks/useNotebook.ts';
-import { CreateNotebook, Notebook } from '@/types/Notebook.ts';
-import { useDeleteTagFromNotebook } from "@/hooks/useDeleteTagFromNotebook.ts";
+import { AccentColor } from '../cards/cardColors';
 import { DeleteConfirmationDialog } from "@/components/dialogs/DeleteConfirmationDialog.tsx";
-// import { Label } from '@/components/ui/label.tsx';
-// import { NotebookCard } from '../cards/NotebookCard';
+import { useCreateTagEvent } from "@/hooks/useCreateTagEvent.ts";
+import { useDeleteTagFromEvent } from "@/hooks/useDeleteTagFromEvent.ts";
+import { useGetEventById } from "@/hooks/useGetEventById.ts";
+import { EventType } from "@/types/EventType.ts";
 
-interface NotebookTagDialog {
+interface EventTagDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  notebookId: string;
-  initialData: CreateNotebook;
+  eventId: string;
 }
 
-export function NotebookTagDialog({ open, onOpenChange, notebookId }: NotebookTagDialog) {
-  const createTag = useCreateTagNotebook(notebookId);
-  const deleteTag = useDeleteTagFromNotebook({ notebookId });
-  const notebookPromise = useNotebook(notebookId);
+export function EventTagDialog({ open, onOpenChange, eventId }: EventTagDialogProps) {
+  const createTag = useCreateTagEvent();
+  const deleteTag = useDeleteTagFromEvent();
   const allTags = useAllTags();
-  const notebookData: Notebook = notebookPromise.data as Notebook;
+  const eventPromise = useGetEventById(eventId);
+  const eventData: EventType = eventPromise.data as EventType;
 
   const [openDeleteTag, setOpenDeleteTag] = useState(false);
   const [deleteTagId, setDeleteTagId] = useState<string>('');
@@ -42,14 +39,14 @@ export function NotebookTagDialog({ open, onOpenChange, notebookId }: NotebookTa
     }
 
     try {
-      createTag.mutate({ notebookId, data });
+      createTag.mutate({ eventId, data });
     } catch (err) {
       console.error('Error while creating a tag:', err);
     }
   };
 
   const handleDelete = () => {
-    deleteTag.mutate({notebookId, tagId : deleteTagId});
+    deleteTag.mutate({eventId, tagId : deleteTagId});
   };
 
   return (
@@ -61,29 +58,10 @@ export function NotebookTagDialog({ open, onOpenChange, notebookId }: NotebookTa
             <DialogDescription></DialogDescription>
           </DialogHeader>
           <div>
-            {/* <div className="grid items-center gap-2">
-              <Label htmlFor="edit-tags-notebook-card-preview" className="text-right">
-                Preview
-              </Label>
-
-              <NotebookCard
-                id="edit-tags-notebook-card-preview"
-                key={''}
-                title={initialData?.title || ''}
-                description={initialData?.description || ''}
-                iconName={initialData?.iconName || 'BookOpen'}
-                color={initialData?.color || 'red'}
-                noteCount={0}
-                lastUpdated={new Date().toString()}
-                isLinked={false}
-                tags={notebookData != undefined ? notebookData.tags : []}
-              />
-            </div> */}
-
-            {notebookData && notebookData.tags && notebookData.tags.length > 0 ? (
+            {eventData && eventData.tags && eventData.tags.length > 0 ? (
               <div className="hide-scrollbar mb-4 max-h-24 overflow-y-auto">
                 <div className="flex flex-wrap justify-center gap-2">
-                  {notebookData.tags.map((tag, index) => (
+                  {eventData.tags.map((tag, index) => (
                     <div key={index} className="relative">
                       <div
                         onClick={() => {
@@ -101,10 +79,12 @@ export function NotebookTagDialog({ open, onOpenChange, notebookId }: NotebookTa
                     </div>
                   ))}
                 </div>
+                {/* shadow on the left side */}
+                {/* <div className="pointer-events-none absolute top-0 left-0 h-full w-3 bg-gradient-to-r from-white-secondary dark:from-black-secondary to-transparent"></div> */}
                 <div className="from-white-secondary dark:from-black-secondary pointer-events-none absolute top-0 right-0 h-full w-4 bg-gradient-to-l to-transparent"></div>
               </div>
             ) : (
-              <p className="text-muted-foreground mb-4 text-center text-sm italic">No tags</p>
+              <p className="text-muted-foreground mb-4 text-sm italic">No tags</p>
             )}
           </div>
 
