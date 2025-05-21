@@ -27,6 +27,7 @@ export function DateTimePicker({ dateFrom, date, setDate }: DateTimePickerProps)
     }
   }
 
+
   function handleTimeChange(e: React.ChangeEvent<HTMLInputElement>) {
     const time = e.target.value
     console.log(time)

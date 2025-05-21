@@ -52,6 +52,12 @@ export function EventForm({
   const [repeat, setRepeat] = useState(initialData?.repeat || "Never");
   // const [allDay, setAllDay] = useState(initialData?.allDay || false);
 
+  React.useEffect(() => {
+    if (timeTo < timeFrom) {
+      settimeTo(timeFrom);
+    }
+  }, [timeFrom, timeTo]);
+
   const handleSubmit = () => {
     if (!title) return;
     onSubmit({
