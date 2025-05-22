@@ -12,7 +12,7 @@ type PathItem = {
 export function Navigation() {
   const paths: PathItem[] = [
     { Icon: GalleryVerticalEnd, to: '/flashcards', label: 'Flashcards' },
-    { Icon: Calendar, to: '/calendar', label: 'Calendar' },
+    { Icon: Calendar, to: '/calendar/today', label: 'Calendar' },
     { Icon: Home, to: '/home', label: 'Home' },
     { Icon: Book, to: '/notebooks', label: 'Notebooks' },
     { Icon: Timer, to: '/pomodoro', label: 'Pomodoro' },

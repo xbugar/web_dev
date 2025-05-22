@@ -1,17 +1,8 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import {
-  Bold,
-  Italic,
-  Strikethrough,
-  Heading1,
-  Heading2,
-  Underline,
-  List,
-  ListOrdered,
-} from 'lucide-react';
+import { Bold, Italic, Strikethrough, Underline, List, ListOrdered } from 'lucide-react';
 import { Underline as UnderlineTiptap } from '@tiptap/extension-underline';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Markdown } from 'tiptap-markdown';
 import { useEditNoteContent } from '@/hooks/useEditNoteCotent.ts';
 import { useNoteContent } from '@/hooks/useNoteContent.ts';
@@ -42,24 +33,25 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
     }
   }, [editor, noteData]);
 
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     if (!editor) return;
 
     editNoteContent.mutate({
       noteId: noteId,
       content: editor.storage.markdown.getMarkdown(),
     });
-  };
+  }, [editor, noteId, editNoteContent]);
+  // ...existing code...
 
   useEffect(() => {
     const interval = setInterval(() => {
       handleSave();
-    }, 2000); //every 2 sec
+    }, 2000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [editor, noteId]);
+  }, [editor, noteId, handleSave]);
 
   if (!editor) {
     return null;
@@ -70,9 +62,11 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="mb-20 flex-col">
+      <EditorContent editor={editor} className="flex-1 rounded border-0 p-0 focus:outline-none" />
+
       {/* Toolbar */}
-      <div className="flex justify-center gap-4 border-b p-2">
+      <div className="fixed bottom-0 flex w-full justify-center gap-4 border-t bg-white p-2 dark:bg-black">
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={`rounded p-2 ${editor.isActive('bold') ? 'bg-black text-white dark:bg-white dark:text-black' : ''}`}
@@ -123,7 +117,6 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
           <ListOrdered />
         </button>
       </div>
-      <EditorContent editor={editor} className="rounded border-0 p-0 focus:outline-none" />
     </div>
   );
 };

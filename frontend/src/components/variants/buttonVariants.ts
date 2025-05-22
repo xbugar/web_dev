@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 const buttonVariants = cva(
-  'inline-flex items-center rounded-sm justify-center text-sm bg-red-600 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
+  'inline-flex items-center rounded-sm justify-center text-sm bg-red-600 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-color duration-200 ease-in-out',
   {
     variants: {
       variant: {
@@ -25,6 +25,7 @@ const buttonVariants = cva(
           'bg-transparent text-black dark:text-white text-center min-h-12 font-serif text-md w-full',
         submitAlternative: 'bg-white text-black text-center min-h-12 font-serif text-md w-full',
         section: '[&_svg]:h-6 [&_svg]:w-6 text-black dark:text-white p-2 bg-transparent',
+        form: 'rounded p-2'
       },
       // size: {
       //   default: "h-9 px-4 py-2 has-[>svg]:px-3",

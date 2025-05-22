@@ -4,7 +4,13 @@ export type CreateUser = {
   lastName: string;
   email: string;
   password: string;
+  confirmPassword: string;
 };
+
+export type LoginUser = {
+  email: string;
+  password: string;
+}
 
 // post response, put request
 export type User = {
@@ -22,3 +28,7 @@ export type ResponseUser = {
   lastName: string;
   email: string;
 };
+
+export type SessionId = {
+  sessionId: string;
+}
