@@ -6,17 +6,17 @@ import {defaultIcon} from "../apis/utils";
 
 describe('/auth', async () => {
     describe('all auth operations happy path', async () => {
-        it("should send email to", async () => {
-            await request(app).post('/auth/register').send({
-                firstName: 'John',
-                lastName: 'Doe',
-                email: 'fag.mega01@gmail.com',
-                password: '123456',
-                confirmPassword: '123456',
-                withEmail: true,
-            });
-            expect(false).toBe(true);
-        });
+        // it("should send email to", async () => {
+        //     await request(app).post('/auth/register').send({
+        //         firstName: 'John',
+        //         lastName: 'Doe',
+        //         email: 'fag.mega01@gmail.com',
+        //         password: '123456',
+        //         confirmPassword: '123456',
+        //         withEmail: true,
+        //     });
+        //     // expect(false).toBe(true);
+        // });
 
         let cookie: string;
         it('registers a user and automatically logs him in. sends it back with 200', async () => {
