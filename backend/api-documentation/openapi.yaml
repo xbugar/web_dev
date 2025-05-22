@@ -1422,6 +1422,9 @@ components:
             - Every Week
             - Every 2 Weeks
             - Every Month
+        upComing:
+          type: boolean
+          example: false
 
         tags:
           type: array

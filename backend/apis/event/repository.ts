@@ -34,7 +34,7 @@ export const eventRepository = {
             .catch(error => repackageToInternalError(error));
     },
 
-    async get(userId: string): Promise<Result<EventResponse[], Error>> {
+    async get(userId: string, date: Date | undefined): Promise<Result<EventResponse[], Error>> {
         return await prisma.event.findMany({
             select: {
                 id: true,
@@ -47,7 +47,11 @@ export const eventRepository = {
                 tags: true,
             },
             where: {
-                userId: userId
+                userId: userId,
+                timeTo: {gt: date},
+            },
+            orderBy: {
+                timeFrom: 'asc'
             }
         }).then(events => Result.ok(events.map((event) => {
                 return {
@@ -177,9 +181,12 @@ export const eventRepository = {
             },
             where: {
                 userId: userId,
-                OR: [{ timeFrom: { gte: startOfDay, lte: endOfDay}},
-                    { timeTo: { gte: startOfDay, lte: endOfDay}}]
+                AND: [{timeFrom: {gte: startOfDay}},
+                    {timeTo: {lte: endOfDay}}]
             },
+            orderBy: {
+                timeFrom: 'asc'
+            }
         }).then(events => Result.ok(events.map((event) => {
                 return {
                     eventId: event.id,

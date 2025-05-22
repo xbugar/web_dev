@@ -1,7 +1,7 @@
 ﻿import {
     eventAddTagRequestSchema,
     eventCreateSchema, eventDeleteSchema,
-    eventDeleteTagRequestSchema, eventGetByDateSchema, eventGetByIdSchema,
+    eventDeleteTagRequestSchema, eventGetByDateSchema, eventGetByIdSchema, eventGetSchema,
     eventUpdateSchema
 } from "./validationSchemas";
 import {handleRepositoryErrors, parseRequest} from "../utils";
@@ -30,11 +30,16 @@ const createEvent = async (req: Request, res: Response) => {
 
 const get = async (req: Request, res: Response) => {
     const userId = req.session.passport?.user.id;
-    if (!userId) {
+    const request = await parseRequest(eventGetSchema, req, res);
+    if (!userId || !request) {
         return;
     }
+    let date: Date | undefined;
+    if (request.body.upComing) {
+        date = new Date();
+    }
 
-    const event = await eventRepository.get(userId);
+    const event = await eventRepository.get(userId, date);
     if (event.isErr) {
         handleRepositoryErrors(event.error, res);
         return;
