@@ -977,6 +977,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+
   /auth/logout:
     post:
       security:
@@ -1511,6 +1512,17 @@ components:
         confirmPassword:
           type: string
           example: '12345'
+        withEmail:
+          type: boolean
+          example: false
+          nullable: true
+      required:
+        - firstName
+        - lastName
+        - email
+        - password
+        - confirmPassword
+
 
     LogoutUser:
       type: object
