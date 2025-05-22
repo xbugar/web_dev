@@ -112,9 +112,9 @@ describe("/event", async () => {
 
         it(`should return 200 and get user events`, async () => {
             const url = `/event`;
-            const {status, body} = await request(app).get(url).set("Cookie", cookie).send();
-            expect(status).toBe(200);
-            // console.log(body); //check the results
+            const res = await request(app).get(url).set("Cookie", cookie).send();
+            expect(res.status).toBe(200);
+            // console.log(res.body); //check the results
         });
 
         it(`should return 200 and add tag`, async () => {
@@ -151,9 +151,9 @@ describe("/event", async () => {
 
         it("should return 200 and delete event", async () => {
             const url = `/event/${eventId}`;
-            const {status} = await request(app).delete(url).set("Cookie", cookie).send();
+            const resp = await request(app).delete(url).set("Cookie", cookie).send();
 
-            expect(status).toBe(200);
+            expect(resp.status).toBe(200);
 
             // console.log(resp.body); // check yourself
         });

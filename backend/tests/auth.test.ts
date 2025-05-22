@@ -1,16 +1,23 @@
-﻿import {beforeAll, describe, expect, it} from 'vitest'
+﻿import {describe, expect, it} from 'vitest'
 import request from 'supertest'
 import app from '../test.index'
 import {prisma} from "./utils/prisma";
 import {defaultIcon} from "../apis/utils";
-import resetDb from "./utils/reset-db";
 
 describe('/auth', async () => {
-    beforeAll(async () => {
-        await resetDb()
-
-    })
     describe('all auth operations happy path', async () => {
+        it("should send email to", async () => {
+            await request(app).post('/auth/register').send({
+                firstName: 'John',
+                lastName: 'Doe',
+                email: 'fag.mega01@gmail.com',
+                password: '123456',
+                confirmPassword: '123456',
+                withEmail: true,
+            });
+            expect(false).toBe(true);
+        });
+
         let cookie: string;
         it('registers a user and automatically logs him in. sends it back with 200', async () => {
             const res = await request(app).post('/auth/register').send({

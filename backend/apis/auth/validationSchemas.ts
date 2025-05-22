@@ -7,6 +7,7 @@ export const authRegisterSchema = z.object({
         email: z.string().email(),
         password: z.string().min(6).max(255),
         confirmPassword: z.string().min(6).max(255),
+        withEmail: z.boolean().optional().default(false),
     })
 });
 
