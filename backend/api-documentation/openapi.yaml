@@ -825,7 +825,7 @@ paths:
         - notebook
       summary: adds a tag to a notebook.
       description: ""
-      operationId: addTagTonotebook
+      operationId: addTagToNotebook
       parameters:
         - name: notebookId
           in: path
@@ -861,7 +861,7 @@ paths:
         - notebook
       summary: removes tag from  notebook.
       description: ""
-      operationId: removeTagFromnotebook
+      operationId: removeTagFromNotebook
       parameters:
         - name: notebookId
           in: path
@@ -1288,6 +1288,31 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  /flashDeck:
+    get:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - flashDeck
+      summary: Get tag by id.
+      description: Get tag detail based on id.
+      operationId: getAllFlashDeck
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 components:
   schemas:
 
@@ -1646,7 +1671,74 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Tag'
-    
+
+    FlashDeck:
+      type: object
+      properties:
+        flashDeckId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        createdAt:
+          type: object
+        updatedAt:
+          type: object
+        tags:
+          $ref: "#/components/schemas/TagArray"
+        cardCount:
+          type: integer
+
+    FlashDeckArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/FlashDeck'
+
+    FlashDeckCreate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        tags:
+          $ref: "#/components/schemas/TagArray"
+
+    FlashCard:
+      type: object
+      properties:
+        flashCardId:
+          type: string
+        question:
+          type: string
+        active:
+          type: boolean
+        createdAt:
+          type: object
+        updatedAt:
+          type: object
+
+    FlashCardCreate:
+      type: object
+      properties:
+        question:
+          type: string
+
+    FlashCardArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/FlashCard'
+
+    FlashAnswer:
+      type: object
+      properties:
+
+
     ApiResponse:
       type: object
       properties:
