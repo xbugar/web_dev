@@ -1,12 +1,10 @@
 import {prisma} from "../prismaClient";
 import {UserCreateNotebookRequest} from "../user/types";
 import {Result} from "@badrap/result";
-import {InternalError, NotFoundError} from "../types";
 import {Notebook} from "@prisma/client";
 
 import {
     NotebookCreateRequest,
-    NotebookFilter,
     NotebookResponse,
     NotebookUpdateRequestSchema, TagOperation
 } from "./types";
@@ -45,7 +43,7 @@ export const notebookRepository = {
             iconName: notebook.iconName,
             noteCount: notebook._count.notes,
         }))
-            .catch((error: any) => repackageToInternalError(error));
+            .catch((error) => repackageToInternalError(error));
     },
 
     async create(request: NotebookCreateRequest, userId: string): Promise<Result<NotebookResponse>> {
@@ -79,7 +77,7 @@ export const notebookRepository = {
             iconName: notebook.iconName,
             noteCount: notebook._count.notes,
         }))
-            .catch((error: any) => repackageToInternalError(error));
+            .catch((error) => repackageToInternalError(error));
     },
 
     async update(request: NotebookUpdateRequestSchema): Promise<Result<NotebookResponse>> {
@@ -110,7 +108,7 @@ export const notebookRepository = {
             iconName: notebook.iconName,
             noteCount: notebook._count.notes,
         }))
-            .catch((error: any) => repackageToNotFoundError(error))
+            .catch((error) => repackageToNotFoundError(error))
     },
 
     async get(notebookId: string, withTags: boolean): Promise<Result<NotebookResponse>> {
@@ -144,7 +142,7 @@ export const notebookRepository = {
             tags: notebook.tags,
             noteCount: notebook._count.notes,
         }))
-            .catch((error: any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     },
 
     async delete(notebookId: string): Promise<Result<Notebook>> {
@@ -153,7 +151,7 @@ export const notebookRepository = {
                 where: {id: notebookId},
             }
         ).then(notebook => Result.ok(notebook))
-            .catch((error: any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     },
 
     async getAll(withTags: boolean, userId: string): Promise<Result<NotebookResponse[]>> {
@@ -193,7 +191,7 @@ export const notebookRepository = {
                 }
             }
         )))
-            .catch((error: any) => repackageToInternalError(error));
+            .catch((error) => repackageToInternalError(error));
     },
 
     async modifyTag(notebookId: string, tagOperation: TagOperation): Promise<Result<null>> {
@@ -205,7 +203,7 @@ export const notebookRepository = {
                 tags: tagOperation
             }
         }).then(() => Result.ok(null))
-            .catch((error: any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     },
 
     async getUserId(notebookId: string): Promise<Result<string>> {
@@ -217,7 +215,7 @@ export const notebookRepository = {
                 id: notebookId,
             }
         }).then((res) => Result.ok(res.userId))
-            .catch((error: any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     }
 
 }

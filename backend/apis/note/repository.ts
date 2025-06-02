@@ -43,7 +43,7 @@ export const noteRepository = {
 
             return Result.ok(result);
 
-        } catch (error: any) {
+        } catch (error) {
             return repackageToInternalError(error);
         }
     },
@@ -69,7 +69,7 @@ export const noteRepository = {
                 id: data.params.noteId
             },
         }).then(result => Result.ok(result))
-            .catch((error:any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     },
 
     async delete(id: string): Promise<Result<null>> {
@@ -99,7 +99,7 @@ export const noteRepository = {
             });
             return Result.ok(null);
         } catch
-            (error: any) {
+            (error) {
             return repackageToInternalError(error);
         }
     },
@@ -113,7 +113,7 @@ export const noteRepository = {
                 id: id
             }
         }).then(result => Result.ok(result.content))
-            .catch((error:any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     },
 
     async updateContent(data: UpdateContent): Promise<Result<null>> {
@@ -137,7 +137,7 @@ export const noteRepository = {
             });
 
             return Result.ok(null);
-        } catch (error: any) {
+        } catch (error) {
             return repackageToInternalError(error);
         }
     },
@@ -183,7 +183,7 @@ export const noteRepository = {
                 return note;
             });
             return Result.ok(result);
-        } catch (error: any) {
+        } catch (error) {
             return repackageToInternalError(error);
         }
 
@@ -230,7 +230,7 @@ export const noteRepository = {
                 return note;
             });
             return Result.ok(result);
-        } catch (error: any) {
+        } catch (error) {
             return repackageToInternalError(error);
         }
 
@@ -273,7 +273,7 @@ export const noteRepository = {
                 return note;
             })
             return Result.ok(result);
-        } catch (error: any) {
+        } catch (error) {
             return repackageToInternalError(error);
         }
 
@@ -300,7 +300,7 @@ export const noteRepository = {
             }
         }).then(notes => Result.ok(notes))
             .catch(
-                (error: any) => repackageToInternalError(error));
+                (error) => repackageToInternalError(error));
     },
 
     async getUserId(noteId: string): Promise<Result<string>> {
@@ -315,7 +315,7 @@ export const noteRepository = {
             where: {id: noteId}
         }).then(note => Result.ok(note.notebook.userId))
             .catch(
-                (error: any) => repackageToNotFoundError(error));
+                (error) => repackageToNotFoundError(error));
     }
 }
 

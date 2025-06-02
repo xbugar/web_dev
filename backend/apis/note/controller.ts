@@ -1,6 +1,6 @@
-﻿import { Request, Response } from "express";
-import { handleRepositoryErrors, parseRequest } from "../utils";
-import { noteRepository } from "./repository";
+﻿import {Request, Response} from "express";
+import {handleRepositoryErrors, parseRequest} from "../utils";
+import {noteRepository} from "./repository";
 
 import {
     getNoteMetaRequestSchema,
@@ -10,6 +10,7 @@ import {
     addNoteTagRequestSchema,
     removeNoteTagRequestSchema, deleteNoteRequestSchema,
 } from "./validationSchema";
+import {tagRepository} from "../tag/repository";
 import {ownership} from "../ownership";
 
 //TODO: at some magical future point in time that will never happen
@@ -22,13 +23,13 @@ const updateNoteMeta = async (req: Request, res: Response) => {
         return;
     }
 
-    const newTag = await noteRepository.updateMeta(request);
-    if (newTag.isErr) {
-        handleRepositoryErrors(newTag.error, res);
+    const note = await noteRepository.updateMeta(request);
+    if (note.isErr) {
+        handleRepositoryErrors(note.error, res);
         return;
     }
 
-    res.status(200).send(newTag.value);
+    res.status(200).send(note.value);
 };
 
 const getNoteMeta = async (req: Request, res: Response) => {
@@ -38,13 +39,13 @@ const getNoteMeta = async (req: Request, res: Response) => {
         return;
     }
 
-    const newTag = await noteRepository.getMeta(request);
-    if (newTag.isErr) {
-        handleRepositoryErrors(newTag.error, res);
+    const note = await noteRepository.getMeta(request);
+    if (note.isErr) {
+        handleRepositoryErrors(note.error, res);
         return;
     }
 
-    res.status(200).send(newTag.value);
+    res.status(200).send(note.value);
 };
 
 const deleteNote = async (req: Request, res: Response) => {
@@ -54,13 +55,13 @@ const deleteNote = async (req: Request, res: Response) => {
         return;
     }
 
-    const newTag = await noteRepository.delete(request.params.noteId);
-    if (newTag.isErr) {
-        handleRepositoryErrors(newTag.error, res);
+    const note = await noteRepository.delete(request.params.noteId);
+    if (note.isErr) {
+        handleRepositoryErrors(note.error, res);
         return;
     }
 
-    res.status(200).send(newTag.value);
+    res.status(200).send(note.value);
 }
 
 const getNoteContent = async (req: Request, res: Response) => {
@@ -77,7 +78,7 @@ const getNoteContent = async (req: Request, res: Response) => {
         handleRepositoryErrors(content.error, res);
         return;
     }
-    res.status(200).send({content:content.unwrap()});
+    res.status(200).send({content: content.unwrap()});
 };
 
 
@@ -100,39 +101,42 @@ const updateNoteContent = async (req: Request, res: Response) => {
 const addNoteTag = async (req: Request, res: Response) => {
     const request = await parseRequest(addNoteTagRequestSchema, req, res);
     if (!request
-        || !await ownership.notebook(request.params.noteId, req.session.passport?.user.id, res)
-        || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
+        || !await ownership.note(request.params.noteId, req.session.passport?.user.id, res)
+        || !req.session.passport?.user.id ) {
+        return;
+    }
+    // this part is
+    const tag = await tagRepository.getOrCreate(request.body,req.session.passport?.user.id);
+    if (tag.isErr) {
+        handleRepositoryErrors(tag.error, res);
         return;
     }
 
-    const note = request.params;
 
-    const newTag = await noteRepository.addTag(note);
-    if (newTag.isErr) {
-        handleRepositoryErrors(newTag.error, res);
+    const note = await noteRepository.addTag({noteId: request.params.noteId, tagId: tag.value.id});
+    if (note.isErr) {
+        handleRepositoryErrors(note.error, res);
         return;
     }
 
-    res.status(200).send(newTag.value);
+    res.status(200).send(tag.unwrap());
 };
 
 const removeNoteTag = async (req: Request, res: Response) => {
     const request = await parseRequest(removeNoteTagRequestSchema, req, res);
     if (!request
-        || !await ownership.notebook(request.params.noteId, req.session.passport?.user.id, res)
+        || !await ownership.note(request.params.noteId, req.session.passport?.user.id, res)
         || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
         return;
     }
 
-    const note = request.params;
-
-    const newTag = await noteRepository.removeTag(note);
-    if (newTag.isErr) {
-        handleRepositoryErrors(newTag.error, res);
+    const queryResult = await noteRepository.removeTag(request.params);
+    if (queryResult.isErr) {
+        handleRepositoryErrors(queryResult.error, res);
         return;
     }
 
-    res.status(200).send(newTag.value);
+    res.status(200).send(null);
 };
 
 export const notesController = {

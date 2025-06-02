@@ -11,7 +11,6 @@ import {
     getTagRequestSchema
 } from "./validationSchema";
 import {ownership} from "../ownership";
-import {use} from "passport";
 
 
 const createTag = async (req: Request, res: Response) => {
