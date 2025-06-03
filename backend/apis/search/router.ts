@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import {searchController} from "./controller";
 
-export const searchRouter = new Router();
+export const searchRouter = Router();
 
 searchRouter.get("/", searchController.get);
