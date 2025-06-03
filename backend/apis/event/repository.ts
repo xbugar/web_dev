@@ -22,15 +22,7 @@ export const eventRepository = {
                 userId: userId,
                 ...event.body
             },
-        }).then(event => Result.ok({
-            eventId: event.id,
-            title: event.title,
-            description: event.description,
-            timeFrom: event.timeFrom,
-            timeTo: event.timeTo,
-            repeat: event.repeat,
-            tags: event.tags
-        }))
+        }).then(event => Result.ok(event))
             .catch(error => repackageToInternalError(error));
     },
 
@@ -53,18 +45,7 @@ export const eventRepository = {
             orderBy: {
                 timeFrom: 'asc'
             }
-        }).then(events => Result.ok(events.map((event) => {
-                return {
-                    eventId: event.id,
-                    title: event.title,
-                    description: event.description,
-                    timeFrom: event.timeFrom,
-                    timeTo: event.timeTo,
-                    repeat: event.repeat,
-                    tags: event.tags
-                }
-            }
-        )))
+        }).then(events => Result.ok(events))
             .catch(error => repackageToInternalError(error));
     },
 
@@ -97,15 +78,7 @@ export const eventRepository = {
             data: {
                 ...event.body
             }
-        }).then(event => Result.ok({
-            eventId: event.id,
-            title: event.title,
-            description: event.description,
-            timeFrom: event.timeFrom,
-            timeTo: event.timeTo,
-            repeat: event.repeat,
-            tags: event.tags
-        }))
+        }).then(event => Result.ok(event))
             .catch(error => repackageToNotFoundError(error));
     },
 
@@ -125,15 +98,7 @@ export const eventRepository = {
                 userId: userId,
                 id: eventId,
             },
-        }).then(event => Result.ok({
-            eventId: event.id,
-            title: event.title,
-            description: event.description,
-            timeFrom: event.timeFrom,
-            timeTo: event.timeTo,
-            repeat: event.repeat,
-            tags: event.tags
-        }))
+        }).then(event => Result.ok(event))
             .catch(error => repackageToNotFoundError(error));
     },
 
@@ -187,22 +152,26 @@ export const eventRepository = {
             orderBy: {
                 timeFrom: 'asc'
             }
-        }).then(events => Result.ok(events.map((event) => {
-                return {
-                    eventId: event.id,
-                    title: event.title,
-                    description: event.description,
-                    timeFrom: event.timeFrom,
-                    timeTo: event.timeTo,
-                    repeat: event.repeat,
-                    tags: event.tags
-                }
-            }
-        )))
+        }).then(events => Result.ok(events))
             .catch(error => repackageToInternalError(error));
+    },
+
+    async search(name: string, userId: string): Promise<Result<EventResponse[]>> {
+        return await prisma.event.findMany({
+            where: {
+                userId: userId,
+                OR: [
+                    {title: {contains: name}},
+                    {tags: {some: {name: {contains: name}}}}
+                ],
+            },
+            include: {
+                tags: true
+            },
+            orderBy: {
+                title: "asc"
+            }
+        }).then(events => Result.ok(events))
+            .catch(error => repackageToNotFoundError(error));
     }
 }
-
-
-
-

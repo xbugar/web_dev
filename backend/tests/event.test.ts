@@ -46,18 +46,18 @@ describe("/event", async () => {
 
             const event = await prisma.event.findFirstOrThrow({
                 where: {
-                    id: body.eventId
+                    id: body.id
                 }
             });
             expect(body).toMatchObject({
-                eventId: event.id,
+                id: event.id,
                 title: event.title,
                 description: event.description,
                 timeFrom: event.timeFrom.toISOString(),
                 timeTo: event.timeTo.toISOString(),
                 repeat: "Never",
             });
-            eventId = body.eventId;
+            eventId = body.id;
         });
 
         it(`should return 200 and update an event`, async () => {
@@ -75,18 +75,18 @@ describe("/event", async () => {
 
             const event = await prisma.event.findFirstOrThrow({
                 where: {
-                    id: body.eventId
+                    id: body.id
                 }
             });
             expect(body).toMatchObject({
-                eventId: event.id,
+                id: event.id,
                 title: event.title,
                 description: event.description,
                 timeFrom: event.timeFrom.toISOString(),
                 timeTo: event.timeTo.toISOString(),
                 repeat: "Every Day",
             });
-            eventId = body.eventId;
+            eventId = body.id;
         });
 
         it(`should return 200 and get an event`, async () => {
@@ -96,18 +96,18 @@ describe("/event", async () => {
 
             const event = await prisma.event.findFirstOrThrow({
                 where: {
-                    id: body.eventId
+                    id: body.id
                 }
             });
             expect(body).toMatchObject({
-                eventId: event.id,
+                id: event.id,
                 title: event.title,
                 description: event.description,
                 timeFrom: event.timeFrom.toISOString(),
                 timeTo: event.timeTo.toISOString(),
                 repeat: "Every Day",
             });
-            eventId = body.eventId;
+            eventId = body.id;
         });
 
         it(`should return 200 and get user events`, async () => {

@@ -216,6 +216,45 @@ export const notebookRepository = {
             }
         }).then((res) => Result.ok(res.userId))
             .catch((error) => repackageToNotFoundError(error));
-    }
+    },
 
+    async search(title: string, userId: string): Promise<Result<NotebookResponse[]>> {
+        return await prisma.notebook.findMany({
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                color: true,
+                createdAt: true,
+                updatedAt: true,
+                iconName: true,
+                tags: true,
+                _count: {
+                    select: {
+                        notes: true,
+                    }
+                }
+            },
+            where: {
+                userId: userId,
+                OR: [
+                    {title: {contains: title}},
+                    {tags: {some: {name: {contains: title}}}}
+                ],
+            }
+        }).then(notebooks => Result.ok(notebooks.map((notebook) => {
+                return {
+                    id: notebook.id,
+                    title: notebook.title,
+                    description: notebook.description,
+                    color: notebook.color,
+                    createdAt: notebook.createdAt,
+                    updatedAt: notebook.updatedAt,
+                    iconName: notebook.iconName,
+                    tags: notebook.tags,
+                    noteCount: notebook._count.notes,
+                }
+            }
+        ))).catch((error) => repackageToNotFoundError(error));
+    }
 }

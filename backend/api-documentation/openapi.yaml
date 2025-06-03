@@ -825,7 +825,7 @@ paths:
         - notebook
       summary: adds a tag to a notebook.
       description: ""
-      operationId: addTagTonotebook
+      operationId: addTagToNotebook
       parameters:
         - name: notebookId
           in: path
@@ -861,7 +861,7 @@ paths:
         - notebook
       summary: removes tag from  notebook.
       description: ""
-      operationId: removeTagFromnotebook
+      operationId: removeTagFromNotebook
       parameters:
         - name: notebookId
           in: path
@@ -1287,6 +1287,61 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /search:
+    get:
+      summary: Global search across all entities
+      tags:
+        - search
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: The search query string.
+        - in: query
+          name: type
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [ note, notebook, event ]
+          style: form
+          explode: false
+          description: Optional filter for entity types (e.g. note, event).
+
+      responses:
+        '200':
+          description: Grouped search results by entity type
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  query:
+                    type: string
+                  notes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Note'
+                  notebooks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Notebook'
+                  events:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event'
+        '400':
+          description: bad request
+        '404':
+          description: nothing found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
 components:
   schemas:
@@ -1422,9 +1477,6 @@ components:
             - Every Week
             - Every 2 Weeks
             - Every Month
-        upComing:
-          type: boolean
-          example: false
 
         tags:
           type: array

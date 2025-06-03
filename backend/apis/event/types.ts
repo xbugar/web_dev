@@ -4,7 +4,7 @@ import {eventCreateSchema, eventTagSchema, eventUpdateSchema} from "./validation
 
 
 export type EventResponse = {
-    eventId: string,
+    id: string,
     title: string,
     description: string | undefined | null,
     timeFrom: Date
