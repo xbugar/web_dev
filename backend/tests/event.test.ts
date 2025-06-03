@@ -112,7 +112,7 @@ describe("/event", async () => {
 
         it(`should return 200 and get user events`, async () => {
             const url = `/event`;
-            const res = await request(app).get(url).set("Cookie", cookie).send();
+            const res = await request(app).get(url).set("Cookie", cookie).send({});
             expect(res.status).toBe(200);
             // console.log(res.body); //check the results
         });

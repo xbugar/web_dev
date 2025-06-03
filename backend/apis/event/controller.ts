@@ -32,7 +32,7 @@ const get = async (req: Request, res: Response) => {
     const userId = req.session.passport?.user.id;
     const request = await parseRequest(eventGetSchema, req, res);
     if (!userId || !request) {
-        console.log("pes");
+        console.log(request);
         return;
     }
     let date: Date | undefined;

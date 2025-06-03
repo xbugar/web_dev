@@ -134,20 +134,13 @@ export const eventRepository = {
         const endOfDay = new Date(date);
         endOfDay.setHours(23, 59, 59, 999);
         return await prisma.event.findMany({
-            select: {
-                id: true,
-                title: true,
-                description: true,
-                timeFrom: true,
-                timeTo: true,
-                repeat: true,
-
-                tags: true,
-            },
             where: {
                 userId: userId,
                 AND: [{timeFrom: {gte: startOfDay}},
                     {timeTo: {lte: endOfDay}}]
+            },
+            include: {
+                tags: true
             },
             orderBy: {
                 timeFrom: 'asc'
