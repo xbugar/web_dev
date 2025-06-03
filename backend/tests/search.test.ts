@@ -58,19 +58,12 @@ describe('/auth', async () => {
             );
             expect(eventStatus).toBe(200);
 
-            url = "/user/notebook";
-            const {status: noteStatus} = await request(app).post(url)
+            const {status} = await request(app).post(`/notebook/${notebookId}/note`)
                 .set("Cookie", cookie)
-                .send(
-                    {
-                        title: "note-test-notebook",
-                        description: "neeimeme",
-                        color: "green",
-                        iconName: "test"
-                    }
-                );
-
-            expect(noteStatus).toBe(200);
+                .send({
+                    title: "notikk",
+                });
+            expect(status).toBe(200);
         });
 
         it('creates notebook, event and note with the substring auto', async () => {
@@ -101,19 +94,12 @@ describe('/auth', async () => {
             );
             expect(eventStatus).toBe(200);
 
-            url = "/user/notebook";
-            const {status: noteStatus} = await request(app).post(url)
+            const {status} = await request(app).post(`/notebook/${notebookId}/note`)
                 .set("Cookie", cookie)
-                .send(
-                    {
-                        title: "note-auto-notebook",
-                        description: "neeimeme",
-                        color: "green",
-                        iconName: "test"
-                    }
-                );
-
-            expect(noteStatus).toBe(200);
+                .send({
+                    title: "notikkauto",
+                });
+            expect(status).toBe(200);
         });
 
         it('searches for notebooks, events and notes with the substring auto', async () => {

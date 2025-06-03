@@ -21,7 +21,7 @@ const get = async (req: Request, res: Response): Promise<void> => {
     }
 
     const search: string = request.query.q;
-    let response: SearchResponse = {query: search};
+    const response: SearchResponse = {query: search};
 
     for (const type of request.query.type) {
         const repo = typeToRepo[type];
@@ -31,7 +31,7 @@ const get = async (req: Request, res: Response): Promise<void> => {
             return handleRepositoryErrors(result.error, res);
         }
 
-        // @ts-ignore // TODO this surely works
+        // @ts-expect-error // TODO this surely works
         response[`${type}`] = result.unwrap();
     }
 

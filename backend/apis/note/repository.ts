@@ -3,7 +3,6 @@ import {prisma} from "../prismaClient";
 import {AddTag, GetMeta, NoteMetaResponse, RemoveTag, UpdateContent, UpdateMeta} from "./types";
 import {NotebookCreateNoteRequest} from "../notebook/types";
 import {repackageToNotFoundError, repackageToInternalError} from "../utils";
-import {EventResponse} from "../event/types";
 import {Note} from "@prisma/client";
 
 export const noteRepository = {
