@@ -6,10 +6,16 @@ import { Calendar } from "@/components/ui/calendar"
 import { format, isToday, parseISO } from "date-fns";
 
 export function CalendarMain({ selectedDay }: { selectedDay: string }) {
-  const selectedFromParam = selectedDay === "today" ? new Date()  : parseISO(selectedDay);
+  const selectedFromParam = React.useMemo(() => {
+    return selectedDay === "today" ? new Date() : parseISO(selectedDay);
+  }, [selectedDay]);
 
   const [date, setDate] = React.useState<Date | undefined>(selectedFromParam)
   const navigate = useNavigate()
+
+  React.useEffect(() => {
+    setDate(selectedFromParam);
+  }, [selectedFromParam]);
 
   const handleSelect = (selected: Date | undefined) => {
     if (selected) {
