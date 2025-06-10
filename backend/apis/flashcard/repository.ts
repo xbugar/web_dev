@@ -3,8 +3,6 @@ import {prisma} from "../prismaClient";
 import { UpdateFlashCard, FlashCard } from "./types";
 import {FlashdeckCreateFlashcardRequest} from "../flashdeck/types";
 import {repackageToNotFoundError, repackageToInternalError} from "../utils";
-import { NotebookCreateNoteRequest } from "../notebook/types";
-import { NoteMeta } from "../note/types";
 
 export const flashCardRepository = {
   async updateFlashCard(flashCard: UpdateFlashCard): Promise<Result<FlashCard>> {
@@ -112,7 +110,7 @@ export const flashCardRepository = {
           }
         });
 
-        tx.notebook.update({
+        tx.flashDeck.update({
           where: {id: data.params.flashdeckId},
           data: {
             updatedAt: card.updatedAt
@@ -127,7 +125,7 @@ export const flashCardRepository = {
 
   },
   async getAllByFlashDeckId(flashDeckId: string): Promise<Result<FlashCard[]>> {
-    return prisma.note.findMany({
+    return prisma.card.findMany({
       select: {
         id: true,
         question: true,
