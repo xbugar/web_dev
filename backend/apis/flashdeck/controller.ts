@@ -11,6 +11,7 @@ import {
 import { flashdeckRepository } from "./repository";
 import { ownership } from "../ownership";
 import { noteRepository } from "../note/repository";
+import { flashCardRepository } from "../flashcard/repository";
 
 
 const addTag = async (req: Request, res: Response) => {
@@ -102,7 +103,7 @@ const createFlashcard = async (req: Request, res: Response) => {
   }
 
   //TODO
-  const flashcard = await noteRepository.create(request);
+  const flashcard = await flashCardRepository.create(request);
   if (flashcard.isErr) {
     handleRepositoryErrors(flashcard.error, res);
     return;
@@ -118,8 +119,7 @@ const getAllFlashcards = async (req: Request, res: Response) => {
     return;
   }
 
-//TODO
-  const flashcards = await noteRepository.getAllByNotebookId(request.params.notebookId);
+  const flashcards = await flashCardRepository.getAllByFlashdeckId(request.params.flashdeckId);
   if (flashcards.isErr) {
     handleRepositoryErrors(flashcards.error, res);
     return;
