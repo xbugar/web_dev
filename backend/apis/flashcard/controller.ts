@@ -14,7 +14,7 @@ import {ownership} from "../ownership";
 const updateFlashCard = async (req: Request, res: Response) => {
   const request = await parseRequest(updateFlashCardRequestSchema, req, res);
   if (!request
-    || !await ownership.note(request.params.flashCardId, req.session.passport?.user.id, res)) {
+    || !await ownership.card(request.params.flashCardId, req.session.passport?.user.id, res)) {
     return;
   }
 
@@ -30,7 +30,7 @@ const updateFlashCard = async (req: Request, res: Response) => {
 const deleteFlashCard = async (req: Request, res: Response) => {
   const request = await parseRequest(deleteFlashCardRequestSchema, req, res);
   if (!request
-    || !await ownership.note(request.params.flashCardId, req.session.passport?.user.id, res)) {
+    || !await ownership.card(request.params.flashCardId, req.session.passport?.user.id, res)) {
     return;
   }
 
