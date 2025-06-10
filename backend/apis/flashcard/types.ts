@@ -10,8 +10,8 @@ export type FlashCard = {
   question: string;
   answer: string;
 
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 
   flashDeck: {
     id: string;
@@ -20,4 +20,3 @@ export type FlashCard = {
 }
 
 export type UpdateFlashCard = z.infer<typeof updateFlashCardRequestSchema>;
-export type DeleteFlashCard = z.infer<typeof deleteFlashCardRequestSchema>;
