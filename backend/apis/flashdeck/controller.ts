@@ -102,7 +102,6 @@ const createFlashcard = async (req: Request, res: Response) => {
     return;
   }
 
-  //TODO
   const flashcard = await flashCardRepository.create(request);
   if (flashcard.isErr) {
     handleRepositoryErrors(flashcard.error, res);
@@ -119,7 +118,7 @@ const getAllFlashcards = async (req: Request, res: Response) => {
     return;
   }
 
-  const flashcards = await flashCardRepository.getAllByFlashdeckId(request.params.flashdeckId);
+  const flashcards = await flashCardRepository.getAllByFlashDeckId(request.params.flashdeckId);
   if (flashcards.isErr) {
     handleRepositoryErrors(flashcards.error, res);
     return;
