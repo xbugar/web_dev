@@ -1041,7 +1041,42 @@ components:
             color:
               type: string
 
+    FlashDeck:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        tags:
+          $ref: "#/components/schemas/TagArray"
+        cardsCount:
+          type: integer
 
+    FlashCard:
+      type: object
+      properties:
+        id:
+          type: string
+        question:
+          type: string
+        answer:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        deck:
+          type: object
+          properties:
+            id:
+              type: string
+            color:
+              type: string
     
     User:
       type: object
