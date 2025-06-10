@@ -32,3 +32,8 @@ export type ResponseUser = {
 export type SessionId = {
   sessionId: string;
 }
+
+export type UpdateUser = {
+  firstName: string;
+  lastName: string;
+}
