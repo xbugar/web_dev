@@ -1,182 +1,182 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-    id        String @id @default(uuid()) @db.Uuid
-    firstName String
-    lastName  String
-    email     String @unique
+  id        String @id @default(uuid()) @db.Uuid
+  firstName String
+  lastName  String
+  email     String @unique
 
-    isAdmin  Boolean @default(false)
-    password String
+  isAdmin  Boolean @default(false)
+  password String
 
-    profilePicture   ProfilePicture? @relation(fields: [profilePictureId], references: [id])
-    profilePictureId String?         @db.Uuid
-    notebooks        Notebook[]
-    events           Event[]
-    flashDecks       FlashDeck[]
-    tags             Tag[]
+  profilePicture   ProfilePicture? @relation(fields: [profilePictureId], references: [id])
+  profilePictureId String?         @db.Uuid
+  notebooks        Notebook[]
+  events           Event[]
+  flashDecks       FlashDeck[]
+  tags             Tag[]
 
-    @@index([email, lastName, firstName])
+  @@index([email, lastName, firstName])
 }
 
 model Session {
-    id        String   @id
-    sid       String   @unique
-    data      String
-    expiresAt DateTime
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
 }
 
 model ProfilePicture {
-    id      String @id @default(uuid()) @db.Uuid
-    picture Bytes
+  id      String @id @default(uuid()) @db.Uuid
+  picture Bytes
 
-    users User[]
+  users User[]
 }
 
 model Notebook {
-    id String @id @default(uuid()) @db.Uuid
+  id String @id @default(uuid()) @db.Uuid
 
-    title       String
-    description String
-    color       String
+  title       String
+  description String
+  color       String
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId     String      @db.Uuid
-    icon       Icon?       @relation(fields: [iconName], references: [name])
-    iconName   String?     @db.Text
-    notes      Note[]
-    flashDecks FlashDeck[]
-    tags       Tag[]
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String      @db.Uuid
+  icon       Icon?       @relation(fields: [iconName], references: [name])
+  iconName   String?     @db.Text
+  notes      Note[]
+  flashDecks FlashDeck[]
+  tags       Tag[]
 
-    @@index([userId, updatedAt])
-    @@index([userId, title])
+  @@index([userId, updatedAt])
+  @@index([userId, title])
 }
 
 model Note {
-    id String @id @default(uuid()) @db.Uuid
+  id String @id @default(uuid()) @db.Uuid
 
-    title   String
-    content String @default("")
+  title   String
+  content String @default("")
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    notebook   Notebook @relation(fields: [notebookId], references: [id], onDelete: Cascade)
-    notebookId String   @db.Uuid
-    tags       Tag[]
+  notebook   Notebook @relation(fields: [notebookId], references: [id], onDelete: Cascade)
+  notebookId String   @db.Uuid
+  tags       Tag[]
 
-    @@index([notebookId, title])
+  @@index([notebookId, title])
 }
 
 model Event {
-    id String @id @default(uuid()) @db.Uuid
+  id String @id @default(uuid()) @db.Uuid
 
-    title       String
-    description String
-    importance  Importance
-    color       String
+  title       String
+  description String
+  importance  Importance
+  color       String
 
-    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId     String      @db.Uuid
-    eventTimes EventTime[]
-    tags       Tag[]
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String      @db.Uuid
+  eventTimes EventTime[]
+  tags       Tag[]
 
-    @@index([userId, title])
+  @@index([userId, title])
 }
 
 enum Importance {
-    LOW
-    MEDIUM
-    HIGH
+  LOW
+  MEDIUM
+  HIGH
 }
 
 model EventTime {
-    id String @id @default(uuid()) @db.Uuid
+  id String @id @default(uuid()) @db.Uuid
 
-    dateTimeStart DateTime
-    dateTimeEnd   DateTime
+  dateTimeStart DateTime
+  dateTimeEnd   DateTime
 
-    event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
-    eventId String @db.Uuid
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId String @db.Uuid
 }
 
 model FlashDeck {
-    id String @id @default(uuid()) @db.Uuid
+  id String @id @default(uuid()) @db.Uuid
 
-    title       String
-    description String @default("")
-    color       String
+  title       String
+  description String @default("")
+  color       String
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId     String      @db.Uuid
-    icon       Icon        @relation(fields: [iconName], references: [name])
-    iconName   String      @db.Text
-    notebook   Notebook?   @relation(fields: [notebookId], references: [id])
-    notebookId String?     @db.Uuid
-    flashCards FlashCard[]
-    tags       Tag[]
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String      @db.Uuid
+  // icon       Icon        @relation(fields: [iconName], references: [name])
+  // iconName   String      @db.Text
+  notebook   Notebook?   @relation(fields: [notebookId], references: [id])
+  notebookId String?     @db.Uuid
+  flashCards FlashCard[]
+  tags       Tag[]
 
-    @@index([userId, updatedAt])
-    @@index([userId, title])
+  @@index([userId, updatedAt])
+  @@index([userId, title])
 }
 
 model FlashCard {
-    id String @id @default(uuid()) @db.Uuid
+  id String @id @default(uuid()) @db.Uuid
 
-    question String
+  question String
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    flashDeck   FlashDeck     @relation(fields: [flashDeckId], references: [id], onDelete: Cascade)
-    flashDeckId String        @db.Uuid
-    answers     FlashAnswer[]
+  flashDeck   FlashDeck     @relation(fields: [flashDeckId], references: [id], onDelete: Cascade)
+  flashDeckId String        @db.Uuid
+  answers     FlashAnswer[]
 
-    @@index([flashDeckId])
+  @@index([flashDeckId])
 }
 
 model FlashAnswer {
-    id String @id @default(uuid()) @db.Uuid
+  id String @id @default(uuid()) @db.Uuid
 
-    answer    String  @default("")
-    isCorrect Boolean @default(false)
+  answer    String  @default("")
+  isCorrect Boolean @default(false)
 
-    flashCard   FlashCard @relation(fields: [flashCardId], references: [id], onDelete: Cascade)
-    flashCardId String    @db.Uuid
+  flashCard   FlashCard @relation(fields: [flashCardId], references: [id], onDelete: Cascade)
+  flashCardId String    @db.Uuid
 }
 
 model Icon {
-    name String @id @db.Text
-    icon Bytes
+  name String @id @db.Text
+  icon Bytes
 
-    notebooks  Notebook[]
-    flashDecks FlashDeck[]
+  notebooks Notebook[]
+  // flashDecks FlashDeck[]
 }
 
 model Tag {
-    id    String @id @default(uuid()) @db.Uuid
-    name  String
-    color String
+  id    String @id @default(uuid()) @db.Uuid
+  name  String
+  color String
 
-    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId     String      @db.Uuid
-    notebooks  Notebook[]
-    flashDecks FlashDeck[]
-    events     Event[]
-    notes      Note[]
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String      @db.Uuid
+  notebooks  Notebook[]
+  flashDecks FlashDeck[]
+  events     Event[]
+  notes      Note[]
 
-    @@index([userId])
+  @@index([userId])
 }
