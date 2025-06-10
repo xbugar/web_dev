@@ -133,29 +133,19 @@ model FlashDeck {
     @@index([userId, title])
 }
 
-model FlashCard {
+model Card {
     id String @id @default(uuid()) @db.Uuid
 
     question String
+    answer      String
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     flashDeck   FlashDeck     @relation(fields: [flashDeckId], references: [id], onDelete: Cascade)
     flashDeckId String        @db.Uuid
-    answers     FlashAnswer[]
 
     @@index([flashDeckId])
-}
-
-model FlashAnswer {
-    id String @id @default(uuid()) @db.Uuid
-
-    answer    String  @default("")
-    isCorrect Boolean @default(false)
-
-    flashCard   FlashCard @relation(fields: [flashCardId], references: [id], onDelete: Cascade)
-    flashCardId String    @db.Uuid
 }
 
 model Icon {
