@@ -3,6 +3,8 @@ import {Response} from "express";
 import {notebookRepository} from "./notebook/repository";
 import {handleRepositoryErrors} from "./utils";
 import {noteRepository} from "./note/repository";
+import { flashdeckRepository } from "./flashdeck/repository";
+import { flashCardRepository } from "./flashcard/repository";
 
 export const ownership = {
     async notebook(notebookId: string, userId: string | undefined, res: Response) {

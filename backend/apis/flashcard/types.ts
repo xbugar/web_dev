@@ -1,7 +1,6 @@
 import z from "zod";
 import {
   updateFlashCardRequestSchema,
-  deleteFlashCardRequestSchema,
 } from "./validationSchema";
 
 
