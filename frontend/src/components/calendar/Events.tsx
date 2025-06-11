@@ -5,15 +5,17 @@ import { format, isAfter, isBefore, isSameDay, parseISO } from "date-fns";
 export type EventsProps = {
   events?: EventType[];
   selectedDay?: Date;
+  homepageDesktop?: boolean;
 }
 
 export const Events = ({
   events,
-  selectedDay
+  selectedDay,
+  homepageDesktop = false
 } : EventsProps) => {
   return (
-    <div className="flex flex-col gap-4 w-full">
-      {events &&
+    <div className={`grid gap-4 w-full ${homepageDesktop ? 'grid-cols-2' : 'grid-cols-1'}`}>
+    {events &&
         events.map(({ eventId, title, description, tags, timeFrom, timeTo }) => {
           const from = parseISO(timeFrom);
           const to = parseISO(timeTo);

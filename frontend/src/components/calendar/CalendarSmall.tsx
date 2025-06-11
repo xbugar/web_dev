@@ -9,7 +9,7 @@ export function CalendarSmall() {
   const daysOfWeek = Array.from({ length: 7 }).map((_, i) => addDays(weekStart, i))
 
   return (
-    <div className="flex justify-center items-center gap-2">
+    <div className="grid grid-cols-7 gap-2 w-full">
       {daysOfWeek.map((day) => (
         <CalendarCell
           key={day.toISOString()}
