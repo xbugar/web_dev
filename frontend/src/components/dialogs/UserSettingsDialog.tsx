@@ -13,7 +13,10 @@ import { Button } from '../ui/button';
 import { postLogoutUser } from '@/services/authService';
 import { useAuthStore } from '@/lib/authStore';
 import { useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useGetUser } from "@/hooks/useGetUser.ts";
+import { Input } from "@/components/ui/input.tsx";
+import { useEditUser } from "@/hooks/useEditUser.ts";
 
 type UserSettingsDialogProps = {
   open: boolean;
@@ -27,6 +30,22 @@ export const UserSettingsDialog = ({ open, onOpenChange }: UserSettingsDialogPro
   const navigate = useNavigate();
   const setAuth = useAuthStore(s => s.setAuth);
   const auth = useAuthStore(s => s.auth);
+
+  const { data: user, isLoading: userLoading } = useGetUser();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+
+  useEffect(() => {
+    if (user) {
+      setFirstName(user.firstName);
+      setLastName(user.lastName);
+    }
+  }, [user]);
+
+  const edit = useEditUser();
+  const handleSave = () => {
+    edit.mutate({firstName, lastName});
+  };
 
   async function onSubmit() {
     setIsPending(true);
@@ -49,8 +68,33 @@ export const UserSettingsDialog = ({ open, onOpenChange }: UserSettingsDialogPro
           <DialogTitle>User settings</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
-        <Button variant="submit" onClick={onSubmit} loading={isPending || !auth.isAuth}>
-          Log out
+        <div className="flex flex-col gap-4 mb-4">
+          <div className="flex flex-col">
+            <Label htmlFor="firstName">First name</Label>
+            <Input
+              id="firstName"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              disabled={userLoading}
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <Label htmlFor="lastName">Last name</Label>
+            <Input
+              id="lastName"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              disabled={userLoading}
+            />
+          </div>
+        </div>
+
+        <Button
+          variant="submit"
+          onClick={handleSave}
+        >
+          Save
         </Button>
 
         <div className="flex justify-between gap-5">
@@ -80,6 +124,8 @@ export const UserSettingsDialog = ({ open, onOpenChange }: UserSettingsDialogPro
             </Select>
           </div>
 
+
+
           {/* Icon */}
           {/* <div className="flex w-full flex-col">
             <Label htmlFor="icon" className="text-right">
@@ -100,6 +146,11 @@ export const UserSettingsDialog = ({ open, onOpenChange }: UserSettingsDialogPro
             </Select>
           </div> */}
         </div>
+
+        <Button variant="submit" onClick={onSubmit} loading={isPending || !auth.isAuth}>
+          Log out
+        </Button>
+
       </DialogContent>
     </Dialog>
   );

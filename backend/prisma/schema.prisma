@@ -122,8 +122,6 @@ model FlashDeck {
 
     user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId     String      @db.Uuid
-    icon       Icon        @relation(fields: [iconName], references: [name])
-    iconName   String      @db.Text
     notebook   Notebook?   @relation(fields: [notebookId], references: [id])
     notebookId String?     @db.Uuid
     flashCards FlashCard[]
@@ -133,29 +131,19 @@ model FlashDeck {
     @@index([userId, title])
 }
 
-model FlashCard {
+model Card {
     id String @id @default(uuid()) @db.Uuid
 
     question String
+    answer      String
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     flashDeck   FlashDeck     @relation(fields: [flashDeckId], references: [id], onDelete: Cascade)
     flashDeckId String        @db.Uuid
-    answers     FlashAnswer[]
 
     @@index([flashDeckId])
-}
-
-model FlashAnswer {
-    id String @id @default(uuid()) @db.Uuid
-
-    answer    String  @default("")
-    isCorrect Boolean @default(false)
-
-    flashCard   FlashCard @relation(fields: [flashCardId], references: [id], onDelete: Cascade)
-    flashCardId String    @db.Uuid
 }
 
 model Icon {
@@ -163,7 +151,6 @@ model Icon {
     icon Bytes
 
     notebooks  Notebook[]
-    flashDecks FlashDeck[]
 }
 
 model Tag {
