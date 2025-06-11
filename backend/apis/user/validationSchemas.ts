@@ -22,7 +22,7 @@ export const userUpdateRequestSchema = z.object({
 export const userCreateNotebookRequestSchema = z.object({
     body: z.object({
         title: z.string().min(1).max(255),
-        description: z.string().min(1).max(255).nullable().default(null),
+        description: z.string().max(255).nullable().default(null),
         color: z.string(),
         iconName: z.string(),
     })

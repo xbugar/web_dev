@@ -7,7 +7,7 @@ export const notebookUpdateRequestSchema = z.object({
 
     body: z.object({
         title: z.string().min(1).max(255).optional(),
-        description: z.string().min(1).max(255).optional(),
+        description: z.string().max(255).optional(),
         color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]).optional(),
         iconName: z.string().nullable().default(null),
     })
@@ -49,7 +49,7 @@ export const notebookCreateRequestSchema = z.object({
 
     body: z.object({
         title: z.string().min(1).max(255),
-        description: z.string().min(1).max(255),
+        description: z.string().max(255),
         color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
         iconName: z.string().nullable(),
     })

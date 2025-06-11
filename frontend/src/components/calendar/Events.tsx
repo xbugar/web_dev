@@ -14,7 +14,7 @@ export const Events = ({
   return (
     <div className="flex flex-col gap-4 w-full">
       {events &&
-        events.map(({ eventId, title, description, tags, timeFrom, timeTo }) => {
+        events.map(({ id, title, description, tags, timeFrom, timeTo }) => {
           const from = parseISO(timeFrom);
           const to = parseISO(timeTo);
 
@@ -51,8 +51,8 @@ export const Events = ({
 
           return (
             <EventCard
-              key={eventId}
-              eventId={eventId}
+              key={id}
+              eventId={id}
               title={title}
               description={description}
               tags={tags}

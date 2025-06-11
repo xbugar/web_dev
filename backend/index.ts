@@ -35,7 +35,11 @@ app.use(
         secret: "keyboard cat",
         resave: false,
         saveUninitialized: false,
-        cookie: { secure: true, sameSite:"none" ,httpOnly :false},
+        cookie: {
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? "none" : "lax",
+            httpOnly :false
+        },
         store: new PrismaSessionStore(
             new PrismaClient(),
             {
@@ -46,11 +50,11 @@ app.use(
     })
 );
 
+app.use(passport.initialize());
 
 app.use('/auth', authRouter);
 app.use('/user', passport.session(), isAuthenticated, userRouter);
 app.use('/notebook', passport.session(), isAuthenticated, notebookRouter);
-app.use('/event', passport.session(), isAuthenticated)
 app.use('/note', passport.session(), isAuthenticated, notesRouter);
 app.use('/tag', passport.session(), isAuthenticated, tagsRouter);
 app.use('/event', passport.session(), isAuthenticated, eventRouter);
