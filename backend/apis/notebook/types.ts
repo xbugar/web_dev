@@ -1,6 +1,5 @@
 import {
     notebookOnlyIdRequestSchema,
-    notebookTagOperationRequestSchema,
     notebookUpdateRequestSchema,
     notebookGetRequestSchema,
     notebookCreateNoteRequestSchema,
@@ -10,7 +9,6 @@ import {z} from "zod";
 import {Tag} from "../tag/types";
 
 export type NotebookOnlyIdRequest = z.infer<typeof notebookOnlyIdRequestSchema>;
-export type NotebookTagOperationRequestSchema = z.infer<typeof notebookTagOperationRequestSchema>;
 export type NotebookUpdateRequestSchema = z.infer<typeof notebookUpdateRequestSchema>;
 export type NotebookGetRequest = z.infer<typeof notebookGetRequestSchema>;
 export type NotebookCreateNoteRequest = z.infer<typeof notebookCreateNoteRequestSchema>;

@@ -1,11 +1,12 @@
-﻿import {AuthError} from "./types";
+import {AuthError} from "./types";
 import {Response} from "express";
 import {notebookRepository} from "./notebook/repository";
 import {handleRepositoryErrors} from "./utils";
 import {noteRepository} from "./note/repository";
+import {tagRepository} from "./tag/repository";
+import {eventRepository} from "./event/repository";
 import { flashdeckRepository } from "./flashdeck/repository";
 import { flashCardRepository } from "./flashcard/repository";
-import { tagRepository } from "./tag/repository";
 
 export const ownership = {
     async notebook(notebookId: string, userId: string | undefined, res: Response) {
@@ -36,6 +37,22 @@ export const ownership = {
 
     async tag(tagId: string, userId: string | undefined, res: Response) {
         const ownerId = await tagRepository.getUserId(tagId);
+<<<<<<< backend/apis/ownership.ts
+        if (ownerId.isErr) {
+            handleRepositoryErrors(ownerId.error, res);
+            return false;
+        }
+        if (ownerId.unwrap() != userId) {
+            handleRepositoryErrors(new AuthError(), res);
+            return false;
+        }
+        return true;
+    },
+
+    async event(eventId: string, userId: string | undefined, res: Response) {
+        const ownerId = await eventRepository.getUserId(eventId);
+=======
+>>>>>>> backend/apis/ownership.ts
         if (ownerId.isErr) {
             handleRepositoryErrors(ownerId.error, res);
             return false;

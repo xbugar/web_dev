@@ -12,12 +12,10 @@ describe("/notebook", async () => {
         let tagId: string;
         let cookie: string;
         it('registers a user and logs him in. sends it back with 200', async () => {
-            console.log(await prisma.user.findMany())
-
             const res = await request(app).post('/auth/register').send({
                 firstName: 'John',
                 lastName: 'Doe',
-                email: 'john_@doe.com',
+                email: 'john_kokot@doe.com',
                 password: '123456',
                 confirmPassword: '123456'
             });
@@ -27,10 +25,9 @@ describe("/notebook", async () => {
                 }
             });
 
-            console.log(newUser);
 
             expect(res.status).toBe(200);
-            expect(res.body).toStrictEqual({});
+            expect(res.body).toStrictEqual({message: "success"});
             expect(newUser).not.toBeNull();
 
             cookie = res.headers['set-cookie'][0];
@@ -132,8 +129,6 @@ describe("/notebook", async () => {
 
         it('should return 200 and two existing notebooks for this user', async () => {
             const {status, body} = await request(app).get('/user/notebooks').set("Cookie", cookie).send({});
-            console.log('/user/notebooks');
-            console.log(body);
             expect(status).toBe(200);
             expect(body.length).toBe(2);
             //const notebooks= await prisma.user.findUniqueOrThrow({where:{id:id},select:{notebooks:true}});
@@ -189,22 +184,20 @@ describe("/notebook", async () => {
             expect(status).toBe(200);
             expect(body.length).toBe(2);
         });
+        it("should add new tag to the notebook", async () => {
 
-        // TODO: do something with this
-        // it("should add new tag to the notebook", async () => {
-        //     const tag = await prisma.tag.create({
-        //         data: {
-        //             name: "testovaci tag",
-        //             color: "purple",
-        //             userId: id,
-        //         }
-        //     });
-        //     tagId = tag.id;
-        //     const {status, body} = await request(app).post(`/notebook/${notebookId}/tag/${tagId}`).send({});
-        //
-        //     expect(status).toBe(200);
-        //
-        // });
+            const {status, body} = await request(app).post(`/notebook/${notebookId}/tag`).set("Cookie", cookie).send({
+                name: "testovaci tag",
+                color: "purple",
+            });
+
+            expect(status).toBe(200);
+            expect(body).toMatchObject({
+                name: "testovaci tag",
+                color: "purple",
+            });
+            tagId = body.id;
+        });
 
         it("should retrieve the notebook by id", async () => {
             const {status, body} = await request(app).get(`/notebook/${notebookId}`).set("Cookie", cookie).send({});
@@ -243,16 +236,14 @@ describe("/notebook", async () => {
                 tags: notebook.tags,
             });
         });
+        it("should remove one of the tags added before", async () => {
+            const {status} = await request(app).delete(`/notebook/${notebookId}/tag/${tagId}`).set("Cookie", cookie).send({});
 
-        // TODO: same shit
-        // it("should remove one of the tags added before", async () => {
-        //     const {status,body} = await request(app).delete(`/notebook/${notebookId}/tag/${tagId}`).send({});
-        //
-        //     expect(status).toBe(200);
-        // })
+            expect(status).toBe(200);
+        })
 
         it('should delete the notebook', async () => {
-            const {status,body} = await request(app).delete(`/notebook/${notebookId}`).set("Cookie", cookie).send({});
+            const {status} = await request(app).delete(`/notebook/${notebookId}`).set("Cookie", cookie).send({});
 
             expect(status).toBe(200);
             const notebook = await prisma.notebook.findFirst({where: {id: notebookId}});
