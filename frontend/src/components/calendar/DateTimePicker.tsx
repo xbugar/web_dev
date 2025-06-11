@@ -3,48 +3,74 @@ import { format, startOfDay } from "date-fns"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/forms/Popover"
-import { cn } from "@/lib/utils.ts";
+import { cn } from "@/lib/utils.ts"
 
 type DateTimePickerProps = {
-  date: Date
+  date: Date | undefined
   setDate: (date: Date | undefined) => void
   dateFrom?: Date
 }
 
 export function DateTimePicker({ dateFrom, date, setDate }: DateTimePickerProps) {
   const formattedDate = date ? format(date, "PPP") : "Pick a date"
-  const timeValue = date ? date.toTimeString().slice(0, 5) : ""
+  const timeValue = date ? format(date, "HH:mm") : ""
+
+  const [tempTime, setTempTime] = React.useState(timeValue)
+
+  React.useEffect(() => {
+    setTempTime(timeValue)
+  }, [timeValue])
 
   function handleDateSelect(newDate: Date | undefined) {
     if (!newDate) return setDate(undefined)
 
-    if (date) {
-      const updated = new Date(newDate)
-      updated.setHours(date.getHours(), date.getMinutes())
-      setDate(updated)
+    const hours = date?.getHours() ?? 0
+    const minutes = date?.getMinutes() ?? 0
+
+    const updated = new Date(newDate)
+    updated.setHours(hours, minutes, 0, 0)
+
+    if (
+      dateFrom &&
+      startOfDay(updated).getTime() === startOfDay(dateFrom).getTime() &&
+      updated <= dateFrom
+    ) {
+      setDate(new Date(dateFrom))
+      setTempTime(format(dateFrom, "HH:mm"))
     } else {
-      setDate(newDate)
+      setDate(updated)
+      setTempTime(format(updated, "HH:mm"))
     }
   }
-
 
   function handleTimeChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const time = e.target.value
-    console.log(time)
-    if (!time) return
-
-    const [hours, minutes] = time.split(":").map(Number)
-    if (!date) {
-      const now = new Date()
-      now.setHours(hours, minutes)
-      setDate(now)
-    } else {
-      const updated = new Date(date)
-      updated.setHours(hours, minutes)
-      setDate(updated)
-    }
+    setTempTime(e.target.value)
   }
 
+  function handleTimeBlur() {
+    if (!tempTime) return
+
+    const [hoursStr, minutesStr] = tempTime.split(":")
+    const hours = Number(hoursStr)
+    const minutes = Number(minutesStr)
+    if (isNaN(hours) || isNaN(minutes)) return
+
+    const baseDate = date ?? new Date()
+    const updated = new Date(baseDate)
+    updated.setHours(hours, minutes, 0, 0)
+
+    if (
+      dateFrom &&
+      startOfDay(updated).getTime() === startOfDay(dateFrom).getTime() &&
+      updated <= dateFrom
+    ) {
+      setDate(new Date(dateFrom))
+      setTempTime(format(dateFrom, "HH:mm"))
+    } else {
+      setDate(updated)
+      setTempTime(format(updated, "HH:mm"))
+    }
+  }
 
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -52,23 +78,31 @@ export function DateTimePicker({ dateFrom, date, setDate }: DateTimePickerProps)
         <PopoverTrigger asChild>
           <Button
             variant={"form"}
-            className={cn(
-              "bg-white-secondary dark:bg-black-secondary mb-2",
-            )}
+            className={cn("bg-white-secondary dark:bg-black-secondary mb-2")}
           >
             {formattedDate}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
-          <Calendar mode="single" selected={date} onSelect={handleDateSelect} required disabled={(day) => dateFrom ? startOfDay(day) < startOfDay(dateFrom) : false } />
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={handleDateSelect}
+            required
+            disabled={(day) =>
+              dateFrom ? startOfDay(day) < startOfDay(dateFrom) : false
+            }
+          />
         </PopoverContent>
       </Popover>
 
       <input
         type="time"
-        value={timeValue}
+        value={tempTime}
         onChange={handleTimeChange}
-        className="text-sm font-sans-serif p-2 rounded bg-white-secondary dark:bg-black-secondary mb-2" />
+        onBlur={handleTimeBlur}
+        className="text-sm font-sans-serif p-2 rounded bg-white-secondary dark:bg-black-secondary mb-2"
+      />
     </div>
   )
 }
