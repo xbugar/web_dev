@@ -200,7 +200,8 @@ export const notebookRepository = {
                 id: notebookId
             },
             data: {
-                tags: tagOperation
+                tags: tagOperation,
+                updatedAt: new Date()
             }
         }).then(() => Result.ok(null))
             .catch((error) => repackageToNotFoundError(error));

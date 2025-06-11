@@ -13,8 +13,8 @@ export const userUpdateRequestSchema = z.object({
         body: z.object({
             firstName: z.string().nullable().optional(),
             lastName: z.string().nullable().optional(),
-            email: z.string().email().nullable().optional(),
-            password: z.string().nonempty().nullable().optional(),
+            // email: z.string().email().nullable().optional(),
+            // password: z.string().nonempty().nullable().optional(),
         })
     }
 );
