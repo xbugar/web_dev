@@ -21,7 +21,7 @@ function Calendar({
           month: "flex flex-col gap-4 text-center",
           caption: "flex justify-center pt-1 relative items-center w-full",
           caption_label: "text-lg font-medium",
-          nav: "absolute flex items-center justify-between",
+          nav: "absolute flex items-center justify-between gap-77",
           nav_button: cn(
             Button({ variant: "outline" }),
             "size-7 bg-transparent p-0 opacity-50 hover:opacity-100"

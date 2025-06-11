@@ -23,7 +23,7 @@ export function Navigation() {
       orientation="horizontal"
       className="fixed right-0 bottom-0 z-50 w-full rounded-t-md px-2 py-2 backdrop-blur-md"
     >
-      <NavigationMenu.List className="direction-row shadow-ours flex justify-between gap-1 rounded-md bg-white p-2 dark:bg-black">
+      <NavigationMenu.List className="BulletsOverride direction-row shadow-ours flex justify-between gap-1 rounded-md bg-white p-2 dark:bg-black">
         {paths.map(({ Icon, to, label }) => (
           <NavigationButton key={to} Icon={Icon} label={label} to={to} />
         ))}
