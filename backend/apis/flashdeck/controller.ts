@@ -10,14 +10,13 @@ import {
 } from "./validationSchemas";
 import { flashdeckRepository } from "./repository";
 import { ownership } from "../ownership";
-import { noteRepository } from "../note/repository";
 import { flashCardRepository } from "../flashcard/repository";
 
 
 const addTag = async (req: Request, res: Response) => {
   const request = await parseRequest(flashdeckTagOperationRequestSchema, req, res);
   if (!request
-    || !await ownership.flashdeck(request.params.flashdeckId, req.session.passport?.user.id, res)
+    || !await ownership.deck(request.params.flashdeckId, req.session.passport?.user.id, res)
     || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
     return;
   }
@@ -33,7 +32,7 @@ const addTag = async (req: Request, res: Response) => {
 const removeTag = async (req: Request, res: Response) => {
   const request = await parseRequest(flashdeckTagOperationRequestSchema, req, res);
   if (!request
-    || !await ownership.flashdeck(request.params.flashdeckId, req.session.passport?.user.id, res)
+    || !await ownership.deck(request.params.flashdeckId, req.session.passport?.user.id, res)
     || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
     return;
   }
@@ -50,7 +49,7 @@ const removeTag = async (req: Request, res: Response) => {
 const put = async (req: Request, res: Response) => {
   const request = await parseRequest(flashdeckUpdateRequestSchema, req, res);
   if (!request
-    || !await ownership.flashdeck(request.params.flashdeckId, req.session.passport?.user.id, res)) {
+    || !await ownership.deck(request.params.flashdeckId, req.session.passport?.user.id, res)) {
     return;
   }
 
@@ -66,7 +65,7 @@ const remove = async (req: Request, res: Response) => {
   const userId = req.session.passport?.user.id;
   const request = await parseRequest(flashdeckOnlyIdRequestSchema, req, res);
   if (!request
-    || !await ownership.flashdeck(request.params.flashdeckId, userId, res)) {
+    || !await ownership.deck(request.params.flashdeckId, userId, res)) {
     return;
   }
 
@@ -82,7 +81,7 @@ const get = async (req: Request, res: Response) => {
   const userId = req.session.passport?.user.id;
   const request = await parseRequest(flashdeckGetRequestSchema, req, res);
   if (!request
-    || !await ownership.flashdeck(request.params.flashdeckId, userId, res)) {
+    || !await ownership.deck(request.params.flashdeckId, userId, res)) {
     return;
   }
 
@@ -98,7 +97,7 @@ const createFlashcard = async (req: Request, res: Response) => {
   const userId = req.session.passport?.user.id;
   const request = await parseRequest(flashdeckCreateFlashcardRequestSchema, req, res);
   if (!request
-    || !await ownership.flashdeck(request.params.flashdeckId, userId, res)) {
+    || !await ownership.deck(request.params.flashdeckId, userId, res)) {
     return;
   }
 
@@ -114,7 +113,7 @@ const getAllFlashcards = async (req: Request, res: Response) => {
   const userId = req.session.passport?.user.id;
   const request = await parseRequest(flashdeckOnlyIdRequestSchema, req, res);
   if (!request
-    || !await ownership.flashdeck(request.params.flashdeckId, userId, res)) {
+    || !await ownership.deck(request.params.flashdeckId, userId, res)) {
     return;
   }
 

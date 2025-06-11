@@ -37,7 +37,6 @@ export const ownership = {
 
     async tag(tagId: string, userId: string | undefined, res: Response) {
         const ownerId = await tagRepository.getUserId(tagId);
-<<<<<<< backend/apis/ownership.ts
         if (ownerId.isErr) {
             handleRepositoryErrors(ownerId.error, res);
             return false;
@@ -51,8 +50,6 @@ export const ownership = {
 
     async event(eventId: string, userId: string | undefined, res: Response) {
         const ownerId = await eventRepository.getUserId(eventId);
-=======
->>>>>>> backend/apis/ownership.ts
         if (ownerId.isErr) {
             handleRepositoryErrors(ownerId.error, res);
             return false;
@@ -64,7 +61,7 @@ export const ownership = {
         return true;
     },
 
-    async flashdeck(flashdeckId: string, userId: string | undefined, res: Response) {
+    async deck(flashdeckId: string, userId: string | undefined, res: Response) {
         const ownerId = await flashdeckRepository.getUserId(flashdeckId);
         if (ownerId.isErr) {
             handleRepositoryErrors(ownerId.error, res);
