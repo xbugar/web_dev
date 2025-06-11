@@ -15,7 +15,7 @@ export function Navigation() {
     { Icon: Calendar, to: '/calendar/today', label: 'Calendar' },
     { Icon: Home, to: '/home', label: 'Home' },
     { Icon: Book, to: '/notebooks', label: 'Notebooks' },
-    { Icon: Timer, to: '/pomodoro', label: 'Pomodoro' },
+    { Icon: Timer, to: '/search', label: 'Search' },
   ];
 
   return (
