@@ -1,16 +1,5 @@
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
 import { useDeleteNotebook } from '@/hooks/useDeleteNotebook.ts';
-import { Navigate } from '@tanstack/react-router';
-import { useState } from 'react';
+import { DeleteConfirmationDialog } from "@/components/dialogs/DeleteConfirmationDialog.tsx";
 
 type NotebookDeleteDialogProps = {
   open: boolean;
@@ -19,37 +8,23 @@ type NotebookDeleteDialogProps = {
 };
 
 export const NotebookDeleteDialog = ({
-  open,
-  onOpenChange,
-  notebookId,
-}: NotebookDeleteDialogProps) => {
+                                       open,
+                                       onOpenChange,
+                                       notebookId,
+                                     }: NotebookDeleteDialogProps) => {
   const deleteNotebook = useDeleteNotebook();
 
   const handleDelete = () => {
     deleteNotebook.mutate(notebookId);
-    setIsDeleted(true);
   };
 
-  const [isDeleted, setIsDeleted] = useState(false);
-
   return (
-    <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete and remove your data from our
-            servers.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>
-            {deleteNotebook.isPending ? 'Deleting...' : 'Continue'}
-            {isDeleted && <Navigate to={'/notebooks'} />}
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <DeleteConfirmationDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      onDelete={handleDelete}
+      isPending={deleteNotebook.isPending}
+      navigateTo={'/notebooks'}
+    />
   );
 };

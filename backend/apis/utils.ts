@@ -81,7 +81,7 @@ export const defaultIcon = async () => {
 }
 
 export function repackageToNotFoundError(error:unknown){
-    if (process.env.NODE_ENV !== "production"&& error instanceof Error) {
+    if (process.env.NODE_ENV !== "production" && error instanceof Error) {
         return Result.err(new NotFoundError(error.message));
     }
     return Result.err(new NotFoundError());

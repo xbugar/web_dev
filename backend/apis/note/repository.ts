@@ -1,11 +1,12 @@
 ﻿import {Result} from "@badrap/result";
 import {prisma} from "../prismaClient";
-import {AddTag, GetMeta, NoteMeta, RemoveTag, UpdateContent, UpdateMeta} from "./types";
+import {AddTag, GetMeta, NoteMetaResponse, RemoveTag, UpdateContent, UpdateMeta} from "./types";
 import {NotebookCreateNoteRequest} from "../notebook/types";
 import {repackageToNotFoundError, repackageToInternalError} from "../utils";
+import {Note} from "@prisma/client";
 
 export const noteRepository = {
-    async updateMeta(meta: UpdateMeta): Promise<Result<NoteMeta>> {
+    async updateMeta(meta: UpdateMeta): Promise<Result<NoteMetaResponse>> {
         try {
             const result = await prisma.$transaction(async (tx) => {
                 const note = await tx.note.update({
@@ -48,7 +49,7 @@ export const noteRepository = {
         }
     },
 
-    async getMeta(data: GetMeta): Promise<Result<NoteMeta>> {
+    async getMeta(data: GetMeta): Promise<Result<NoteMetaResponse>> {
         return prisma.note.findUniqueOrThrow({
             select: {
                 id: true,
@@ -142,7 +143,7 @@ export const noteRepository = {
         }
     },
 
-    async addTag(data: AddTag): Promise<Result<NoteMeta>> {
+    async addTag(data: AddTag): Promise<Result<NoteMetaResponse>> {
         try {
             const result = await prisma.$transaction(async (tx) => {
                 const note = await tx.note.update({
@@ -189,7 +190,7 @@ export const noteRepository = {
 
     },
 
-    async removeTag(data: RemoveTag): Promise<Result<NoteMeta>> {
+    async removeTag(data: RemoveTag): Promise<Result<NoteMetaResponse>> {
         try {
             const result = await prisma.$transaction(async (tx) => {
                 const note = await tx.note.update({
@@ -236,7 +237,7 @@ export const noteRepository = {
 
     },
 
-    async create(data: NotebookCreateNoteRequest): Promise<Result<NoteMeta>> {
+    async create(data: NotebookCreateNoteRequest): Promise<Result<NoteMetaResponse>> {
         try {
             const result = await prisma.$transaction(async (tx) => {
                 const note = await tx.note.create({
@@ -278,7 +279,7 @@ export const noteRepository = {
         }
 
     },
-    async getAllByNotebookId(notebookId: string): Promise<Result<NoteMeta[]>> {
+    async getAllByNotebookId(notebookId: string): Promise<Result<NoteMetaResponse[]>> {
         return prisma.note.findMany({
             select: {
                 id: true,
@@ -316,6 +317,27 @@ export const noteRepository = {
         }).then(note => Result.ok(note.notebook.userId))
             .catch(
                 (error) => repackageToNotFoundError(error));
+    },
+
+    async search(name: string, userId: string): Promise<Result<Note[]>> {
+        return await prisma.note.findMany({
+            where: {
+                notebook: {
+                  userId: userId
+                },
+                OR: [
+                    {title: {contains: name}},
+                    {tags: {some: {name: {contains: name}}}}
+                ],
+            },
+            include: {
+                tags: true
+            },
+            orderBy: {
+                title: "asc"
+            }
+        }).then(notes => Result.ok(notes))
+            .catch(error => repackageToNotFoundError(error));
     }
 }
 

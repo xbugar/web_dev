@@ -57,7 +57,7 @@ function RouteComponent() {
           noteCount={currentNotebook.noteCount}
           tags={currentNotebook.tags}
           lastUpdated={currentNotebook.updatedAt}
-          isLinked={false}
+          isLinked={true}
         />
       )}
 

@@ -13,15 +13,14 @@ import { NotebookNoteForm } from '@/components/forms/NotebookNoteForm';
 type NotebookCreateDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  userId: string;
 };
 
-export const NotebookCreateDialog = ({ open, onOpenChange, userId }: NotebookCreateDialogProps) => {
+export const NotebookCreateDialog = ({ open, onOpenChange }: NotebookCreateDialogProps) => {
   const createNotebook = useCreateNotebook();
 
   const handleCreate = (data: CreateNotebook) => {
     createNotebook.mutate(
-      { userId, data },
+      { data },
       {
         onSuccess: () => onOpenChange(false),
       },

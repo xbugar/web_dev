@@ -7,7 +7,7 @@ import {
 } from "./validationSchema";
 import { Tag } from "../tag/types";
 
-export type NoteMeta = {
+export type NoteMetaResponse = {
     id: string;
     title: string;
 
