@@ -1,11 +1,16 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Bold, Italic, Strikethrough, Underline, List, ListOrdered } from 'lucide-react';
+import BulletList from '@tiptap/extension-bullet-list'
+import ListItem from '@tiptap/extension-list-item'
+import OrderedList from '@tiptap/extension-ordered-list'
 import { Underline as UnderlineTiptap } from '@tiptap/extension-underline';
 import { useCallback, useEffect, useState } from 'react';
 import { Markdown } from 'tiptap-markdown';
 import { useEditNoteContent } from '@/hooks/useEditNoteCotent.ts';
 import { useNoteContent } from '@/hooks/useNoteContent.ts';
+import HardBreak from '@tiptap/extension-hard-break';
+
 
 type EditorProps = {
   noteId: string;
@@ -16,11 +21,11 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
   const [, setEditorContent] = useState('');
 
   const { data: noteData, isLoading } = useNoteContent(notebookId, noteId);
-  console.log(noteData);
   const editNoteContent = useEditNoteContent({ id: notebookId });
 
   const editor = useEditor({
-    extensions: [StarterKit, UnderlineTiptap, Markdown],
+    extensions: [StarterKit, UnderlineTiptap, BulletList, ListItem, OrderedList, Markdown, HardBreak],
+
     content: ' ',
     onUpdate: ({ editor }) => {
       setEditorContent(editor.storage.markdown.getMarkdown());
@@ -32,6 +37,7 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
       editor.commands.setContent(noteData.content);
     }
   }, [editor, noteData]);
+
 
   const handleSave = useCallback(() => {
     if (!editor) return;
@@ -66,7 +72,7 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
       <EditorContent editor={editor} className="flex-1 rounded border-0 p-0 focus:outline-none" />
 
       {/* Toolbar */}
-      <div className="fixed bottom-0 flex w-full justify-center gap-4 border-t bg-white p-2 dark:bg-black">
+      <div className="fixed bottom-0 w-full flex justify-center gap-4 border-t p-2 border-red-5 bg-white dark:bg-black">
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={`rounded p-2 ${editor.isActive('bold') ? 'bg-black text-white dark:bg-white dark:text-black' : ''}`}
