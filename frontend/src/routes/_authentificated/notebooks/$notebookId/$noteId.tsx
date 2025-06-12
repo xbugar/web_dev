@@ -22,11 +22,11 @@ function RouteComponent() {
   }
 
   return (
-    <>
+    <div className="lg:mt-20 ">
       <Section title={noteData?.title ?? 'Note'} id={noteId} type={'note'} />
       <div className="card">
         <Editor noteId={noteId} notebookId={noteData?.notebook.id} />
       </div>
-    </>
+    </div>
   );
 }

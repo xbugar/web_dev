@@ -26,7 +26,7 @@ function RouteComponent() {
         </Button>
       </div>
       <EventCreateDialog open={open} onOpenChange={setOpen} day={day} />
-      <Events events={events} />
+      <Events events={events} eventDesktop={true} />
     </div>
   )
 }

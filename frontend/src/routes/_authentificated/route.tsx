@@ -26,10 +26,10 @@ function RouteComponent() {
 
   if (isDesktop) {
     return (
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen ">
         <Sidebar />
         <main className="flex-grow">
-          <section className="mb-0 px-4">
+          <section className="px-2">
             <Outlet />
           </section>
         </main>

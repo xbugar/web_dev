@@ -13,10 +13,14 @@ export const Route = createFileRoute('/_authentificated/notebooks/')({
 function RouteComponent() {
   const { data: notebooks } = useUserNotebooks();
   return (
-    <>
+    <div className="lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
       <Section title={'Notebooks'} Icon={Plus} type="notebook" />
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:overflow-y-auto lg:h-[calc(100vh-5rem)] lg:auto-rows-max"
+           style={{
+             scrollbarWidth: 'none',
+             msOverflowStyle: 'none'
+           }}>
         {notebooks &&
           notebooks.map(
             ({ id, title, description, iconName, color, noteCount, tags, updatedAt }) => (
@@ -34,6 +38,6 @@ function RouteComponent() {
             ),
           )}
       </div>
-    </>
+    </div>
   );
 }

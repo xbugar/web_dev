@@ -44,7 +44,7 @@ function RouteComponent() {
   }
 
   return (
-    <>
+    <div className="lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
       <Section title={'Notebook preview'} id={notebookId} type={'notebook'} />
       {currentNotebook && (
         <NotebookCard
@@ -62,7 +62,11 @@ function RouteComponent() {
       )}
 
       <Section title={'Notes'} Icon={Plus} id={notebookId} type={'note'} />
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 lg:overflow-y-auto lg:h-[calc(100vh-17.5rem)]"
+           style={{
+             scrollbarWidth: 'none',
+             msOverflowStyle: 'none'
+           }}>
         {notes &&
           notes.map(({ id, title, updatedAt, tags }) => (
             <NoteCard
@@ -78,6 +82,6 @@ function RouteComponent() {
             />
           ))}
       </div>
-    </>
+    </div>
   );
 }

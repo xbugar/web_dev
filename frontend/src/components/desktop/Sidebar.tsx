@@ -1,5 +1,5 @@
 
-import { GalleryVerticalEnd, Calendar, Home, Book, Timer, User } from 'lucide-react';
+import { GalleryVerticalEnd, Calendar, Home, Book, Timer, User, SquareArrowOutDownLeft, SquareArrowOutUpRight } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { NavigationButton } from '../navigation/NavigationButton.tsx'; // Reused
 import { NavigationMenu } from 'radix-ui';
@@ -19,22 +19,52 @@ const paths = [
 
 export function Sidebar() {
   const [open, setOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <>
       <aside
-        className="
-        hidden lg:flex flex-col justify-between h-[calc(100vh-1rem)] m-2 w-64
-        backdrop-blur-md shadow-ours p-4 sticky top-0
-        bg-cover bg-no-repeat rounded-md
-        bg-[url('@/assets/gradient.webp')]
-        dark:bg-[url('@/assets/gradient.webp')]
-        "
+        className={`
+          hidden lg:flex flex-col justify-between h-[calc(100vh-1rem)] m-2
+          ${collapsed ? 'w-18' : 'w-64'}
+          transition-all duration-300
+          backdrop-blur-md shadow-ours p-4 sticky top-0
+          bg-cover bg-no-repeat rounded-md
+          bg-[url('@/assets/gradient.webp')]
+          dark:bg-[url('@/assets/gradient.webp')]
+        `}
       >
         <div className="space-y-6" >
-          <Link to="/home">
-            <h1 className="font-serif pb-12 text-3xl justify-self-center font-bold text-white dark:text-white">gradia.</h1>
-          </Link>
+          <div className="relative">
+            {collapsed ? (
+              <div className="flex flex-col items-center pb-4 gap-4 ">
+                <Link to="/home">
+                  <span className="font-serif text-3xl font-bold text-white text-center">g.</span>
+                </Link>
+                <button
+                  onClick={() => setCollapsed(false)}
+                  className="text-white hover:text-gray-300 top-auto"
+                  aria-label="Expand Sidebar"
+                >
+                  <SquareArrowOutUpRight />
+                </button>
+              </div>
+            ) : (
+              <div className="relative">
+                <Link to="/home">
+                  <h1 className="font-serif pb-12 text-3xl font-bold text-white text-center">gradia.</h1>
+                </Link>
+                <button
+                  onClick={() => setCollapsed(true)}
+                  className="absolute top-0 right-0 text-white hover:text-gray-300"
+                  aria-label="Collapse Sidebar"
+                >
+                  <SquareArrowOutDownLeft />
+                </button>
+              </div>
+            )}
+          </div>
+
 
           <NavigationMenu.Root
             orientation="vertical"
@@ -42,14 +72,17 @@ export function Sidebar() {
           >
             <NavigationMenu.List className="BulletsOverride flex flex-col gap-2">
               {paths.map(({ Icon, to, label }) => (
-                <NavigationButton key={to} Icon={Icon} label={label} to={to} />
+                <NavigationButton key={to} Icon={Icon} label={collapsed ? '' : label} to={to} />
               ))}
             </NavigationMenu.List>
           </NavigationMenu.Root>
         </div>
 
-        <Button variant="navigation" className="flex justify-start gap-2 hover:bg-white hover:text-black" onClick={() => setOpen(true)}>
-          <User /> <span>My gradia</span>
+        <Button variant="navigation"
+                className="flex justify-start gap-2 hover:bg-white hover:text-black"
+                onClick={() => setOpen(true)}>
+          <User />
+          {!collapsed && <span>My gradia</span>}
         </Button>
 
       </aside>

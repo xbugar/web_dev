@@ -6,15 +6,23 @@ export type EventsProps = {
   events?: EventType[];
   selectedDay?: Date;
   homepageDesktop?: boolean;
+  calendarDesktop?: boolean;
+  eventDesktop?: boolean;
 }
 
 export const Events = ({
   events,
   selectedDay,
-  homepageDesktop = false
+  homepageDesktop = false,
+  calendarDesktop = false,
+  eventDesktop = false
 } : EventsProps) => {
   return (
-    <div className={`grid gap-4 w-full ${homepageDesktop ? 'grid-cols-2' : 'grid-cols-1'}`}>
+    <div className={`flex flex-col gap-4 w-full lg:overflow-y-auto ${homepageDesktop ? 'grid grid-cols-2' : ''} ${calendarDesktop ? 'lg:h-[calc(100vh-26.5rem)]' : ''} ${eventDesktop ? 'lg:h-[calc(100vh-5rem)]' : ''}`}
+         style={{
+           scrollbarWidth: 'none',
+           msOverflowStyle: 'none'
+         }}>
     {events &&
         events.map(({ eventId, title, description, tags, timeFrom, timeTo }) => {
           const from = parseISO(timeFrom);

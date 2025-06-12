@@ -20,8 +20,8 @@ function RouteComponent() {
 
   if (isDesktop) {
     return (
-      <div className="grid grid-cols-1 gap-4 justify-center p-5 h-screen overflow-hidden">
-        <div className="flex-column items-center rounded-md">
+      <div className="flex flex-col col-auto justify-center pt-5 pb-5 h-screen overflow-hidden">
+        <div className="flex-column items-center rounded-md pb-10">
           <CalendarSmall />
 
           <div className="mt-2 flex items-center justify-between py-1 font-serif text-2xl font-bold">
@@ -33,8 +33,8 @@ function RouteComponent() {
           <Events events={events?.slice(0, 4)} homepageDesktop={true} />
         </div>
 
-        <div className="grid grid-cols-2 gap-4 w-full">
-          <div className="flex flex-col h-full">
+        <div className="grid grid-cols-2 gap-4 h-full w-full">
+          <div className="flex flex-col">
             <div className="flex items-center justify-between py-2 font-serif text-2xl font-bold">
               <h2>Recent notebooks</h2>
               <Button variant="section">
@@ -43,7 +43,7 @@ function RouteComponent() {
                 </Link>
               </Button>
             </div>
-            <div className="flex relative flex-col gap-4 pr-2 overflow-scroll hide-scrollbar">
+            <div className="flex flex-col gap-4 overflow-y-auto h-48 pr-2 hide-scrollbar flex-grow">
               {notebooks &&
                 notebooks
                   .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
@@ -74,7 +74,7 @@ function RouteComponent() {
                 </Link>
               </Button>
             </div>
-            <div className="overflow-y-auto pr-2 hide-scrollbar flex-grow">
+            <div className="flex flex-col gap-4 overflow-y-auto h-48 pr-2 hide-scrollbar flex-grow">
               {/* Flashcards content here */}
             </div>
           </div>

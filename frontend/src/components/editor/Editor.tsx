@@ -69,8 +69,8 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
   }
 
   return (
-    <>
-      <div className="mb-20">
+    <div className="h-full">
+      <div className="mb-20 lg:mb-0">
         <EditorContent editor={editor} className="flex-1 rounded border-0 p-0 focus:outline-none" />
       </div>
 
@@ -124,7 +124,7 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
 
         </div>
 
-    </>
+    </div>
   );
 };
 
