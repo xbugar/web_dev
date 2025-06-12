@@ -18,7 +18,7 @@ export const CalendarCell = ({
                                isToday = false,
                              }: CalendarCellProps) => {
   const date = isToday ? "today" : fullDate;
-    return (// @ts-expect-error
+    return (// @ts-expect-error // surely works
     <Link to={`/calendar/${date}`}><div className={`font-serif rounded-md flex h-[5rem] pt-2 pr-3 pl-3 pb-2.5 flex-col justify-between items-center
         ${isToday ? "bg-black text-white dark:bg-white dark:text-black" : "bg-white-secondary dark:bg-black-secondary"}
       `}>
