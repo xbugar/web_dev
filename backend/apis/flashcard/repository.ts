@@ -17,7 +17,7 @@ export const flashCardRepository = {
             createdAt: true,
             updatedAt: true,
 
-            flashDeck: {
+            deck: {
               select: {
                 id: true,
                 color: true,
@@ -33,8 +33,8 @@ export const flashCardRepository = {
           },
         });
 
-        tx.flashDeck.update({
-          where: {id: card.flashDeck.id},
+        tx.deck.update({
+          where: {id: card.deck.id},
           data: {
             updatedAt: card.updatedAt
           }
@@ -44,7 +44,7 @@ export const flashCardRepository = {
 
       return Result.ok(result);
 
-    } catch (error: any) {
+    } catch (error) {
       return repackageToInternalError(error);
     }
   },
@@ -55,7 +55,7 @@ export const flashCardRepository = {
 
         const card = await tx.card.delete({
           select: {
-            flashDeck: {
+            deck: {
               select: {
                 id: true,
               }
@@ -66,8 +66,8 @@ export const flashCardRepository = {
           }
         });
 
-        tx.flashDeck.update({
-          where: {id: card.flashDeck.id},
+        tx.deck.update({
+          where: {id: card.deck.id},
           data: {
             updatedAt: Date(),
           }
@@ -76,7 +76,7 @@ export const flashCardRepository = {
       });
       return Result.ok(null);
     } catch
-      (error: any) {
+      (error) {
       return repackageToInternalError(error);
     }
   },
@@ -93,7 +93,7 @@ export const flashCardRepository = {
             createdAt: true,
             updatedAt: true,
 
-            flashDeck: {
+            deck: {
               select: {
                 id: true,
                 color: true,
@@ -102,15 +102,11 @@ export const flashCardRepository = {
           },
           data: {
             ...data.body,
-            flashDeck: {
-              connect: {
-                id: data.params.flashdeckId
-              }
-            }
+            deckId: data.params.flashdeckId
           }
         });
 
-        tx.flashDeck.update({
+        tx.deck.update({
           where: {id: data.params.flashdeckId},
           data: {
             updatedAt: card.updatedAt
@@ -119,7 +115,7 @@ export const flashCardRepository = {
         return card;
       })
       return Result.ok(result);
-    } catch (error: any) {
+    } catch (error) {
       return repackageToInternalError(error);
     }
 
@@ -134,7 +130,7 @@ export const flashCardRepository = {
         createdAt: true,
         updatedAt: true,
 
-        flashDeck: {
+        deck: {
           select: {
             id: true,
             color: true,
@@ -142,25 +138,25 @@ export const flashCardRepository = {
         }
       },
       where: {
-        flashDeckId: flashDeckId
+        deckId: flashDeckId
       }
     }).then(cards => Result.ok(cards))
       .catch(
-        (error: any) => repackageToInternalError(error));
+        (error) => repackageToInternalError(error));
   },
 
   async getUserId(flashCardId: string): Promise<Result<string>> {
-    return prisma.flashCard.findUniqueOrThrow({
+    return prisma.card.findUniqueOrThrow({
       select: {
-        flashDeck: {
+        deck: {
           select: {
             userId: true
           }
         }
       },
       where: {id: flashCardId}
-    }).then(card => Result.ok(card.flashDeck.userId))
+    }).then(card => Result.ok(card.deck.userId))
       .catch(
-        (error: any) => repackageToNotFoundError(error));
+        (error) => repackageToNotFoundError(error));
   }
 }

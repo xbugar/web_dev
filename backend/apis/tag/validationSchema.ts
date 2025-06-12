@@ -3,7 +3,7 @@ import { z } from "zod"
 export const createTagRequestSchema = z.object({
     body: z.object({
         name: z.string().min(1).max(32),
-        color: z.enum(["blue" , "purple" , "yellow" , "green" , "red" , "pink"]),
+        color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
     })
 });
 
@@ -21,7 +21,7 @@ export const updateTagRequestSchema = z.object({
     }),
     body: z.object({
         name: z.string().min(1).max(32).optional(),
-        color: z.enum(["blue" , "purple" , "yellow" , "green" , "red" , "pink"]).optional(),
+        color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]).optional(),
     })
 });
 

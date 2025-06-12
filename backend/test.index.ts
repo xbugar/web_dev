@@ -5,6 +5,8 @@ import {notebookRouter} from "./apis/notebook/router";
 import {notesRouter} from "./apis/note/router";
 import {tagsRouter} from "./apis/tag/router";
 import {authRouter} from "./apis/auth/router";
+import {eventRouter} from "./apis/event/router";
+import {searchRouter} from "./apis/search/router";
 import passport from "passport";
 import {isAuthenticated} from "./apis/auth/middleware";
 import {passportStrategy} from "./apis/auth/passportStrategy";
@@ -45,6 +47,9 @@ app.use('/user', passport.session(), isAuthenticated, userRouter);
 app.use('/notebook', passport.session(), isAuthenticated, notebookRouter);
 app.use('/note', passport.session(), isAuthenticated, notesRouter);
 app.use('/tag', passport.session(), isAuthenticated, tagsRouter);
+app.use('/event', passport.session(), isAuthenticated, eventRouter);
+app.use('/search', passport.session(), isAuthenticated, searchRouter);
+
 
 
 export default app;

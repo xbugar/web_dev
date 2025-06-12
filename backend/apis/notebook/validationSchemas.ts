@@ -6,10 +6,10 @@ export const notebookUpdateRequestSchema = z.object({
     }),
 
     body: z.object({
-        title: z.string().min(1).max(255),
-        description: z.string().min(1).max(255),
-        color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
-        iconName: z.string().nullable(),
+        title: z.string().min(1).max(255).optional(),
+        description: z.string().max(255).optional(),
+        color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]).optional(),
+        iconName: z.string().nullable().default(null),
     })
 });
 
@@ -37,19 +37,31 @@ export const notebookOnlyIdRequestSchema = z.object({
     })
 });
 
-export const notebookTagOperationRequestSchema = z.object({
+export const notebookDeleteTagRequestSchema = z.object({
     params: z.object({
         notebookId: z.string().uuid(),
         tagId: z.string().uuid()
     }),
 });
 
+
 export const notebookCreateRequestSchema = z.object({
 
     body: z.object({
         title: z.string().min(1).max(255),
-        description: z.string().min(1).max(255),
+        description: z.string().max(255),
         color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
         iconName: z.string().nullable(),
     })
 })
+
+export const notebookAddTagRequestSchema = z.object({
+    params: z.object({
+        notebookId: z.string().uuid()
+    }),
+    body: z.object({
+        name: z.string().min(1).max(32),
+        color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
+    })
+});
+

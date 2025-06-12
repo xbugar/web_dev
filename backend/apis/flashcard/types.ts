@@ -12,7 +12,7 @@ export type FlashCard = {
   createdAt: Date;
   updatedAt: Date;
 
-  flashDeck: {
+  deck: {
     id: string;
     color: string;
   }
