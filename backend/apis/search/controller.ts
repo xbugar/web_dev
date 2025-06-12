@@ -31,8 +31,11 @@ const get = async (req: Request, res: Response): Promise<void> => {
             return handleRepositoryErrors(result.error, res);
         }
 
-        // @ts-expect-error // TODO this surely works
-        response[`${type}`] = result.unwrap();
+
+        if (result.value.length > 0) {
+            // @ts-expect-error // TODO this surely works
+            response[`${type}`] = result.unwrap();
+        }
     }
 
     res.status(200).send(response);
