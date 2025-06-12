@@ -22,7 +22,7 @@ function RouteComponent() {
   }
 
   return (
-    <div className="lg:mt-20 ">
+    <div className="lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
       <Section title={noteData?.title ?? 'Note'} id={noteId} type={'note'} />
       <div className="card">
         <Editor noteId={noteId} notebookId={noteData?.notebook.id} />
