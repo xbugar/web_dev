@@ -1,11 +1,11 @@
 import {Result} from "@badrap/result";
 import {prisma} from "../prismaClient";
-import { UpdateFlashCard, FlashCard } from "./types";
-import {FlashdeckCreateFlashcardRequest} from "../flashdeck/types";
+import { UpdateCard, Card } from "./types";
+import {DeckCreateCardRequest} from "../deck/types";
 import {repackageToNotFoundError, repackageToInternalError} from "../utils";
 
-export const flashCardRepository = {
-  async updateFlashCard(flashCard: UpdateFlashCard): Promise<Result<FlashCard>> {
+export const cardRepository = {
+  async updateFlashCard(flashCard: UpdateCard): Promise<Result<Card>> {
     try {
       const result = await prisma.$transaction(async (tx) => {
         const card = await tx.card.update({
@@ -81,7 +81,7 @@ export const flashCardRepository = {
     }
   },
 
-  async create(data: FlashdeckCreateFlashcardRequest): Promise<Result<FlashCard>> {
+  async create(data: DeckCreateCardRequest): Promise<Result<Card>> {
     try {
       const result = await prisma.$transaction(async (tx) => {
         const card = await tx.card.create({
@@ -120,7 +120,7 @@ export const flashCardRepository = {
     }
 
   },
-  async getAllByFlashDeckId(flashDeckId: string): Promise<Result<FlashCard[]>> {
+  async getAllByFlashDeckId(flashDeckId: string): Promise<Result<Card[]>> {
     return prisma.card.findMany({
       select: {
         id: true,

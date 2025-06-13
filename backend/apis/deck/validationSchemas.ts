@@ -51,3 +51,9 @@ export const flashdeckCreateRequestSchema = z.object({
     color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
   })
 })
+
+export const getAlldecksSchema = z.object({
+  query: z.object({
+    withTags: z.boolean().default(true),
+  })
+})

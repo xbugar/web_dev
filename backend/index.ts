@@ -17,6 +17,8 @@ import {isAuthenticated} from "./apis/auth/middleware";
 import { authRouter } from "./apis/auth/router";
 import {PrismaClient} from "@prisma/client";
 import {eventRouter} from "./apis/event/router";
+import {deckRouter} from "./apis/deck/router";
+import {cardRouter} from "./apis/card/router";
 
 const app = express();
 
@@ -58,6 +60,8 @@ app.use('/notebook', passport.session(), isAuthenticated, notebookRouter);
 app.use('/note', passport.session(), isAuthenticated, notesRouter);
 app.use('/tag', passport.session(), isAuthenticated, tagsRouter);
 app.use('/event', passport.session(), isAuthenticated, eventRouter);
+app.use('/deck', passport.session(), isAuthenticated, deckRouter);
+app.use('/card', passport.session(), isAuthenticated, cardRouter);
 app.use('/search', passport.session(), isAuthenticated, searchRouter);
 
 // Setup Swagger UI for API documentation

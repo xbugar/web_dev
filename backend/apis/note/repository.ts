@@ -331,7 +331,14 @@ export const noteRepository = {
                 ],
             },
             include: {
-                tags: true
+                tags: true,
+                notebook: {
+                    select: {
+                        title: true,
+                        id: true,
+                        color: true
+                    }
+                }
             },
             orderBy: {
                 title: "asc"

@@ -1,4 +1,4 @@
-import { Home, Book, Calendar, Timer, GalleryVerticalEnd, LucideIcon } from 'lucide-react';
+import { Home, Book, Calendar, Search, GalleryVerticalEnd, LucideIcon } from 'lucide-react';
 
 import { NavigationButton } from './NavigationButton';
 import { NavigationMenu } from 'radix-ui';
@@ -15,7 +15,7 @@ export function Navigation() {
     { Icon: Calendar, to: '/calendar/today', label: 'Calendar' },
     { Icon: Home, to: '/home', label: 'Home' },
     { Icon: Book, to: '/notebooks', label: 'Notebooks' },
-    { Icon: Timer, to: '/search', label: 'Search' },
+    { Icon: Search, to: '/search', label: 'Search' },
   ];
 
   return (

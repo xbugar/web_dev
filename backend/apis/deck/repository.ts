@@ -9,7 +9,7 @@ import {
 import {repackageToNotFoundError, repackageToInternalError} from "../utils";
 import {Deck} from "@prisma/client";
 
-export const flashdeckRepository = {
+export const deckRepository = {
   async create(request: FlashdeckCreateRequest, userId: string): Promise<Result<FlashdeckResponse>> {
     return await prisma.deck.create({
       select: {
