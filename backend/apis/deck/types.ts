@@ -9,7 +9,7 @@ import {
 import {z} from "zod";
 import {Tag} from "../tag/types";
 
-export type FlashdeckCreateFlashcardRequest = z.infer<typeof flashdeckCreateFlashcardRequestSchema>;
+export type DeckCreateCardRequest = z.infer<typeof flashdeckCreateFlashcardRequestSchema>;
 export type FlashdeckGetRequest = z.infer<typeof flashdeckGetRequestSchema>;
 export type FlashdeckUpdateRequest = z.infer<typeof flashdeckUpdateRequestSchema>;
 export type FlashdeckCreateRequest = z.infer<typeof flashdeckCreateRequestSchema>;

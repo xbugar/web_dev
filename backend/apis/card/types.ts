@@ -4,7 +4,7 @@ import {
 } from "./validationSchema";
 
 
-export type FlashCard = {
+export type Card = {
   id: string;
   question: string;
   answer: string;
@@ -18,4 +18,4 @@ export type FlashCard = {
   }
 }
 
-export type UpdateFlashCard = z.infer<typeof updateFlashCardRequestSchema>;
+export type UpdateCard = z.infer<typeof updateFlashCardRequestSchema>;

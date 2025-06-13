@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { handleRepositoryErrors, parseRequest } from "../utils";
-import { flashCardRepository } from "./repository";
+import { cardRepository } from "./repository";
 
 import {
   updateFlashCardRequestSchema,
@@ -18,7 +18,7 @@ const updateFlashCard = async (req: Request, res: Response) => {
     return;
   }
 
-  const operation = await flashCardRepository.updateFlashCard(request);
+  const operation = await cardRepository.updateFlashCard(request);
   if (operation.isErr) {
     handleRepositoryErrors(operation.error, res);
     return;
@@ -34,7 +34,7 @@ const deleteFlashCard = async (req: Request, res: Response) => {
     return;
   }
 
-  const operation = await flashCardRepository.delete(request.params.flashCardId);
+  const operation = await cardRepository.delete(request.params.flashCardId);
   if (operation.isErr) {
     handleRepositoryErrors(operation.error, res);
     return;
@@ -43,8 +43,8 @@ const deleteFlashCard = async (req: Request, res: Response) => {
   res.status(200).send(operation.value);
 }
 
-export const flashCardController = {
-  updateFlashCard,
-  deleteFlashCard,
+export const cardController = {
+  updateCard: updateFlashCard,
+  deleteCard: deleteFlashCard,
 };
 

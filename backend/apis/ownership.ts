@@ -5,8 +5,8 @@ import {handleRepositoryErrors} from "./utils";
 import {noteRepository} from "./note/repository";
 import {tagRepository} from "./tag/repository";
 import {eventRepository} from "./event/repository";
-import { flashdeckRepository } from "./flashdeck/repository";
-import { flashCardRepository } from "./flashcard/repository";
+import {deckRepository} from "./deck/repository";
+import {cardRepository} from "./card/repository";
 
 export const ownership = {
     async notebook(notebookId: string, userId: string | undefined, res: Response) {
@@ -62,7 +62,7 @@ export const ownership = {
     },
 
     async deck(flashdeckId: string, userId: string | undefined, res: Response) {
-        const ownerId = await flashdeckRepository.getUserId(flashdeckId);
+        const ownerId = await deckRepository.getUserId(flashdeckId);
         if (ownerId.isErr) {
             handleRepositoryErrors(ownerId.error, res);
             return false;
@@ -75,7 +75,7 @@ export const ownership = {
     },
 
     async card(flashCardId: string, userId: string | undefined, res: Response) {
-        const ownerId = await flashCardRepository.getUserId(flashCardId);
+        const ownerId = await cardRepository.getUserId(flashCardId);
         if (ownerId.isErr) {
             handleRepositoryErrors(ownerId.error, res);
             return false;

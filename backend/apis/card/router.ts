@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { flashCardController } from "./controller";
+import { cardController } from "./controller";
 
-export const flashCardRouter = Router();
+export const cardRouter = Router();
 
-flashCardRouter.put("/:flashCardId", flashCardController.updateFlashCard);
-flashCardRouter.delete("/:flashCardId", flashCardController.deleteFlashCard);
+cardRouter.put("/:cardId", cardController.updateCard);
+cardRouter.delete("/:cardId", cardController.deleteCard);
 

@@ -1342,6 +1342,360 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /deck:
+    get:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - deck
+      summary: Get all existing decks
+      operationId: getAllDicks
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Deck'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - deck
+      summary: create deck.
+      description: This can only be done by the logged in user.
+      operationId: postDeck
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeck'
+
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Deck'
+        '400':
+          description: bad request
+        '404':
+          description: tag not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /deck/{deckId}:
+    get:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - deck
+      summary: Get an existing deck
+      operationId: getDeck
+      parameters:
+        - name: deckId
+          in: path
+          description: deck id to get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deck'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - deck
+      summary: delete deck
+      operationId: delete Deck
+      parameters:
+        - name: deckId
+          in: path
+          description: deck id to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - deck
+      summary: update deck
+      operationId: update Deck
+      parameters:
+        - name: deckId
+          in: path
+          description: deck id to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeck'
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - deck
+      summary: create card in deck
+      operationId: create card
+      parameters:
+        - name: deckId
+          in: path
+          description: deck id to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCard'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /deck/{deckId}/cards:
+    get:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - deck
+      summary: Get all Cards in a deck
+      operationId: getAllCards
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Card'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /deck/{deckId}/tag:
+    post:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - notebook
+      summary: adds a tag to a notebook.
+      description: ""
+      operationId: addTagToNotebook
+      parameters:
+        - name: notebookId
+          in: path
+          description: id of notebook
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Name and color of a tag.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagNameColor'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /deck/{deckId}/tag/{tagId}:
+    delete:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - notebook
+      summary: removes tag from  notebook.
+      description: ""
+      operationId: removeTagFromNotebook
+      parameters:
+        - name: notebookId
+          in: path
+          description: id of notebook
+          required: true
+          schema:
+            type: string
+        - name: tagId
+          in: path
+          description: id of tag
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /card/{cardId}:
+    delete:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - card
+      summary: delete card
+      operationId: delete card
+      parameters:
+        - name: cardId
+          in: path
+          description: card id to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - card
+      summary: update card
+      operationId: update Card
+      parameters:
+        - name: cardId
+          in: path
+          description: card id to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCard'
+
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
 components:
   schemas:
@@ -1426,7 +1780,7 @@ components:
 
     UpdateEvent:
       type: object
-      properties:        
+      properties:
         title:
           type: string
         description:
@@ -1503,7 +1857,7 @@ components:
             color:
               type: string
 
-    FlashDeck:
+    Deck:
       type: object
       properties:
         id:
@@ -1519,7 +1873,17 @@ components:
         cardsCount:
           type: integer
 
-    FlashCard:
+    CreateDeck:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+
+    Card:
       type: object
       properties:
         id:
@@ -1539,6 +1903,14 @@ components:
               type: string
             color:
               type: string
+
+    CreateCard:
+      type: object
+      properties:
+        question:
+          type: string
+        answer:
+          type: string
     
     User:
       type: object
