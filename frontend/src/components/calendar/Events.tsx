@@ -24,7 +24,7 @@ export const Events = ({
            msOverflowStyle: 'none'
          }}>
     {events &&
-        events.map(({ eventId, title, description, tags, timeFrom, timeTo }) => {
+        events.map(({ id, title, description, tags, timeFrom, timeTo }) => {
           const from = parseISO(timeFrom);
           const to = parseISO(timeTo);
 
