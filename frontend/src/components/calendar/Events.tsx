@@ -61,8 +61,8 @@ export const Events = ({
 
           return (
             <EventCard
-              key={eventId}
-              eventId={eventId}
+              key={id}
+              eventId={id}
               title={title}
               description={description}
               tags={tags}

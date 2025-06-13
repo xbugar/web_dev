@@ -25,14 +25,14 @@ export const userRepository = {
             }
         })
             .then(newUser => Result.ok(newUser))
-            .catch((error: any) => repackageToInternalError(error));
+            .catch((error) => repackageToInternalError(error));
     },
 
     async delete(userId: string): Promise<Result<null, Error>> {
         return await prisma.user.delete({where: {id: userId}})
             .then(
                 () => Result.ok(null)
-            ).catch((error: any) => repackageToNotFoundError(error));
+            ).catch((error) => repackageToNotFoundError(error));
     },
 
     async findById(userId: string): Promise<Result<UserResponse, Error>> {
@@ -47,7 +47,7 @@ export const userRepository = {
                     id: userId
                 }
         }).then(user => Result.ok(user))
-            .catch((error: any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
 
     },
 
@@ -64,7 +64,7 @@ export const userRepository = {
                     email: email
                 }
         }).then(user => Result.ok(user))
-            .catch((error: any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     },
 
     async update(userUpdateRequest: UserUpdateRequest, userId: string): Promise<Result<UserResponse, Error>> {
@@ -87,7 +87,8 @@ export const userRepository = {
                 }
 
             }
+
         ).then(modifiedUser => Result.ok(modifiedUser))
-            .catch((error: any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     }
 }

@@ -17,7 +17,8 @@ export const flashdeckCreateFlashcardRequestSchema = z.object({
     flashdeckId: z.string().uuid()
   }),
   body: z.object({
-    title: z.string().min(1).max(255),
+    question: z.string().min(1).max(255),
+    answer: z.string().min(1).max(255),
   })
 })
 
