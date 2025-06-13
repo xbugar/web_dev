@@ -33,7 +33,7 @@ function LoginAndRegisterLayout() {
             </div>
           </div>
 
-          <div className="flex h-full items-center justify-center p-8 text-white lg:w-3xl lg:backdrop-blur-xl lg:rounded-r-3xl">
+          <div className="flex h-full items-center justify-center p-8 text-white lg:w-3xl lg:backdrop-blur-xl lg:rounded-r-3xl lg:bg-black/60">
             <Outlet />
           </div>
         </div>

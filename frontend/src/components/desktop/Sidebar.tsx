@@ -1,5 +1,5 @@
 
-import { GalleryVerticalEnd, Calendar, Home, Book, Timer, User, SquareArrowOutDownLeft, SquareArrowOutUpRight } from 'lucide-react';
+import { GalleryVerticalEnd, Calendar, Home, Book, Timer, User, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { NavigationButton } from '../navigation/NavigationButton.tsx'; // Reused
 import { NavigationMenu } from 'radix-ui';
@@ -46,7 +46,7 @@ export function Sidebar() {
                   className="text-white hover:text-gray-300 top-auto"
                   aria-label="Expand Sidebar"
                 >
-                  <SquareArrowOutUpRight />
+                  <PanelLeftOpen  />
                 </button>
               </div>
             ) : (
@@ -59,7 +59,7 @@ export function Sidebar() {
                   className="absolute top-0 right-0 text-white hover:text-gray-300"
                   aria-label="Collapse Sidebar"
                 >
-                  <SquareArrowOutDownLeft />
+                  <PanelLeftClose />
                 </button>
               </div>
             )}
