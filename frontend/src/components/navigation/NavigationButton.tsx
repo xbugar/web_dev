@@ -21,12 +21,15 @@ export function NavigationButton({ to, Icon, label }: NavigationButtonProps) {
           asChild
           variant={'navigation'}
           className={cn('flex items-center justify-start gap-2', {
-            'bg-black text-white dark:bg-white dark:text-black': isActive,
+            'bg-black text-white dark:bg-white dark:text-black lg:bg-white lg:text-black': isActive,
           })}
         >
           <Link to={to}>
             <Icon />
-            {isActive && <span>{label}</span>}
+            <span
+                className={cn(isActive ? 'inline' : 'hidden', 'lg:inline')}>
+              {label}
+            </span>
           </Link>
         </Button>
       </NavigationMenu.Link>
