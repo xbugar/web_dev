@@ -6,7 +6,7 @@ export type Note = {
   createdAt: string;
   updatedAt: string;
   tags?: TagType[];
-  notebook: { id: string; color: string };
+  notebook: { id: string; color: string; title?: string };
 };
 
 export type NoteCardProps = {

@@ -141,13 +141,13 @@ const post = async (req: Request, res: Response) => {
 
 }
 
-export const flashdeckController = {
+export const deckController = {
   addTag,
   removeTag,
   put,
   remove,
   get,
-  createFlashcard,
-  getAllFlashcards,
+  createCard: createFlashcard,
+  getAllCards: getAllFlashcards,
   post
 };
