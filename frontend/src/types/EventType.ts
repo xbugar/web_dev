@@ -1,7 +1,7 @@
 import { TagType } from "@/types/TagType.ts";
 
 export type EventType = {
-  eventId: string;
+  id: string;
   title: string;
   description: string;
   tags: TagType[];

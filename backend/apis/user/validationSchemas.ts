@@ -7,7 +7,7 @@ export const userCreateRequestSchema = z.object({
         email: z.string().email(),
         password: z.string().nonempty(),
     })
-})
+});
 
 export const userUpdateRequestSchema = z.object({
         body: z.object({
@@ -17,12 +17,12 @@ export const userUpdateRequestSchema = z.object({
             // password: z.string().nonempty().nullable().optional(),
         })
     }
-)
+);
 
 export const userCreateNotebookRequestSchema = z.object({
     body: z.object({
         title: z.string().min(1).max(255),
-        description: z.string().min(1).max(255),
+        description: z.string().max(255).nullable().default(null),
         color: z.string(),
         iconName: z.string(),
     })
@@ -32,5 +32,4 @@ export const userGetNotebooksRequestSchema = z.object({
     query: z.object({
         withTags: z.boolean().default(true),
     }),
-})
-
+});

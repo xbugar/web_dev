@@ -1,21 +1,17 @@
 import {prisma} from "../prismaClient";
 import {Result} from "@badrap/result";
-import {FlashDeck} from "@prisma/client";
 
 import {
-  FlashdeckCreateFlashcardRequest,
   FlashdeckCreateRequest,
-  FlashdeckGetRequest,
-  FlashdeckOnlyIdRequest,
   FlashdeckResponse,
-  FlashdeckTagOperationRequest,
   FlashdeckUpdateRequest, TagOperation
 } from "./types";
 import {repackageToNotFoundError, repackageToInternalError} from "../utils";
+import {Deck} from "@prisma/client";
 
 export const flashdeckRepository = {
   async create(request: FlashdeckCreateRequest, userId: string): Promise<Result<FlashdeckResponse>> {
-    return await prisma.flashDeck.create({
+    return await prisma.deck.create({
       select: {
         id: true,
         title: true,
@@ -26,7 +22,7 @@ export const flashdeckRepository = {
         // iconName: true,
         _count: {
           select: {
-            flashCards: true,
+            cards: true,
           }
         }
       },
@@ -42,13 +38,13 @@ export const flashdeckRepository = {
       color: flashdeck.color,
       createdAt: flashdeck.createdAt,
       updatedAt: flashdeck.updatedAt,
-      flashCardsCount: flashdeck._count.flashCards,
+      flashCardsCount: flashdeck._count.cards,
     }))
-      .catch((error: any) => repackageToInternalError(error));
+      .catch((error) => repackageToInternalError(error));
   },
 
   async update(request: FlashdeckUpdateRequest): Promise<Result<FlashdeckResponse>> {
-    return await prisma.flashDeck.update({
+    return await prisma.deck.update({
       select: {
         id: true,
         title: true,
@@ -58,7 +54,7 @@ export const flashdeckRepository = {
         updatedAt: true,
         _count: {
           select: {
-            flashCards: true,
+            cards: true,
           }
         }
       },
@@ -71,13 +67,13 @@ export const flashdeckRepository = {
       color: flashdeck.color,
       createdAt: flashdeck.createdAt,
       updatedAt: flashdeck.updatedAt,
-      flashCardsCount: flashdeck._count.flashCards,
+      flashCardsCount: flashdeck._count.cards,
     }))
-      .catch((error: any) => repackageToNotFoundError(error))
+      .catch((error) => repackageToNotFoundError(error))
   },
 
   async get(flashdeckId: string, withTags: boolean): Promise<Result<FlashdeckResponse>> {
-    return await prisma.flashDeck.findUniqueOrThrow(
+    return await prisma.deck.findUniqueOrThrow(
       {
         select: {
           id: true,
@@ -89,7 +85,7 @@ export const flashdeckRepository = {
           tags: withTags,
           _count: {
             select: {
-              flashCards: true,
+              cards: true,
             }
           }
         },
@@ -103,22 +99,22 @@ export const flashdeckRepository = {
       createdAt: flashdeck.createdAt,
       updatedAt: flashdeck.updatedAt,
       tags: flashdeck.tags,
-      flashCardsCount: flashdeck._count.flashCards,
+      flashCardsCount: flashdeck._count.cards,
     }))
-      .catch((error: any) => repackageToNotFoundError(error));
+      .catch((error) => repackageToNotFoundError(error));
   },
 
-  async delete(flashdeckId: string): Promise<Result<FlashDeck>> {
-    return await prisma.flashDeck.delete(
+  async delete(flashdeckId: string): Promise<Result<Deck>> {
+    return await prisma.deck.delete(
       {
         where: {id: flashdeckId},
       }
     ).then(flashdeck => Result.ok(flashdeck))
-      .catch((error: any) => repackageToNotFoundError(error));
+      .catch((error) => repackageToNotFoundError(error));
   },
 
   async getAll(withTags: boolean, userId: string): Promise<Result<FlashdeckResponse[]>> {
-    return await prisma.flashDeck.findMany(
+    return await prisma.deck.findMany(
       {
         select: {
           id: true,
@@ -130,7 +126,7 @@ export const flashdeckRepository = {
           tags: withTags,
           _count: {
             select: {
-              flashCards: true,
+              cards: true,
             }
           }
         },
@@ -147,16 +143,15 @@ export const flashdeckRepository = {
           createdAt: flashdeck.createdAt,
           updatedAt: flashdeck.updatedAt,
           tags: flashdeck.tags,
-          flashCardsCount: flashdeck._count.flashCards,
-
+          flashCardsCount: flashdeck._count.cards,
         }
       }
     )))
-      .catch((error: any) => repackageToInternalError(error));
+      .catch((error) => repackageToInternalError(error));
   },
 
   async modifyTag(flashdeckId: string, tagOperation: TagOperation): Promise<Result<null>> {
-    return await prisma.flashDeck.update({
+    return await prisma.deck.update({
       where: {
         id: flashdeckId
       },
@@ -164,11 +159,11 @@ export const flashdeckRepository = {
         tags: tagOperation
       }
     }).then(() => Result.ok(null))
-      .catch((error: any) => repackageToNotFoundError(error));
+      .catch((error) => repackageToNotFoundError(error));
   },
 
   async getUserId(flashdeckId: string): Promise<Result<string>> {
-    return await prisma.flashDeck.findUniqueOrThrow({
+    return await prisma.deck.findUniqueOrThrow({
       select: {
         userId: true
       },
@@ -176,6 +171,6 @@ export const flashdeckRepository = {
         id: flashdeckId,
       }
     }).then((res) => Result.ok(res.userId))
-      .catch((error: any) => repackageToNotFoundError(error));
+      .catch((error) => repackageToNotFoundError(error));
   }
 }
