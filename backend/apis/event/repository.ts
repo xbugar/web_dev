@@ -3,7 +3,6 @@ import {EventResponse, EventCreateRequest, EventUpdateRequest} from "./types";
 import {Result} from "@badrap/result";
 import {repackageToInternalError, repackageToNotFoundError} from "../utils";
 import {TagOperation} from "../notebook/types";
-import {use} from "passport";
 
 export const eventRepository = {
     async create(userId: string, event: EventCreateRequest): Promise<Result<EventResponse, Error>> {
