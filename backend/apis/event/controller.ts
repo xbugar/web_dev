@@ -155,47 +155,47 @@ const getByDate = async (req: Request, res: Response) => {
 
 const repeatsInRange = async (event: EventResponse, start: Date, end: Date) => {
     const events: EventResponse[] = [];
-    const tmpStart = event.timeFrom;
+    const tmpEnd = event.timeTo;
     let step = 0;
     if (event.repeat === "Every day") {
-        tmpStart.setFullYear(start.getFullYear(), start.getMonth(), start.getDate());
+        tmpEnd.setFullYear(start.getFullYear(), start.getMonth(), start.getDate());
         step = 1000 * 60 * 60 * 24; //ms to week
 
     } else if (event.repeat === "Every Week") {
-        tmpStart.setFullYear(start.getFullYear(), start.getMonth());
+        tmpEnd.setFullYear(start.getFullYear(), start.getMonth());
         step = 1000 * 60 * 60 * 24 * 7; //ms to week
     } else if (event.repeat === "Every 2 Weeks") {
-        tmpStart.setFullYear(start.getFullYear(), start.getMonth());
+        tmpEnd.setFullYear(start.getFullYear(), start.getMonth());
         step = 1000 * 60 * 60 * 24 * 14; //ms to day
     } else {
-        tmpStart.setFullYear(start.getFullYear(), start.getMonth());
-        while (tmpStart.getTime() < end.getTime()) {
+        tmpEnd.setFullYear(start.getFullYear(), start.getMonth());
+        while (tmpEnd.getTime() < end.getTime()) {
             events.push({
                 id: event.id,
                 title: event.title,
                 description: event.description,
-                timeFrom: tmpStart,
-                timeTo: new Date(tmpStart.getTime() + (event.timeTo.getTime() - event.timeFrom.getTime())),
+                timeFrom: new Date(tmpEnd.getTime() - (event.timeTo.getTime() - event.timeFrom.getTime())),
+                timeTo: tmpEnd,
                 repeat: event.repeat
             });
-            if (tmpStart.getMonth() === 12) {
-                tmpStart.setFullYear(tmpStart.getFullYear() + 1, 1);
+            if (tmpEnd.getMonth() === 12) {
+                tmpEnd.setFullYear(tmpEnd.getFullYear() + 1, 1);
             } else {
-                tmpStart.setMonth(tmpStart.getMonth() + 1);
+                tmpEnd.setMonth(tmpEnd.getMonth() + 1);
             }
 
         }
     }
-    while (tmpStart.getTime() < end.getTime()) {
+    while (tmpEnd.getTime() < end.getTime()) {
         events.push({
             id: event.id,
             title: event.title,
             description: event.description,
-            timeFrom: tmpStart,
-            timeTo: new Date(tmpStart.getTime() + (event.timeTo.getTime() - event.timeFrom.getTime())),
+            timeFrom: new Date(tmpEnd.getTime() - (event.timeTo.getTime() - event.timeFrom.getTime())),
+            timeTo: tmpEnd,
             repeat: event.repeat
         });
-        tmpStart.setTime(tmpStart.getTime() + step);
+        tmpEnd.setTime(tmpEnd.getTime() + step);
     }
     return events;
 }

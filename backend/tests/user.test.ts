@@ -33,7 +33,6 @@ describe('/user', async () => {
             const {status, body} = await request(app).get('/user').set("Cookie", cookie).send();
             expect(status).toBe(200);
 
-            id = body.id;
 
             expect(body).toEqual(expect.objectContaining({
                 firstName: 'John',
