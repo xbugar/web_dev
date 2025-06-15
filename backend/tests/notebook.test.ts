@@ -11,7 +11,7 @@ describe("/notebook", async () => {
         it('just does the happy path', async () => {
             let notebookId: string;
             let tagId: string;
-            let cookie: string;
+            const cookie: string;
             const res = await request(app).post('/auth/register').send({
                 firstName: 'John',
                 lastName: 'Doe',
