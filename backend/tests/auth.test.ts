@@ -2,7 +2,6 @@
 import request from 'supertest'
 import app from '../test.index'
 import {prisma} from "./utils/prisma";
-import {defaultIcon} from "../apis/utils";
 
 describe('/auth', async () => {
     describe('all auth operations happy path', async () => {
@@ -43,7 +42,6 @@ describe('/auth', async () => {
 
 
         it('creates a users notebook', async () => {
-            const icon = await defaultIcon();
             const url = "/user/notebook";
             const {status} = await request(app).post(url)
                 .set('Cookie', cookie)
@@ -52,7 +50,7 @@ describe('/auth', async () => {
                         title: "notebucik",
                         description: "neeimeme",
                         color: "green",
-                        iconName: icon.name
+                        iconName: "Default"
                     }
                 );
             expect(status).toBe(200);
@@ -66,7 +64,6 @@ describe('/auth', async () => {
         });
 
         it('should not create the notebook as the user has logged out and should send 404', async () => {
-            const icon = await defaultIcon();
             const url = "/user/notebook";
             const {status} = await request(app).post(url)
                 .set('Cookie', cookie)
@@ -75,7 +72,7 @@ describe('/auth', async () => {
                         title: "notebucik",
                         description: "neeimeme",
                         color: "green",
-                        iconName: icon.name
+                        iconName: "Default"
                     }
                 );
             expect(status).toBe(404);

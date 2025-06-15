@@ -13,6 +13,9 @@ import {passportStrategy} from "./apis/auth/passportStrategy";
 import session from "express-session";
 import {PrismaSessionStore} from "@quixo3/prisma-session-store";
 import {PrismaClient} from "@prisma/client";
+import {deckRouter} from "./apis/deck/router";
+import {cardRouter} from "./apis/card/router";
+import {adminRouter} from "./apis/admin/router";
 
 
 const app = express();
@@ -48,7 +51,10 @@ app.use('/notebook', passport.session(), isAuthenticated, notebookRouter);
 app.use('/note', passport.session(), isAuthenticated, notesRouter);
 app.use('/tag', passport.session(), isAuthenticated, tagsRouter);
 app.use('/event', passport.session(), isAuthenticated, eventRouter);
+app.use('/deck', passport.session(), isAuthenticated, deckRouter);
+app.use('/card', passport.session(), isAuthenticated, cardRouter);
 app.use('/search', passport.session(), isAuthenticated, searchRouter);
+app.use('/admin', passport.session(), isAuthenticated, adminRouter);
 
 
 

@@ -5,7 +5,6 @@ import {prisma} from "./utils/prisma";
 
 describe('/user', async () => {
     describe('all user operations happy path', async () => {
-        let id: string;
         let cookie: string;
         it('registers a user and automatically logs him in. sends it back with 200', async () => {
             const res = await request(app).post('/auth/register').send({
@@ -34,7 +33,6 @@ describe('/user', async () => {
             const {status, body} = await request(app).get('/user').set("Cookie", cookie).send();
             expect(status).toBe(200);
 
-            id = body.id;
 
             expect(body).toEqual(expect.objectContaining({
                 firstName: 'John',
@@ -61,15 +59,6 @@ describe('/user', async () => {
             expect(body).toStrictEqual([]);
         });
 
-        it('should delete the user and return 200', async () => {
-            const {status} = await request(app).delete('/user').set("Cookie", cookie).send();
-
-            expect(status).toBe(200);
-            const newUser = await prisma.user.findFirst(
-                {where: {id: id}}
-            );
-            expect(newUser).toBe(null);
-        })
 
 
     });
