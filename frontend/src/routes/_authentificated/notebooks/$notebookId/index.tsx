@@ -69,7 +69,9 @@ function RouteComponent() {
              msOverflowStyle: 'none'
            }}>
         {notes && notes.length > 0 ? (
-          notes.map(({ id, title, updatedAt, tags }) => (
+          notes
+            .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+            .map(({ id, title, updatedAt, tags }) => (
             <NoteCard
               key={id}
               parentId={currentNotebook.id}

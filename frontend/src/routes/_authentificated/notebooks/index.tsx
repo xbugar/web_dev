@@ -23,8 +23,9 @@ function RouteComponent() {
              msOverflowStyle: 'none'
            }}>
         {notebooks ? (
-          notebooks.map(
-            ({ id, title, description, iconName, color, noteCount, tags, updatedAt }) => (
+          notebooks
+            .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+            .map(({ id, title, description, iconName, color, noteCount, tags, updatedAt }) => (
               <NotebookCard
                 key={id}
                 id={id}
