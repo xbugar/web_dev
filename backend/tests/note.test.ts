@@ -49,7 +49,7 @@ describe("/note", async () => {
                         title: "note-test-notebook",
                         description: "neeimeme",
                         color: "green",
-                        iconName: "test"
+                        iconName: "Default"
                     }
                 );
             console.log(body);
@@ -81,7 +81,7 @@ describe("/note", async () => {
                     title: "note-test-notebook",
                     description: "neeimeme",
                     color: "green",
-                    iconName: "test",
+                    iconName: "Default",
                     createdAt: notebook.createdAt.toJSON(),
                     updatedAt: notebook.updatedAt.toJSON(),
                     noteCount: notebook._count.notes,
