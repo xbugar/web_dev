@@ -11,7 +11,7 @@ describe("/notebook", async () => {
         it('just does the happy path', async () => {
             let notebookId: string;
             let tagId: string;
-            const cookie: string;
+
             const res = await request(app).post('/auth/register').send({
                 firstName: 'John',
                 lastName: 'Doe',
@@ -30,7 +30,7 @@ describe("/notebook", async () => {
             expect(res.body).toStrictEqual({message: "success"});
             expect(newUser).not.toBeNull();
 
-            cookie = res.headers['set-cookie'][0];
+            const cookie = res.headers['set-cookie'][0];
             {
 
                 const url = "/user/notebook";
