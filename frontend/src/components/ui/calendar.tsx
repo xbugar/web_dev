@@ -5,7 +5,7 @@ import { DayPicker } from "react-day-picker"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
-function Calendar({
+function  Calendar({
                     className,
                     classNames,
                     showOutsideDays = true,
@@ -18,7 +18,7 @@ function Calendar({
         className={cn("border-none", className)}
         classNames={{
           months: "grid grid-col-7 sm:flex-row gap-2 align-center",
-          month: "flex flex-col gap-4 text-center",
+          month: "flex flex-col gap-4 text-center ",
           caption: "flex justify-center pt-1 relative items-center w-full",
           caption_label: "text-lg font-medium",
           nav: "absolute flex items-center justify-between",
@@ -41,7 +41,7 @@ function Calendar({
           ),
           day_button: cn(
             Button({ variant: "ghost" }),
-            "size-9 p-0 font-normal aria-selected:opacity-100 rounded cursor-pointer",
+            "size-9 p-0 font-normal aria-selected:opacity-100 rounded cursor-pointer ",
           ),
           day_range_start:
             "day-range-start aria-selected:bg-primary aria-selected:text-primary-foreground",
@@ -49,7 +49,11 @@ function Calendar({
             "day-range-end aria-selected:bg-primary aria-selected:text-primary-foreground",
           selected:
             "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground rounded",
-          today: "bg-accent text-accent-foreground rounded",
+          today: cn(
+            "rounded",
+            "[&:not([aria-selected])]:bg-white-secondary [&:not([aria-selected])]:dark:bg-black-secondary",
+            "[&:not([aria-selected])]:text-black [&:not([aria-selected])]:dark:text-white"
+          ),
           outside:
             "day-outside text-muted-foreground aria-selected:text-muted-foreground",
           disabled: "text-muted-foreground opacity-50",
