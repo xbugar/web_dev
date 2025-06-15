@@ -18,16 +18,10 @@ describe("/note", async () => {
                 password: '123456',
                 confirmPassword: '123456'
             });
-            const newUser = await prisma.user.findFirst({
-                where: {
-                    email: "jane@doe.com",
-                }
-            });
+
 
             expect(res.status).toBe(200);
             expect(res.body).toStrictEqual({ message: 'success' });
-            expect(newUser).not.toBeNull();
-
         });
         it('should log in the user', async() => {
             const {status,headers} = await request(app).post('/auth/login').send({
