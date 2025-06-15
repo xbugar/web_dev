@@ -37,11 +37,21 @@ export const flashdeckOnlyIdRequestSchema = z.object({
     })
 });
 
-export const flashdeckTagOperationRequestSchema = z.object({
+export const flashdeckRemoveTagRequestSchema = z.object({
     params: z.object({
         deckId: z.string().uuid(),
-        tagId: z.string().uuid()
+        tagId: z.string().uuid(),
+    })
+});
+
+export const flashdeckAddTagRequestSchema = z.object({
+    params: z.object({
+        deckId: z.string().uuid()
     }),
+    body: z.object({
+        name: z.string().min(1).max(32),
+        color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
+    })
 });
 
 export const flashdeckCreateRequestSchema = z.object({
