@@ -240,15 +240,3 @@ ol {
   background-color: oklch(0.67 0.1685 53.38);
 }
 
-/*.dark .has-event-dot::after {*/
-/*  background-color: white;*/
-/*}*/
-
-/*.selected.has-event-dot::after {*/
-/*  background-color: white;*/
-/*}*/
-
-/*.dark .selected.has-event-dot::after {*/
-/*  background-color: black;*/
-/*}*/
-

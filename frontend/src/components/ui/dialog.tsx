@@ -20,7 +20,7 @@ function DialogPortal({ ...props }: React.ComponentProps<typeof DialogPrimitive.
 function DialogClose({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Close>) {
   return (
     <DialogPrimitive.Close
-      className={cn(buttonVariants({ variant: 'submitSecondary' }), className)}
+      className={cn(buttonVariants({ variant: 'submitSecondary' }), "cursor-pointer", className)}
       {...props}
     />
   );

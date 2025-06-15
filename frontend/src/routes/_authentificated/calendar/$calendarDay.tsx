@@ -35,7 +35,7 @@ function RouteComponent() {
             <CalendarArrowUp />
           </Link>
         </Button>
-        <Button variant="section" onClick={() => setOpen(true)}>
+        <Button variant="section" className="cursor-pointer" onClick={() => setOpen(true)}>
           <Plus />
         </Button>
       </div>

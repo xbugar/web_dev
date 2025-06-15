@@ -46,7 +46,7 @@ export function Dropdown({
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="hover:bg-muted rounded-[10%] p-0">
+          <button className="hover:bg-muted rounded-[10%] p-0 cursor-pointer">
             <Ellipsis className="h-5 w-5 text-black dark:text-white" />
           </button>
         </DropdownMenuTrigger>
