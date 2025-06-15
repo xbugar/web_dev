@@ -62,7 +62,7 @@ function RouteComponent() {
       )}
 
       <Section title={'Notes'} Icon={Plus} id={notebookId} type={'note'} />
-      <div className="flex flex-col gap-4 lg:overflow-y-auto lg:h-[calc(100vh-17.5rem)]"
+      <div className="flex flex-col gap-4 lg:overflow-y-auto lg:h-[calc(100vh-15.5rem)]"
            style={{
              scrollbarWidth: 'none',
              msOverflowStyle: 'none'

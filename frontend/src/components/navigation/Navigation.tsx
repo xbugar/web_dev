@@ -1,22 +1,19 @@
-import { Home, Book, Calendar, Search, GalleryVerticalEnd, LucideIcon } from 'lucide-react';
+import { Home, Book, Calendar, Search, GalleryVerticalEnd } from 'lucide-react';
 
 import { NavigationButton } from './NavigationButton';
 import { NavigationMenu } from 'radix-ui';
+import { PathItem } from './PathItem';
 
-type PathItem = {
-  Icon: LucideIcon;
-  to: string;
-  label: string;
-};
 
 export function Navigation() {
   const paths: PathItem[] = [
-    { Icon: GalleryVerticalEnd, to: '/flashcards', label: 'Flashcards' },
-    { Icon: Calendar, to: '/calendar/today', label: 'Calendar' },
-    { Icon: Home, to: '/home', label: 'Home' },
-    { Icon: Book, to: '/notebooks', label: 'Notebooks' },
-    { Icon: Search, to: '/search', label: 'Search' },
+    { Icon: GalleryVerticalEnd, to: '/flashcards', label: 'Flashcards', navKey: 'flashcards' },
+    { Icon: Calendar, to: '/calendar/today', label: 'Calendar', navKey: 'calendar' },
+    { Icon: Home, to: '/home', label: 'Home', navKey: 'home' },
+    { Icon: Book, to: '/notebooks', label: 'Notebooks', navKey: 'notebooks' },
+    { Icon: Search, to: '/search', label: 'Search', navKey: 'search' },
   ];
+
 
   return (
     <NavigationMenu.Root
@@ -24,8 +21,8 @@ export function Navigation() {
       className="fixed right-0 bottom-0 z-50 w-full rounded-t-md px-2 py-2 backdrop-blur-md"
     >
       <NavigationMenu.List className="BulletsOverride direction-row shadow-ours flex justify-between gap-1 rounded-md bg-white p-2 dark:bg-black">
-        {paths.map(({ Icon, to, label }) => (
-          <NavigationButton key={to} Icon={Icon} label={label} to={to} />
+        {paths.map(({ Icon, to, label, navKey }) => (
+          <NavigationButton key={to} Icon={Icon} label={label} to={to} navKey={navKey} />
         ))}
       </NavigationMenu.List>
     </NavigationMenu.Root>

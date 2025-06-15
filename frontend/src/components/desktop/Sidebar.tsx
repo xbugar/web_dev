@@ -1,20 +1,29 @@
 
-import { GalleryVerticalEnd, Calendar, Home, Book, Timer, User, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import {
+  GalleryVerticalEnd,
+  Calendar,
+  Home,
+  Book,
+  User,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Search
+} from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { NavigationButton } from '../navigation/NavigationButton.tsx'; // Reused
 import { NavigationMenu } from 'radix-ui';
 import { Button } from "@/components/ui/button.tsx";
 import { useState } from "react";
 import { UserSettingsDialog } from "@/components/dialogs/UserSettingsDialog.tsx";
+import { PathItem } from '../navigation/PathItem';
 
 
-
-const paths = [
-  { Icon: Home, to: '/home', label: 'Home' },
-  { Icon: Book, to: '/notebooks', label: 'Notebooks' },
-  { Icon: Calendar, to: '/calendar/today', label: 'Calendar' },
-  { Icon: GalleryVerticalEnd, to: '/flashcards', label: 'Flashcards' },
-  { Icon: Timer, to: '/pomodoro', label: 'Pomodoro' },
+const paths: PathItem[] = [
+  { Icon: Home, to: '/home', label: 'Home', navKey: 'home' },
+  { Icon: Book, to: '/notebooks', label: 'Notebooks', navKey: 'notebooks' },
+  { Icon: Calendar, to: '/calendar', label: 'Calendar', navKey: 'calendar' },
+  { Icon: GalleryVerticalEnd, to: '/flashcards', label: 'Flashcards', navKey: 'flashcards' },
+  { Icon: Search, to: '/search', label: 'Search', navKey: 'search' },
 ];
 
 export function Sidebar() {
@@ -71,8 +80,8 @@ export function Sidebar() {
             className="bottom-0 z-50 w-full rounded-t-md justify-self-start"
           >
             <NavigationMenu.List className="BulletsOverride flex flex-col gap-2">
-              {paths.map(({ Icon, to, label }) => (
-                <NavigationButton key={to} Icon={Icon} label={collapsed ? '' : label} to={to} />
+              {paths.map(({ Icon, to, label, navKey }) => (
+                <NavigationButton key={to} Icon={Icon} label={collapsed ? '' : label} to={to} navKey={navKey} />
               ))}
             </NavigationMenu.List>
           </NavigationMenu.Root>
