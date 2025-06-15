@@ -1342,6 +1342,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+  /user/deck:
+    post:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - user
+      summary: create deck.
+      description: This can only be done by the logged in user.
+      operationId: postDeck
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeck'
+
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deck'
+        '400':
+          description: bad request
+        '404':
+          description: tag not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /deck:
     get:
       security:
@@ -1536,6 +1570,33 @@ paths:
 
   /deck/{deckId}/cards:
     get:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - deck
+      summary: Get all Cards in a deck
+      operationId: getAllCards
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Card'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
       security:
         - cookieAuth: [ ]
       tags:
@@ -1917,6 +1978,8 @@ components:
           type: string
         answer:
           type: string
+        learned:
+          type: boolean
         createdAt:
           type: string
         updatedAt:
@@ -2131,73 +2194,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Tag'
-
-    FlashDeck:
-      type: object
-      properties:
-        flashDeckId:
-          type: string
-        title:
-          type: string
-        description:
-          type: string
-        color:
-          type: string
-        createdAt:
-          type: object
-        updatedAt:
-          type: object
-        tags:
-          $ref: "#/components/schemas/TagArray"
-        cardCount:
-          type: integer
-
-    FlashDeckArray:
-      type: array
-      items:
-        $ref: '#/components/schemas/FlashDeck'
-
-    FlashDeckCreate:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-        color:
-          type: string
-        tags:
-          $ref: "#/components/schemas/TagArray"
-
-    FlashCard:
-      type: object
-      properties:
-        flashCardId:
-          type: string
-        question:
-          type: string
-        active:
-          type: boolean
-        createdAt:
-          type: object
-        updatedAt:
-          type: object
-
-    FlashCardCreate:
-      type: object
-      properties:
-        question:
-          type: string
-
-    FlashCardArray:
-      type: array
-      items:
-        $ref: '#/components/schemas/FlashCard'
-
-    FlashAnswer:
-      type: object
-      properties:
-
 
     ApiResponse:
       type: object

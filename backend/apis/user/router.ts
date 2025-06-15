@@ -9,4 +9,5 @@ userRouter.delete("/", userController.remove);
 userRouter.put("/", userController.put);
 userRouter.get("/notebooks", userController.getNotebooks);
 userRouter.post("/notebook", userController.createNotebook);
-
+userRouter.get("/decks", userController.getDecks);
+userRouter.post("/deck", userController.createDeck);
