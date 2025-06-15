@@ -1,5 +1,4 @@
 import {Request, Response} from "express";
-import {noteRepository} from "../note/repository";
 import {handleRepositoryErrors} from "../utils";
 import {adminRepository} from "./repository";
 
