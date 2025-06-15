@@ -1664,7 +1664,7 @@ paths:
       security:
         - cookieAuth: [ ]
       tags:
-        - notebook
+        - deck
       summary: removes tag from  notebook.
       description: ""
       operationId: removeTagFromNotebook

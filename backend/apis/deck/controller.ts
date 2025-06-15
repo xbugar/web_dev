@@ -5,13 +5,13 @@ import {
     flashdeckGetRequestSchema,
     flashdeckUpdateRequestSchema,
     flashdeckOnlyIdRequestSchema,
-    flashdeckTagOperationRequestSchema,
     flashdeckCreateRequestSchema,
-    getAllDecksSchema, resetCardsRequestSchema
+    getAllDecksSchema, resetCardsRequestSchema, flashdeckAddTagRequestSchema, flashdeckRemoveTagRequestSchema
 } from "./validationSchemas";
 import {deckRepository} from "./repository";
 import {ownership} from "../ownership";
 import {cardRepository} from "../card/repository";
+import {tagRepository} from "../tag/repository";
 
 
 const getAll = async (req: Request, res: Response) => {
@@ -30,23 +30,28 @@ const getAll = async (req: Request, res: Response) => {
 
 
 const addTag = async (req: Request, res: Response) => {
-    const request = await parseRequest(flashdeckTagOperationRequestSchema, req, res);
+    const request = await parseRequest(flashdeckAddTagRequestSchema, req, res);
     if (!request
         || !await ownership.deck(request.params.deckId, req.session.passport?.user.id, res)
-        || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
+        || !req.session.passport?.user.id) {
+        return;
+    }
+    const tag = await tagRepository.getOrCreate(request.body,req.session.passport?.user.id);
+    if (tag.isErr) {
+        handleRepositoryErrors(tag.error, res);
         return;
     }
 
-    const operation = await deckRepository.modifyTag(request.params.deckId, {connect: {id: request.params.tagId}});
-    if (operation.isErr) {
-        handleRepositoryErrors(operation.error, res);
+    const result = await deckRepository.modifyTag(request.params.deckId, {connect: {id: tag.value.id}});
+    if (result.isErr) {
+        handleRepositoryErrors(result.error, res);
         return;
     }
-    res.status(200).send();
+    res.status(200).send(tag.unwrap());
 }
 
 const removeTag = async (req: Request, res: Response) => {
-    const request = await parseRequest(flashdeckTagOperationRequestSchema, req, res);
+    const request = await parseRequest(flashdeckRemoveTagRequestSchema, req, res);
     if (!request
         || !await ownership.deck(request.params.deckId, req.session.passport?.user.id, res)
         || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
