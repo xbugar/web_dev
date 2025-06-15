@@ -72,7 +72,7 @@ export const eventGetSchema = z.object({
 });
 
 export const eventGetRangeSchema = z.object({
-    body: z.object({
+    query: z.object({
         start: z.coerce.date(),
         end: z.coerce.date()
     })

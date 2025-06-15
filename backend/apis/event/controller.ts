@@ -207,7 +207,7 @@ const getRange = async (req: Request, res: Response) => {
     if (!userId || !request) {
         return;
     }
-    const notRepeatEvents = await eventRepository.getInRange(userId, request.body.start, request.body.end);
+    const notRepeatEvents = await eventRepository.getInRange(userId, request.query.start, request.query.end);
     if (notRepeatEvents.isErr) {
         handleRepositoryErrors(notRepeatEvents.error, res);
         return;
@@ -221,7 +221,7 @@ const getRange = async (req: Request, res: Response) => {
     }
 
     for (const event of repeatEvents.unwrap()) {
-        (await repeatsInRange(event, request.body.start, request.body.end)).forEach(e => events.push(e));
+        (await repeatsInRange(event, request.query.start, request.query.end)).forEach(e => events.push(e));
     }
     res.status(200).send(events);
 }
