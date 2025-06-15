@@ -5,7 +5,6 @@ import {prisma} from "./utils/prisma";
 
 describe('/user', async () => {
     describe('all user operations happy path', async () => {
-        let id: string;
         let cookie: string;
         it('registers a user and automatically logs him in. sends it back with 200', async () => {
             const res = await request(app).post('/auth/register').send({
