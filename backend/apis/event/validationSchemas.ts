@@ -29,13 +29,6 @@ export const eventDeleteSchema = z.object({
     })
 });
 
-export const eventTagSchema = z.object({
-    params: z.object({
-        eventId: z.string().uuid(),
-        tagId: z.string().uuid(),
-    }),
-});
-
 export const eventAddTagRequestSchema = z.object({
     params: z.object({
         eventId: z.string().uuid()

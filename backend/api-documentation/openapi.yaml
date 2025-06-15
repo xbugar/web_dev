@@ -1628,7 +1628,7 @@ paths:
       security:
         - cookieAuth: [ ]
       tags:
-        - notebook
+        - deck
       summary: adds a tag to a notebook.
       description: ""
       operationId: addTagToNotebook
@@ -1664,7 +1664,7 @@ paths:
       security:
         - cookieAuth: [ ]
       tags:
-        - notebook
+        - deck
       summary: removes tag from  notebook.
       description: ""
       operationId: removeTagFromNotebook
