@@ -5,6 +5,7 @@ import { Plus } from 'lucide-react';
 
 import { NotebookCard } from '@/components/cards/NotebookCard.tsx';
 import { useUserNotebooks } from '@/hooks/useUserNotebooks.ts';
+import { EmptyState } from "@/components/cards/EmptyState.tsx";
 
 export const Route = createFileRoute('/_authentificated/notebooks/')({
   component: RouteComponent,
@@ -21,7 +22,7 @@ function RouteComponent() {
              scrollbarWidth: 'none',
              msOverflowStyle: 'none'
            }}>
-        {notebooks &&
+        {notebooks ? (
           notebooks.map(
             ({ id, title, description, iconName, color, noteCount, tags, updatedAt }) => (
               <NotebookCard
@@ -36,7 +37,12 @@ function RouteComponent() {
                 lastUpdated={updatedAt}
               />
             ),
-          )}
+          )) : (
+            <EmptyState
+              title={'No notebooks'}
+              message={'Create a new notebook.'}
+            />
+        )}
       </div>
     </div>
   );

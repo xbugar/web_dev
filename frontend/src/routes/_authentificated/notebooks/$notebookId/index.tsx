@@ -6,6 +6,7 @@ import { Section } from '@/components/section/Section';
 import { Plus } from 'lucide-react';
 import { useNotebook } from '@/hooks/useNotebook.ts';
 import { useNotesByNotebook } from '@/hooks/useNotesByNotebook.ts';
+import { EmptyState } from "@/components/cards/EmptyState.tsx";
 
 export const Route = createFileRoute('/_authentificated/notebooks/$notebookId/')({
   component: RouteComponent,
@@ -67,7 +68,7 @@ function RouteComponent() {
              scrollbarWidth: 'none',
              msOverflowStyle: 'none'
            }}>
-        {notes &&
+        {notes && notes.length > 0 ? (
           notes.map(({ id, title, updatedAt, tags }) => (
             <NoteCard
               key={id}
@@ -80,7 +81,12 @@ function RouteComponent() {
               content={''} //TODO
               tags={tags}
             />
-          ))}
+          ))) : (
+            <EmptyState
+              title={'No notes'}
+              message={'Create a new note.'}
+            />
+          )}
       </div>
     </div>
   );
