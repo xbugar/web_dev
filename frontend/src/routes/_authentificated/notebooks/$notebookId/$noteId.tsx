@@ -22,9 +22,9 @@ function RouteComponent() {
   }
 
   return (
-    <div className="lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
+    <div className="flex flex-col h-screen lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
       <Section title={noteData?.title ?? 'Note'} id={noteId} type={'note'} />
-      <div className="card">
+      <div className="card flex-1 overflow-hidden">
         <Editor noteId={noteId} notebookId={noteData?.notebook.id} />
       </div>
     </div>
