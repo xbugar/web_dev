@@ -60,7 +60,18 @@ const remove = async (req: Request, res: Response) => {
         res.status(400).send("No user Id provided");
         return;
     }
-    const maybeUser = await userRepository.delete(userId);
+    const admin = await userRepository.isAdmin(userId);
+    if (admin.isErr) {
+        handleRepositoryErrors(admin.error, res);
+        return;
+    }
+
+    if (!admin.unwrap().isAdmin){
+        res.status(401).send("Unauthorized");
+        return;
+    }
+
+    const maybeUser = await userRepository.delete(req.params.userId);
     if (maybeUser.isErr) {
         handleRepositoryErrors(maybeUser.error, res);
         return;

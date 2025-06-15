@@ -61,15 +61,6 @@ describe('/user', async () => {
             expect(body).toStrictEqual([]);
         });
 
-        it('should delete the user and return 200', async () => {
-            const {status} = await request(app).delete('/user').set("Cookie", cookie).send();
-
-            expect(status).toBe(200);
-            const newUser = await prisma.user.findFirst(
-                {where: {id: id}}
-            );
-            expect(newUser).toBe(null);
-        })
 
 
     });

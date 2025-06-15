@@ -1,7 +1,7 @@
 import {prisma} from "../prismaClient";
 import {Result} from "@badrap/result";
 import {UserResponse, UserCreateRequest, UserUpdateRequest, User} from "./types"
-import {defaultPP,repackageToNotFoundError,repackageToInternalError} from "../utils";
+import {defaultPP, repackageToNotFoundError, repackageToInternalError} from "../utils";
 import argon2 from "argon2";
 
 
@@ -87,7 +87,19 @@ export const userRepository = {
                 }
 
             }
-
+        ).then(modifiedUser => Result.ok(modifiedUser))
+            .catch((error) => repackageToNotFoundError(error));
+    },
+    async isAdmin(userId: string) {
+        return await prisma.user.findUniqueOrThrow(
+            {
+                select: {
+                    isAdmin: true
+                },
+                where: {
+                    id: userId
+                },
+            }
         ).then(modifiedUser => Result.ok(modifiedUser))
             .catch((error) => repackageToNotFoundError(error));
     }

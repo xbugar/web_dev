@@ -66,19 +66,6 @@ export const defaultPP = async () => {
     return profilePicture;
 }
 
-export const defaultIcon = async () => {
-    const icon = await prisma.icon.findFirst({where: {name: "test"}});
-    if (icon !== null) {
-        return icon;
-    }
-    const file = readFileSync("prisma/mockData/default-profile.jpg");
-    return prisma.icon.create({
-        data: {
-            name: "test",
-            icon: file
-        }
-    });
-}
 
 export function repackageToNotFoundError(error:unknown){
     if (process.env.NODE_ENV !== "production" && error instanceof Error) {

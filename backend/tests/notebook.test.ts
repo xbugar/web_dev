@@ -2,7 +2,6 @@ import {describe, expect, it} from 'vitest'
 import request from 'supertest'
 import app from '../test.index'
 import {prisma} from "./utils/prisma";
-import {defaultIcon} from "../apis/utils";
 
 
 describe("/notebook", async () => {
@@ -34,14 +33,13 @@ describe("/notebook", async () => {
         });
         it(`should return 200 and create a notebook`, async () => {
 
-            const icon = await defaultIcon();
             const url = "/user/notebook";
             const {status, body} = await request(app).post(url).set("Cookie", cookie).send(
                 {
                     title: "notebucik_book",
                     description: "neeimeme",
                     color: "green",
-                    iconName: icon.name
+                    iconName: "Default"
                 }
             );
 
@@ -73,7 +71,7 @@ describe("/notebook", async () => {
                     title: "notebucik_book",
                     description: "neeimeme",
                     color: "green",
-                    iconName: icon.name,
+                    iconName: "Default",
                     createdAt: notebook.createdAt.toJSON(),
                     updatedAt: notebook.updatedAt.toJSON(),
                     noteCount: notebook._count.notes,
