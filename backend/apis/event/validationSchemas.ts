@@ -67,7 +67,7 @@ export const eventGetByIdSchema = z.object({
 
 export const eventGetSchema = z.object({
     body: z.object({
-        upComing: z.boolean().optional().default(false),
-    })
+        upComing: z.boolean().optional()
+    }).optional().default({upComing: false})
 });
 

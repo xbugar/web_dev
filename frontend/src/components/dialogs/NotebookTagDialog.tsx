@@ -1,0 +1,128 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { CreateTag } from '@/types/TagType.ts';
+import { AccentColor } from '@/components/cards/cardColors.ts';
+import { Tag } from '@/components/cards/Tag.tsx';
+import { TagForm } from '@/components/forms/TagForm.tsx';
+import { useState } from 'react';
+import { useAllTags } from '@/hooks/useAllTags.ts';
+import { useCreateTagNotebook } from '@/hooks/useCreateTagNotebook.ts';
+import { useNotebook } from '@/hooks/useNotebook.ts';
+import { CreateNotebook, Notebook } from '@/types/Notebook.ts';
+import { useDeleteTagFromNotebook } from "@/hooks/useDeleteTagFromNotebook.ts";
+import { DeleteConfirmationDialog } from "@/components/dialogs/DeleteConfirmationDialog.tsx";
+// import { Label } from '@/components/ui/label.tsx';
+// import { NotebookCard } from '../cards/NotebookCard';
+
+interface NotebookTagDialog {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  notebookId: string;
+  initialData: CreateNotebook;
+}
+
+export function NotebookTagDialog({ open, onOpenChange, notebookId }: NotebookTagDialog) {
+  const createTag = useCreateTagNotebook(notebookId);
+  const deleteTag = useDeleteTagFromNotebook({ notebookId });
+  const notebookPromise = useNotebook(notebookId);
+  const allTags = useAllTags();
+  const notebookData: Notebook = notebookPromise.data as Notebook;
+
+  const [openDeleteTag, setOpenDeleteTag] = useState(false);
+  const [deleteTagId, setDeleteTagId] = useState<string>('');
+
+  const handleCreateAndAssignTag = (data: CreateTag) => {
+    if (data.name === '') {
+      return;
+    }
+
+    try {
+      createTag.mutate({ notebookId, data });
+    } catch (err) {
+      console.error('Error while creating a tag:', err);
+    }
+  };
+
+  const handleDelete = () => {
+    deleteTag.mutate({notebookId, tagId : deleteTagId});
+  };
+
+  return (
+    <>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit tags</DialogTitle>
+            <DialogDescription></DialogDescription>
+          </DialogHeader>
+          <div>
+            {/* <div className="grid items-center gap-2">
+              <Label htmlFor="edit-tags-notebook-card-preview" className="text-right">
+                Preview
+              </Label>
+
+              <NotebookCard
+                id="edit-tags-notebook-card-preview"
+                key={''}
+                title={initialData?.title || ''}
+                description={initialData?.description || ''}
+                iconName={initialData?.iconName || 'BookOpen'}
+                color={initialData?.color || 'red'}
+                noteCount={0}
+                lastUpdated={new Date().toString()}
+                isLinked={false}
+                tags={notebookData != undefined ? notebookData.tags : []}
+              />
+            </div> */}
+
+            {notebookData && notebookData.tags && notebookData.tags.length > 0 ? (
+              <div className="hide-scrollbar mb-4 max-h-24 overflow-y-auto">
+                <div className="flex flex-wrap justify-center gap-2">
+                  {notebookData.tags.map((tag, index) => (
+                    <div key={index} className="relative">
+                      <div
+                        onClick={() => {
+                          setOpenDeleteTag(true);
+                          setDeleteTagId(tag.id);
+                        }}
+                      >
+                        <Tag
+                          name={tag.name}
+                          color={tag.color as AccentColor}
+                          key={index}
+                          x={true}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="from-white-secondary dark:from-black-secondary pointer-events-none absolute top-0 right-0 h-full w-4 bg-gradient-to-l to-transparent"></div>
+              </div>
+            ) : (
+              <p className="text-muted-foreground mb-4 text-center text-sm italic">No tags</p>
+            )}
+          </div>
+
+          <TagForm
+            onSubmit={handleCreateAndAssignTag}
+            isSubmitting={createTag.isPending}
+            submitText={'Add'}
+            allTags={allTags.data ?? []}
+          />
+        </DialogContent>
+      </Dialog>
+
+      <DeleteConfirmationDialog
+        open={openDeleteTag}
+        onOpenChange={setOpenDeleteTag}
+        onDelete={handleDelete}
+        isPending={deleteTag.isPending}
+      />
+    </>
+  );
+}

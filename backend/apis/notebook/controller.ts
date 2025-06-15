@@ -140,9 +140,9 @@ const post = async (req: Request, res: Response) => {
 
     const notebook = await notebookRepository.create(request, userId);
     if (notebook.isErr) {
-        handleRepositoryErrors(notebook.error, res);
-        return;
+        return handleRepositoryErrors(notebook.error, res);
     }
+
     res.status(200).send(notebook.unwrap());
 
 }

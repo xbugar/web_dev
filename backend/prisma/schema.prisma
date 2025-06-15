@@ -20,7 +20,7 @@ model User {
     profilePictureId String?         @db.Uuid
     notebooks        Notebook[]
     events           Event[]
-    flashDecks       FlashDeck[]
+    decks            Deck[]
     tags             Tag[]
 
     @@index([email, lastName, firstName])
@@ -50,13 +50,13 @@ model Notebook {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId     String      @db.Uuid
-    icon       Icon?       @relation(fields: [iconName], references: [name])
-    iconName   String?     @db.Text
-    notes      Note[]
-    flashDecks FlashDeck[]
-    tags       Tag[]
+    user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId   String  @db.Uuid
+    icon     Icon?   @relation(fields: [iconName], references: [name])
+    iconName String? @db.Text
+    notes    Note[]
+    decks    Deck[]
+    tags     Tag[]
 
     @@index([userId, updatedAt])
     @@index([userId, title])
@@ -94,7 +94,7 @@ model Event {
     @@index([userId, title])
 }
 
-model FlashDeck {
+model Deck {
     id String @id @default(uuid()) @db.Uuid
 
     title       String
@@ -104,51 +104,37 @@ model FlashDeck {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId     String      @db.Uuid
-    icon       Icon        @relation(fields: [iconName], references: [name])
-    iconName   String      @db.Text
-    notebook   Notebook?   @relation(fields: [notebookId], references: [id])
-    notebookId String?     @db.Uuid
-    flashCards FlashCard[]
+    user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId     String    @db.Uuid
+    notebook   Notebook? @relation(fields: [notebookId], references: [id])
+    notebookId String?   @db.Uuid
+    cards      Card[]
     tags       Tag[]
 
     @@index([userId, updatedAt])
     @@index([userId, title])
 }
 
-model FlashCard {
+model Card {
     id String @id @default(uuid()) @db.Uuid
 
     question String
-    active   Boolean @default(true)
+    answer   String
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    flashDeck   FlashDeck     @relation(fields: [flashDeckId], references: [id], onDelete: Cascade)
-    flashDeckId String        @db.Uuid
-    answers     FlashAnswer[]
+    deck   Deck   @relation(fields: [deckId], references: [id], onDelete: Cascade)
+    deckId String @db.Uuid
 
-    @@index([flashDeckId])
-}
-
-model FlashAnswer {
-    id String @id @default(uuid()) @db.Uuid
-
-    answer    String  @default("")
-    isCorrect Boolean @default(false)
-
-    flashCard   FlashCard @relation(fields: [flashCardId], references: [id], onDelete: Cascade)
-    flashCardId String    @db.Uuid
+    @@index([deckId])
 }
 
 model Icon {
     name String @id @db.Text
     icon Bytes
 
-    notebooks  Notebook[]
-    flashDecks FlashDeck[]
+    notebooks Notebook[]
 }
 
 model Tag {
@@ -156,12 +142,12 @@ model Tag {
     name  String
     color String
 
-    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId     String      @db.Uuid
-    notebooks  Notebook[]
-    flashDecks FlashDeck[]
-    events     Event[]
-    notes      Note[]
+    user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String     @db.Uuid
+    notebooks Notebook[]
+    decks     Deck[]
+    events    Event[]
+    notes     Note[]
 
     @@index([userId])
 }

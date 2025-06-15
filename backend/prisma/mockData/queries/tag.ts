@@ -23,7 +23,7 @@ export async function addNotebookTag(tagId: string, notebookId: string) {
 }
 
 export async function addFlashDeckTag(tagId: string, flashDeckId: string) {
-    return prisma.flashDeck.update({
+    return prisma.deck.update({
         where: { id: flashDeckId },
         data: {
             tags: {

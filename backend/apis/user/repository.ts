@@ -82,8 +82,8 @@ export const userRepository = {
                 data: {
                     firstName: userUpdateRequest.body.firstName ?? undefined,
                     lastName: userUpdateRequest.body.lastName ?? undefined,
-                    email: userUpdateRequest.body.email ?? undefined,
-                    password: userUpdateRequest.body.password ?? undefined,
+                    // email: userUpdateRequest.body.email ?? undefined,
+                    // password: userUpdateRequest.body.password ?? undefined,
                 }
 
             }

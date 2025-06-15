@@ -11,13 +11,16 @@ export const Route = createFileRoute('/_authentificated/notebooks/')({
 });
 
 function RouteComponent() {
-  const userId = 'ce3f2263-f59a-41df-9a3d-aa83e7d2d437';
-  const { data: notebooks } = useUserNotebooks(userId);
+  const { data: notebooks } = useUserNotebooks();
   return (
-    <>
-      <Section title={'Notebooks'} Icon={Plus} id={userId} type="notebook" />
+    <div className="lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
+      <Section title={'Notebooks'} Icon={Plus} type="notebook" />
 
-      <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:overflow-y-auto lg:h-[calc(100vh-5rem)] lg:auto-rows-max"
+           style={{
+             scrollbarWidth: 'none',
+             msOverflowStyle: 'none'
+           }}>
         {notebooks &&
           notebooks.map(
             ({ id, title, description, iconName, color, noteCount, tags, updatedAt }) => (
@@ -35,6 +38,6 @@ function RouteComponent() {
             ),
           )}
       </div>
-    </>
+    </div>
   );
 }

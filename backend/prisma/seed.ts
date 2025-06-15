@@ -4,7 +4,7 @@ import {addUser} from "./mockData/queries/user";
 import {createEvent} from "./mockData/queries/event";
 import {addIcon} from "./mockData/queries/icon";
 import {createNote, createNotebook} from "./mockData/queries/notebook";
-import {createFlashAnswer, createFlashCard, createFlashDeck} from "./mockData/queries/FlashDeck";
+import {createFlashCard, createFlashDeck} from "./mockData/queries/FlashDeck";
 import {faker} from '@faker-js/faker';
 import {addEventTag, addFlashDeckTag, addNotebookTag, addNoteTag, createTag} from "./mockData/queries/tag";
 
@@ -52,9 +52,7 @@ async function createUserWithNotebook(name: string, mail: string, picture: Profi
 async function createUserWithFlashDeck(name: string, mail: string, picture: ProfilePicture, icon: string) {
     const user = await addUser(name, "", mail, "",  picture.id);
     const userFlashDeck = await createFlashDeck(user.id, icon, "test FlashDeck", "", getRandomValue(colors));
-    const userFlashCard = await createFlashCard(userFlashDeck.id, "Are traps gay?");
-    await createFlashAnswer(userFlashCard.id, "yes", false);
-    await createFlashAnswer(userFlashCard.id, "no", true);
+    await createFlashCard(userFlashDeck.id, "Are traps gay?", "no");
     return user;
 }
 

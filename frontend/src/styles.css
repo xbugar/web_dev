@@ -199,3 +199,32 @@
   background: transparent !important;
   box-shadow: none !important;
 }
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+input[type="time"]::-webkit-clear-button,
+input[type="time"]::-webkit-inner-spin-button {
+  display: none;
+}
+
+ul, ol {
+  padding-left: 1.5rem;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+.BulletsOverride {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
