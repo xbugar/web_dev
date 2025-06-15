@@ -3,6 +3,7 @@ import {EventResponse, EventCreateRequest, EventUpdateRequest} from "./types";
 import {Result} from "@badrap/result";
 import {repackageToInternalError, repackageToNotFoundError} from "../utils";
 import {TagOperation} from "../notebook/types";
+import {use} from "passport";
 
 export const eventRepository = {
     async create(userId: string, event: EventCreateRequest): Promise<Result<EventResponse, Error>> {
@@ -166,5 +167,41 @@ export const eventRepository = {
             }
         }).then(events => Result.ok(events))
             .catch(error => repackageToNotFoundError(error));
+    },
+
+    async getRepeating(userId: string): Promise<Result<EventResponse[]>> {
+        try {
+            const repeatingEvents = await prisma.event.findMany({
+                where: {
+                    userId: userId,
+                    repeat: {not: "Never"}
+                }
+            });
+            return Result.ok(repeatingEvents);
+        } catch (error) {
+            return repackageToInternalError(error);
+        }
+    },
+
+    async getInRange(userId: string, start: Date, end: Date): Promise<Result<EventResponse[]>> {
+        try {
+            const events = await prisma.event.findMany({
+                where: {
+                    userId: userId,
+                    AND: [{timeFrom: {gte: start}},
+                        {timeTo: {lte: end}}],
+                    repeat: "Never"
+                }, orderBy: {
+                    timeFrom: 'asc'
+                }
+            });
+
+            return Result.ok(events);
+
+        } catch (error) {
+            return repackageToInternalError(error);
+        }
+
+
     }
 }
