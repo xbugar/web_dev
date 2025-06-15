@@ -2,13 +2,14 @@
     eventAddTagRequestSchema,
     eventCreateSchema, eventDeleteSchema,
     eventDeleteTagRequestSchema, eventGetByDateSchema, eventGetByIdSchema, eventGetSchema,
-    eventUpdateSchema
+    eventUpdateSchema, eventGetRangeSchema
 } from "./validationSchemas";
 import {handleRepositoryErrors, parseRequest} from "../utils";
 import {eventRepository} from "./repository";
 import {ownership} from "../ownership";
 import {Request, Response} from "express";
 import {tagRepository} from "../tag/repository";
+import {EventResponse} from "./types";
 
 
 const createEvent = async (req: Request, res: Response) => {
@@ -152,6 +153,79 @@ const getByDate = async (req: Request, res: Response) => {
 }
 
 
+const repeatsInRange = async (event: EventResponse, start: Date, end: Date) => {
+    const events: EventResponse[] = [];
+    const tmpStart = event.timeFrom;
+    let step = 0;
+    if (event.repeat === "Every day") {
+        tmpStart.setFullYear(start.getFullYear(), start.getMonth(), start.getDate());
+        step = 1000 * 60 * 60 * 24; //ms to week
+
+    } else if (event.repeat === "Every Week") {
+        tmpStart.setFullYear(start.getFullYear(), start.getMonth());
+        step = 1000 * 60 * 60 * 24 * 7; //ms to week
+    } else if (event.repeat === "Every 2 Weeks") {
+        tmpStart.setFullYear(start.getFullYear(), start.getMonth());
+        step = 1000 * 60 * 60 * 24 * 14; //ms to day
+    } else {
+        tmpStart.setFullYear(start.getFullYear(), start.getMonth());
+        while (tmpStart.getTime() < end.getTime()) {
+            events.push({
+                id: event.id,
+                title: event.title,
+                description: event.description,
+                timeFrom: tmpStart,
+                timeTo: new Date(tmpStart.getTime() + (event.timeTo.getTime() - event.timeFrom.getTime())),
+                repeat: event.repeat
+            });
+            if (tmpStart.getMonth() === 12) {
+                tmpStart.setFullYear(tmpStart.getFullYear() + 1, 1);
+            } else {
+                tmpStart.setMonth(tmpStart.getMonth() + 1);
+            }
+
+        }
+    }
+    while (tmpStart.getTime() < end.getTime()) {
+        events.push({
+            id: event.id,
+            title: event.title,
+            description: event.description,
+            timeFrom: tmpStart,
+            timeTo: new Date(tmpStart.getTime() + (event.timeTo.getTime() - event.timeFrom.getTime())),
+            repeat: event.repeat
+        });
+        tmpStart.setTime(tmpStart.getTime() + step);
+    }
+    return events;
+}
+
+
+const getRange = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
+    const request = await parseRequest(eventGetRangeSchema, req, res);
+    if (!userId || !request) {
+        return;
+    }
+    const notRepeatEvents = await eventRepository.getInRange(userId, request.body.start, request.body.end);
+    if (notRepeatEvents.isErr) {
+        handleRepositoryErrors(notRepeatEvents.error, res);
+        return;
+    }
+    const events = notRepeatEvents.unwrap();
+
+    const repeatEvents = await eventRepository.getRepeating(userId);
+    if (repeatEvents.isErr) {
+        handleRepositoryErrors(repeatEvents.error, res);
+        return;
+    }
+
+    for (const event of repeatEvents.unwrap()) {
+        (await repeatsInRange(event, request.body.start, request.body.end)).forEach(e => events.push(e));
+    }
+    res.status(200).send(events);
+}
+
 export const eventController = {
     removeTag,
     addTag,
@@ -160,7 +234,8 @@ export const eventController = {
     get,
     createEvent,
     getByDate,
-    getById
+    getById,
+    getRange,
 };
 
 
