@@ -4,7 +4,7 @@ import {Note} from "@/types/Note.ts";
 
 export type SearchRequest = {
     q: string;
-    type?: ("notes" | "notebooks" | "events")[];
+    // type?: ("notes" | "notebooks" | "events")[];
 };
 
 export type SearchResponse = {

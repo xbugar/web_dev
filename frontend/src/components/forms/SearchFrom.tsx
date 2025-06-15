@@ -1,7 +1,7 @@
 ﻿import {Input} from '@/components/ui/input.tsx';
 import {useState} from "react";
 import {Button} from '@/components/ui/button.tsx';
-// import {LucideIcon, SlidersHorizontal} from 'lucide-react'
+import {SlidersHorizontal} from 'lucide-react'
 
 type SearchFormProps = {
     initialData?: {
@@ -21,7 +21,7 @@ export function SearchForm({
                                submitText
                            }: SearchFormProps) {
     const [q, setQ] = useState(initialData?.q || '');
-    // const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
     const handleSubmit = () => {
         if (!q) return;
         onSubmit({
@@ -38,9 +38,9 @@ export function SearchForm({
                     onChange={(e) => setQ(e.target.value)}
                     className="flex-1 w-full"
                 />
-                {/*<Button variant="section" onClick={() => setOpen(true)} className="w-fit ml-auto">*/}
-                {/*    <SlidersHorizontal/>*/}
-                {/*</Button>*/}
+                <Button variant="section" onClick={() => setOpen(true)} className="w-fit ml-auto">
+                    <SlidersHorizontal/>
+                </Button>
             </div>
 
             <Button
