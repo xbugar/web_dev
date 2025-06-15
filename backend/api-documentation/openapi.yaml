@@ -21,44 +21,14 @@ tags:
     description: Note fetching and modification
   - name: tag
     description: Fetching data related to tags
+  - name: deck
+    description: deck
+  - name: card
+    description: card
   - name: event
     description: event
+
 paths:
-
-  #  /note:
-  #    post:
-  #      tags:
-  #        - note
-  #      summary:  Create a new note in a notebook specified by notebookId. v2
-  #      description: Add a new note.
-  #      operationId: addNotev2
-  #      requestBody:
-  #        description: Create a new note
-  #        content:
-  #          application/json:
-  #            schema:
-  #              $ref: '#/components/schemas/CreateNotev2'
-  #        required: true
-  #      responses:
-  #        '200':
-  #          description: Successful operation
-  #          content:
-  #            application/json:
-  #              schema:
-  #                $ref: '#/components/schemas/Note'
-  #        '400':
-  #          description: Invalid input
-  #        '422':
-  #          description: Validation exception
-  #        default:
-  #          description: Unexpected error
-  #          content:
-  #            application/json:
-  #              schema:
-  #                $ref: '#/components/schemas/Error'
-
-
-
   /event:
     get:
       security:
@@ -1342,6 +1312,70 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+  /user/deck:
+    post:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - user
+      summary: create deck.
+      description: This can only be done by the logged in user.
+      operationId: postDeck
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeck'
+
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deck'
+        '400':
+          description: bad request
+        '404':
+          description: tag not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+  /user/decks:
+    get:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - user
+      summary: Get all existing decks
+      operationId: getAllDicks
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Deck'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
   /deck:
     get:
       security:
@@ -1542,6 +1576,33 @@ paths:
         - deck
       summary: Get all Cards in a deck
       operationId: getAllCards
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Card'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      security:
+        - cookieAuth: [ ]
+      tags:
+        - deck
+      summary: reset all cards to not learned
+      operationId: resetAllCards
       responses:
         '200':
           description: successful operation
@@ -1892,6 +1953,8 @@ components:
           type: string
         answer:
           type: string
+        learned:
+          type: boolean
         createdAt:
           type: string
         updatedAt:
@@ -2106,7 +2169,7 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Tag'
-    
+
     ApiResponse:
       type: object
       properties:

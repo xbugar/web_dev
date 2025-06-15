@@ -120,6 +120,7 @@ model Card {
 
     question String
     answer   String
+    learned  Boolean @default(false)
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
