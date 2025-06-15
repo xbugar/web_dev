@@ -56,6 +56,11 @@ function DialogContent({
             'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 shadow-ours z-50 grid w-full gap-4 rounded-lg bg-white p-6 duration-200 sm:max-w-lg dark:bg-black',
             className,
           )}
+          // prevents pointer-events issue
+          onCloseAutoFocus={(event) => {
+            event.preventDefault();
+            document.body.style.pointerEvents = '';
+          }}
           {...props}
         >
           {children}
