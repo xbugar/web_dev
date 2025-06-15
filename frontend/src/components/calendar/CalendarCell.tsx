@@ -5,7 +5,7 @@ export type CalendarCellProps = {
   dayOfTheWeek: string,
   day: string,
   month: string,
-  event: boolean,
+  hasEvent: boolean,
   isToday?: boolean,
 }
 
@@ -14,7 +14,7 @@ export const CalendarCell = ({
                                dayOfTheWeek,
                                day,
                                month,
-                               event,
+                               hasEvent,
                                isToday = false,
                              }: CalendarCellProps) => {
   const date = isToday ? "today" : fullDate;
@@ -25,7 +25,7 @@ export const CalendarCell = ({
       <div className="text-xs">{dayOfTheWeek}</div>
       <div className="font-bold">{day}</div>
       <div className="text-xs">{month}</div>
-      {event && <div>.</div>}
+      {hasEvent && <div className="w-1 h-1 bg-accent-orange rounded" />}
     </div> </Link>
   )
 }

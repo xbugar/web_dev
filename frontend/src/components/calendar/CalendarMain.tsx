@@ -12,13 +12,15 @@ function getEventDates(events: EventType[]): Date[] {
   for (const event of events) {
     const start = parseISO(event.timeFrom);
     const end = parseISO(event.timeTo);
-    const range = eachDayOfInterval({ start, end });
-    dates.push(...range);
+
+    if (start <= end) {
+      const range = eachDayOfInterval({ start, end });
+      dates.push(...range);
+    }
   }
 
   return dates;
 }
-
 
 export function CalendarMain({ selectedDay, events }: { selectedDay: string, events: EventType[] }) {
   const selectedFromParam = React.useMemo(() => {
