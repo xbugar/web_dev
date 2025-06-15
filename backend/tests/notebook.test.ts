@@ -43,7 +43,7 @@ describe("/notebook", async () => {
                 }
             );
 
-
+            console.log(body);
             expect(status).toBe(200);
             const notebook = await prisma.notebook.findFirstOrThrow({
                 select: {
@@ -85,7 +85,7 @@ describe("/notebook", async () => {
                 title: "notebucik 2_book",
                 description: "neeimeme",
                 color: "green",
-                iconName: null,
+                iconName: "Default",
             });
 
 
@@ -117,7 +117,7 @@ describe("/notebook", async () => {
                     title: "notebucik 2_book",
                     description: "neeimeme",
                     color: "green",
-                    iconName: null,
+                    iconName: "Default",
                     createdAt: notebook.createdAt.toJSON(),
                     updatedAt: notebook.updatedAt.toJSON(),
                     noteCount: notebook._count.notes,
