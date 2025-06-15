@@ -5,8 +5,10 @@ import { ArrowRight } from 'lucide-react';
 import { useUserNotebooks } from '@/hooks/useUserNotebooks.ts';
 import { NotebookCard } from '@/components/cards/NotebookCard.tsx';
 import { Button } from '@/components/ui/button.tsx';
-import { useAllEvents } from "@/hooks/useAllEvents.ts";
 import { useIsDesktop } from "@/hooks/isDesktop.ts";
+import { useRangeEvents } from "@/hooks/useRangeEvents.ts";
+import { add, } from "date-fns";
+import { useState } from "react";
 
 export const Route = createFileRoute('/_authentificated/home')({
   component: RouteComponent,
@@ -15,7 +17,14 @@ export const Route = createFileRoute('/_authentificated/home')({
 
 function RouteComponent() {
   const { data: notebooks } = useUserNotebooks();
-  const { data: events } = useAllEvents();
+
+  const [range] = useState(() => {
+    return [
+      (new Date()).toISOString(), add(new Date(), { years: 1 }).toISOString()];
+  });
+
+  const [today, yearFromNow] = range;
+  const { data: events } = useRangeEvents(today, yearFromNow);
   const isDesktop = useIsDesktop();
 
   if (isDesktop) {
