@@ -1,43 +1,45 @@
 import {prisma} from "../prismaClient";
-import {UserCreateNotebookRequest} from "../user/types";
 import {Result} from "@badrap/result";
-import {Notebook} from "@prisma/client";
 
-import {repackageToNotFoundError, repackageToInternalError} from "../utils";
-import {UpdateContent} from "../note/types";
+import {repackageToInternalError} from "../utils";
 
-export const eventRepository = {
-    //: Promise<Result<null>>
+export const adminRepository = {
     async getAdminOverview() {
         try {
-            await prisma.$transaction(async (tx) => {
-                const note = await tx.user.findMany(
+            const users = await prisma.$transaction(async (tx) => {
+                return tx.user.findMany(
                     {
                         select: {
-                            id: true, // Include other user fields as needed
+                            id: true,
                             email: true,
                             _count: {
                                 select: {
-                                    notebooks: true, // Count of notebooks
+                                    notebooks: true,
                                     events: true,
                                     decks: true,
                                 }
                             },
                             notebooks: {
                                 select: {
-                                    _count: {
-                                        select: {notes: true} // Count of notes per notebook
+                                    notes: {
+                                        select: { id: true }
                                     }
                                 }
-                            }
+                            },
+                            decks: {
+                                select: {
+                                    cards: {
+                                        select: { id: true }
+                                    }
+                                }
+                            },
 
                         }
                     }
                 );
-
             });
 
-            return Result.ok(null);
+            return Result.ok(users);
         } catch (error) {
             return repackageToInternalError(error);
         }
