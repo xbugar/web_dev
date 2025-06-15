@@ -37,11 +37,7 @@ app.use(
         secret: "keyboard cat",
         resave: false,
         saveUninitialized: false,
-        cookie: {
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? "none" : "lax",
-            httpOnly :false
-        },
+            cookie: { secure: true, sameSite:"none" ,httpOnly :false},
         store: new PrismaSessionStore(
             new PrismaClient(),
             {
