@@ -54,7 +54,7 @@ function RouteComponent() {
                     </div>
                 </div>
                 <div className="mt-5 border-t-2">
-                  <h3> Description </h3>
+                  <h3 className="font-semibold" > Description </h3>
                   {event.description}
                 </div>
           </div>

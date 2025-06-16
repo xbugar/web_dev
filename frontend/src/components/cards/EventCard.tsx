@@ -16,7 +16,6 @@ export const EventCard = ({
   allDay,
   tillDate,
 }: EventCardProps) => {
-  // console.log('eventId', eventId);
   return (
     <Link to={`/events/$eventId`} params={{ eventId: eventId }}>
       <Card
