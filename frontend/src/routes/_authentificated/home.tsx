@@ -30,7 +30,7 @@ function RouteComponent() {
   if (isDesktop) {
     return (
       <div className="col-auto flex h-screen flex-col justify-center overflow-hidden pt-5 pb-5">
-        <div className="flex-column items-center rounded-md pb-10">
+        <div className="flex-column items-center rounded-md pb-5">
           <CalendarSmall />
 
           <div className="mt-2 flex items-center justify-between py-1 font-serif text-2xl font-bold">

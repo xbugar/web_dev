@@ -10,7 +10,7 @@ export const EmptyState = ({ title, message, className }: EmptyStateProps) => {
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center text-center rounded-2xl p-6 border border-dashed border-white-text-secondary dark:border-black-text-secondary",
+        "flex flex-col items-center justify-center text-center rounded-2xl p-6 border border-dashed border-white-text-secondary dark:border-black-text-secondary w-full h-full",
         className
       )}
     >
