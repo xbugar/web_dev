@@ -4,15 +4,21 @@ import { Events } from '@/components/calendar/Events.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { EventCreateDialog } from '@/components/dialogs/event/EventCreateDialog.tsx';
 import { useState } from 'react';
-import { useAllEvents } from '@/hooks/event/useAllEvents.ts';
+import { add } from "date-fns";
+import { useRangeEvents } from "@/hooks/useRangeEvents.ts";
 
 export const Route = createFileRoute('/_authentificated/events/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { data: events } = useAllEvents();
   const [open, setOpen] = useState(false);
+  const [range] = useState(() => {
+    return [new Date().toISOString(), add(new Date(), { years: 1 }).toISOString()];
+  });
+
+  const [today, yearFromNow] = range;
+  const { data: events } = useRangeEvents(today, yearFromNow);
 
   const day = new Date();
   day.setMinutes(0);

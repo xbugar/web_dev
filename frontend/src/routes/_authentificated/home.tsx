@@ -21,7 +21,6 @@ function RouteComponent() {
   const { data: notebooks } = useAllNotebooks();
   const { data: flashdecks } = useAllFlashdecks();
 
-
   const [range] = useState(() => {
     return [new Date().toISOString(), add(new Date(), { years: 1 }).toISOString()];
   });
