@@ -48,6 +48,9 @@ app.use(
         )
     })
 );
+import v8 from 'v8';
+console.log(v8.getHeapStatistics().heap_size_limit / (1024 * 1024) + ' MB');
+
 
 app.use(passport.initialize());
 

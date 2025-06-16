@@ -155,9 +155,9 @@ const getByDate = async (req: Request, res: Response) => {
 
 const repeatsInRange = async (event: EventResponse, start: Date, end: Date) => {
     const events: EventResponse[] = [];
-    const tmpEnd = event.timeTo;
-    let step = 0;
-    if (event.repeat === "Every day") {
+    const tmpEnd = new Date(event.timeTo.getTime());
+    let step = 1000 * 60 * 60 * 24 * 365;
+    if (event.repeat === "Every Day") {
         tmpEnd.setFullYear(start.getFullYear(), start.getMonth(), start.getDate());
         step = 1000 * 60 * 60 * 24; //ms to week
 
@@ -169,13 +169,21 @@ const repeatsInRange = async (event: EventResponse, start: Date, end: Date) => {
         step = 1000 * 60 * 60 * 24 * 14; //ms to day
     } else {
         tmpEnd.setFullYear(start.getFullYear(), start.getMonth());
-        while (tmpEnd.getTime() < end.getTime() || (tmpEnd.getTime() - (event.timeTo.getTime() - event.timeFrom.getTime())) < end.getTime()) {
+        while ((tmpEnd.getTime() - (event.timeTo.getTime() - event.timeFrom.getTime())) < end.getTime()) {
+            if (tmpEnd.getTime() < start.getTime()) {
+                if (tmpEnd.getMonth() === 12) {
+                    tmpEnd.setFullYear(tmpEnd.getFullYear() + 1, 1);
+                } else {
+                    tmpEnd.setMonth(tmpEnd.getMonth() + 1);
+                }
+                continue;
+            }
             events.push({
                 id: event.id,
                 title: event.title,
                 description: event.description,
                 timeFrom: new Date(tmpEnd.getTime() - (event.timeTo.getTime() - event.timeFrom.getTime())),
-                timeTo: tmpEnd,
+                timeTo: new Date(tmpEnd.getTime()),
                 repeat: event.repeat
             });
             if (tmpEnd.getMonth() === 12) {
@@ -185,14 +193,19 @@ const repeatsInRange = async (event: EventResponse, start: Date, end: Date) => {
             }
 
         }
+        return events;
     }
-    while (tmpEnd.getTime() < end.getTime() || (tmpEnd.getTime() - (event.timeTo.getTime() - event.timeFrom.getTime())) < end.getTime()) {
+    while ((tmpEnd.getTime() - (event.timeTo.getTime() - event.timeFrom.getTime())) < end.getTime()) {
+        if (tmpEnd.getTime() < start.getTime()) {
+            tmpEnd.setTime(tmpEnd.getTime() + step);
+            continue;
+        }
         events.push({
             id: event.id,
             title: event.title,
             description: event.description,
             timeFrom: new Date(tmpEnd.getTime() - (event.timeTo.getTime() - event.timeFrom.getTime())),
-            timeTo: tmpEnd,
+            timeTo: new Date(tmpEnd.getTime()),
             repeat: event.repeat
         });
         tmpEnd.setTime(tmpEnd.getTime() + step);

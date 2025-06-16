@@ -157,5 +157,81 @@ describe("/event", async () => {
 
             // console.log(resp.body); // check yourself
         });
+
+        it('should create repeated event', async () => {
+           /* {
+            const url = "/event";
+
+            const {status, body} = await request(app).post(url).set("Cookie", cookie).send(
+                {
+                    title: "i beliveveve",
+                    description: "pleaseeee description",
+                    timeFrom: Date.now(),
+                    timeTo: Date.now() + 1000*60*60,
+                    repeat: "Every Day"
+                }
+            );
+            expect(status).toBe(200);}*/
+
+            {
+                const url = "/event";
+
+                const {status, body} = await request(app).post(url).set("Cookie", cookie).send(
+                    {
+                        title: "event na dnes",
+                        description: "pleaseeee description",
+                        timeFrom: Date.now(),
+                        timeTo: Date.now() + 1000*60*60,
+                        repeat: "Never"
+                    }
+                );
+                expect(status).toBe(200);}
+
+            {
+                const url = "/event";
+
+                const {status, body} = await request(app).post(url).set("Cookie", cookie).send(
+                    {
+                        title: "event na zajtra",
+                        description: "pleaseeee description",
+                        timeFrom: Date.now() + + 1000*60*60*24,
+                        timeTo: Date.now() + 1000*60*60*25,
+                        repeat: "Never"
+                    }
+                );
+                expect(status).toBe(200);}
+
+
+
+            {
+                const url = "/event";
+
+                const {status, body} = await request(app).post(url).set("Cookie", cookie).send(
+                    {
+                        title: "event na tyzden",
+                        description: "pleaseeee description",
+                        timeFrom: Date.now(),
+                        timeTo: Date.now() + 1000*60*60,
+                        repeat: "Every Week"
+                    }
+                );
+                console.log(body );
+                expect(status).toBe(200);
+
+            }
+
+            const url = "/event/range?start=2025-06-17T00:00:00.000Z&end=2026-06-18T00:00:00.000Z";
+            const {status, body} = await request(app).get(url).set("Cookie", cookie).send(
+                {
+                    title: "i beliveveve",
+                    description: "pleaseeee description",
+                    timeFrom: Date.now(),
+                    timeTo: Date.now(),
+                    repeat: "Every Day"
+                }
+            );
+            expect(status).toBe(200);
+            console.log(body);
+        });
     });
 });
