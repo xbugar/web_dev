@@ -63,7 +63,7 @@ test.describe("Notebook delete", async () => {
     await page.getByPlaceholder('Enter description').fill('Notebook created during Playwright test');
     await page.getByRole('button', {name: 'Create'}).click();
     await expect(page.getByText(uniqueName)).toBeVisible();
-    await page.locator('[data-testid="menu-button"]').click();
+    await page.locator('[data-testid="menu-button"]').first().click();
   })
 
   test('should delete notebook', async ({page}) => {
