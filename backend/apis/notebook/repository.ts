@@ -174,6 +174,9 @@ export const notebookRepository = {
                 },
                 where: {
                     userId: userId,
+                },
+                orderBy: {
+                    updatedAt: 'desc'
                 }
             }
         ).then(notebooks => Result.ok(notebooks.map((notebook) => {
@@ -242,6 +245,9 @@ export const notebookRepository = {
                     {title: {contains: title}},
                     {tags: {some: {name: {contains: title}}}}
                 ],
+            },
+            orderBy: {
+                title: 'asc'
             }
         }).then(notebooks => Result.ok(notebooks.map((notebook) => {
                 return {

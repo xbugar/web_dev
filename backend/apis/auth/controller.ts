@@ -1,8 +1,9 @@
 ﻿import {Request, Response} from "express";
 import {handleRepositoryErrors, parseRequest} from "../utils";
 import {userRepository} from "../user/repository";
-import {authLoginSchema, authRegisterSchema} from "./validationSchemas";
+import {authLoginSchema, authRegisterSchema, authRemoveUserSchema} from "./validationSchemas";
 import {sendEmail} from "../mailer";
+import argon2 from "argon2";
 
 const register = async (req: Request, res: Response) => {
     const request = await parseRequest(authRegisterSchema, req, res);
@@ -55,9 +56,43 @@ async function status(req: Request, res: Response) {
     res.status(200).send({message: "session still active"});
 }
 
+const remove = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
+    const email = req.session.passport?.user.email;
+    const request = await parseRequest(authRemoveUserSchema, req, res);
+    if (!userId || !email || !request) {
+        return;
+    }
+
+    const user = await userRepository.findByEmail(email);
+
+    if (user.isErr) {
+        handleRepositoryErrors(user.error, res);
+        return;
+    }
+
+    const isPasswordCorrect = await argon2.verify(
+        user.value.password,
+        request.body.password,
+    );
+
+    if (!isPasswordCorrect) {
+        return res.status(403).send({message: "wrong credentials"});
+    }
+
+    const user2 = await userRepository.delete(userId);
+
+    if (user2.isErr) {
+        return handleRepositoryErrors(user2.error, res);
+    }
+
+    return res.status(200).send({message: "account was successfully removed"});
+}
+
 export const authController = {
     register,
     login,
-    status
+    status,
+    remove
 }
 

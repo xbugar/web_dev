@@ -866,6 +866,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+  /auth/remove:
+    post:
+      tags:
+        - auth
+      summary: remove user account.
+      description: Logins a  user
+      operationId: removeUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoveUser'
+      responses:
+        '200':
+          description: successful operation, this is probably not the correct way to access teh sessionId its here just for debugging purposes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessionId:
+                    type: string
+
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /auth/status:
     get:
       tags:
@@ -2021,6 +2053,13 @@ components:
         email:
           type: string
           example: john@email.com
+
+    RemoveUser:
+      type: object
+      properties:
+        password:
+          type: string
+          example: 1123456
 
     LoginUser:
       type: object

@@ -132,6 +132,9 @@ export const deckRepository = {
                 },
                 where: {
                     userId: userId,
+                },
+                orderBy: {
+                    updatedAt: "desc"
                 }
             }
         ).then(flashdecks => Result.ok(flashdecks.map((flashdeck) => {
@@ -196,6 +199,9 @@ export const deckRepository = {
                     {title: {contains: title}},
                     {tags: {some: {name: {contains: title}}}}
                 ],
+            },
+            orderBy: {
+                title: 'asc'
             }
         }).then(deck => Result.ok(deck.map((deck) => {
                 return {

@@ -22,6 +22,13 @@ authRouter.post("/logout", passport.session(), isAuthenticated, (req, res, next)
         }
     );
 });
+authRouter.post("/remove", passport.session(), isAuthenticated, async (req, res, next) => {
+    try {
+        await authController.remove(req, res);
+    } catch (error) {
+        next(error);
+    }
+});
 
 
 passport.serializeUser((_user, cb) => {

@@ -35,7 +35,9 @@ export const adminRepository = {
                                     }
                                 }
                             },
-
+                        },
+                        orderBy: {
+                            lastName: "asc",
                         }
                     }
                 );
