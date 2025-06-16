@@ -46,7 +46,7 @@ describe("/note", async () => {
                         iconName: "Default"
                     }
                 );
-            console.log(body);
+            // console.log(body);
             notebookId = body.id;
             expect(status).toBe(200);
             const notebook = await prisma.notebook.findFirstOrThrow({

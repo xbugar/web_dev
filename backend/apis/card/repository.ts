@@ -26,7 +26,7 @@ export const cardRepository = {
                         }
                     },
                     where: {
-                        id: flashCard.params.flashCardId
+                        id: flashCard.params.cardId
                     },
                     data: {
                         question: flashCard.body.question,

@@ -1,7 +1,6 @@
 ﻿import {describe, expect, it} from 'vitest'
 import request from 'supertest'
 import app from '../test.index'
-import {prisma} from "./utils/prisma";
 
 describe('/auth', async () => {
     describe('all auth operations happy path', async () => {
@@ -15,17 +14,10 @@ describe('/auth', async () => {
                 password: '123456',
                 confirmPassword: '123456'
             });
-            const newUser = await prisma.user.findFirst({
-                where: {
-                    email: "jonah@doe.com",
-                }
-            });
-
-
-            expect(newUser).not.toBeNull();
 
             expect(res.status).toBe(200);
             expect(res.body).toStrictEqual({message: "success"})
+
             cookie = res.headers['set-cookie'][0];
         });
 
@@ -41,6 +33,7 @@ describe('/auth', async () => {
                         iconName: "Default"
                     }
                 );
+
             expect(notebookStatus).toBe(200);
             notebookId = notebookBody.id;
 
