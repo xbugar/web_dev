@@ -72,7 +72,7 @@ function RouteComponent() {
             <div className="flex items-center justify-between py-2 font-serif text-2xl font-bold">
               <h2>Today&#39;s flashcards</h2>
               <Button variant="section">
-                <Link to={'/flashcards'}>
+                <Link to={'/flashdecks'}>
                   <ArrowRight />
                 </Link>
               </Button>

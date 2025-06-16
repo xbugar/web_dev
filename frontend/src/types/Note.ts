@@ -5,7 +5,7 @@ export type Note = {
   id: string;
   title: string;
   tags?: TagType[];
-  notebook: { id: string; color: string };
+  notebook: { id: string; title: string; color: string };
   createdAt: string;
   updatedAt: string;
 };

@@ -1,13 +1,19 @@
-
-import { GalleryVerticalEnd, Calendar, Home, Book, Timer, User, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import {
+  GalleryVerticalEnd,
+  Calendar,
+  Home,
+  Book,
+  Timer,
+  User,
+  PanelLeftClose,
+  PanelLeftOpen,
+} from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { NavigationButton } from '../navigation/NavigationButton.tsx'; // Reused
 import { NavigationMenu } from 'radix-ui';
-import { Button } from "@/components/ui/button.tsx";
-import { useState } from "react";
-import { UserSettingsDialog } from "@/components/dialogs/UserSettingsDialog.tsx";
-
-
+import { Button } from '@/components/ui/button.tsx';
+import { useState } from 'react';
+import { UserSettingsDialog } from '@/components/dialogs/user/UserSettingsDialog.tsx';
 
 const paths = [
   { Icon: Home, to: '/home', label: 'Home' },
@@ -24,35 +30,29 @@ export function Sidebar() {
   return (
     <>
       <aside
-        className={`
-          hidden lg:flex flex-col justify-between h-[calc(100vh-1rem)] m-2
-          ${collapsed ? 'w-18' : 'w-64'}
-          transition-all duration-300
-          backdrop-blur-md shadow-ours p-4 sticky top-0
-          bg-cover bg-no-repeat rounded-md
-          bg-[url('@/assets/gradient.webp')]
-          dark:bg-[url('@/assets/gradient.webp')]
-        `}
+        className={`m-2 hidden h-[calc(100vh-1rem)] flex-col justify-between lg:flex ${collapsed ? 'w-18' : 'w-64'} shadow-ours sticky top-0 rounded-md bg-[url('@/assets/gradient.webp')] bg-cover bg-no-repeat p-4 backdrop-blur-md transition-all duration-300 dark:bg-[url('@/assets/gradient.webp')]`}
       >
-        <div className="space-y-6" >
+        <div className="space-y-6">
           <div className="relative">
             {collapsed ? (
-              <div className="flex flex-col items-center pb-4 gap-4 ">
+              <div className="flex flex-col items-center gap-4 pb-4">
                 <Link to="/home">
-                  <span className="font-serif text-3xl font-bold text-white text-center">g.</span>
+                  <span className="text-center font-serif text-3xl font-bold text-white">g.</span>
                 </Link>
                 <button
                   onClick={() => setCollapsed(false)}
-                  className="text-white hover:text-gray-300 top-auto"
+                  className="top-auto text-white hover:text-gray-300"
                   aria-label="Expand Sidebar"
                 >
-                  <PanelLeftOpen  />
+                  <PanelLeftOpen />
                 </button>
               </div>
             ) : (
               <div className="relative">
                 <Link to="/home">
-                  <h1 className="font-serif pb-12 text-3xl font-bold text-white text-center">gradia.</h1>
+                  <h1 className="pb-12 text-center font-serif text-3xl font-bold text-white">
+                    gradia.
+                  </h1>
                 </Link>
                 <button
                   onClick={() => setCollapsed(true)}
@@ -65,10 +65,9 @@ export function Sidebar() {
             )}
           </div>
 
-
           <NavigationMenu.Root
             orientation="vertical"
-            className="bottom-0 z-50 w-full rounded-t-md justify-self-start"
+            className="bottom-0 z-50 w-full justify-self-start rounded-t-md"
           >
             <NavigationMenu.List className="BulletsOverride flex flex-col gap-2">
               {paths.map(({ Icon, to, label }) => (
@@ -78,13 +77,14 @@ export function Sidebar() {
           </NavigationMenu.Root>
         </div>
 
-        <Button variant="navigation"
-                className="flex justify-start gap-2 hover:bg-white hover:text-black"
-                onClick={() => setOpen(true)}>
+        <Button
+          variant="navigation"
+          className="flex justify-start gap-2 hover:bg-white hover:text-black"
+          onClick={() => setOpen(true)}
+        >
           <User />
           {!collapsed && <span>My gradia</span>}
         </Button>
-
       </aside>
       <UserSettingsDialog open={open} onOpenChange={setOpen} />
     </>
