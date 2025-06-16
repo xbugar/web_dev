@@ -9,6 +9,7 @@ import { useIsDesktop } from "@/hooks/isDesktop.ts";
 import { useRangeEvents } from "@/hooks/useRangeEvents.ts";
 import { add, } from "date-fns";
 import { useState } from "react";
+import { EmptyState } from "@/components/cards/EmptyState.tsx";
 
 export const Route = createFileRoute('/_authentificated/home')({
   component: RouteComponent,
@@ -39,7 +40,14 @@ function RouteComponent() {
               <Link to={"/events"}><ArrowRight /></Link>
             </Button>
           </div>
-          <Events events={events?.slice(0, 4)} homepageDesktop={true} />
+          {events ? (
+            <Events events={events?.slice(0, 4)} homepageDesktop={true} />
+          ) : (
+            <EmptyState
+              title={"No upcoming events"}
+              message={"You don’t have anything scheduled. Time to relax!"}
+            />
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4 h-full w-full">
@@ -53,7 +61,7 @@ function RouteComponent() {
               </Button>
             </div>
             <div className="flex flex-col gap-4 overflow-y-auto h-48 pr-2 hide-scrollbar flex-grow">
-              {notebooks &&
+              {notebooks ? (
                 notebooks
                   .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
                   .slice(0, 4)
@@ -69,7 +77,11 @@ function RouteComponent() {
                       tags={tags}
                       lastUpdated={updatedAt}
                     />
-                  ))}
+                  ))) : (
+              <EmptyState
+                title={"No notebooks"}
+                message={"Start by creating your first notebook."}/>
+              )}
             </div>
           </div>
 
@@ -85,6 +97,14 @@ function RouteComponent() {
             </div>
             <div className="flex flex-col gap-4 overflow-y-auto h-48 pr-2 hide-scrollbar flex-grow">
               {/* Flashcards content here */}
+              {/*{flashcards ? (*/}
+              {/* todo flashcards content */}
+              {/*) : (*/}
+                <EmptyState
+                  title={"No flashcards"}
+                  message={"Create your first flashdeck."}
+                />
+              {/*)}*/}
             </div>
           </div>
         </div>
@@ -115,7 +135,7 @@ function RouteComponent() {
         </Button>
       </div>
       <div className="flex flex-col gap-4">
-        {notebooks &&
+        {notebooks ? (
           notebooks
             .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
             .slice(0, 3)
@@ -131,7 +151,11 @@ function RouteComponent() {
                 tags={tags}
                 lastUpdated={updatedAt}
               />
-            ))}
+            ))) : (
+              <EmptyState
+              title={"No notebooks"}
+              message={"Start by creating your first notebook."}/>
+        )}
       </div>
     </div>
   );

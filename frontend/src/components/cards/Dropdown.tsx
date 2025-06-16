@@ -20,6 +20,7 @@ import { EventType } from "@/types/EventType.ts";
 import { EventTagDialog } from "@/components/dialogs/EventTagDialog.tsx";
 import { EventEditDialog } from "@/components/dialogs/EventEditDialog.tsx";
 import { EventDeleteDialog } from "@/components/dialogs/EventDeleteDialog.tsx";
+import { toast } from "sonner"
 
 export type DropdownType = 'note' | 'notebook' | 'event';
 
@@ -96,6 +97,7 @@ export function Dropdown({
                 .catch(err => {
                   console.error('Failed to copy link:', err);
                 });
+              toast.success('Copied!');
             }}
           >
             <Copy /> Copy link
