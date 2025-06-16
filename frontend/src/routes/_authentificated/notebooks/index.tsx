@@ -26,11 +26,11 @@ function RouteComponent() {
   }
 
   return (
-    <div className="lg:overflow-hidden">
+    <div className="flex flex-col lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
       <NotebookSection isPreview={false} />
 
       <div
-        className="columns-1 gap-2 overflow-y-auto lg:columns-2"
+        className="columns-1 gap-4 p-2 overflow-y-auto lg:columns-2 "
         style={{
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
