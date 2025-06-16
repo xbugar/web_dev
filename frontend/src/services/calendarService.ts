@@ -7,6 +7,10 @@ export const getUserEvents = async(): Promise<EventType[]> => {
   return api.get(`/event`).then(response => response.data as EventType[]);
 }
 
+export const getEventsByDate = async(date: string): Promise<EventType[]> => {
+  return api.get('event/date', { params: { date }}).then(response => response.data as EventType[]);
+}
+
 export const getEventsByDateRange = async(start: string, end: string): Promise<EventType[]> => {
   return api.get('event/range', { params: { start, end }}).then(response => response.data as EventType[]);
 }

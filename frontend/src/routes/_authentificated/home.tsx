@@ -26,6 +26,7 @@ function RouteComponent() {
 
   const [today, yearFromNow] = range;
   const { data: events } = useRangeEvents(today, yearFromNow);
+  // const { data: events } = useAllEvents();
   const isDesktop = useIsDesktop();
 
   if (isDesktop) {

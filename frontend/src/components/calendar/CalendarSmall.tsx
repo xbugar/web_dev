@@ -33,6 +33,8 @@ export function CalendarSmall() {
 
   const { data: events } = useRangeEvents(start, end);
   const eventDates = events ? getEventDates(events) : [];
+  // const eventDates =  [];
+
 
   return (
     <div className="grid grid-cols-7 gap-2 w-full">
