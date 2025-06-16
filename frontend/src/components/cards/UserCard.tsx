@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/ca
 import { AccentColor, lineColor } from '@/components/cards/cardColors';
 import { cn } from '@/lib/utils.ts';
 import {UserCardProps} from "@/types/AdminDashboard.ts";
-import {Dropdown} from "@/components/cards/Dropdown.tsx";
+import {AdminUserDropdown} from "@/components/dropdown/AdminUserDropdown.tsx";
 
 export function UserCard({
                              userId,
@@ -28,14 +28,8 @@ export function UserCard({
                             }
                         </CardTitle>
                         { (
-                            <Dropdown
-                                noteId={""}
-                                notebookId={""}
-                                eventId={userId}
-                                data={{
-                                    title: title,
-                                }}
-                                type={'admin'}
+                            <AdminUserDropdown
+                                userId={userId}
                             />
                         )}
                     </div>
