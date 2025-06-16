@@ -20,7 +20,7 @@ function RouteComponent() {
   return (
     <div>
       <div className="mt-2 flex flex-row items-center justify-between py-2 font-serif text-2xl font-bold">
-        <h2>Upcoming events</h2>
+        <h2>Current events</h2>
         <Button variant="section" onClick={() => setOpen(true)}>
           <Plus />
         </Button>

@@ -31,7 +31,7 @@ export function Sidebar() {
   return (
     <>
       <aside
-        className={`m-2 hidden h-[calc(100vh-1rem)] flex-col justify-between lg:flex ${collapsed ? 'w-18' : 'w-64'} shadow-ours sticky top-0 rounded-md bg-[url('@/assets/gradient.webp')] bg-cover bg-no-repeat p-4 backdrop-blur-md transition-all duration-300 dark:bg-[url('@/assets/gradient.webp')]`}
+        className={`m-2 hidden h-[calc(100vh-1rem)] flex-col justify-between lg:flex ${collapsed ? 'w-18' : 'min-w-64'} shadow-ours sticky top-0 rounded-md bg-[url('@/assets/gradient.webp')] bg-cover bg-no-repeat p-4 backdrop-blur-md transition-all duration-300 dark:bg-[url('@/assets/gradient.webp')]`}
       >
         <div className="space-y-6">
           <div className="relative">

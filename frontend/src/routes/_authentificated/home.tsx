@@ -21,6 +21,7 @@ function RouteComponent() {
   const { data: notebooks } = useAllNotebooks();
   const { data: flashdecks } = useAllFlashdecks();
 
+
   const [range] = useState(() => {
     return [new Date().toISOString(), add(new Date(), { years: 1 }).toISOString()];
   });
@@ -105,21 +106,21 @@ function RouteComponent() {
             </div>
             <div className="hide-scrollbar flex h-48 flex-grow flex-col gap-4 overflow-y-auto pr-2">
               {flashdecks ? (
-                  flashdecks
-                    .slice(0, 4)
-                    .map(({ id, title, description, color, flashCardsCount, tags, updatedAt }) => (
-                    <FlashdeckCard
-                      key={id}
-                      id={id}
-                      title={title}
-                      description={description}
-                      color={color}
-                      flashCardsCount={flashCardsCount}
-                      tags={tags}
-                      lastUpdated={updatedAt}
-                    />
-                  ),
-                )
+                flashdecks
+                  .slice(0, 4)
+                  .map(({ id, title, description, color, flashCardsCount, tags, updatedAt }) => (
+                      <FlashdeckCard
+                        key={id}
+                        id={id}
+                        title={title}
+                        description={description}
+                        color={color}
+                        flashCardsCount={flashCardsCount}
+                        tags={tags}
+                        lastUpdated={updatedAt}
+                      />
+                    ),
+                  )
               ): (
                 <EmptyState title={'No flashcards'} message={'Create your first flashdeck.'} />
               )}
