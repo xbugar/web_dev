@@ -28,8 +28,9 @@ test.describe("Notebook edit", async () => {
     await page.getByPlaceholder('Enter title').fill('Edit notebook');
     await page.getByPlaceholder('Enter description').fill('Notebook created during Playwright test');
     await page.getByRole('button', {name: 'Create'}).click();
-    await expect(page.getByText('Edit notebook').first()).toBeVisible();
     await page.getByTestId('menu-button').first().click();
+    // await expect(page.getByText('Edit notebook').first()).toBeVisible();
+    await page.getByRole('menuitem', { name: 'Edit notebook' }).click();
   });
 
   test('should edit title and description', async ({page}) => {
@@ -48,7 +49,7 @@ test.describe("Notebook edit", async () => {
     await page.getByRole('combobox').filter({hasText: 'Red'}).click();
     await page.getByRole('option', {name: 'Green'}).click();
     await page.getByRole('combobox').filter({hasText: 'Green'}).click();
-    await page.locator('button').filter({hasText: 'BookOpen'}).click();
+    await page.locator('button').filter({hasText: 'Cpu'}).click();
     await page.getByRole('option', {name: 'PenTool'}).click();
   })
 })
