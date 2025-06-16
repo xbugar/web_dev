@@ -1,15 +1,17 @@
-﻿import { Notebook } from "@/types/notebook";
-import {EventType} from "@/types/EventType.ts";
+import { Notebook } from "@/types/notebook";
+import { Event } from "@/types/event";
 import {Note} from "@/types/note";
+import {Flashdeck} from "@/types/flashdeck.ts";
 
 export type SearchRequest = {
-    q: string;
-    type?: ("notes" | "notebooks" | "events")[];
+    q?: string;
+    type?: ("notes" | "notebooks" | "events" | "decks")[];
 };
 
 export type SearchResponse = {
-    q: string;
+    q?: string;
     notebooks?: Notebook[];
-    events?: EventType[];
+    events?: Event[];
     notes?: Note[];
+    decks?: Flashdeck[];
 }
