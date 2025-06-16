@@ -6,7 +6,7 @@ import {UserCardProps} from "@/types/AdminDashboard.ts";
 import {Dropdown} from "@/components/cards/Dropdown.tsx";
 
 export function UserCard({
-        userId,
+                             userId,
                              title,
                              titleOfParent,
                              color,
