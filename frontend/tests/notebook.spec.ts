@@ -24,13 +24,8 @@ test.describe("Notebooks", async () => {
 test.describe("Notebook edit", async () => {
   let uniqueName: string;
   test.beforeEach(async ({page}) => {
-    await page.goto('http://localhost:5173/notebooks');
-    await page.locator('div').filter({hasText: /^Notebooks$/}).getByRole('button').click();
-    await page.getByPlaceholder('Enter title').fill('Edit notebook');
-    await page.getByPlaceholder('Enter description').fill('Notebook created during Playwright test');
-    await page.getByRole('button', {name: 'Create'}).click();
-    await page.getByTestId('menu-button').first().click();
-    // await expect(page.getByText('Edit notebook').first()).toBeVisible();
+    uniqueName = `Test Notebook ${Date.now()}`;
+    await createNotebook(page, uniqueName, 'Notebook created during Playwright test');
     await page.getByRole('menuitem', { name: 'Edit notebook' }).click();
   });
 
