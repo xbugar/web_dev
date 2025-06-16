@@ -1,7 +1,7 @@
 ﻿import {Request, Response} from "express";
 import {handleRepositoryErrors, parseRequest} from "../utils";
 import {userRepository} from "../user/repository";
-import {authLoginSchema, authRegisterSchema} from "./validationSchemas";
+import {authLoginSchema, authRegisterSchema, authRemoveUserSchema} from "./validationSchemas";
 import {sendEmail} from "../mailer";
 import argon2 from "argon2";
 
@@ -59,7 +59,7 @@ async function status(req: Request, res: Response) {
 const remove = async (req: Request, res: Response) => {
     const userId = req.session.passport?.user.id;
     const email = req.session.passport?.user.email;
-    const request = await parseRequest(authLoginSchema, req, res);
+    const request = await parseRequest(authRemoveUserSchema, req, res);
     if (!userId || !email || !request) {
         return;
     }

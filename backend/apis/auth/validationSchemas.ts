@@ -18,11 +18,6 @@ export const authLoginSchema = z.object({
     }),
 });
 
-export const authLogoutSchema = z.object({
-    body: z.object({
-        id: z.string().email(),
-    })
-});
 
 export const authRemoveUserSchema = z.object({
     body: z.object({
