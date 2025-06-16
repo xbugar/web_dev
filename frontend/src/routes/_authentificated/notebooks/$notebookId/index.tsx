@@ -41,9 +41,8 @@ function RouteComponent() {
   }
 
   return (
-    <>
+    <div className="lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
       <NotebookSection isPreview={true} />
-
       {currentNotebook && (
         <NotebookCard
           key={currentNotebook.id}
@@ -67,7 +66,13 @@ function RouteComponent() {
         }}
         noteTitle=""
       />
-      <div className="flex flex-col gap-4">
+      <div
+        className="flex flex-col gap-4 lg:h-[calc(100vh-15.5rem)] lg:overflow-y-auto"
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
+      >
         {notes.length != 0 ? (
           notes.map(({ id, title, tags, updatedAt }) => (
             <NoteCard
@@ -89,6 +94,6 @@ function RouteComponent() {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }

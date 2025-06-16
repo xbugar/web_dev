@@ -5,12 +5,25 @@ import { format, isAfter, isBefore, isSameDay, parseISO } from 'date-fns';
 export type EventsProps = {
   events?: Event[];
   selectedDay?: Date;
-};
+  homepageDesktop?: boolean;
+  calendarDesktop?: boolean;
+  eventDesktop?: boolean;
+}
 
-export const Events = ({ events, selectedDay }: EventsProps) => {
+export const Events = ({
+  events,
+  selectedDay,
+  homepageDesktop = false,
+  calendarDesktop = false,
+  eventDesktop = false
+} : EventsProps) => {
   return (
-    <div className="flex w-full flex-col gap-4">
-      {events &&
+    <div className={`flex flex-col gap-4 w-full lg:overflow-y-auto ${homepageDesktop ? 'grid grid-cols-2' : ''} ${calendarDesktop ? 'lg:h-[calc(100vh-26.5rem)]' : ''} ${eventDesktop ? 'lg:h-[calc(100vh-5rem)]' : ''}`}
+         style={{
+           scrollbarWidth: 'none',
+           msOverflowStyle: 'none'
+         }}>
+    {events &&
         events.map(({ id, title, description, tags, timeFrom, timeTo }) => {
           const from = parseISO(timeFrom);
           const to = parseISO(timeTo);

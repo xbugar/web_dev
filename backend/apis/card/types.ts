@@ -4,7 +4,7 @@ import {
 } from "./validationSchema";
 
 
-export type FlashCard = {
+export type Card = {
   id: string;
   question: string;
   answer: string;
@@ -12,10 +12,10 @@ export type FlashCard = {
   createdAt: Date;
   updatedAt: Date;
 
-  flashDeck: {
+  deck: {
     id: string;
     color: string;
   }
 }
 
-export type UpdateFlashCard = z.infer<typeof updateFlashCardRequestSchema>;
+export type UpdateCard = z.infer<typeof updateFlashCardRequestSchema>;

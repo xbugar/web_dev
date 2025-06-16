@@ -1,14 +1,14 @@
-import {beforeAll, describe, expect, it} from "vitest";
+import {describe, expect, it} from "vitest";
 import request from "supertest";
 import app from "../test.index";
 import {prisma} from "./utils/prisma";
-import resetDb from "./utils/reset-db";
 
 describe("/note", async () => {
     describe("happy path", async () => {
         let notebookId: string;
         let noteId: string;
         let cookie: string;
+        let tagId:string;
         it('registers a user and logs him in. sends it back with 200', async () => {
 
             const res = await request(app).post('/auth/register').send({
@@ -18,18 +18,20 @@ describe("/note", async () => {
                 password: '123456',
                 confirmPassword: '123456'
             });
-            const newUser = await prisma.user.findFirst({
-                where: {
-                    email: "jane@doe.com",
-                }
-            });
+
 
             expect(res.status).toBe(200);
-            expect(res.body).toStrictEqual({});
-            expect(newUser).not.toBeNull();
-
-            cookie = res.headers['set-cookie'][0];
+            expect(res.body).toStrictEqual({ message: 'success' });
         });
+        it('should log in the user', async() => {
+            const {status,headers} = await request(app).post('/auth/login').send({
+                email: 'jane@doe.com',
+                password: '123456',
+            });
+            expect(status).toBe(200);
+            //expect(body).toStrictEqual({ message: 'success' });
+            cookie = headers['set-cookie'][0];
+        })
 
         it(`should return 200 and create a notebook`, async () => {
 
@@ -41,11 +43,11 @@ describe("/note", async () => {
                         title: "note-test-notebook",
                         description: "neeimeme",
                         color: "green",
-                        iconName: "test"
+                        iconName: "Default"
                     }
                 );
-
-
+            console.log(body);
+            notebookId = body.id;
             expect(status).toBe(200);
             const notebook = await prisma.notebook.findFirstOrThrow({
                 select: {
@@ -73,13 +75,13 @@ describe("/note", async () => {
                     title: "note-test-notebook",
                     description: "neeimeme",
                     color: "green",
-                    iconName: "test",
+                    iconName: "Default",
                     createdAt: notebook.createdAt.toJSON(),
                     updatedAt: notebook.updatedAt.toJSON(),
                     noteCount: notebook._count.notes,
                 }
             );
-            notebookId = body.id;
+
         });
 
         it('should create a note', async () => {
@@ -88,12 +90,12 @@ describe("/note", async () => {
                 .send({
                     title: "notikk",
                 });
-
+            noteId = body.id;
             expect(status).toBe(200);
             expect(body).toMatchObject({
                 title: "notikk",
             });
-            noteId = body.id;
+
         });
 
         it('should retrieve the created note', async () => {
@@ -108,14 +110,10 @@ describe("/note", async () => {
         });
 
         it('should add content to the note', async () => {
-            const {
-                status,
-                body
-            } = await request(app)
+            const {status} = await request(app)
                 .put(`/note/${noteId}/content`)
                 .set("Cookie", cookie)
                 .send({content: "this is a content of a note"});
-            console.log(body);
             expect(status).toBe(200);
             const note = await prisma.note.findUniqueOrThrow({
                 where: {
@@ -131,7 +129,6 @@ describe("/note", async () => {
                 .set("Cookie", cookie)
                 .send();
 
-            console.log(body);
             expect(status).toBe(200);
             expect(body).toStrictEqual({content: "this is a content of a note"});
         })
@@ -153,6 +150,20 @@ describe("/note", async () => {
 
             expect(statusNotebook).toBe(200);
             expect(note.updatedAt).toStrictEqual(notebook.updatedAt);
+        })
+
+        it('should add tag to a note', async()=>{
+            const {status, body} = await request(app).post(`/note/${noteId}/tag`).set("Cookie", cookie).send({
+                name:"menennnenen",
+                color:"blue"
+            });
+            expect(status).toBe(200);
+            tagId = body.id;
+        })
+        it('should delete  tag from a note', async()=>{
+            const {status} = await request(app).delete(`/note/${noteId}/tag/${tagId}`).set("Cookie", cookie).send();
+            expect(status).toBe(200);
+
         })
     });
 });

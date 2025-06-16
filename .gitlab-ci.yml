@@ -34,8 +34,17 @@ typecheck-backend:
     - npm install
     - npm run typecheck
 
-integration-test:
+typecheck-frontend:
+  image: node:20
+  stage: typecheck
+  tags:
+    - shared-fi
+  script:
+    - cd frontend
+    - npm install
+    - npm run typecheck
 
+integration-test:
   image: node:20
   services:
     - name: postgres:latest

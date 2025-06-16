@@ -3,7 +3,6 @@ import {ZodSchema, ZodTypeDef} from "zod";
 import {fromZodError} from "zod-validation-error";
 import {AuthError, InternalError, NotFoundError} from "./types";
 import {prisma} from "./prismaClient";
-import {readFileSync} from "fs";
 import {Result} from "@badrap/result";
 
 export const handleRepositoryErrors = (e: Error, res: Response) => {
@@ -57,7 +56,7 @@ export const parseRequest = async <
     return parsedRequest.data;
 };
 
-//TODO get rid of these abominations
+//TODO get rid of this abomination
 export const defaultPP = async () => {
     const profilePicture = await prisma.profilePicture.findFirst();
     if (!profilePicture) {
@@ -66,29 +65,15 @@ export const defaultPP = async () => {
     return profilePicture;
 }
 
-export const defaultIcon = async () => {
-    const icon = await prisma.icon.findFirst({where: {name: "test"}});
-    if (icon !== null) {
-        return icon;
-    }
-    const file = readFileSync("prisma/mockData/default-profile.jpg");
-    return prisma.icon.create({
-        data: {
-            name: "test",
-            icon: file
-        }
-    });
-}
-
-export function repackageToNotFoundError(error:any){
-    if (process.env.NODE_ENV !== "production") {
+export function repackageToNotFoundError(error:unknown){
+    if (process.env.NODE_ENV !== "production" && error instanceof Error) {
         return Result.err(new NotFoundError(error.message));
     }
     return Result.err(new NotFoundError());
 }
 
-export function repackageToInternalError(error:any){
-    if (process.env.NODE_ENV !== "production") {
+export function repackageToInternalError(error :unknown){
+    if (process.env.NODE_ENV !== "production" && error instanceof Error) {
         return Result.err(new InternalError(error.message));
     }
     return Result.err(new InternalError());

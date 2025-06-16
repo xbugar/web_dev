@@ -1,4 +1,4 @@
-import { Home, Book, Calendar, Timer, GalleryVerticalEnd, LucideIcon } from 'lucide-react';
+import { Home, Book, Calendar, Search, GalleryVerticalEnd, LucideIcon } from 'lucide-react';
 
 import { NavigationButton } from './NavigationButton';
 import { NavigationMenu } from 'radix-ui';
@@ -11,7 +11,7 @@ type PathItem = {
 
 export function Navigation() {
   const paths: PathItem[] = [
-    { Icon: Timer, to: '/pomodoro', label: 'Pomodoro' },
+    { Icon: Search, to: '/search', label: 'Search' },
     { Icon: Calendar, to: '/calendar/today', label: 'Calendar' },
     { Icon: Home, to: '/home', label: 'Home' },
     { Icon: Book, to: '/notebooks', label: 'Notebooks' },

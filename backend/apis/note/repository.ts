@@ -1,11 +1,12 @@
 ﻿import {Result} from "@badrap/result";
 import {prisma} from "../prismaClient";
-import {AddTag, GetMeta, NoteMeta, RemoveTag, UpdateContent, UpdateMeta} from "./types";
+import {AddTag, GetMeta, NoteMetaResponse, RemoveTag, UpdateContent, UpdateMeta} from "./types";
 import {NotebookCreateNoteRequest} from "../notebook/types";
 import {repackageToNotFoundError, repackageToInternalError} from "../utils";
+import {Note} from "@prisma/client";
 
 export const noteRepository = {
-    async updateMeta(meta: UpdateMeta): Promise<Result<NoteMeta>> {
+    async updateMeta(meta: UpdateMeta): Promise<Result<NoteMetaResponse>> {
         try {
             const result = await prisma.$transaction(async (tx) => {
                 const note = await tx.note.update({
@@ -43,12 +44,12 @@ export const noteRepository = {
 
             return Result.ok(result);
 
-        } catch (error: any) {
+        } catch (error) {
             return repackageToInternalError(error);
         }
     },
 
-    async getMeta(data: GetMeta): Promise<Result<NoteMeta>> {
+    async getMeta(data: GetMeta): Promise<Result<NoteMetaResponse>> {
         return prisma.note.findUniqueOrThrow({
             select: {
                 id: true,
@@ -69,7 +70,7 @@ export const noteRepository = {
                 id: data.params.noteId
             },
         }).then(result => Result.ok(result))
-            .catch((error:any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     },
 
     async delete(id: string): Promise<Result<null>> {
@@ -99,7 +100,7 @@ export const noteRepository = {
             });
             return Result.ok(null);
         } catch
-            (error: any) {
+            (error) {
             return repackageToInternalError(error);
         }
     },
@@ -113,7 +114,7 @@ export const noteRepository = {
                 id: id
             }
         }).then(result => Result.ok(result.content))
-            .catch((error:any) => repackageToNotFoundError(error));
+            .catch((error) => repackageToNotFoundError(error));
     },
 
     async updateContent(data: UpdateContent): Promise<Result<null>> {
@@ -137,12 +138,12 @@ export const noteRepository = {
             });
 
             return Result.ok(null);
-        } catch (error: any) {
+        } catch (error) {
             return repackageToInternalError(error);
         }
     },
 
-    async addTag(data: AddTag): Promise<Result<NoteMeta>> {
+    async addTag(data: AddTag): Promise<Result<NoteMetaResponse>> {
         try {
             const result = await prisma.$transaction(async (tx) => {
                 const note = await tx.note.update({
@@ -183,13 +184,13 @@ export const noteRepository = {
                 return note;
             });
             return Result.ok(result);
-        } catch (error: any) {
+        } catch (error) {
             return repackageToInternalError(error);
         }
 
     },
 
-    async removeTag(data: RemoveTag): Promise<Result<NoteMeta>> {
+    async removeTag(data: RemoveTag): Promise<Result<NoteMetaResponse>> {
         try {
             const result = await prisma.$transaction(async (tx) => {
                 const note = await tx.note.update({
@@ -230,13 +231,13 @@ export const noteRepository = {
                 return note;
             });
             return Result.ok(result);
-        } catch (error: any) {
+        } catch (error) {
             return repackageToInternalError(error);
         }
 
     },
 
-    async create(data: NotebookCreateNoteRequest): Promise<Result<NoteMeta>> {
+    async create(data: NotebookCreateNoteRequest): Promise<Result<NoteMetaResponse>> {
         try {
             const result = await prisma.$transaction(async (tx) => {
                 const note = await tx.note.create({
@@ -273,12 +274,12 @@ export const noteRepository = {
                 return note;
             })
             return Result.ok(result);
-        } catch (error: any) {
+        } catch (error) {
             return repackageToInternalError(error);
         }
 
     },
-    async getAllByNotebookId(notebookId: string): Promise<Result<NoteMeta[]>> {
+    async getAllByNotebookId(notebookId: string): Promise<Result<NoteMetaResponse[]>> {
         return prisma.note.findMany({
             select: {
                 id: true,
@@ -300,7 +301,7 @@ export const noteRepository = {
             }
         }).then(notes => Result.ok(notes))
             .catch(
-                (error: any) => repackageToInternalError(error));
+                (error) => repackageToInternalError(error));
     },
 
     async getUserId(noteId: string): Promise<Result<string>> {
@@ -315,7 +316,35 @@ export const noteRepository = {
             where: {id: noteId}
         }).then(note => Result.ok(note.notebook.userId))
             .catch(
-                (error: any) => repackageToNotFoundError(error));
+                (error) => repackageToNotFoundError(error));
+    },
+
+    async search(name: string, userId: string): Promise<Result<Note[]>> {
+        return await prisma.note.findMany({
+            where: {
+                notebook: {
+                  userId: userId
+                },
+                OR: [
+                    {title: {contains: name}},
+                    {tags: {some: {name: {contains: name}}}}
+                ],
+            },
+            include: {
+                tags: true,
+                notebook: {
+                    select: {
+                        title: true,
+                        id: true,
+                        color: true
+                    }
+                }
+            },
+            orderBy: {
+                title: "asc"
+            }
+        }).then(notes => Result.ok(notes))
+            .catch(error => repackageToNotFoundError(error));
     }
 }
 

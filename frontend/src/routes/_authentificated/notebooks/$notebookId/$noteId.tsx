@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useNoteMetaData } from '@/hooks/note/useNoteMetaData';
-import Editor from '@/components/editor/Editor.tsx';
+import Editor from '@/components/editor/Editor';
 import { ContainerLoading } from '@/components/loading/ContainerLoading';
 import { NoteSection } from '@/components/section/NoteSection';
 import { useNotebook } from '@/hooks/notebook/useNotebook';
@@ -40,7 +40,7 @@ function RouteComponent() {
   }
 
   return (
-    <>
+    <div className="lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
       <NoteSection
         notebook={{
           id: currentNotebook.id,
@@ -53,6 +53,6 @@ function RouteComponent() {
       <div className="card">
         <Editor noteId={currentNote.id} notebookId={currentNote.notebook.id} />
       </div>
-    </>
+    </div>
   );
 }
