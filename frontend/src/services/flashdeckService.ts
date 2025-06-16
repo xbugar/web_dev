@@ -1,5 +1,5 @@
 import { api } from '@/services/index.ts';
-import { CreateTag, TagType } from '@/types/tagType';
+import { CreateTag, TagType } from '@/types/tag';
 import { Flashdeck } from '@/types/flashdeck';
 import { Flashcard } from '@/types/flashcard';
 

@@ -30,7 +30,7 @@ export function NoteCard({
   return (
     <Card
       className={cn(
-        'flex gap-4 overflow-hidden border-l-10 p-0 py-4 flex-shrink-0',
+        'flex flex-shrink-0 gap-4 overflow-hidden border-l-10 p-0 py-4',
         lineColor[notebook.color as AccentColor],
       )}
     >

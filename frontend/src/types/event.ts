@@ -1,4 +1,4 @@
-import { TagType } from '@/types/tagType';
+import { TagType } from '@/types/tag';
 
 // what we get from api
 export type Event = {
@@ -13,14 +13,14 @@ export type Event = {
 
 // what we need to render card
 export type EventCardProps = {
-  id: string;
+  eventId: string;
   title: string;
   description?: string;
   tags?: TagType[];
-  from: string;
-  to: string;
-  repeat: string;
-  // allDay: boolean;
+  from?: string;
+  to?: string;
+  allDay?: boolean;
+  tillDate?: string;
 };
 
 // what dialog needs

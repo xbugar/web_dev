@@ -1,6 +1,6 @@
-﻿import { Notebook } from "@/types/Notebook.ts";
+﻿import { Notebook } from "@/types/notebook";
 import {EventType} from "@/types/EventType.ts";
-import {Note} from "@/types/Note.ts";
+import {Note} from "@/types/note";
 
 export type SearchRequest = {
     q: string;

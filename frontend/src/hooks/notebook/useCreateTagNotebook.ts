@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { CreateTag } from '@/types/tagType';
+import { CreateTag } from '@/types/tag';
 import { postTagToNotebook } from '@/services/notebookService.ts';
 
 export const useCreateTagNotebook = (notebookId: string) => {
