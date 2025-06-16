@@ -1,17 +1,17 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { useNavigate } from "@tanstack/react-router"
-import { Calendar } from "@/components/ui/calendar"
-import { format, isToday, parseISO } from "date-fns";
+import * as React from 'react';
+import { useNavigate } from '@tanstack/react-router';
+import { Calendar } from '@/components/ui/calendar';
+import { format, isToday, parseISO } from 'date-fns';
 
 export function CalendarMain({ selectedDay }: { selectedDay: string }) {
   const selectedFromParam = React.useMemo(() => {
-    return selectedDay === "today" ? new Date() : parseISO(selectedDay);
+    return selectedDay === 'today' ? new Date() : parseISO(selectedDay);
   }, [selectedDay]);
 
-  const [date, setDate] = React.useState<Date | undefined>(selectedFromParam)
-  const navigate = useNavigate()
+  const [date, setDate] = React.useState<Date | undefined>(selectedFromParam);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     setDate(selectedFromParam);
@@ -19,21 +19,21 @@ export function CalendarMain({ selectedDay }: { selectedDay: string }) {
 
   const handleSelect = (selected: Date | undefined) => {
     if (selected) {
-      setDate(selected)
-      const formatted = isToday(selected) ? "today" : format(selected, "yyyy-MM-dd");
+      setDate(selected);
+      const formatted = isToday(selected) ? 'today' : format(selected, 'yyyy-MM-dd');
       navigate({
-        to: "/calendar/$calendarDay",
+        to: '/calendar/$calendarDay',
         params: { calendarDay: formatted },
-      })
+      });
     }
-  }
+  };
 
   return (
-      <Calendar
-        mode="single"
-        selected={date}
-        onSelect={handleSelect}
-        className="rounded-md border pt-2 pb-2"
-      />
-  )
+    <Calendar
+      mode="single"
+      selected={date}
+      onSelect={handleSelect}
+      className="rounded-md border pt-2 pb-2"
+    />
+  );
 }

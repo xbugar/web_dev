@@ -7,19 +7,24 @@ import {
 } from '@/components/ui/dropdown-menu.tsx';
 import { Ellipsis, Pencil, Trash2, Copy, Tag } from 'lucide-react';
 import { useState } from 'react';
-import { EventCardProps } from '@/types/event';
-import { EventTagDialog } from '@/components/dialogs/event/EventTagDialog';
-import { EventEditDialog } from '@/components/dialogs/event/EventEditDialog';
-import { EventDeleteDialog } from '@/components/dialogs/event/EventDeleteDialog';
+import { Event } from '@/types/event';
+import { EventTagDialog } from '@/components/dialogs/event/EventTagDialog.tsx';
+import { EventEditDialog } from '@/components/dialogs/event/EventEditDialog.tsx';
+import { EventDeleteDialog } from '@/components/dialogs/event/EventDeleteDialog.tsx';
 import { toast } from 'sonner';
 
-export function EventDropdown({ ...eventCardProps }: EventCardProps) {
+export interface DropdownProps {
+  eventId: string;
+  data: Event;
+}
+
+export function EventDropdown({ eventId, data }: DropdownProps) {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openEditTags, setOpenEditTags] = useState(false);
 
   const copyLink = () => {
-    const link = `${window.location.origin}/events/${eventCardProps.id}`;
+    const link = `${window.location.origin}/events/${eventId}`;
     navigator.clipboard
       .writeText(link)
       .then(() => {
@@ -62,22 +67,17 @@ export function EventDropdown({ ...eventCardProps }: EventCardProps) {
       </DropdownMenu>
 
       <EventEditDialog
-        eventCardProps={{ ...eventCardProps }}
         open={openEdit}
         onOpenChange={setOpenEdit}
+        eventId={eventId}
+        initialData={data as Event}
       />
-
       <EventDeleteDialog
-        eventCardProps={{ ...eventCardProps }}
         open={openDelete}
         onOpenChange={setOpenDelete}
+        eventId={eventId}
       ></EventDeleteDialog>
-
-      <EventTagDialog
-        eventCardProps={{ ...eventCardProps }}
-        open={openEditTags}
-        onOpenChange={setOpenEditTags}
-      />
+      <EventTagDialog open={openEditTags} onOpenChange={setOpenEditTags} eventId={eventId} />
     </>
   );
 }

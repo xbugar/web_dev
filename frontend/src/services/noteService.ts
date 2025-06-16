@@ -1,6 +1,6 @@
 import { api } from '@/services/index.ts';
 import type { Note } from '@/types/note';
-import { CreateTag, TagType } from '@/types/tagType';
+import { CreateTag, TagType } from '@/types/tag';
 
 export const getNoteMetadata = async (id: string): Promise<Note> => {
   return api.get(`/note/${id}`).then(response => response.data as Note);

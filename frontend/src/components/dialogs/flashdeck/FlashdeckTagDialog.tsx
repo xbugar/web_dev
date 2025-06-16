@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { CreateTag } from '@/types/tagType';
+import { CreateTag } from '@/types/tag';
 import { AccentColor } from '@/components/cards/cardColors.ts';
 import { Tag } from '@/components/cards/Tag.tsx';
 import { TagForm } from '@/components/forms/TagForm.tsx';

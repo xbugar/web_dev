@@ -1,6 +1,6 @@
 import { api } from '@/services/index.ts';
 import { EventModifiableProps, Event } from '@/types/event';
-import { CreateTag, TagType } from '@/types/tagType';
+import { CreateTag, TagType } from '@/types/tag';
 
 export const getAllEvents = async (): Promise<Event[]> => {
   return api.get(`/event`).then(response => response.data as Event[]);
