@@ -10,6 +10,8 @@ import { useRangeEvents } from '@/hooks/useRangeEvents.ts';
 import { add } from 'date-fns';
 import { useState } from 'react';
 import { EmptyState } from '@/components/cards/EmptyState.tsx';
+import { useAllFlashdecks } from "@/hooks/flashdeck/useAllFlashdecks.ts";
+import { FlashdeckCard } from "@/components/cards/FlashdeckCard.tsx";
 
 export const Route = createFileRoute('/_authentificated/home')({
   component: RouteComponent,
@@ -17,6 +19,7 @@ export const Route = createFileRoute('/_authentificated/home')({
 
 function RouteComponent() {
   const { data: notebooks } = useAllNotebooks();
+  const { data: flashdecks } = useAllFlashdecks();
 
   const [range] = useState(() => {
     return [new Date().toISOString(), add(new Date(), { years: 1 }).toISOString()];
@@ -30,7 +33,7 @@ function RouteComponent() {
   if (isDesktop) {
     return (
       <div className="col-auto flex h-screen flex-col justify-center overflow-hidden pt-5 pb-5">
-        <div className="flex-column items-center rounded-md pb-10">
+        <div className="flex-column items-center rounded-md pb-5">
           <CalendarSmall />
 
           <div className="mt-2 flex items-center justify-between py-1 font-serif text-2xl font-bold">
@@ -101,12 +104,26 @@ function RouteComponent() {
               </Button>
             </div>
             <div className="hide-scrollbar flex h-48 flex-grow flex-col gap-4 overflow-y-auto pr-2">
-              {/* Flashcards content here */}
-              {/*{flashcards ? (*/}
-              {/* todo flashcards content */}
-              {/*) : (*/}
-              <EmptyState title={'No flashcards'} message={'Create your first flashdeck.'} />
-              {/*)}*/}
+              {flashdecks ? (
+                  flashdecks
+                    .slice(0, 4)
+                    .map(({ id, title, description, color, flashCardsCount, tags, updatedAt }) => (
+                    <FlashdeckCard
+                      key={id}
+                      id={id}
+                      title={title}
+                      description={description}
+                      color={color}
+                      flashCardsCount={flashCardsCount}
+                      tags={tags}
+                      lastUpdated={updatedAt}
+                    />
+                  ),
+                )
+              ): (
+                <EmptyState title={'No flashcards'} message={'Create your first flashdeck.'} />
+              )}
+
             </div>
           </div>
         </div>

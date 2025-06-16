@@ -1,102 +1,151 @@
-﻿import { createFileRoute } from '@tanstack/react-router';
-// import {SearchResponse} from "@/types/Search.ts";
-import { useSearch } from '@/hooks/useSearch.ts';
-import { SearchForm } from '@/components/forms/SearchFrom';
-import { SearchRequest } from '@/types/search';
-import { NotebookCard } from '@/components/cards/NotebookCard.tsx';
-import { Separator } from '@/components/ui/separator';
-import { GenericSection } from '@/components/section/GenericSection';
-import { Events } from '@/components/calendar/Events';
-import { NoteCard } from '@/components/cards/NoteCard';
+import {createFileRoute, useRouter} from '@tanstack/react-router'
+import {useSearch} from '@tanstack/react-router'
+import {z} from 'zod'
+import {Separator} from '@/components/ui/separator';
+import {NotebookCard} from '@/components/cards/NotebookCard.tsx';
+import {GenericSection} from '@/components/section/GenericSection';
+import {Events} from '@/components/calendar/Events';
+import {NoteCard} from '@/components/cards/NoteCard';
+import {SearchForm} from "@/components/forms/SearchFrom.tsx";
+import {SearchRequest} from "@/types/Search.ts";
+import {useFilter} from "@/hooks/useSearch.ts";
+import {FlashdeckCard} from "@/components/cards/FlashdeckCard.tsx";
 
 export const Route = createFileRoute('/_authentificated/search/')({
-  component: RouteComponent,
-});
+    component: SearchPage,
+    validateSearch: z.object({
+        q: z.string().min(1).optional(),
+        type: z.array(z.enum(["notes", "notebooks", "events", "decks"])).optional(),
+    }),
+})
 
-function RouteComponent() {
-  const search = useSearch();
-  const searchHandle = (data: SearchRequest) => {
-    search.mutate({ data });
-  };
 
-  return (
-    <div>
-      <SearchForm onSubmit={searchHandle} isSubmitting={search.isPending} submitText={'Search'} />
+function SearchPage() {
+    const searchRequest = useSearch({
+        from: '/_authentificated/search/'
+    });
 
-      <Separator className="my-4" />
+    const {data, isLoading} = useFilter(searchRequest);
 
-      {search.data?.notebooks && (
-        <>
-          <GenericSection title={'Notebooks'} />
 
-          <div
-            className="grid grid-cols-1 gap-4 lg:h-[calc(100vh-5rem)] lg:auto-rows-max lg:grid-cols-2 lg:overflow-y-auto"
-            style={{
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-            }}
-          >
-            {search.data?.notebooks &&
-              search.data?.notebooks.map(
-                ({ id, title, description, iconName, color, noteCount, tags, updatedAt }) => (
-                  <NotebookCard
-                    key={id}
-                    id={id}
-                    title={title}
-                    description={description}
-                    iconName={iconName}
-                    color={color}
-                    noteCount={noteCount}
-                    tags={tags}
-                    lastUpdated={updatedAt}
-                  />
-                ),
-              )}
-          </div>
-        </>
-      )}
+    const router = useRouter();
+    const searchHandle = (values: SearchRequest) => {
+        router.navigate({
+            to: '/search',
+            search: {...values},
+            replace: false
+        });
+    };
 
-      {search.data?.notes && (
-        <>
-          <GenericSection title={'Notes'} />
 
-          <div
-            className="grid grid-cols-1 gap-4 lg:h-[calc(100vh-5rem)] lg:auto-rows-max lg:grid-cols-2 lg:overflow-y-auto"
-            style={{
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-            }}
-          >
-            {search.data?.notes.length != 0 ? (
-              search.data?.notes.map(({ id, title, tags, notebook, updatedAt }) => (
-                <NoteCard
-                  key={id}
-                  id={id}
-                  title={title}
-                  tags={tags}
-                  notebook={{
-                    id: notebook.id,
-                    title: notebook.title,
-                    color: notebook.color,
-                  }}
-                  lastUpdated={updatedAt}
-                />
-              ))
-            ) : (
-              <div className="flex w-full items-center justify-center">
-                <p className="text-muted-foreground mb-4 text-lg italic">No notes...</p>
-              </div>
+    return (
+        <div>
+            <SearchForm onSubmit={searchHandle} isSubmitting={isLoading} submitText={'Search'}
+                        initialValues={searchRequest}/>
+            <Separator className="my-4"/>
+
+            {data?.notebooks && (
+                <>
+                    <GenericSection title={'Notebooks'}/>
+                    <div
+                        className="grid grid-cols-1 gap-4 lg:h-[calc(100vh-5rem)] lg:auto-rows-max lg:grid-cols-2 lg:overflow-y-auto"
+                        style={{
+                            scrollbarWidth: 'none',
+                            msOverflowStyle: 'none',
+                        }}
+                    >
+                        {data?.notebooks &&
+                            data.notebooks.map(
+                                ({id, title, description, iconName, color, noteCount, tags, updatedAt}) => (
+                                    <NotebookCard
+                                        key={id}
+                                        id={id}
+                                        title={title}
+                                        description={description}
+                                        iconName={iconName}
+                                        color={color}
+                                        noteCount={noteCount}
+                                        tags={tags}
+                                        lastUpdated={updatedAt}
+                                    />
+                                ),
+                            )}
+                    </div>
+                    <Separator className="my-4"/>
+                </>
             )}
-          </div>
-        </>
-      )}
 
-      {search.data?.events && (
-        <>
-          <GenericSection title={'Events'} />
-          <Events events={search.data?.events} />
-        </>
-      )}
-    </div>
-  );
+            {data?.notes && (
+                <>
+                    <GenericSection title={'Notes'}/>
+
+                    <div
+                        className="grid grid-cols-1 gap-4 lg:h-[calc(100vh-5rem)] lg:auto-rows-max lg:grid-cols-2 lg:overflow-y-auto"
+                        style={{
+                            scrollbarWidth: 'none',
+                            msOverflowStyle: 'none',
+                        }}
+                    >
+                        {data.notes.length != 0 ? (
+                            data.notes.map(({id, title, tags, notebook, updatedAt}) => (
+                                <NoteCard
+                                    key={id}
+                                    id={id}
+                                    title={title}
+                                    tags={tags}
+                                    notebook={{
+                                        id: notebook.id,
+                                        title: notebook.title,
+                                        color: notebook.color,
+                                    }}
+                                    lastUpdated={updatedAt}
+                                />
+                            ))
+                        ) : (
+                            <div className="flex w-full items-center justify-center">
+                                <p className="text-muted-foreground mb-4 text-lg italic">No notes...</p>
+                            </div>
+                        )}
+                    </div>
+                    <Separator className="my-4"/>
+                </>
+            )}
+
+            {data?.decks && (
+                <>
+                    <GenericSection title={'Decks'}/>
+
+                    <div
+                        className="grid grid-cols-1 gap-4 lg:h-[calc(100vh-5rem)] lg:auto-rows-max lg:grid-cols-2 lg:overflow-y-auto"
+                        style={{
+                            scrollbarWidth: 'none',
+                            msOverflowStyle: 'none',
+                        }}
+                    >
+                        {data.decks.map(({id, title, description, color, flashCardsCount, tags, updatedAt}) => (
+                            <FlashdeckCard
+                                key={id}
+                                id={id}
+                                title={title}
+                                description={description}
+                                color={color}
+                                flashCardsCount={flashCardsCount}
+                                tags={tags}
+                                lastUpdated={updatedAt}
+                            />
+                        ))}
+                    </div>
+                </>
+            )}
+
+            {data?.events && (
+                <>
+                    <GenericSection title={'Events'}/>
+                    <Events events={data.events}/>
+                    <Separator className="my-4"/>
+                </>
+            )}
+        </div>
+    );
 }
+

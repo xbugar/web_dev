@@ -14,7 +14,7 @@ type NavigationButtonProps = {
 function getNavKeyFromPath(pathname: string): string | null {
   if (pathname.startsWith('/notebooks')) return 'notebooks';
   if (pathname.startsWith('/calendar') || pathname.startsWith('/events')) return 'calendar';
-  if (pathname.startsWith('/flashcards')) return 'flashcards';
+  if (pathname.startsWith('/flashdecks')) return 'flashdecks';
   if (pathname.startsWith('/search')) return 'search';
   if (pathname === '/home') return 'home';
   return null;

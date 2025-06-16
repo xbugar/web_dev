@@ -5,12 +5,14 @@ import {SearchResponse} from "./types";
 import {eventRepository} from "../event/repository";
 import {notebookRepository} from "../notebook/repository";
 import {noteRepository} from "../note/repository";
+import {deckRepository} from "../deck/repository";
 
 
 const typeToRepo = {
     events: eventRepository,
     notebooks: notebookRepository,
-    notes: noteRepository
+    notes: noteRepository,
+    decks: deckRepository
 };
 
 const get = async (req: Request, res: Response): Promise<void> => {
@@ -33,7 +35,7 @@ const get = async (req: Request, res: Response): Promise<void> => {
 
 
         if (result.value.length > 0) {
-            // @ts-expect-error // TODO this surely works
+            // @ts-expect-error this surely works
             response[`${type}`] = result.unwrap();
         }
     }
