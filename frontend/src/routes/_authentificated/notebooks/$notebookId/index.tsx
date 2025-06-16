@@ -68,7 +68,7 @@ function RouteComponent() {
         noteTitle=""
       />
       <div
-        className="flex flex-col gap-4 lg:h-[calc(100vh-15.5rem)] lg:overflow-y-auto"
+        className="grid grid-cols-1 gap-4 lg:h-[calc(100vh-17.5rem)] lg:auto-rows-max lg:overflow-y-auto"
         style={{
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',

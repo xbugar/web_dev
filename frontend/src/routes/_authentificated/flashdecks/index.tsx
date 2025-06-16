@@ -24,11 +24,12 @@ function RouteComponent() {
     return <div>Error: {errorFlashdecks.message}</div>;
   }
   return (
+
     <div className="lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
       <FlashdeckSection isPreview={false} />
 
       <div
-        className="grid grid-cols-1 gap-4 lg:h-[calc(100vh-5rem)] lg:auto-rows-max lg:grid-cols-2 lg:overflow-y-auto"
+        className="grid grid-cols-1 gap-4 lg:h-[calc(100vh-5rem)] lg:auto-rows-max lg:overflow-y-auto"
         style={{
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
