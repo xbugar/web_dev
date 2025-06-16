@@ -5,7 +5,6 @@ export const deckRouter = Router();
 
 deckRouter.get("/", deckController.getAll);
 deckRouter.post("/", deckController.post);
-deckRouter.put("/:id", deckController.put);
 deckRouter.get("/:deckId", deckController.get);
 deckRouter.delete("/:deckId", deckController.remove);
 deckRouter.put("/:deckId", deckController.put);
