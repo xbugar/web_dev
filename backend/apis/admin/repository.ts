@@ -12,6 +12,8 @@ export const adminRepository = {
                         select: {
                             id: true,
                             email: true,
+                            firstName: true,
+                            lastName: true,
                             _count: {
                                 select: {
                                     notebooks: true,

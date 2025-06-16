@@ -66,7 +66,7 @@ const remove = async (req: Request, res: Response) => {
         return;
     }
 
-    if (!admin.unwrap().isAdmin){
+    if (!admin.unwrap().isAdmin || req.session.passport?.user.id == req.params.userId){
         res.status(401).send("Unauthorized");
         return;
     }
