@@ -121,7 +121,7 @@ function RouteComponent() {
           </Link>
           <div className="flex flex-col items-center lg:items-end">
             <p>Created with ❤️ and code (obviously).</p>
-            <p>AB, JH, Jana Kmošková, NL, Tomáš Bokor</p>
+            <p>AB, JH, Jana Kmošková, Natália Ligačová, Tomáš Bokor</p>
             <p>MUNI FI PB138 2025</p>
           </div>
         </div>
