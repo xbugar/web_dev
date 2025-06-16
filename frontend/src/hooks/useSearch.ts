@@ -1,33 +1,16 @@
-﻿import {getRouteApi, RegisteredRouter, RouteIds, useNavigate } from '@tanstack/react-router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { SearchRequest } from '@/types/search';
+import { getSearch } from '@/services/searchService.ts';
 
-const cleanEmptyParams = <T extends Record<string, unknown>>(search: T) => {
-    const newSearch = { ...search };
+export const useSearch = () => {
+  const queryClient = useQueryClient();
 
-    Object.keys(newSearch).forEach(key => {
-        const value = newSearch[key];
-
-        if (value === undefined || value === '') {
-            delete newSearch[key];
-        }
-    });
-
-    return newSearch;
+  return useMutation({
+    mutationFn: async ({ data }: { data: SearchRequest }) => {
+      return getSearch(data);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['search'] });
+    },
+  });
 };
-
-
-export function useFilters<T extends RouteIds<RegisteredRouter['routeTree']>>(
-    routeId: T
-) {
-    const routeApi = getRouteApi<T>(routeId)
-    const navigate = useNavigate()
-    const filters = routeApi.useSearch()
-
-    const setFilters = (partialFilters: Partial<typeof filters>) =>
-        navigate({
-            to: '.',
-            search: prev => cleanEmptyParams({ ...prev, ...partialFilters }),
-        })
-    const resetFilters = () => navigate({ to: '.', search: {} })
-
-    return { filters, setFilters, resetFilters }
-}

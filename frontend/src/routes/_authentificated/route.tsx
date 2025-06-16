@@ -3,7 +3,7 @@ import { Navigation } from '@/components/navigation/Navigation';
 import { useAuthStore } from '@/lib/authStore';
 import { createFileRoute, Outlet, redirect, useMatchRoute } from '@tanstack/react-router';
 import { Sidebar } from '@/components/desktop/Sidebar.tsx';
-import { useIsDesktop } from '@/hooks/isDesktop.ts'
+import { useIsDesktop } from '@/hooks/isDesktop.ts';
 
 export const Route = createFileRoute('/_authentificated')({
   loader: () => {
@@ -26,10 +26,10 @@ function RouteComponent() {
 
   if (isDesktop) {
     return (
-      <div className="flex min-h-screen ">
+      <div className="flex min-h-screen">
         <Sidebar />
         <main className="flex-grow">
-          <section className="px-2">
+          <section className="px-6">
             <Outlet />
           </section>
         </main>

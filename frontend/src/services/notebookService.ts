@@ -1,7 +1,7 @@
 import { api } from '@/services/index';
 import type { Notebook } from '@/types/notebook';
 import { Note } from '@/types/note';
-import { CreateTag, TagType } from '@/types/tagType';
+import { CreateTag, TagType } from '@/types/tag';
 
 export const getAllNotebooks = async (): Promise<Notebook[]> => {
   return api.get(`user/notebooks`).then(response => response.data as Notebook[]);

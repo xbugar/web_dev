@@ -1,15 +1,33 @@
-import { EventDialogProps, EventModifiableProps } from '@/types/event';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog.tsx';
-import { EventForm } from '@/components/forms/EventForm.tsx';
-import { useEditEvent } from '@/hooks/event/useEditEvent';
-import { toast } from 'sonner';
+import { EventModifiableProps, Event } from "@/types/event";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog.tsx';
+import { EventForm } from "@/components/forms/EventForm";
+import { useEditEvent } from "@/hooks/event/useEditEvent";
+import { toast } from "sonner";
 
-export const EventEditDialog = ({ eventCardProps, open, onOpenChange }: EventDialogProps) => {
+type EventEditDialogProps = {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  eventId: string;
+  initialData: Event;
+};
+
+
+export const EventEditDialog = ({
+  open,
+  onOpenChange,
+  eventId,
+  initialData,
+}: EventEditDialogProps) => {
   const createEvent = useEditEvent();
 
   const handleEdit = (modifiableData: EventModifiableProps) => {
     createEvent.mutate(
-      { eventId: eventCardProps.id, data: modifiableData },
+      { eventId: eventId, data: modifiableData },
       {
         onSuccess: () => {
           onOpenChange(false);
@@ -30,12 +48,14 @@ export const EventEditDialog = ({ eventCardProps, open, onOpenChange }: EventDia
           <DialogTitle>Edit event</DialogTitle>
         </DialogHeader>
         <EventForm
-          eventCardProps={eventCardProps}
-          submitText={'Edit'}
-          isSubmitting={createEvent.isPending}
           onSubmit={handleEdit}
+          isSubmitting={createEvent.isPending}
+          submitText="Edit"
+          initialData={initialData}
+          dateFrom={new Date(initialData.timeFrom)}
+          dateTo={new Date(initialData.timeTo)}
         />
       </DialogContent>
     </Dialog>
   );
-};
+}

@@ -36,7 +36,7 @@ const get = async (req: Request, res: Response) => {
         return;
     }
     let date: Date | undefined;
-    if (request.body.upComing) {
+    if (request.query.upComing) {
         date = new Date();
     }
 
@@ -143,7 +143,7 @@ const getByDate = async (req: Request, res: Response) => {
         return;
     }
 
-    const events = await eventRepository.getByDate(userId, request.body.date);
+    const events = await eventRepository.getByDate(userId, request.query.date);
     if (events.isErr) {
         handleRepositoryErrors(events.error, res);
         return;
@@ -169,7 +169,7 @@ const repeatsInRange = async (event: EventResponse, start: Date, end: Date) => {
         step = 1000 * 60 * 60 * 24 * 14; //ms to day
     } else {
         tmpEnd.setFullYear(start.getFullYear(), start.getMonth());
-        while (tmpEnd.getTime() < end.getTime()) {
+        while (tmpEnd.getTime() < end.getTime() || (tmpEnd.getTime() - (event.timeTo.getTime() - event.timeFrom.getTime())) < end.getTime()) {
             events.push({
                 id: event.id,
                 title: event.title,
@@ -186,7 +186,7 @@ const repeatsInRange = async (event: EventResponse, start: Date, end: Date) => {
 
         }
     }
-    while (tmpEnd.getTime() < end.getTime()) {
+    while (tmpEnd.getTime() < end.getTime() || (tmpEnd.getTime() - (event.timeTo.getTime() - event.timeFrom.getTime())) < end.getTime()) {
         events.push({
             id: event.id,
             title: event.title,

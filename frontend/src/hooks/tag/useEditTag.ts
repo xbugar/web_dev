@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { putTag } from '@/services/tagService.ts';
-import { TagType } from '@/types/tagType';
+import { TagType } from '@/types/tag';
 
 export const useEditTag = () => {
   const queryClient = useQueryClient();

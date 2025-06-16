@@ -82,7 +82,7 @@ async function main() {
     createUserWithEvents("Natalka", "example@mail.ls", picture).catch(ex => console.error("something went wrong: createUserWithEvents\n", ex));
     createUserWithNotebook("Janka", "example@mail.cd", picture, getRandomValue(icons), "test Note").catch(ex => console.error("something went wrong: createUserWithNoteBook\n", ex));
     createUserWithFlashDeck("Jozef", "example@mail.rm", picture, getRandomValue(icons)).catch(ex => console.error("something went wrong: createUserWithFlashDeck\n", ex));
-    createUserWithTags("Tomas", "example@mail.ps", picture, getRandomValue(icons), "pb138", "#987456").catch(ex => console.error(ex));
+    createUserWithTags("Tomas", "example@mail.ps", picture, getRandomValue(icons), "pb138", "orange").catch(ex => console.error(ex));
     addUser("andrej", "", "example@mail.sh", "",  picture.id).catch(ex => console.error(ex));
 
     for (let i = 0; i < 20; i++) {

@@ -12,15 +12,48 @@ import {
   SelectValue,
 } from '@/components/ui/select.tsx';
 import { DateTimePicker } from '@/components/calendar/DateTimePicker.tsx';
-import { EventFormProps } from '@/types/event';
 
-export function EventForm({ eventCardProps, submitText, isSubmitting, onSubmit }: EventFormProps) {
-  const [title, setTitle] = useState(eventCardProps.title);
-  const [description, setDescription] = useState(eventCardProps.description);
-  const [timeFrom, settimeFrom] = React.useState<Date>(new Date(eventCardProps.from));
-  const [timeTo, settimeTo] = React.useState<Date>(new Date(eventCardProps.to));
-  const [repeat, setRepeat] = useState(eventCardProps.repeat);
-  // const [allDay, setAllDay] = useState(initialData.allDay);
+type EventFormProps = {
+  initialData?: {
+    title: string;
+    description?: string;
+    timeFrom: string;
+    timeTo: string;
+    repeat?: string;
+    // allDay?: boolean;
+  };
+
+  dateFrom: Date;
+  dateTo: Date;
+
+  onSubmit: (data: {
+    title: string;
+    description?: string;
+    timeFrom: string;
+    timeTo: string;
+    repeat?: string;
+    // allDay?: boolean;
+  }) => void;
+  isSubmitting?: boolean;
+  submitText: string;
+};
+
+export function EventForm({
+  initialData,
+  dateFrom,
+  dateTo,
+  onSubmit,
+  isSubmitting,
+  submitText,
+}: EventFormProps) {
+  const [title, setTitle] = useState(initialData?.title || '');
+  const [description, setDescription] = useState(initialData?.description || '');
+
+  const [timeFrom, settimeFrom] = React.useState<Date>(dateFrom);
+  const [timeTo, settimeTo] = React.useState<Date>(dateTo);
+
+  const [repeat, setRepeat] = useState(initialData?.repeat || 'Never');
+  // const [allDay, setAllDay] = useState(initialData?.allDay || false);
 
   React.useEffect(() => {
     if (timeTo < timeFrom) {
@@ -29,8 +62,7 @@ export function EventForm({ eventCardProps, submitText, isSubmitting, onSubmit }
   }, [timeFrom, timeTo]);
 
   const handleSubmit = () => {
-    if (!title || !timeFrom || !timeTo || !repeat) return;
-
+    if (!title) return;
     onSubmit({
       title,
       description,
@@ -43,6 +75,7 @@ export function EventForm({ eventCardProps, submitText, isSubmitting, onSubmit }
 
   return (
     <div className="relative grid gap-6">
+      {/* Title */}
       <div className="grid items-center">
         <Label htmlFor="title" className="text-right">
           Title*
@@ -56,6 +89,7 @@ export function EventForm({ eventCardProps, submitText, isSubmitting, onSubmit }
         />
       </div>
 
+      {/* Date From */}
       <div className="border-black-text-secondary dark:border-white-text-secondary flex flex-row justify-between border-b">
         <Label className="pb-3 text-sm">Start:</Label>
         <DateTimePicker
@@ -64,6 +98,7 @@ export function EventForm({ eventCardProps, submitText, isSubmitting, onSubmit }
         ></DateTimePicker>
       </div>
 
+      {/* Date To */}
       <div className="border-black-text-secondary dark:border-white-text-secondary flex flex-row justify-between border-b">
         <Label className="pb-3 text-sm">End:</Label>
         <DateTimePicker
@@ -99,25 +134,28 @@ export function EventForm({ eventCardProps, submitText, isSubmitting, onSubmit }
         </Select>
       </div>
 
-      <div className="grid items-center">
-        <Label htmlFor="description" className="text-right">
-          Description
-        </Label>
-        <Input
-          id="description"
-          placeholder="Enter description"
-          value={description}
-          onChange={e => setDescription(e.target.value ?? '')}
-          className="col-span-3"
-        />
-      </div>
+      <>
+        {/* Description */}
+        <div className="grid items-center">
+          <Label htmlFor="description" className="text-right">
+            Description
+          </Label>
+          <Input
+            id="description"
+            placeholder="Enter description"
+            value={description}
+            onChange={e => setDescription(e.target.value ?? '')}
+            className="col-span-3"
+          />
+        </div>
+      </>
 
       <DialogFooter className="flex-row">
         <Button
           type="submit"
           variant="submit"
           onClick={handleSubmit}
-          disabled={!title || !timeFrom || !timeTo || !repeat}
+          disabled={!title}
           loading={isSubmitting}
         >
           {submitText}

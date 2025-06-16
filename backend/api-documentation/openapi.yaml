@@ -38,6 +38,12 @@ paths:
       summary: Get all users tags
       description: Get
       operationId: getUserEvents
+      parameters:
+        - name: upComing
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: Successful operation
@@ -100,6 +106,12 @@ paths:
       summary: Get all users tags
       description: Get
       operationId: getUserDateEvents
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: object
       requestBody:
         description: ""
         content:
