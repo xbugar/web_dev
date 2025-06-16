@@ -1,16 +1,11 @@
-﻿import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { SearchRequest } from '@/types/search';
+import {useQuery} from '@tanstack/react-query';
 import { getSearch } from '@/services/searchService.ts';
+import {SearchRequest} from "@/types/Search.ts";
 
-export const useSearch = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async ({ data }: { data: SearchRequest }) => {
-      return getSearch(data);
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['search'] });
-    },
+export const  useFilter = (data: SearchRequest) => {
+  return useQuery({
+    queryKey: ['search', data],
+    queryFn: async () => getSearch(data),
+    enabled: !!data.q
   });
 };
