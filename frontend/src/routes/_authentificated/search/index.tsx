@@ -67,6 +67,7 @@ function SearchPage() {
                                         noteCount={noteCount}
                                         tags={tags}
                                         lastUpdated={updatedAt}
+                                        data-testid="notebook-card"
                                     />
                                 ),
                             )}
