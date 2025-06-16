@@ -187,8 +187,8 @@ export const eventRepository = {
             const events = await prisma.event.findMany({
                 where: {
                     userId: userId,
-                    AND: [{timeFrom: {gte: start}},
-                        {timeTo: {lte: end}}],
+                    AND: [{timeFrom: {lte: end}},
+                        {timeTo: {gte:start}}],
                     repeat: "Never"
                 }, orderBy: {
                     timeFrom: 'asc'
