@@ -42,11 +42,19 @@ test.describe("Notebook edit", async () => {
   })
 
   test('should edit icon', async ({page}) => {
+    await page.getByRole('combobox').filter({hasText: 'Cpu'}).click();
+    await page.getByRole('option', {name: 'PenTool'}).click();
+    await expect(page.getByRole('button').filter({hasText: 'PenTool'})).not.toBeVisible();
+    await expect(page.getByRole('button', {name: 'Edit'})).toBeVisible();
+    await page.getByRole('button', {name: 'Edit'}).click();
+  })
+
+  test('should edit color', async ({page}) => {
     await page.getByRole('combobox').filter({hasText: 'Red'}).click();
     await page.getByRole('option', {name: 'Green'}).click();
-    await page.getByRole('combobox').filter({hasText: 'Green'}).click();
-    await page.locator('button').filter({hasText: 'Cpu'}).click();
-    await page.getByRole('option', {name: 'PenTool'}).click();
+    await expect(page.getByRole('button').filter({hasText: 'Green'})).not.toBeVisible();
+    await expect(page.getByRole('button', {name: 'Edit'})).toBeVisible();
+    await page.getByRole('button', {name: 'Edit'}).click();
   })
 })
 
