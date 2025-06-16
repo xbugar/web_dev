@@ -6,6 +6,7 @@ import { ContainerLoading } from '@/components/loading/ContainerLoading';
 import { FlashdeckSection } from '@/components/section/FlashdeckSection';
 import { FlashcardSection } from '@/components/section/FlashcardSection';
 import { FlashcardCard } from '@/components/cards/FlashcardCard';
+import { EmptyState } from "@/components/cards/EmptyState.tsx";
 
 export const Route = createFileRoute('/_authentificated/flashdecks/$flashdeckId/')({
   component: RouteComponent,
@@ -89,9 +90,7 @@ function RouteComponent() {
             />
           ))
         ) : (
-          <div className="flex w-full items-center justify-center">
-            <p className="text-muted-foreground mb-4 text-lg italic">No flashcards...</p>
-          </div>
+          <EmptyState title={'No cards in the deck'} message={'Shuffle some new ones into the mix!'} />
         )}
       </div>
     </div>

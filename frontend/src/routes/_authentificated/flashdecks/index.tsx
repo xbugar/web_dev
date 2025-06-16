@@ -3,6 +3,7 @@ import { useAllFlashdecks } from '@/hooks/flashdeck/useAllFlashdecks';
 import { FlashdeckSection } from '@/components/section/FlashdeckSection';
 import { FlashdeckCard } from '@/components/cards/FlashdeckCard';
 import { ContainerLoading } from '@/components/loading/ContainerLoading';
+import { EmptyState } from "@/components/cards/EmptyState.tsx";
 
 export const Route = createFileRoute('/_authentificated/flashdecks/')({
   component: RouteComponent,
@@ -35,19 +36,22 @@ function RouteComponent() {
           msOverflowStyle: 'none',
         }}
       >
-        {flashdecks &&
-          flashdecks.map(({ id, title, description, color, flashCardsCount, tags, updatedAt }) => (
-            <FlashdeckCard
-              key={id}
-              id={id}
-              title={title}
-              description={description}
-              color={color}
-              flashCardsCount={flashCardsCount}
-              tags={tags}
-              lastUpdated={updatedAt}
-            />
-          ))}
+        {flashdecks ? (
+            flashdecks.map(({ id, title, description, color, flashCardsCount, tags, updatedAt }) => (
+              <FlashdeckCard
+                key={id}
+                id={id}
+                title={title}
+                description={description}
+                color={color}
+                flashCardsCount={flashCardsCount}
+                tags={tags}
+                lastUpdated={updatedAt}
+              />
+            ))
+        ) : (
+          <EmptyState title={'No flashdecks'} message={'Create a new flashdeck.'} />
+        )}
       </div>
     </div>
   );
