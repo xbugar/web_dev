@@ -32,7 +32,7 @@ export const userRepository = {
         return await prisma.user.delete({where: {id: userId}})
             .then(
                 () => Result.ok(null)
-            ).catch((error) => repackageToNotFoundError(error));
+            ).catch((error) => repackageToInternalError(error));
     },
 
     async findById(userId: string): Promise<Result<UserResponse, Error>> {
@@ -47,7 +47,7 @@ export const userRepository = {
                     id: userId
                 }
         }).then(user => Result.ok(user))
-            .catch((error) => repackageToNotFoundError(error));
+            .catch((error) => repackageToInternalError(error));
 
     },
 

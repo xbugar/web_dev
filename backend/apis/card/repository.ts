@@ -142,6 +142,9 @@ export const cardRepository = {
             },
             where: {
                 deckId: flashDeckId
+            },
+            orderBy: {
+                updatedAt: 'desc'
             }
         }).then(cards => Result.ok(cards))
             .catch(
@@ -174,7 +177,7 @@ export const cardRepository = {
                     },
                     data: {
                         learned: false
-                    }
+                    },
                 });
 
                 return tx.card.findMany({
@@ -191,6 +194,9 @@ export const cardRepository = {
                                 color: true,
                             }
                         }
+                    },
+                    orderBy: {
+                        updatedAt: 'desc'
                     }
                 });
             })

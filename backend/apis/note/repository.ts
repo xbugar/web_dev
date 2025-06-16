@@ -298,6 +298,9 @@ export const noteRepository = {
             },
             where: {
                 notebookId: notebookId
+            },
+            orderBy: {
+                updatedAt: 'desc'
             }
         }).then(notes => Result.ok(notes))
             .catch(
