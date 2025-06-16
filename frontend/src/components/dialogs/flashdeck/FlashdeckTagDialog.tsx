@@ -17,7 +17,6 @@ import { Flashdeck, FlashdeckDialogProps } from '@/types/flashdeck';
 import { useDeleteTagFromFlashdeck } from '@/hooks/flashdeck/useDeleteTagFromFlashdeck';
 import { DeleteConfirmationDialog } from '@/components/dialogs/generic/DeleteConfirmationDialog';
 import { toast } from 'sonner';
-import { EmptyState } from "@/components/cards/EmptyState.tsx";
 
 export function FlashdeckTagDialog({
   flashdeckCardProps,
@@ -85,7 +84,7 @@ export function FlashdeckTagDialog({
                 </div>
               </div>
             ) : (
-              <EmptyState title={'No tags'} message={'Start by creating your first tag.'} />
+              <p className="text-muted-foreground mb-4 text-center text-sm italic">No tags</p>
             )}
           </div>
 

@@ -16,7 +16,6 @@ import { useCreateTagEvent } from '@/hooks/event/useCreateTagEvent.ts';
 import { useDeleteTagFromEvent } from '@/hooks/event/useDeleteTagFromEvent.ts';
 import { useGetEventById } from '@/hooks/event/useGetEventById.ts';
 import { Event } from '@/types/event';
-import { EmptyState } from "@/components/cards/EmptyState.tsx";
 
 interface EventTagDialogProps {
   open: boolean;
@@ -85,7 +84,7 @@ export function EventTagDialog({ open, onOpenChange, eventId }: EventTagDialogPr
                 <div className="from-white-secondary dark:from-black-secondary pointer-events-none absolute top-0 right-0 h-full w-4 bg-gradient-to-l to-transparent"></div>
               </div>
             ) : (
-              <EmptyState title={'No tags'} message={'Start by creating your first tag.'} />
+              <p className="text-muted-foreground mb-4 text-sm italic">No tags</p>
             )}
           </div>
 
