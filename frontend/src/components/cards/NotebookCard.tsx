@@ -1,14 +1,13 @@
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-
 import { Link } from '@tanstack/react-router';
 import { AccentColor, iconColor, lineColor } from '@/components/cards/cardColors';
-import { Dropdown } from '@/components/cards/Dropdown.tsx';
 import { Ellipsis, LucideIcon, Notebook, Timer } from 'lucide-react';
 import { Tag } from '@/components/cards/Tag.tsx';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
-import { iconMap } from '@/components/cards/IconOptions.tsx';
-import { NotebookCardProps } from '@/types/Notebook';
+import { iconMap } from '@/components/cards/iconOptions';
+import { NotebookCardProps } from '@/types/notebook';
+import { NotebookDropdown } from '../dropdown/NotebookDropdown';
 
 export const NotebookCard = ({
   id,
@@ -23,6 +22,17 @@ export const NotebookCard = ({
 }: NotebookCardProps) => {
   const IconComponent: LucideIcon = iconMap[iconName];
   const timeAgo = formatDistanceToNow(new Date(lastUpdated), { addSuffix: true });
+  const notebookCardProps: NotebookCardProps = {
+    id,
+    title,
+    description,
+    iconName,
+    color,
+    noteCount,
+    tags,
+    lastUpdated,
+  };
+
   return (
     <Card
       className={cn(
@@ -39,10 +49,7 @@ export const NotebookCard = ({
           <div className="flex items-center justify-between">
             <CardTitle className="font-serif">
               {isLinked ? (
-                <Link
-                  to={`/notebooks/$notebookId`}
-                  params={{ notebookId: id }}
-                >
+                <Link to={`/notebooks/$notebookId`} params={{ notebookId: id }}>
                   {title}
                 </Link>
               ) : (
@@ -51,18 +58,7 @@ export const NotebookCard = ({
             </CardTitle>
 
             {isLinked ? (
-              <Dropdown
-                notebookId={id}
-                noteId={''}
-                eventId={''}
-                data={{
-                  title: title,
-                  description: description,
-                  color: color,
-                  iconName: iconName,
-                }}
-                type={'notebook'}
-              />
+              <NotebookDropdown {...notebookCardProps} />
             ) : (
               <button className="hover:bg-muted rounded-[10%] p-0">
                 <Ellipsis className="h-5 w-5 text-black dark:text-white" />
@@ -94,8 +90,6 @@ export const NotebookCard = ({
             <div className="ml-5"></div>
           </div>
 
-          {/* shadow on the left side */}
-          {/* <div className="pointer-events-none absolute top-0 left-0 h-full w-3 bg-gradient-to-r from-white-secondary dark:from-black-secondary to-transparent"></div> */}
           <div className="from-white-secondary dark:from-black-secondary pointer-events-none absolute top-0 right-0 h-full w-4 bg-gradient-to-l to-transparent"></div>
         </div>
       )}
@@ -105,10 +99,4 @@ export const NotebookCard = ({
       )}
     </Card>
   );
-
-  // if (isLinked) {
-  //   return <Link to={`/notebooks/${id}`}>{CardContent}</Link>;
-  // }
-
-  // return CardContent;
 };

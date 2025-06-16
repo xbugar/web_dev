@@ -1,5 +1,5 @@
 import { api } from '@/services/index.ts';
-import type { CreateUser, LoginUser } from '@/types/User.ts';
+import type { CreateUser, LoginUser } from '@/types/user';
 
 export const postRegisterUser = async (user: CreateUser) => {
   return api.post(`/auth/register`, user).then(function (res) {

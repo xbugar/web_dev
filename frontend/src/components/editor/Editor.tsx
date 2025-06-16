@@ -7,10 +7,11 @@ import OrderedList from '@tiptap/extension-ordered-list'
 import { Underline as UnderlineTiptap } from '@tiptap/extension-underline';
 import { useCallback, useEffect, useState } from 'react';
 import { Markdown } from 'tiptap-markdown';
-import { useEditNoteContent } from '@/hooks/useEditNoteCotent.ts';
-import { useNoteContent } from '@/hooks/useNoteContent.ts';
+import { useEditNoteContent } from '@/hooks/note/useEditNoteCotent';
+import { useNoteContent } from '@/hooks/note/useNoteContent';
 import HardBreak from '@tiptap/extension-hard-break';
 import { CornerDownLeft } from "lucide-react";
+import { ContainerLoading } from '../loading/ContainerLoading';
 
 
 type EditorProps = {
@@ -65,7 +66,7 @@ const Editor = ({ noteId, notebookId }: EditorProps) => {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <ContainerLoading />;
   }
 
   return (

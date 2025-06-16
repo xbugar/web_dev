@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from '@tanstack/react-router';
 import { useEffect } from 'react';
-import { useAuth } from './hooks/useAuth';
+import { useAuth } from './hooks/user/useAuth';
 import { useAuthStore } from './lib/authStore';
 import { routeTree } from './routeTree.gen';
 import { createRouter } from '@tanstack/react-router';

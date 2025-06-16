@@ -1,20 +1,17 @@
-import { Section } from '@/components/section/Section';
 import { createFileRoute } from '@tanstack/react-router';
-
-import { Plus } from 'lucide-react';
-
-import { NotebookCard } from '@/components/cards/NotebookCard.tsx';
-import { useUserNotebooks } from '@/hooks/useUserNotebooks.ts';
+import { NotebookCard } from '@/components/cards/NotebookCard';
+import { useAllNotebooks } from '@/hooks/notebook/useAllNotebooks';
+import { NotebookSection } from '@/components/section/NotebookSection';
 
 export const Route = createFileRoute('/_authentificated/notebooks/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { data: notebooks } = useUserNotebooks();
+  const { data: notebooks } = useAllNotebooks();
   return (
     <>
-      <Section title={'Notebooks'} Icon={Plus} type="notebook" />
+      <NotebookSection isPreview={false} />
 
       <div className="flex flex-col gap-4">
         {notebooks &&

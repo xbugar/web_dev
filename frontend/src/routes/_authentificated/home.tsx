@@ -2,18 +2,17 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { CalendarSmall } from '@/components/calendar/CalendarSmall.tsx';
 import { Events } from '@/components/calendar/Events.tsx';
 import { ArrowRight } from 'lucide-react';
-import { useUserNotebooks } from '@/hooks/useUserNotebooks.ts';
+import { useAllNotebooks } from '@/hooks/notebook/useAllNotebooks';
 import { NotebookCard } from '@/components/cards/NotebookCard.tsx';
 import { Button } from '@/components/ui/button.tsx';
-import { useAllEvents } from "@/hooks/useAllEvents.ts";
+import { useAllEvents } from '@/hooks/event/useAllEvents';
 
 export const Route = createFileRoute('/_authentificated/home')({
   component: RouteComponent,
 });
 
-
 function RouteComponent() {
-  const { data: notebooks } = useUserNotebooks();
+  const { data: notebooks } = useAllNotebooks();
   const { data: events } = useAllEvents();
 
   return (
@@ -23,7 +22,9 @@ function RouteComponent() {
       <div className="mt-2 flex flex-row items-center justify-between py-2 font-serif text-2xl font-bold">
         <h2>Upcoming events</h2>
         <Button variant="section">
-          <Link to={"/events"}><ArrowRight /></Link>
+          <Link to={'/events'}>
+            <ArrowRight />
+          </Link>
         </Button>
       </div>
 

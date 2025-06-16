@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { PasswordInput } from '@/components/ui/password-input.tsx';
 import { Link } from '@tanstack/react-router';
-import { useRegisterUser } from '@/hooks/useRegisterUser.ts';
+import { useRegisterUser } from '@/hooks/user/useRegisterUser';
 import { useAuthStore } from '@/lib/authStore';
 
 const formSchema = z

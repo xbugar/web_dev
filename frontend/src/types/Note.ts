@@ -1,26 +1,53 @@
-import { TagType } from '@/types/TagType.ts';
+import { TagType } from '@/types/tagType';
 
+// what we get from api
 export type Note = {
   id: string;
   title: string;
-  createdAt: string;
-  updatedAt: string;
   tags?: TagType[];
   notebook: { id: string; color: string };
+  createdAt: string;
+  updatedAt: string;
 };
 
+// what we need to render card
 export type NoteCardProps = {
-  parentId: string;
-  noteId: string;
+  id: string;
   title: string;
-  titleOfParent: string;
-  color: string;
+  tags?: TagType[];
+  notebook: { id: string; title: string; color: string };
+  content?: string;
   lastUpdated: string;
-  content: string;
-  tags?: { name: string; color: string }[];
   isLinked?: boolean;
 };
 
-export type CreateNote = {
+// what section needs
+export type NoteSectionProps = {
+  notebook: { id: string; title: string; color: string };
+  noteTitle: string;
+};
+
+// what dialog needs
+export type NoteDialogProps = {
+  noteCardProps: NoteCardProps;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+};
+
+// what tag deletion needs
+export type NoteTagDeleteDialogProps = NoteDialogProps & {
+  tagId: string;
+};
+
+// what form needs
+export type NoteFormProps = {
+  noteCardProps: NoteCardProps;
+  submitText: string;
+  isSubmitting?: boolean;
+  onSubmit: (data: NoteModifiableProps) => void;
+};
+
+// what is modifiable by user
+export type NoteModifiableProps = {
   title: string;
 };

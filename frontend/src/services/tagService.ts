@@ -1,5 +1,5 @@
 import { api } from '@/services/index.ts';
-import type { CreateTag, TagType } from '@/types/TagType.ts';
+import type { CreateTag, TagType } from '@/types/tagType';
 
 export const getAllTags = async (): Promise<TagType[]> => {
   return api.get(`/tag`).then(response => response.data as TagType[]);

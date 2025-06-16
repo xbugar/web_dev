@@ -1,7 +1,10 @@
-import { Section } from '@/components/section/Section';
 import { createFileRoute } from '@tanstack/react-router';
-import { useNoteMetaData } from '@/hooks/useNoteMetaData.ts';
+import { useNoteMetaData } from '@/hooks/note/useNoteMetaData';
 import Editor from '@/components/editor/Editor.tsx';
+import { ContainerLoading } from '@/components/loading/ContainerLoading';
+import { NoteSection } from '@/components/section/NoteSection';
+import { useNotebook } from '@/hooks/notebook/useNotebook';
+import { Separator } from '@/components/ui/separator';
 
 export const Route = createFileRoute('/_authentificated/notebooks/$notebookId/$noteId')({
   component: RouteComponent,
@@ -9,23 +12,46 @@ export const Route = createFileRoute('/_authentificated/notebooks/$notebookId/$n
 
 function RouteComponent() {
   const { noteId } = Route.useParams();
-  console.log('noteId', noteId);
-  const { data: noteData, status: metadataStatus, error: metadataErr } = useNoteMetaData(noteId);
-  console.log('noteData', noteData);
 
-  if (metadataStatus === 'pending') {
-    return <div>Loading...</div>;
+  const {
+    data: currentNote,
+    isPending: isPendingNote,
+    isError: isErrorNote,
+    error: errorNote,
+  } = useNoteMetaData(noteId);
+
+  const {
+    data: currentNotebook,
+    isPending: isPendingNotebook,
+    isError: isErrorNotebook,
+    error: errorNotebook,
+  } = useNotebook(currentNote?.notebook?.id ?? '');
+
+  if (isErrorNote) {
+    return <div>Error: {errorNote.message}</div>;
   }
 
-  if (metadataStatus === 'error') {
-    return <div>Error: {metadataErr.message}</div>;
+  if (isErrorNotebook) {
+    return <div>Error: {errorNotebook.message}</div>;
+  }
+
+  if (isPendingNotebook || isPendingNote) {
+    return <ContainerLoading />;
   }
 
   return (
     <>
-      <Section title={noteData?.title ?? 'Note'} id={noteId} type={'note'} />
+      <NoteSection
+        notebook={{
+          id: currentNotebook.id,
+          title: currentNotebook.title,
+          color: currentNotebook.color,
+        }}
+        noteTitle={currentNote.title}
+      />
+      <Separator className="my-3" />
       <div className="card">
-        <Editor noteId={noteId} notebookId={noteData?.notebook.id} />
+        <Editor noteId={currentNote.id} notebookId={currentNote.notebook.id} />
       </div>
     </>
   );

@@ -57,6 +57,10 @@ function DialogContent({
             className,
           )}
           {...props}
+          onCloseAutoFocus={event => {
+            event.preventDefault();
+            document.body.style.pointerEvents = '';
+          }}
         >
           {children}
           {/* <DialogPrimitive.Close className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:h-6 [&_svg]:w-6">

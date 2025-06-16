@@ -4,7 +4,7 @@ import { ArrowLeft, User } from 'lucide-react';
 import { Link, useCanGoBack, useRouter } from '@tanstack/react-router';
 import { useState } from 'react';
 import { Button } from '../ui/button';
-import { UserSettingsDialog } from '@/components/dialogs/UserSettingsDialog';
+import { UserSettingsDialog } from '@/components/dialogs/user/UserSettingsDialog';
 
 export function Header() {
   const [open, setOpen] = useState(false);
