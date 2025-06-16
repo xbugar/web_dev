@@ -1,5 +1,5 @@
 "use client"
-import { startOfWeek, addDays, format, isSameDay, parseISO, eachDayOfInterval } from "date-fns"
+import { startOfWeek, addDays, format, isSameDay, parseISO, eachDayOfInterval, add } from "date-fns"
 import { CalendarCell } from "@/components/calendar/CalendarCell"
 import { useRangeEvents } from "@/hooks/useRangeEvents.ts";
 import { useState } from "react";
@@ -28,13 +28,14 @@ export function CalendarSmall() {
     return Array.from({ length: 7 }).map((_, i) => addDays(weekStart, i));
   });
 
-  const start = daysOfWeek[0].toISOString();
-  const end = daysOfWeek[6].toISOString();
+  const start =  (daysOfWeek[0]).toISOString();
+  const end = (add(daysOfWeek[6], {days: 1})).toISOString();
+  console.log(daysOfWeek)
 
   const { data: events } = useRangeEvents(start, end);
   const eventDates = events ? getEventDates(events) : [];
-  // const eventDates =  [];
-
+  console.log(start.toLocaleString(), "start");
+  console.log(end);
 
   return (
     <div className="grid grid-cols-7 gap-2 w-full">
