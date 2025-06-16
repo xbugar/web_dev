@@ -2,13 +2,28 @@ import { createFileRoute } from '@tanstack/react-router';
 import { NotebookCard } from '@/components/cards/NotebookCard';
 import { useAllNotebooks } from '@/hooks/notebook/useAllNotebooks';
 import { NotebookSection } from '@/components/section/NotebookSection';
+import { ContainerLoading } from '@/components/loading/ContainerLoading';
 
 export const Route = createFileRoute('/_authentificated/notebooks/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { data: notebooks } = useAllNotebooks();
+  const {
+    data: notebooks,
+    isPending: isPendingNotebooks,
+    isError: isErrorNotebooks,
+    error: errorNotebooks,
+  } = useAllNotebooks();
+
+  if (isPendingNotebooks) {
+    return <ContainerLoading />;
+  }
+
+  if (isErrorNotebooks) {
+    return <div>Error: {errorNotebooks.message}</div>;
+  }
+
   return (
     <div className="lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
       <NotebookSection isPreview={false} />
