@@ -28,7 +28,8 @@ function LoginAndRegisterLayout() {
             </Link>
             <div className="text-center font-serif text-sm text-white">
               Write it down,
-              <br />
+              <br className="block lg:hidden" />
+              <span className="hidden lg:inline"> </span>
               make it happen.
             </div>
           </div>
