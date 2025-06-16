@@ -1,5 +1,5 @@
 import { Notebook } from "@/types/notebook";
-import {EventType} from "@/types/EventType.ts";
+import { Event } from "@/types/event";
 import {Note} from "@/types/note";
 
 export type SearchRequest = {
@@ -8,8 +8,8 @@ export type SearchRequest = {
 };
 
 export type SearchResponse = {
-    q: string;
+    q?: string;
     notebooks?: Notebook[];
-    events?: EventType[];
+    events?: Event[];
     notes?: Note[];
 }
