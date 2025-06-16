@@ -12,51 +12,64 @@ test.describe("Notebooks", async () => {
   })
 
   test('should create a notebook', async ({page}) => {
+    const uniqueName = `Test Notebook ${Date.now()}`;
     await page.locator('div').filter({hasText: /^Notebooks$/}).getByRole('button').click();
-    await page.getByPlaceholder('Enter title').fill('Test notebook');
+    await page.getByPlaceholder('Enter title').fill(uniqueName);
     await page.getByPlaceholder('Enter description').fill('Notebook created during Playwright test');
     await page.getByRole('button', {name: 'Create'}).click();
-    await expect(page.getByText('Test notebook')).toBeVisible();
+    await expect(page.getByText(uniqueName)).toBeVisible();
   })
 })
 
-test.describe("Notebook menu", async () => {
+test.describe("Notebook edit", async () => {
   test.beforeEach(async ({page}) => {
     await page.goto('http://localhost:5173/notebooks');
     await page.locator('div').filter({hasText: /^Notebooks$/}).getByRole('button').click();
-    await page.getByPlaceholder('Enter title').fill('Test notebook');
+    await page.getByPlaceholder('Enter title').fill('Edit notebook');
     await page.getByPlaceholder('Enter description').fill('Notebook created during Playwright test');
     await page.getByRole('button', {name: 'Create'}).click();
-    await expect(page.getByText('Test notebook')).toBeVisible();
+    await expect(page.getByText('Edit notebook').first()).toBeVisible();
+    await page.getByTestId('menu-button').first().click();
   });
 
-  test('should edit notebook', async ({page}) => {
-    const card = page.getByTestId('notebook-card');
-    // await expect(card).toBeVisible();
-    await card.getByTestId('menu-button');
+  test('should edit title and description', async ({page}) => {
+    const uniqueName = `Edited Notebook ${Date.now()}`;
+    const uniqueDescription = `Updated description ${Date.now()}`;
+    await page.getByLabel('Title*').fill(uniqueName);
+    await page.getByLabel('Description').fill(uniqueDescription);
 
+    await page.getByRole('button', {name: 'Edit'}).click();
+
+    await expect(page.getByText(uniqueName)).toBeVisible();
+    await expect(page.getByText(uniqueDescription)).toBeVisible();
+  })
+
+  test('should edit icon', async ({page}) => {
     await page.getByRole('combobox').filter({hasText: 'Red'}).click();
     await page.getByRole('option', {name: 'Green'}).click();
     await page.getByRole('combobox').filter({hasText: 'Green'}).click();
     await page.locator('button').filter({hasText: 'BookOpen'}).click();
     await page.getByRole('option', {name: 'PenTool'}).click();
+  })
+})
 
-    await page.getByLabel('Title*').fill('Edited notebook');
-    await page.getByLabel('Description').fill('Updated description');
-
-    await page.getByRole('button', {name: 'Edit'}).click();
-
-    await expect(page.getByText('Edited notebook')).toBeVisible();
-    await expect(page.getByText('Updated description')).toBeVisible();
+test.describe("Notebook delete", async () => {
+  let uniqueName: string;
+  test.beforeEach(async ({page}) => {
+    const uniqueName = `Test Notebook ${Date.now()}`;
+    await page.goto('http://localhost:5173/notebooks');
+    await page.locator('div').filter({hasText: /^Notebooks$/}).getByRole('button').click();
+    await page.getByPlaceholder('Enter title').fill(uniqueName);
+    await page.getByPlaceholder('Enter description').fill('Notebook created during Playwright test');
+    await page.getByRole('button', {name: 'Create'}).click();
+    await expect(page.getByText(uniqueName)).toBeVisible();
+    await page.locator('[data-testid="menu-button"]').click();
   })
 
   test('should delete notebook', async ({page}) => {
-    await page.locator('[data-testid="notebook-card"]').first()
-      .locator('[data-testid="menu-button"]')
-      .click();
     await page.getByRole('menuitem', {name: 'Delete'}).click();
     await page.getByRole('button', {name: 'Continue'}).click();
 
-    await expect(page.getByText('Test notebook')).toHaveCount(0);
+    await expect(page.getByText(uniqueName)).toHaveCount(0);
   })
 })

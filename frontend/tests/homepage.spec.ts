@@ -20,8 +20,13 @@ test.describe("Home Page", async () => {
     await expect(page.getByRole('link', { name: /calendar/i })).toBeVisible();
   })
 
-  test('should link to flashcards page', async ({ page }) => {
-    await page.waitForSelector('a[href="/flashcards"]');
-    await expect(page.getByRole('link', { name: /flashcards/i })).toBeVisible();
+  test('should link to flashdecks page', async ({ page }) => {
+    await page.waitForSelector('a[href="/flashdecks"]');
+    await expect(page.getByRole('link', { name: /flashdecks/i })).toBeVisible();
+  })
+
+  test('should link to search page', async ({ page }) => {
+    await page.waitForSelector('a[href="/search"]');
+    await expect(page.getByRole('link', { name: /search/i })).toBeVisible();
   })
 })
