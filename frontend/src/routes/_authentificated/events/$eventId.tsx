@@ -9,12 +9,12 @@ export const Route = createFileRoute('/_authentificated/events/$eventId')({
   component: RouteComponent,
 })
 
-const repeatMap: Record<string, string> = {
-  "Every Day": "Repeats daily",
-  "Every Week": "Repeats weekly",
-  "Every Month": "Repeats monthly",
-  "Every Year": "Repeats yearly",
-};
+// const repeatMap: Record<string, string> = {
+//   "Every Day": "Repeats daily",
+//   "Every Week": "Repeats weekly",
+//   "Every Month": "Repeats monthly",
+//   "Every Year": "Repeats yearly",
+// };
 
 function RouteComponent() {
   const { eventId } = Route.useParams();
@@ -43,9 +43,9 @@ function RouteComponent() {
                 <div>
                   From {format(new Date(event.timeFrom), "HH:mm EEE, dd MMM yyyy")} <br />
                   To {format(new Date(event.timeTo), "HH:mm EEE, dd MMM yyyy")} <br />
-                  {event.repeat && repeatMap[event.repeat] && (
-                    <p>{repeatMap[event.repeat]}</p>
-                  )}
+                  {/*{event.repeat && repeatMap[event.repeat] && (*/}
+                  {/*  <p>{repeatMap[event.repeat]}</p>*/}
+                  {/*)}*/}
                 </div>
                 <div>
                     <div className="flex pt-3 gap-2">

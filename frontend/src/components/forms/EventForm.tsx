@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button.tsx';
 import { useState } from 'react';
 import { DialogClose, DialogFooter } from '../ui/dialog';
 import * as React from "react";
-import { Select, SelectTrigger,SelectContent, SelectItem, SelectValue } from "@/components/ui/select.tsx"
 import { DateTimePicker } from "@/components/calendar/DateTimePicker.tsx";
 
 
@@ -49,7 +48,7 @@ export function EventForm({
   const [timeFrom, settimeFrom] = React.useState<Date>(dateFrom)
   const [timeTo, settimeTo] = React.useState<Date>(dateTo)
 
-  const [repeat, setRepeat] = useState(initialData?.repeat || "Never");
+  const [repeat] = useState(initialData?.repeat || "Never");
   // const [allDay, setAllDay] = useState(initialData?.allDay || false);
 
   React.useEffect(() => {
@@ -107,23 +106,23 @@ export function EventForm({
       {/*  <Label htmlFor="all-day">All Day</Label>*/}
       {/*</div>*/}
 
-      <div className="grid items-center">
-        <Label htmlFor="repeat" className="text-right">Repeat</Label>
-        <Select
-          value={repeat}
-          onValueChange={setRepeat}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select repeat" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="Never">Never</SelectItem>
-            <SelectItem value="Every Day">Every Day</SelectItem>
-            <SelectItem value="Every Week">Every Week</SelectItem>
-            <SelectItem value="Every Month">Every Month</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      {/*<div className="grid items-center">*/}
+      {/*  <Label htmlFor="repeat" className="text-right">Repeat</Label>*/}
+      {/*  <Select*/}
+      {/*    value={repeat}*/}
+      {/*    onValueChange={setRepeat}*/}
+      {/*  >*/}
+      {/*    <SelectTrigger className="w-[180px]">*/}
+      {/*      <SelectValue placeholder="Select repeat" />*/}
+      {/*    </SelectTrigger>*/}
+      {/*    <SelectContent>*/}
+      {/*      <SelectItem value="Never">Never</SelectItem>*/}
+      {/*      <SelectItem value="Every Day">Every Day</SelectItem>*/}
+      {/*      <SelectItem value="Every Week">Every Week</SelectItem>*/}
+      {/*      <SelectItem value="Every Month">Every Month</SelectItem>*/}
+      {/*    </SelectContent>*/}
+      {/*  </Select>*/}
+      {/*</div>*/}
 
 
       <>
