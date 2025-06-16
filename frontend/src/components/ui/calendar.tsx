@@ -18,13 +18,13 @@ function  Calendar({
         className={cn("border-none", className)}
         classNames={{
           months: "grid grid-col-7 sm:flex-row gap-2 align-center",
-          month: "flex flex-col gap-4 text-center ",
+          month: "flex flex-col gap-4 text-center",
           caption: "flex justify-center pt-1 relative items-center w-full",
           caption_label: "text-lg font-medium",
           nav: "absolute flex items-center justify-between",
           nav_button: cn(
             Button({ variant: "outline" }),
-            "size-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+            "size-7 bg-transparent p-0 opacity-50 hover:opacity-100 cursor-pointer"
           ),
           nav_button_previous: "absolute left-1",
           nav_button_next: "right-0",

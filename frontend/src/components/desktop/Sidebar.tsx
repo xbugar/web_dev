@@ -42,7 +42,7 @@ export function Sidebar() {
                 </Link>
                 <button
                   onClick={() => setCollapsed(false)}
-                  className="top-auto text-white hover:text-gray-300"
+                  className="top-auto text-white hover:text-gray-300 cursor-pointer"
                   aria-label="Expand Sidebar"
                 >
                   <PanelLeftOpen />
@@ -57,7 +57,7 @@ export function Sidebar() {
                 </Link>
                 <button
                   onClick={() => setCollapsed(true)}
-                  className="absolute top-0 right-0 text-white hover:text-gray-300"
+                  className="absolute top-0 right-0 text-white hover:text-gray-300 cursor-pointer"
                   aria-label="Collapse Sidebar"
                 >
                   <PanelLeftClose />
@@ -86,7 +86,7 @@ export function Sidebar() {
 
         <Button
           variant="navigation"
-          className="flex justify-start gap-2 hover:bg-white hover:text-black"
+          className="flex justify-start gap-2 hover:bg-white hover:text-black cursor-pointer"
           onClick={() => setOpen(true)}
         >
           <User />

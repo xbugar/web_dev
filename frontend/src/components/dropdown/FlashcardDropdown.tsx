@@ -35,7 +35,7 @@ export function FlashcardDropdown({ ...flashcardCardProps }: FlashcardCardProps)
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button className="hover:bg-muted rounded-[10%] p-0">
-            <Ellipsis className="h-5 w-5 text-black dark:text-white" />
+            <Ellipsis className="h-5 w-5 text-black dark:text-white cursor-pointer" />
           </button>
         </DropdownMenuTrigger>
 
