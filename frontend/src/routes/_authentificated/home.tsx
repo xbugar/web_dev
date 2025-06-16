@@ -81,6 +81,7 @@ function RouteComponent() {
                         noteCount={noteCount}
                         tags={tags}
                         lastUpdated={updatedAt}
+                        data-testid="notebook-card"
                       />
                     ),
                   )
@@ -170,6 +171,7 @@ function RouteComponent() {
                 noteCount={noteCount}
                 tags={tags}
                 lastUpdated={updatedAt}
+                data-testid="notebook-card"
               />
             ))
         ) : (
