@@ -9,6 +9,8 @@ import {
 } from "./validationSchemas";
 
 import {notebookRepository} from "../notebook/repository";
+import {flashdeckCreateRequestSchema, getAllDecksSchema} from "../deck/validationSchemas";
+import {deckRepository} from "../deck/repository";
 
 
 const get = async (req: Request, res: Response): Promise<void> => {
@@ -58,7 +60,18 @@ const remove = async (req: Request, res: Response) => {
         res.status(400).send("No user Id provided");
         return;
     }
-    const maybeUser = await userRepository.delete(userId);
+    const admin = await userRepository.isAdmin(userId);
+    if (admin.isErr) {
+        handleRepositoryErrors(admin.error, res);
+        return;
+    }
+
+    if (!admin.unwrap().isAdmin){
+        res.status(401).send("Unauthorized");
+        return;
+    }
+
+    const maybeUser = await userRepository.delete(req.params.userId);
     if (maybeUser.isErr) {
         handleRepositoryErrors(maybeUser.error, res);
         return;
@@ -95,6 +108,35 @@ const createNotebook = async (req: Request, res: Response) => {
     res.status(200).send(notebook.unwrap());
 }
 
+const createDeck = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
+    const request = await parseRequest(flashdeckCreateRequestSchema, req, res);
+    if (!request || !userId) {
+        return;
+    }
+
+    const flashdeck = await deckRepository.create(request, userId);
+    if (flashdeck.isErr) {
+        handleRepositoryErrors(flashdeck.error, res);
+        return;
+    }
+    res.status(200).send(flashdeck.unwrap());
+}
+
+const getDecks = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
+    const request = await parseRequest(getAllDecksSchema, req, res);
+    if (!userId || !request) {
+        return;
+    }
+    const decks = await deckRepository.getAll(request.query.withTags, userId);
+    if (decks.isErr) {
+        handleRepositoryErrors(decks.error, res);
+        return;
+    }
+    res.status(200).send(decks.unwrap());
+}
+
 export const userController = {
     get,
     post,
@@ -102,4 +144,6 @@ export const userController = {
     remove,
     getNotebooks,
     createNotebook,
+    getDecks,
+    createDeck
 }

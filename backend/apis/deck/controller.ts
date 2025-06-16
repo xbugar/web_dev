@@ -5,18 +5,18 @@ import {
     flashdeckGetRequestSchema,
     flashdeckUpdateRequestSchema,
     flashdeckOnlyIdRequestSchema,
-    flashdeckTagOperationRequestSchema,
     flashdeckCreateRequestSchema,
-    getAlldecksSchema
+    getAllDecksSchema, resetCardsRequestSchema, flashdeckAddTagRequestSchema, flashdeckRemoveTagRequestSchema
 } from "./validationSchemas";
 import {deckRepository} from "./repository";
 import {ownership} from "../ownership";
 import {cardRepository} from "../card/repository";
+import {tagRepository} from "../tag/repository";
 
 
 const getAll = async (req: Request, res: Response) => {
     const userId = req.session.passport?.user.id;
-    const request = await parseRequest(getAlldecksSchema, req, res);
+    const request = await parseRequest(getAllDecksSchema, req, res);
     if (!userId || !request) {
         return;
     }
@@ -30,30 +30,35 @@ const getAll = async (req: Request, res: Response) => {
 
 
 const addTag = async (req: Request, res: Response) => {
-    const request = await parseRequest(flashdeckTagOperationRequestSchema, req, res);
+    const request = await parseRequest(flashdeckAddTagRequestSchema, req, res);
     if (!request
-        || !await ownership.deck(request.params.flashdeckId, req.session.passport?.user.id, res)
-        || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
+        || !await ownership.deck(request.params.deckId, req.session.passport?.user.id, res)
+        || !req.session.passport?.user.id) {
+        return;
+    }
+    const tag = await tagRepository.getOrCreate(request.body,req.session.passport?.user.id);
+    if (tag.isErr) {
+        handleRepositoryErrors(tag.error, res);
         return;
     }
 
-    const operation = await deckRepository.modifyTag(request.params.flashdeckId, {connect: {id: request.params.tagId}});
-    if (operation.isErr) {
-        handleRepositoryErrors(operation.error, res);
+    const result = await deckRepository.modifyTag(request.params.deckId, {connect: {id: tag.value.id}});
+    if (result.isErr) {
+        handleRepositoryErrors(result.error, res);
         return;
     }
-    res.status(200).send();
+    res.status(200).send(tag.unwrap());
 }
 
 const removeTag = async (req: Request, res: Response) => {
-    const request = await parseRequest(flashdeckTagOperationRequestSchema, req, res);
+    const request = await parseRequest(flashdeckRemoveTagRequestSchema, req, res);
     if (!request
-        || !await ownership.deck(request.params.flashdeckId, req.session.passport?.user.id, res)
+        || !await ownership.deck(request.params.deckId, req.session.passport?.user.id, res)
         || !await ownership.tag(request.params.tagId, req.session.passport?.user.id, res)) {
         return;
     }
 
-    const operation = await deckRepository.modifyTag(request.params.flashdeckId, {disconnect: {id: request.params.tagId}});
+    const operation = await deckRepository.modifyTag(request.params.deckId, {disconnect: {id: request.params.tagId}});
     if (operation.isErr) {
         handleRepositoryErrors(operation.error, res);
         return;
@@ -65,7 +70,7 @@ const removeTag = async (req: Request, res: Response) => {
 const put = async (req: Request, res: Response) => {
     const request = await parseRequest(flashdeckUpdateRequestSchema, req, res);
     if (!request
-        || !await ownership.deck(request.params.flashdeckId, req.session.passport?.user.id, res)) {
+        || !await ownership.deck(request.params.deckId, req.session.passport?.user.id, res)) {
         return;
     }
 
@@ -81,11 +86,11 @@ const remove = async (req: Request, res: Response) => {
     const userId = req.session.passport?.user.id;
     const request = await parseRequest(flashdeckOnlyIdRequestSchema, req, res);
     if (!request
-        || !await ownership.deck(request.params.flashdeckId, userId, res)) {
+        || !await ownership.deck(request.params.deckId, userId, res)) {
         return;
     }
 
-    const flashdeck = await deckRepository.delete(request.params.flashdeckId);
+    const flashdeck = await deckRepository.delete(request.params.deckId);
     if (flashdeck.isErr) {
         handleRepositoryErrors(flashdeck.error, res);
         return;
@@ -97,11 +102,11 @@ const get = async (req: Request, res: Response) => {
     const userId = req.session.passport?.user.id;
     const request = await parseRequest(flashdeckGetRequestSchema, req, res);
     if (!request
-        || !await ownership.deck(request.params.flashdeckId, userId, res)) {
+        || !await ownership.deck(request.params.deckId, userId, res)) {
         return;
     }
 
-    const flashdeck = await deckRepository.get(request.params.flashdeckId, request.query.withTags);
+    const flashdeck = await deckRepository.get(request.params.deckId, request.query.withTags);
     if (flashdeck.isErr) {
         handleRepositoryErrors(flashdeck.error, res);
         return;
@@ -109,11 +114,11 @@ const get = async (req: Request, res: Response) => {
     res.status(200).send(flashdeck.unwrap());
 }
 
-const createFlashcard = async (req: Request, res: Response) => {
+const createCard = async (req: Request, res: Response) => {
     const userId = req.session.passport?.user.id;
     const request = await parseRequest(flashdeckCreateFlashcardRequestSchema, req, res);
     if (!request
-        || !await ownership.deck(request.params.flashdeckId, userId, res)) {
+        || !await ownership.deck(request.params.deckId, userId, res)) {
         return;
     }
 
@@ -125,15 +130,15 @@ const createFlashcard = async (req: Request, res: Response) => {
     res.status(200).send(flashcard.unwrap());
 }
 
-const getAllFlashcards = async (req: Request, res: Response) => {
+const getAllCards = async (req: Request, res: Response) => {
     const userId = req.session.passport?.user.id;
     const request = await parseRequest(flashdeckOnlyIdRequestSchema, req, res);
     if (!request
-        || !await ownership.deck(request.params.flashdeckId, userId, res)) {
+        || !await ownership.deck(request.params.deckId, userId, res)) {
         return;
     }
 
-    const flashcards = await cardRepository.getAllByFlashDeckId(request.params.flashdeckId);
+    const flashcards = await cardRepository.getAllByFlashDeckId(request.params.deckId);
     if (flashcards.isErr) {
         handleRepositoryErrors(flashcards.error, res);
         return;
@@ -154,7 +159,22 @@ const post = async (req: Request, res: Response) => {
         return;
     }
     res.status(200).send(flashdeck.unwrap());
+}
 
+const reset = async (req: Request, res: Response) => {
+    const userId = req.session.passport?.user.id;
+    const request = await parseRequest(resetCardsRequestSchema, req, res);
+    if (!userId || !request) {
+        return;
+    }
+
+    const operation = await cardRepository.resetCards(request.params.deckId, userId);
+    if (operation.isErr) {
+        handleRepositoryErrors(operation.error, res);
+        return;
+    }
+
+    res.status(200).send();
 }
 
 export const deckController = {
@@ -164,7 +184,8 @@ export const deckController = {
     put,
     remove,
     get,
-    createCard: createFlashcard,
-    getAllCards: getAllFlashcards,
-    post
+    createCard,
+    getAllCards,
+    post,
+    reset
 };

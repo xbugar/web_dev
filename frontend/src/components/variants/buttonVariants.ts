@@ -17,7 +17,7 @@ const buttonVariants = cva(
 
         /* custom */
         navigation:
-          '[&_svg]:h-6 [&_svg]:w-6 bg-transparent text-black dark:text-white p-2 text-base font-semibold',
+          '[&_svg]:h-6 [&_svg]:w-6 bg-transparent text-black dark:text-white p-2 text-base font-semibold lg:bg-none lg:text-white',
         header: '[&_svg]:h-6 [&_svg]:w-6 bg-white dark:bg-black text-black dark:text-white p-2',
         submit:
           'bg-black dark:bg-white text-white dark:text-black text-center min-h-12 font-serif text-md w-full',

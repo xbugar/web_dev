@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/select';
 import { DialogClose, DialogFooter } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
-import { CreateTag, TagType } from '@/types/TagType.ts';
+import { CreateTag, TagType } from '@/types/tagType';
 import { Tag } from '@/components/cards/Tag.tsx';
 import { AccentColor, accentColors, tagColor } from '../cards/cardColors';
 

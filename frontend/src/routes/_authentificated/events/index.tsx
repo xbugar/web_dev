@@ -1,14 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useAllEvents } from "@/hooks/useAllEvents.ts";
-import { Plus } from "lucide-react";
-import { Events } from "@/components/calendar/Events.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { EventCreateDialog } from "@/components/dialogs/EventCreateDialog.tsx";
-import { useState } from "react";
+import { createFileRoute } from '@tanstack/react-router';
+import { useAllEvents } from '@/hooks/event/useAllEvents';
+import { Events } from '@/components/calendar/Events.tsx';
+//import { EventSection } from '@/components/section/EventSection';
+import { EventCreateDialog } from '@/components/dialogs/event/EventCreateDialog';
+
+import { Button } from '@/components/ui/button.tsx';
+import { useState } from 'react';
+import { Plus } from 'lucide-react';
 
 export const Route = createFileRoute('/_authentificated/events/')({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
   const { data: events } = useAllEvents();
@@ -26,7 +28,7 @@ function RouteComponent() {
         </Button>
       </div>
       <EventCreateDialog open={open} onOpenChange={setOpen} day={day} />
-      <Events events={events} />
+      <Events events={events} eventDesktop={true} />
     </div>
-  )
+  );
 }

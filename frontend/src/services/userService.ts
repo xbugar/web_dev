@@ -1,10 +1,5 @@
 import { api } from '@/services/index.ts';
-import type { Notebook } from '@/types/Notebook.ts';
-import type { UpdateUser, User } from '@/types/User.ts';
-
-export const getNotebooks = async (): Promise<Notebook[]> => {
-  return api.get(`/user/notebooks`).then(response => response.data as Notebook[]);
-};
+import type { UpdateUser, User } from '@/types/user';
 
 export const getUser = async (): Promise<User> => {
   return api.get(`/user`).then(response => response.data as User);

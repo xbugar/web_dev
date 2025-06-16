@@ -29,20 +29,13 @@ export const eventDeleteSchema = z.object({
     })
 });
 
-export const eventTagSchema = z.object({
-    params: z.object({
-        eventId: z.string().uuid(),
-        tagId: z.string().uuid(),
-    }),
-});
-
 export const eventAddTagRequestSchema = z.object({
     params: z.object({
         eventId: z.string().uuid()
     }),
     body: z.object({
         name: z.string().min(1).max(32),
-        color: z.enum(["blue" , "purple" , "orange" , "green" , "red" , "pink"]),
+        color: z.enum(["blue", "purple", "orange", "green", "red", "pink"]),
     })
 });
 
@@ -71,3 +64,9 @@ export const eventGetSchema = z.object({
     }).optional().default({upComing: false})
 });
 
+export const eventGetRangeSchema = z.object({
+    query: z.object({
+        start: z.coerce.date(),
+        end: z.coerce.date()
+    })
+});

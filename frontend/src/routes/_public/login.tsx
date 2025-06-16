@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { PasswordInput } from '@/components/ui/password-input.tsx';
 import { Link } from '@tanstack/react-router';
-import { useLoginUser } from '@/hooks/useLoginUser.ts';
+import { useLoginUser } from '@/hooks/user/useLoginUser';
 import { useAuthStore } from '@/lib/authStore';
 
 export const Route = createFileRoute('/_public/login')({

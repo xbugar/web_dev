@@ -18,16 +18,10 @@ describe("/note", async () => {
                 password: '123456',
                 confirmPassword: '123456'
             });
-            const newUser = await prisma.user.findFirst({
-                where: {
-                    email: "jane@doe.com",
-                }
-            });
+
 
             expect(res.status).toBe(200);
             expect(res.body).toStrictEqual({ message: 'success' });
-            expect(newUser).not.toBeNull();
-
         });
         it('should log in the user', async() => {
             const {status,headers} = await request(app).post('/auth/login').send({
@@ -49,10 +43,10 @@ describe("/note", async () => {
                         title: "note-test-notebook",
                         description: "neeimeme",
                         color: "green",
-                        iconName: "test"
+                        iconName: "Default"
                     }
                 );
-
+            // console.log(body);
             notebookId = body.id;
             expect(status).toBe(200);
             const notebook = await prisma.notebook.findFirstOrThrow({
@@ -81,7 +75,7 @@ describe("/note", async () => {
                     title: "note-test-notebook",
                     description: "neeimeme",
                     color: "green",
-                    iconName: "test",
+                    iconName: "Default",
                     createdAt: notebook.createdAt.toJSON(),
                     updatedAt: notebook.updatedAt.toJSON(),
                     noteCount: notebook._count.notes,

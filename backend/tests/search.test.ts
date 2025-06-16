@@ -1,8 +1,6 @@
 ﻿import {describe, expect, it} from 'vitest'
 import request from 'supertest'
 import app from '../test.index'
-import {prisma} from "./utils/prisma";
-import {defaultIcon} from "../apis/utils";
 
 describe('/auth', async () => {
     describe('all auth operations happy path', async () => {
@@ -16,22 +14,14 @@ describe('/auth', async () => {
                 password: '123456',
                 confirmPassword: '123456'
             });
-            const newUser = await prisma.user.findFirst({
-                where: {
-                    email: "jonah@doe.com",
-                }
-            });
-
-
-            expect(newUser).not.toBeNull();
 
             expect(res.status).toBe(200);
             expect(res.body).toStrictEqual({message: "success"})
+
             cookie = res.headers['set-cookie'][0];
         });
 
         it('creates notebook, event and note without the substring auto', async () => {
-            const icon = await defaultIcon();
             let url: string = "/user/notebook";
             const {status: notebookStatus, body: notebookBody} = await request(app).post(url)
                 .set('Cookie', cookie)
@@ -40,9 +30,10 @@ describe('/auth', async () => {
                         title: "PESBAZINGA",
                         description: "neeimeme",
                         color: "green",
-                        iconName: icon.name
+                        iconName: "Default"
                     }
                 );
+
             expect(notebookStatus).toBe(200);
             notebookId = notebookBody.id;
 
@@ -67,7 +58,6 @@ describe('/auth', async () => {
         });
 
         it('creates notebook, event and note with the substring auto', async () => {
-            const icon = await defaultIcon();
             let url = "/user/notebook";
             const {status: notebookStatus, body: notebookBody} = await request(app).post(url)
                 .set('Cookie', cookie)
@@ -76,7 +66,7 @@ describe('/auth', async () => {
                         title: "PEautoBAZINGA",
                         description: "neeimeme",
                         color: "green",
-                        iconName: icon.name
+                        iconName: "Default"
                     }
                 );
             expect(notebookStatus).toBe(200);

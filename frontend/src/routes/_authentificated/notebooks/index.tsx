@@ -1,22 +1,40 @@
-import { Section } from '@/components/section/Section';
 import { createFileRoute } from '@tanstack/react-router';
-
-import { Plus } from 'lucide-react';
-
-import { NotebookCard } from '@/components/cards/NotebookCard.tsx';
-import { useUserNotebooks } from '@/hooks/useUserNotebooks.ts';
+import { NotebookCard } from '@/components/cards/NotebookCard';
+import { useAllNotebooks } from '@/hooks/notebook/useAllNotebooks';
+import { NotebookSection } from '@/components/section/NotebookSection';
+import { ContainerLoading } from '@/components/loading/ContainerLoading';
 
 export const Route = createFileRoute('/_authentificated/notebooks/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { data: notebooks } = useUserNotebooks();
-  return (
-    <>
-      <Section title={'Notebooks'} Icon={Plus} type="notebook" />
+  const {
+    data: notebooks,
+    isPending: isPendingNotebooks,
+    isError: isErrorNotebooks,
+    error: errorNotebooks,
+  } = useAllNotebooks();
 
-      <div className="flex flex-col gap-4">
+  if (isPendingNotebooks) {
+    return <ContainerLoading />;
+  }
+
+  if (isErrorNotebooks) {
+    return <div>Error: {errorNotebooks.message}</div>;
+  }
+
+  return (
+    <div className="lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
+      <NotebookSection isPreview={false} />
+
+      <div
+        className="grid grid-cols-1 gap-4 lg:h-[calc(100vh-5rem)] lg:auto-rows-max lg:grid-cols-2 lg:overflow-y-auto"
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
+      >
         {notebooks &&
           notebooks.map(
             ({ id, title, description, iconName, color, noteCount, tags, updatedAt }) => (
@@ -34,6 +52,6 @@ function RouteComponent() {
             ),
           )}
       </div>
-    </>
+    </div>
   );
 }
