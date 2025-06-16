@@ -23,7 +23,7 @@ function RouteComponent() {
 
   return (
     <div className="lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
-      <CalendarMain selectedDay={calendarDay} />
+      <CalendarMain selectedDay={calendarDay} events={events} />
       <div className="mt-2 flex flex-row items-center justify-between py-2 font-serif text-2xl font-bold">
         <h2>Events</h2>
         <div>
@@ -32,7 +32,7 @@ function RouteComponent() {
               <CalendarArrowUp />
             </Link>
           </Button>
-          <Button variant="section" onClick={() => setOpen(true)}>
+          <Button variant="section" className="cursor-pointer" onClick={() => setOpen(true)}>
             <Plus />
           </Button>
         </div>

@@ -5,8 +5,11 @@ import { ArrowRight } from 'lucide-react';
 import { useAllNotebooks } from '@/hooks/notebook/useAllNotebooks';
 import { NotebookCard } from '@/components/cards/NotebookCard.tsx';
 import { Button } from '@/components/ui/button.tsx';
-import { useAllEvents } from '@/hooks/event/useAllEvents';
 import { useIsDesktop } from '@/hooks/isDesktop.ts';
+import { useRangeEvents } from '@/hooks/useRangeEvents.ts';
+import { add } from 'date-fns';
+import { useState } from 'react';
+import { EmptyState } from '@/components/cards/EmptyState.tsx';
 
 export const Route = createFileRoute('/_authentificated/home')({
   component: RouteComponent,
@@ -14,7 +17,14 @@ export const Route = createFileRoute('/_authentificated/home')({
 
 function RouteComponent() {
   const { data: notebooks } = useAllNotebooks();
-  const { data: events } = useAllEvents();
+
+  const [range] = useState(() => {
+    return [new Date().toISOString(), add(new Date(), { years: 1 }).toISOString()];
+  });
+
+  const [today, yearFromNow] = range;
+  const { data: events } = useRangeEvents(today, yearFromNow);
+  // const { data: events } = useAllEvents();
   const isDesktop = useIsDesktop();
 
   if (isDesktop) {
@@ -31,7 +41,14 @@ function RouteComponent() {
               </Link>
             </Button>
           </div>
-          <Events events={events?.slice(0, 4)} homepageDesktop={true} />
+          {events ? (
+            <Events events={events?.slice(0, 4)} homepageDesktop={true} />
+          ) : (
+            <EmptyState
+              title={'No upcoming events'}
+              message={'You don’t have anything scheduled. Time to relax!'}
+            />
+          )}
         </div>
 
         <div className="grid h-full w-full grid-cols-2 gap-4">
@@ -45,7 +62,7 @@ function RouteComponent() {
               </Button>
             </div>
             <div className="hide-scrollbar flex h-48 flex-grow flex-col gap-4 overflow-y-auto pr-2">
-              {notebooks &&
+              {notebooks ? (
                 notebooks
                   .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
                   .slice(0, 4)
@@ -63,7 +80,13 @@ function RouteComponent() {
                         lastUpdated={updatedAt}
                       />
                     ),
-                  )}
+                  )
+              ) : (
+                <EmptyState
+                  title={'No notebooks'}
+                  message={'Start by creating your first notebook.'}
+                />
+              )}
             </div>
           </div>
 
@@ -79,6 +102,11 @@ function RouteComponent() {
             </div>
             <div className="hide-scrollbar flex h-48 flex-grow flex-col gap-4 overflow-y-auto pr-2">
               {/* Flashcards content here */}
+              {/*{flashcards ? (*/}
+              {/* todo flashcards content */}
+              {/*) : (*/}
+              <EmptyState title={'No flashcards'} message={'Create your first flashdeck.'} />
+              {/*)}*/}
             </div>
           </div>
         </div>
@@ -110,7 +138,7 @@ function RouteComponent() {
         </Button>
       </div>
       <div className="flex flex-col gap-4">
-        {notebooks &&
+        {notebooks ? (
           notebooks
             .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
             .slice(0, 3)
@@ -126,7 +154,10 @@ function RouteComponent() {
                 tags={tags}
                 lastUpdated={updatedAt}
               />
-            ))}
+            ))
+        ) : (
+          <EmptyState title={'No notebooks'} message={'Start by creating your first notebook.'} />
+        )}
       </div>
     </div>
   );

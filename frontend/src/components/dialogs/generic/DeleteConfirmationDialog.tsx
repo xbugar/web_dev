@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Navigate } from '@tanstack/react-router';
 import { useState } from 'react';
+import { ButtonLoading } from "@/components/loading/ButtonLoading.tsx";
 
 type DeleteConfirmationDialogProps = {
   open: boolean;
@@ -43,8 +44,9 @@ export const DeleteConfirmationDialog = ({
           <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction onClick={handleDelete}>
-            {isPending ? 'Deleting...' : 'Continue'}
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDelete} disabled={isPending}>
+            {isPending ? <ButtonLoading variant="submit" /> : 'Continue'}
             {isDeleted && navigateTo && <Navigate to={navigateTo} />}
           </AlertDialogAction>
           <AlertDialogCancel>Cancel</AlertDialogCancel>

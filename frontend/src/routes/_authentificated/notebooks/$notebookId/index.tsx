@@ -6,6 +6,7 @@ import { useNotesByNotebook } from '@/hooks/notebook/useNotesByNotebook';
 import { ContainerLoading } from '@/components/loading/ContainerLoading';
 import { NoteSection } from '@/components/section/NoteSection';
 import { NotebookSection } from '@/components/section/NotebookSection';
+import { EmptyState } from '@/components/cards/EmptyState.tsx';
 
 export const Route = createFileRoute('/_authentificated/notebooks/$notebookId/')({
   component: RouteComponent,
@@ -89,9 +90,7 @@ function RouteComponent() {
             />
           ))
         ) : (
-          <div className="flex w-full items-center justify-center">
-            <p className="text-muted-foreground mb-4 text-lg italic">No notes...</p>
-          </div>
+          <EmptyState title={'No notes'} message={'Create a new note.'} />
         )}
       </div>
     </div>
