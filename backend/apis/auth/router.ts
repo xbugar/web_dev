@@ -6,7 +6,6 @@ import {isAuthenticated} from "./middleware";
 
 export const authRouter = Router();
 
-authRouter.post("/remove", passport.session(), isAuthenticated, authController.remove)
 authRouter.post("/login", passport.authenticate("local"), authController.login);
 authRouter.post("/register", authController.register);
 authRouter.get("/status", passport.session(), authController.status)
@@ -22,6 +21,13 @@ authRouter.post("/logout", passport.session(), isAuthenticated, (req, res, next)
             res.status(200).end();
         }
     );
+});
+authRouter.post("/remove", passport.session(), isAuthenticated, async (req, res, next) => {
+    try {
+        await authController.remove(req, res);
+    } catch (error) {
+        next(error);
+    }
 });
 
 

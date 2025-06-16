@@ -80,13 +80,13 @@ const remove = async (req: Request, res: Response) => {
         return res.status(403).send({message: "wrong credentials"});
     }
 
-    const user = await userRepository.delete(userId);
+    const user2 = await userRepository.delete(userId);
 
-    if (user.isErr) {
-        return handleRepositoryErrors(user.error, res);
+    if (user2.isErr) {
+        return handleRepositoryErrors(user2.error, res);
     }
 
-    res.status(200).send({message: "account was successfully removed"});
+    return res.status(200).send({message: "account was successfully removed"});
 }
 
 export const authController = {
