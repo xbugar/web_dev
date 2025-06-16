@@ -184,7 +184,8 @@ const repeatsInRange = async (event: EventResponse, start: Date, end: Date) => {
                 description: event.description,
                 timeFrom: new Date(tmpEnd.getTime() - (event.timeTo.getTime() - event.timeFrom.getTime())),
                 timeTo: new Date(tmpEnd.getTime()),
-                repeat: event.repeat
+                repeat: event.repeat,
+                tags:event.tags
             });
             if (tmpEnd.getMonth() === 12) {
                 tmpEnd.setFullYear(tmpEnd.getFullYear() + 1, 1);
@@ -206,7 +207,8 @@ const repeatsInRange = async (event: EventResponse, start: Date, end: Date) => {
             description: event.description,
             timeFrom: new Date(tmpEnd.getTime() - (event.timeTo.getTime() - event.timeFrom.getTime())),
             timeTo: new Date(tmpEnd.getTime()),
-            repeat: event.repeat
+            repeat: event.repeat,
+            tags:event.tags
         });
         tmpEnd.setTime(tmpEnd.getTime() + step);
     }
