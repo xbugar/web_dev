@@ -8,12 +8,14 @@ import {Events} from '@/components/calendar/Events';
 import {NoteCard} from '@/components/cards/NoteCard';
 import {SearchForm} from "@/components/forms/SearchFrom.tsx";
 import {SearchRequest} from "@/types/Search.ts";
-import {useSearchAndrej} from "@/hooks/useSearch.ts";
+import {useFilter} from "@/hooks/useSearch.ts";
+import {FlashdeckCard} from "@/components/cards/FlashdeckCard.tsx";
 
 export const Route = createFileRoute('/_authentificated/search/')({
     component: SearchPage,
     validateSearch: z.object({
         q: z.string().min(1).optional(),
+        type: z.array(z.enum(["notes", "notebooks", "events", "decks"])).optional(),
     }),
 })
 
@@ -23,14 +25,14 @@ function SearchPage() {
         from: '/_authentificated/search/'
     });
 
-    const {data, isLoading} = useSearchAndrej(searchRequest);
+    const {data, isLoading} = useFilter(searchRequest);
 
 
     const router = useRouter();
     const searchHandle = (values: SearchRequest) => {
         router.navigate({
             to: '/search',
-            search: { q: values.q },
+            search: {...values},
             replace: false
         });
     };
@@ -38,7 +40,8 @@ function SearchPage() {
 
     return (
         <div>
-            <SearchForm onSubmit={searchHandle} isSubmitting={isLoading} submitText={'Search'} initialValues={searchRequest} />
+            <SearchForm onSubmit={searchHandle} isSubmitting={isLoading} submitText={'Search'}
+                        initialValues={searchRequest}/>
             <Separator className="my-4"/>
 
             {data?.notebooks && (
@@ -108,6 +111,33 @@ function SearchPage() {
                 </>
             )}
 
+            {data?.decks && (
+                <>
+                    <GenericSection title={'Decks'}/>
+
+                    <div
+                        className="grid grid-cols-1 gap-4 lg:h-[calc(100vh-5rem)] lg:auto-rows-max lg:grid-cols-2 lg:overflow-y-auto"
+                        style={{
+                            scrollbarWidth: 'none',
+                            msOverflowStyle: 'none',
+                        }}
+                    >
+                        {data.decks.map(({id, title, description, color, flashCardsCount, tags, updatedAt}) => (
+                            <FlashdeckCard
+                                key={id}
+                                id={id}
+                                title={title}
+                                description={description}
+                                color={color}
+                                flashCardsCount={flashCardsCount}
+                                tags={tags}
+                                lastUpdated={updatedAt}
+                            />
+                        ))}
+                    </div>
+                </>
+            )}
+
             {data?.events && (
                 <>
                     <GenericSection title={'Events'}/>
@@ -119,14 +149,3 @@ function SearchPage() {
     );
 }
 
-// function SomeComponent() {
-//     const router = useRouter()
-//
-//     const goToSearch = () => {
-//         router.navigate({
-//             to: '/search',
-//             search: { query: 'react', page: 2 },
-//         })
-//     }
-//
-//     return <button onClick={goToSearch}>Search for React</button>

@@ -1,10 +1,11 @@
 import { Notebook } from "@/types/notebook";
 import { Event } from "@/types/event";
 import {Note} from "@/types/note";
+import {Flashdeck} from "@/types/flashdeck.ts";
 
 export type SearchRequest = {
     q?: string;
-    // type?: ("notes" | "notebooks" | "events")[];
+    type?: ("notes" | "notebooks" | "events" | "decks")[];
 };
 
 export type SearchResponse = {
@@ -12,4 +13,5 @@ export type SearchResponse = {
     notebooks?: Notebook[];
     events?: Event[];
     notes?: Note[];
+    decks?: Flashdeck[];
 }

@@ -8,6 +8,7 @@ import {
 } from "./types";
 import {repackageToNotFoundError, repackageToInternalError} from "../utils";
 import {Deck} from "@prisma/client";
+import {NotebookResponse} from "../notebook/types";
 
 export const deckRepository = {
     async create(request: FlashdeckCreateRequest, userId: string): Promise<Result<FlashdeckResponse>> {
@@ -172,5 +173,43 @@ export const deckRepository = {
             }
         }).then((res) => Result.ok(res.userId))
             .catch((error) => repackageToNotFoundError(error));
+    },
+
+    async search(title: string, userId: string): Promise<Result<FlashdeckResponse[]>> {
+        return await prisma.deck.findMany({
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                color: true,
+                createdAt: true,
+                updatedAt: true,
+                tags: true,
+                _count: {
+                    select: {
+                        cards: true,
+                    }
+                }
+            },
+            where: {
+                userId: userId,
+                OR: [
+                    {title: {contains: title}},
+                    {tags: {some: {name: {contains: title}}}}
+                ],
+            }
+        }).then(deck => Result.ok(deck.map((deck) => {
+                return {
+                    id: deck.id,
+                    title: deck.title,
+                    description: deck.description,
+                    color: deck.color,
+                    createdAt: deck.createdAt,
+                    updatedAt: deck.updatedAt,
+                    tags: deck.tags,
+                    flashCardsCount: deck._count.cards,
+                }
+            }
+        ))).catch((error) => repackageToNotFoundError(error));
     }
 }
