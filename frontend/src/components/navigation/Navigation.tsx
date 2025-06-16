@@ -10,7 +10,7 @@ export function Navigation() {
     { Icon: Calendar, to: '/calendar/today', label: 'Calendar', navKey: 'calendar' },
     { Icon: Home, to: '/home', label: 'Home', navKey: 'home' },
     { Icon: Book, to: '/notebooks', label: 'Notebooks', navKey: 'notebooks' },
-    { Icon: GalleryVerticalEnd, to: '/flashcards', label: 'Flashcards', navKey: 'flashcards' },
+    { Icon: GalleryVerticalEnd, to: '/flashdecks', label: 'Flashdecks', navKey: 'flashdecks' },
   ];
 
   return (

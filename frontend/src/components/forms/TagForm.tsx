@@ -101,11 +101,11 @@ export function TagForm({
         </div>
       </div>
 
-      <DialogFooter className="flex-row-reverse">
-        <DialogClose>Cancel</DialogClose>
+      <DialogFooter className="flex-row">
         <Button type="submit" variant="submit" onClick={handleSubmit} loading={isSubmitting}>
           {submitText}
         </Button>
+        <DialogClose>Cancel</DialogClose>
       </DialogFooter>
     </div>
   );

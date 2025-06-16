@@ -19,7 +19,7 @@ import { PathItem } from '../navigation/PathItem';
 const paths: PathItem[] = [
   { Icon: Home, to: '/home', label: 'Home', navKey: 'home' },
   { Icon: Book, to: '/notebooks', label: 'Notebooks', navKey: 'notebooks' },
-  { Icon: GalleryVerticalEnd, to: '/flashcards', label: 'Flashcards', navKey: 'flashcards' },
+  { Icon: GalleryVerticalEnd, to: '/flashdecks', label: 'Flashdecks', navKey: 'flashdecks' },
   { Icon: Calendar, to: '/calendar', label: 'Calendar', navKey: 'calendar' },
   { Icon: Search, to: '/search', label: 'Search', navKey: 'search' },
 ];
