@@ -3,7 +3,7 @@ import {
   Calendar,
   Home,
   Book,
-  Timer,
+  Search,
   User,
   PanelLeftClose,
   PanelLeftOpen,
@@ -18,9 +18,9 @@ import { UserSettingsDialog } from '@/components/dialogs/user/UserSettingsDialog
 const paths = [
   { Icon: Home, to: '/home', label: 'Home' },
   { Icon: Book, to: '/notebooks', label: 'Notebooks' },
+  { Icon: GalleryVerticalEnd, to: '/flashdecks', label: 'Flashcards' },
   { Icon: Calendar, to: '/calendar/today', label: 'Calendar' },
-  { Icon: GalleryVerticalEnd, to: '/flashcards', label: 'Flashcards' },
-  { Icon: Timer, to: '/pomodoro', label: 'Pomodoro' },
+  { Icon: Search, to: '/search', label: 'Search' },
 ];
 
 export function Sidebar() {
