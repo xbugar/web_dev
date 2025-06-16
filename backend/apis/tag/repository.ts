@@ -17,7 +17,7 @@ export const tagRepository = {
     },
 
     async getAll(): Promise<Result<Tag[]>> {
-        return prisma.tag.findMany({select: {id: true, name: true, color: true}})
+        return prisma.tag.findMany({select: {id: true, name: true, color: true}, orderBy: { name: 'asc'}})
             .then(result => Result.ok(result))
             .catch((error) => repackageToNotFoundError(error));
     },
@@ -82,6 +82,9 @@ export const tagRepository = {
         return prisma.tag.findMany({select: {id: true, name: true, color: true},
             where: {
                 userId: userId
+            },
+            orderBy: {
+                name: 'asc'
             }
         }).then(result => Result.ok(result))
             .catch((error) => repackageToNotFoundError(error));

@@ -22,4 +22,10 @@ export const authLogoutSchema = z.object({
     body: z.object({
         id: z.string().email(),
     })
-})
+});
+
+export const authRemoveUserSchema = z.object({
+    body: z.object({
+        password: z.string().min(6).max(255),
+    })
+});

@@ -2,6 +2,7 @@ import {prisma} from "../prismaClient";
 import {Result} from "@badrap/result";
 
 import {repackageToInternalError} from "../utils";
+import {as} from "@faker-js/faker/dist/airline-CBNP41sR";
 
 export const adminRepository = {
     async getAdminOverview() {
@@ -35,7 +36,10 @@ export const adminRepository = {
                                     }
                                 }
                             },
-
+                        },
+                        orderBy: {
+                            lastName: "asc",
+                            firstName: "asc"
                         }
                     }
                 );
