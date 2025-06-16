@@ -41,7 +41,7 @@ function RouteComponent() {
   }
 
   return (
-    <>
+    <div className="lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
       <FlashdeckSection isPreview={true} />
 
       {currentFlashdeck && (
@@ -66,7 +66,13 @@ function RouteComponent() {
         }}
       />
 
-      <div className="flex flex-col gap-4">
+      <div
+        className="flex flex-col gap-4 lg:h-[calc(100vh-15.5rem)] lg:overflow-y-auto"
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
+      >
         {flashcards.length != 0 ? (
           flashcards.map(({ id, question, answer, updatedAt }) => (
             <FlashcardCard
@@ -88,6 +94,6 @@ function RouteComponent() {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }

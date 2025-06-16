@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { CreateTag } from '@/types/tagType';
+import { CreateTag } from '@/types/tag';
 import { useNoteMetaData } from '@/hooks/note/useNoteMetaData';
 import { useCreateTagNote } from '@/hooks/note/useCreateTagNote';
 import { Tag } from '@/components/cards/Tag.tsx';

@@ -1,7 +1,7 @@
 import { useCreateEvent } from '@/hooks/event/useCreateEvent';
+import { EventModifiableProps } from '@/types/event';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog.tsx';
 import { EventForm } from '@/components/forms/EventForm.tsx';
-import { EventModifiableProps } from '@/types/event';
 import { toast } from 'sonner';
 
 type EventCreateDialogProps = {

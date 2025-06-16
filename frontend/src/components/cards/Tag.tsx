@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge.tsx';
-import { TagProps } from '@/types/tagType';
+import { TagProps } from '@/types/tag';
 import { tagStyle } from './cardColors';
 
 export function Tag({ name, color, x }: TagProps) {

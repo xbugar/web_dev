@@ -2,7 +2,7 @@
 // import {SearchResponse} from "@/types/Search.ts";
 import { useSearch } from '@/hooks/useSearch.ts';
 import { SearchForm } from '@/components/forms/SearchFrom';
-import { SearchRequest } from '@/types/Search.ts';
+import { SearchRequest } from '@/types/search';
 import { NotebookCard } from '@/components/cards/NotebookCard.tsx';
 import { Separator } from '@/components/ui/separator';
 import { GenericSection } from '@/components/section/GenericSection';

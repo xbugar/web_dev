@@ -1,4 +1,4 @@
-import { TagType } from '@/types/tagType';
+import { TagType } from '@/types/tag';
 
 // what we get from api
 export type Flashdeck = {
