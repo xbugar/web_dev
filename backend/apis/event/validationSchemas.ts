@@ -60,8 +60,8 @@ export const eventGetByIdSchema = z.object({
 
 export const eventGetSchema = z.object({
     query: z.object({
-        upComing: z.boolean().optional()
-    }).optional().default({upComing: false})
+        upComing: z.boolean().optional().default(false)
+    })
 });
 
 export const eventGetRangeSchema = z.object({
