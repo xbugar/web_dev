@@ -15,13 +15,13 @@ describe("/notebook", async () => {
             const res = await request(app).post('/auth/register').send({
                 firstName: 'John',
                 lastName: 'Doe',
-                email: 'john_kokot@doe.com',
+                email: 'john_pes@doe.com',
                 password: '123456',
                 confirmPassword: '123456'
             });
             const newUser = await prisma.user.findFirst({
                 where: {
-                    email: "john_@doe.com",
+                    email: "john_pes@doe.com",
                 }
             });
 
@@ -32,7 +32,6 @@ describe("/notebook", async () => {
 
             const cookie = res.headers['set-cookie'][0];
             {
-
                 const url = "/user/notebook";
                 const {status, body} = await request(app).post(url).set("Cookie", cookie).send(
                     {

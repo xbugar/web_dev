@@ -33,8 +33,8 @@ describe('/user', async () => {
 
 
         it('should retrieve all the admin data', async () => {
-            const {status, body} = await request(app).get('/admin').set("Cookie", cookie).send();
-            console.log(body);
+            const {status} = await request(app).get('/admin').set("Cookie", cookie).send();
+            // console.log(body);
             expect(status).toBe(200);
 
         });
