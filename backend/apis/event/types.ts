@@ -1,5 +1,6 @@
 ﻿import {z} from "zod";
 import {eventCreateSchema, eventUpdateSchema} from "./validationSchemas";
+import {Tag} from "@prisma/client";
 
 
 
@@ -10,6 +11,7 @@ export type EventResponse = {
     timeFrom: Date
     timeTo: Date,
     repeat: string,
+    tags: Tag[]
 }
 
 export type EventUpdateRequest = z.infer<typeof eventUpdateSchema>

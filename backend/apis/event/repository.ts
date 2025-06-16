@@ -174,6 +174,11 @@ export const eventRepository = {
                 where: {
                     userId: userId,
                     repeat: {not: "Never"}
+                },include: {
+                    tags: true
+                },
+                orderBy: {
+                    title: "asc"
                 }
             });
             return Result.ok(repeatingEvents);
@@ -190,8 +195,11 @@ export const eventRepository = {
                     AND: [{timeFrom: {lte: end}},
                         {timeTo: {gte:start}}],
                     repeat: "Never"
-                }, orderBy: {
-                    timeFrom: 'asc'
+                },include: {
+                    tags: true
+                },
+                orderBy: {
+                    title: "asc"
                 }
             });
 
