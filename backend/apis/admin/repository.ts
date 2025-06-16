@@ -38,7 +38,6 @@ export const adminRepository = {
                         },
                         orderBy: {
                             lastName: "asc",
-                            firstName: "asc"
                         }
                     }
                 );
