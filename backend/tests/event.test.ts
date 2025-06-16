@@ -176,7 +176,7 @@ describe("/event", async () => {
             {
                 const url = "/event";
 
-                const {status, body} = await request(app).post(url).set("Cookie", cookie).send(
+                const {status} = await request(app).post(url).set("Cookie", cookie).send(
                     {
                         title: "event na dnes",
                         description: "pleaseeee description",
@@ -190,7 +190,7 @@ describe("/event", async () => {
             {
                 const url = "/event";
 
-                const {status, body} = await request(app).post(url).set("Cookie", cookie).send(
+                const {status} = await request(app).post(url).set("Cookie", cookie).send(
                     {
                         title: "event na zajtra",
                         description: "pleaseeee description",
