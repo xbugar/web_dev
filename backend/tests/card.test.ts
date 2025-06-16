@@ -48,7 +48,7 @@ describe("/deck", async () => {
 
         it('updates a card', async () => {
             const url = `/card/${cardId}`;
-            const {status, body} = await request(app).put(url).set("Cookie", cookie).send({
+            const {status} = await request(app).put(url).set("Cookie", cookie).send({
                 question: "will i pass",
                 answer: "no"
             });
@@ -59,7 +59,7 @@ describe("/deck", async () => {
 
         it('gets cards', async () => {
             const url = `/deck/${deckId}/cards`;
-            const {status, body} = await request(app).get(url).set("Cookie", cookie).send({});
+            const {status} = await request(app).get(url).set("Cookie", cookie).send({});
 
             expect(status).toBe(200);
             // console.log(body);
