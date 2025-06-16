@@ -36,7 +36,7 @@ const get = async (req: Request, res: Response) => {
         return;
     }
     let date: Date | undefined;
-    if (request.body.upComing) {
+    if (request.query.upComing) {
         date = new Date();
     }
 
@@ -143,7 +143,7 @@ const getByDate = async (req: Request, res: Response) => {
         return;
     }
 
-    const events = await eventRepository.getByDate(userId, request.body.date);
+    const events = await eventRepository.getByDate(userId, request.query.date);
     if (events.isErr) {
         handleRepositoryErrors(events.error, res);
         return;

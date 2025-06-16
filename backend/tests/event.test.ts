@@ -140,9 +140,9 @@ describe("/event", async () => {
 
         it("should return 200 and get events by date", async () => {
             const url = "/event/date";
-            const {status} = await request(app).get(url).set("Cookie", cookie).send({
-                date: Date.now()
-            });
+            const {status} = await request(app).get(url)
+                .set("Cookie", cookie)
+                .query({date: new Date()});
 
             expect(status).toBe(200);
 
