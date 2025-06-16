@@ -8,7 +8,6 @@ import {
 } from "./types";
 import {repackageToNotFoundError, repackageToInternalError} from "../utils";
 import {Deck} from "@prisma/client";
-import {NotebookResponse} from "../notebook/types";
 
 export const deckRepository = {
     async create(request: FlashdeckCreateRequest, userId: string): Promise<Result<FlashdeckResponse>> {
