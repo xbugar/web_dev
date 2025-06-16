@@ -17,6 +17,7 @@ import { Notebook, NotebookDialogProps } from '@/types/notebook';
 import { useDeleteTagFromNotebook } from '@/hooks/notebook/useDeleteTagFromNotebook';
 import { DeleteConfirmationDialog } from '@/components/dialogs/generic/DeleteConfirmationDialog';
 import { toast } from 'sonner';
+import { EmptyState } from '@/components/cards/EmptyState';
 
 export function NotebookTagDialog({ notebookCardProps, open, onOpenChange }: NotebookDialogProps) {
   const createTag = useCreateTagNotebook(notebookCardProps.id);
@@ -80,7 +81,7 @@ export function NotebookTagDialog({ notebookCardProps, open, onOpenChange }: Not
                 </div>
               </div>
             ) : (
-              <p className="text-muted-foreground mb-4 text-center text-sm italic">No tags</p>
+              <EmptyState title={'No tags'} message={'Start by creating your first tag.'} />
             )}
           </div>
 

@@ -17,6 +17,7 @@ import { AccentColor } from '@/components/cards/cardColors';
 import { useDeleteTagFromNote } from '@/hooks/note/useDeleteTagFromNote';
 import { DeleteConfirmationDialog } from '@/components/dialogs/generic/DeleteConfirmationDialog';
 import { toast } from 'sonner';
+import { EmptyState } from '@/components/cards/EmptyState';
 
 export function NoteTagDialog({ noteCardProps, open, onOpenChange }: NoteDialogProps) {
   const createTag = useCreateTagNote(noteCardProps.notebook.id);
@@ -80,7 +81,7 @@ export function NoteTagDialog({ noteCardProps, open, onOpenChange }: NoteDialogP
                 </div>
               </div>
             ) : (
-              <p className="text-muted-foreground mb-4 text-sm italic">No tags</p>
+              <EmptyState title={'No tags'} message={'Start by creating your first tag.'} />
             )}
           </div>
 

@@ -14,13 +14,14 @@ import { NavigationMenu } from 'radix-ui';
 import { Button } from '@/components/ui/button.tsx';
 import { useState } from 'react';
 import { UserSettingsDialog } from '@/components/dialogs/user/UserSettingsDialog.tsx';
+import { PathItem } from '../navigation/PathItem';
 
-const paths = [
-  { Icon: Home, to: '/home', label: 'Home' },
-  { Icon: Book, to: '/notebooks', label: 'Notebooks' },
-  { Icon: GalleryVerticalEnd, to: '/flashdecks', label: 'Flashcards' },
-  { Icon: Calendar, to: '/calendar/today', label: 'Calendar' },
-  { Icon: Search, to: '/search', label: 'Search' },
+const paths: PathItem[] = [
+  { Icon: Home, to: '/home', label: 'Home', navKey: 'home' },
+  { Icon: Book, to: '/notebooks', label: 'Notebooks', navKey: 'notebooks' },
+  { Icon: GalleryVerticalEnd, to: '/flashdecks', label: 'Flashdecks', navKey: 'flashdecks' },
+  { Icon: Calendar, to: '/calendar', label: 'Calendar', navKey: 'calendar' },
+  { Icon: Search, to: '/search', label: 'Search', navKey: 'search' },
 ];
 
 export function Sidebar() {
@@ -70,8 +71,14 @@ export function Sidebar() {
             className="bottom-0 z-50 w-full justify-self-start rounded-t-md"
           >
             <NavigationMenu.List className="BulletsOverride flex flex-col gap-2">
-              {paths.map(({ Icon, to, label }) => (
-                <NavigationButton key={to} Icon={Icon} label={collapsed ? '' : label} to={to} />
+              {paths.map(({ Icon, to, label, navKey }) => (
+                <NavigationButton
+                  key={to}
+                  Icon={Icon}
+                  label={collapsed ? '' : label}
+                  to={to}
+                  navKey={navKey}
+                />
               ))}
             </NavigationMenu.List>
           </NavigationMenu.Root>

@@ -20,7 +20,7 @@ function DialogPortal({ ...props }: React.ComponentProps<typeof DialogPrimitive.
 function DialogClose({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Close>) {
   return (
     <DialogPrimitive.Close
-      className={cn(buttonVariants({ variant: 'submitSecondary' }), className)}
+      className={cn(buttonVariants({ variant: 'submitSecondary' }), 'cursor-pointer', className)}
       {...props}
     />
   );
@@ -56,11 +56,12 @@ function DialogContent({
             'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 shadow-ours z-50 grid w-full gap-4 rounded-lg bg-white p-6 duration-200 sm:max-w-lg dark:bg-black',
             className,
           )}
-          {...props}
+          // prevents pointer-events issue
           onCloseAutoFocus={event => {
             event.preventDefault();
             document.body.style.pointerEvents = '';
           }}
+          {...props}
         >
           {children}
           {/* <DialogPrimitive.Close className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:h-6 [&_svg]:w-6">

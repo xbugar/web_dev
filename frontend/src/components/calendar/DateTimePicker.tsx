@@ -83,7 +83,7 @@ export function DateTimePicker({ dateFrom, date, setDate }: DateTimePickerProps)
             {formattedDate}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0">
+        <PopoverContent className="w-auto p-0 dark:bg-black">
           <Calendar
             mode="single"
             selected={date}

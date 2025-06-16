@@ -1,18 +1,30 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Link, useLocation } from '@tanstack/react-router';
-import type { LucideIcon } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 import { NavigationMenu } from 'radix-ui';
 
 type NavigationButtonProps = {
   to: string;
   Icon: LucideIcon;
   label: string;
+  navKey: string;
 };
 
-export function NavigationButton({ to, Icon, label }: NavigationButtonProps) {
+function getNavKeyFromPath(pathname: string): string | null {
+  if (pathname.startsWith('/notebooks')) return 'notebooks';
+  if (pathname.startsWith('/calendar') || pathname.startsWith('/events')) return 'calendar';
+  if (pathname.startsWith('/flashcards')) return 'flashcards';
+  if (pathname.startsWith('/search')) return 'search';
+  if (pathname === '/home') return 'home';
+  return null;
+}
+
+
+export function NavigationButton({ to, Icon, label, navKey }: NavigationButtonProps) {
   const location = useLocation();
-  const isActive = location.pathname === to;
+  const currentNavKey = getNavKeyFromPath(location.pathname);
+  const isActive = currentNavKey === navKey;
 
   return (
     <NavigationMenu.Item key={to}>

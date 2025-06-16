@@ -5,7 +5,7 @@ import { DayPicker } from "react-day-picker"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
-function Calendar({
+function  Calendar({
                     className,
                     classNames,
                     showOutsideDays = true,
@@ -18,7 +18,7 @@ function Calendar({
         className={cn("border-none", className)}
         classNames={{
           months: "grid grid-col-7 sm:flex-row gap-2 align-center",
-          month: "flex flex-col gap-4 text-center",
+          month: "flex flex-col gap-4 text-center ",
           caption: "flex justify-center pt-1 relative items-center w-full",
           caption_label: "text-lg font-medium",
           nav: "absolute flex items-center justify-between",
@@ -34,22 +34,29 @@ function Calendar({
             "text-black dark:text-white rounded-md w-8 font-normal",
           row: "w-full mt-2",
           day: cn(
-            "relative p-2 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-none [&:has([aria-selected].day-range-end)]:rounded-r-md",
+            "relative p-2 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-none [&:has([aria-selected].day-range-end)]:rounded-r-md hover:rounded hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black",
             props.mode === "range"
               ? "[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md"
               : "[&:has([aria-selected])]:rounded-md"
           ),
           day_button: cn(
             Button({ variant: "ghost" }),
-            "size-9 p-0 font-normal aria-selected:opacity-100 rounded"
+            "size-9 p-0 font-normal aria-selected:opacity-100 rounded cursor-pointer ",
           ),
           day_range_start:
             "day-range-start aria-selected:bg-primary aria-selected:text-primary-foreground",
           day_range_end:
             "day-range-end aria-selected:bg-primary aria-selected:text-primary-foreground",
           selected:
-            "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground rounded",
-          today: "bg-accent text-accent-foreground rounded",
+            "bg-black dark:bg-white text-primary-foreground focus:bg-primary focus:text-primary-foreground rounded",
+          today: cn(
+            "rounded",
+            "[&:not([aria-selected])]:bg-white-secondary [&:not([aria-selected])]:dark:bg-black-secondary",
+            "[&:not([aria-selected])]:text-black [&:not([aria-selected])]:dark:text-white",
+            // idk if i like the hover on today
+            // "[&:not([aria-selected])]:hover:bg-black [&:not([aria-selected])]:hover:text-white",
+            // "[&:not([aria-selected])]:dark:hover:bg-white [&:not([aria-selected])]:dark:hover:text-black"
+          ),
           outside:
             "day-outside text-muted-foreground aria-selected:text-muted-foreground",
           disabled: "text-muted-foreground opacity-50",

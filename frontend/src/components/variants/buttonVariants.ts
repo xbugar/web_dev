@@ -17,14 +17,14 @@ const buttonVariants = cva(
 
         /* custom */
         navigation:
-          '[&_svg]:h-6 [&_svg]:w-6 bg-transparent text-black dark:text-white p-2 text-base font-semibold lg:bg-none lg:text-white',
-        header: '[&_svg]:h-6 [&_svg]:w-6 bg-white dark:bg-black text-black dark:text-white p-2',
+          '[&_svg]:h-6 [&_svg]:w-6 bg-transparent text-black dark:text-white p-2 text-base hover:bg-white hover:text-black font-semibold lg:bg-none lg:text-white ',
+        header: '[&_svg]:h-6 [&_svg]:w-6 bg-white dark:bg-black text-black dark:text-white p-2 cursor-pointer',
         submit:
-          'bg-black dark:bg-white text-white dark:text-black text-center min-h-12 font-serif text-md w-full',
+          'bg-black dark:bg-white text-white dark:text-black text-center min-h-12 font-serif text-md w-full cursor-pointer',
         submitSecondary:
           'bg-transparent text-black dark:text-white text-center min-h-12 font-serif text-md w-full',
         submitAlternative: 'bg-white text-black text-center min-h-12 font-serif text-md w-full',
-        section: '[&_svg]:h-6 [&_svg]:w-6 text-black dark:text-white p-2 bg-transparent',
+        section: '[&_svg]:h-6 [&_svg]:w-6 text-black dark:text-white p-2 bg-transparent ',
         form: 'rounded p-2'
       },
       // size: {
