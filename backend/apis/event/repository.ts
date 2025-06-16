@@ -136,8 +136,8 @@ export const eventRepository = {
         return await prisma.event.findMany({
             where: {
                 userId: userId,
-                AND: [{timeFrom: {gte: startOfDay}},
-                    {timeTo: {lte: endOfDay}}]
+                AND: [{timeFrom: {lte: endOfDay}},
+                    {timeTo:{gte: startOfDay}}]
             },
             include: {
                 tags: true
