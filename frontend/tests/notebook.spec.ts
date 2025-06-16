@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, Page, test } from "@playwright/test";
 
 test.describe("Notebooks", async () => {
   test.beforeEach(async ({page}) => {
@@ -22,6 +22,7 @@ test.describe("Notebooks", async () => {
 })
 
 test.describe("Notebook edit", async () => {
+  let uniqueName: string;
   test.beforeEach(async ({page}) => {
     await page.goto('http://localhost:5173/notebooks');
     await page.locator('div').filter({hasText: /^Notebooks$/}).getByRole('button').click();
@@ -33,7 +34,7 @@ test.describe("Notebook edit", async () => {
   });
 
   test('should edit title and description', async ({page}) => {
-    const uniqueName = `Edited Notebook ${Date.now()}`;
+    uniqueName = `Edited Notebook ${Date.now()}`;
     const uniqueDescription = `Updated description ${Date.now()}`;
     await page.getByLabel('Title*').fill(uniqueName);
     await page.getByLabel('Description').fill(uniqueDescription);
@@ -56,20 +57,26 @@ test.describe("Notebook edit", async () => {
 test.describe("Notebook delete", async () => {
   let uniqueName: string;
   test.beforeEach(async ({page}) => {
-    const uniqueName = `Test Notebook ${Date.now()}`;
-    await page.goto('http://localhost:5173/notebooks');
-    await page.locator('div').filter({hasText: /^Notebooks$/}).getByRole('button').click();
-    await page.getByPlaceholder('Enter title').fill(uniqueName);
-    await page.getByPlaceholder('Enter description').fill('Notebook created during Playwright test');
-    await page.getByRole('button', {name: 'Create'}).click();
-    await expect(page.getByText(uniqueName)).toBeVisible();
-    await page.locator('[data-testid="menu-button"]').first().click();
+    uniqueName = `Test Notebook ${Date.now()}`;
+    await createNotebook(page, uniqueName, 'notebook');
   })
 
   test('should delete notebook', async ({page}) => {
     await page.getByRole('menuitem', {name: 'Delete'}).click();
     await page.getByRole('button', {name: 'Continue'}).click();
 
-    await expect(page.getByText(uniqueName)).toHaveCount(0);
+    await page.goto('http://localhost:5173/notebooks');
+    const notebook = page.getByText(uniqueName);
+    await expect(notebook).not.toBeVisible();
   })
 })
+
+async function createNotebook(page: Page, title: string, description: string) {
+  await page.goto('http://localhost:5173/notebooks');
+  await page.locator('div').filter({ hasText: /^Notebooks$/ }).getByRole('button').click();
+  await page.getByPlaceholder('Enter title').fill(title);
+  await page.getByPlaceholder('Enter description').fill(description);
+  await page.getByRole('button', { name: 'Create' }).click();
+  await expect(page.getByText(title)).toBeVisible();
+  await page.locator('[data-testid="menu-button"]').first().click();
+}
