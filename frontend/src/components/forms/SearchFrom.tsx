@@ -1,10 +1,9 @@
 ﻿import { Input } from '@/components/ui/input.tsx';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button.tsx';
-// import {LucideIcon, SlidersHorizontal} from 'lucide-react'
 
 type SearchFormProps = {
-  initialData?: {
+  initialValues?: {
     q: string;
   };
   onSubmit: (data: { q: string }) => void;
@@ -12,9 +11,8 @@ type SearchFormProps = {
   submitText: string;
 };
 
-export function SearchForm({ initialData, onSubmit, isSubmitting, submitText }: SearchFormProps) {
-  const [q, setQ] = useState(initialData?.q || '');
-  // const [open, setOpen] = useState(false);
+export function SearchForm({ initialValues, onSubmit, isSubmitting, submitText }: SearchFormProps) {
+  const [q, setQ] = useState(initialValues?.q || '');
   const handleSubmit = () => {
     if (!q) return;
     onSubmit({
@@ -30,19 +28,6 @@ export function SearchForm({ initialData, onSubmit, isSubmitting, submitText }: 
         onChange={e => setQ(e.target.value)}
         className="w-full flex-1"
       />
-      {/* <div className="flex w-full items-center gap-2">
-                <Input
-          id="search"
-          placeholder="Search"
-          value={q}
-          onChange={e => setQ(e.target.value)}
-          className="w-full flex-1"
-        />
-        <Button variant="section" onClick={() => setOpen(true)} className="w-fit ml-auto">
-            <SlidersHorizontal/>
-        </Button>
-      </div> */}
-
       <Button
         type="submit"
         variant="submit"
