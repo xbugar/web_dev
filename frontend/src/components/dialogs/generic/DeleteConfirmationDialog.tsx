@@ -44,7 +44,6 @@ export const DeleteConfirmationDialog = ({
           <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={handleDelete} disabled={isPending}>
             {isPending ? <ButtonLoading variant="submit" /> : 'Continue'}
             {isDeleted && navigateTo && <Navigate to={navigateTo} />}
