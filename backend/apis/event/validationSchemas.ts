@@ -47,7 +47,7 @@ export const eventDeleteTagRequestSchema = z.object({
 });
 
 export const eventGetByDateSchema = z.object({
-    body: z.object({
+    query: z.object({
         date: z.coerce.date(),
     })
 });
@@ -59,7 +59,7 @@ export const eventGetByIdSchema = z.object({
 });
 
 export const eventGetSchema = z.object({
-    body: z.object({
+    query: z.object({
         upComing: z.boolean().optional()
     }).optional().default({upComing: false})
 });
