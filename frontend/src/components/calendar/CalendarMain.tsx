@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { Calendar } from '@/components/ui/calendar';
-import { eachDayOfInterval, format, isToday, parseISO } from 'date-fns';
+import { eachDayOfInterval, format, isToday, parseISO, startOfMonth } from 'date-fns';
 import { Event } from '@/types/event';
 
 function getEventDates(events: Event[]): Date[] {
@@ -36,9 +36,18 @@ export function CalendarMain({ selectedDay, events }: { selectedDay: string; eve
     setDate(selectedFromParam);
   }, [selectedFromParam]);
 
+  const [displayedMonth, setDisplayedMonth] = React.useState(() =>
+    startOfMonth(selectedFromParam)
+  );
+
   const handleSelect = (selected: Date | undefined) => {
     if (selected) {
       setDate(selected);
+
+      if (selected.getMonth() !== displayedMonth.getMonth() || selected.getFullYear() !== displayedMonth.getFullYear()) {
+        setDisplayedMonth(startOfMonth(selected));
+      }
+
       const formatted = isToday(selected) ? 'today' : format(selected, 'yyyy-MM-dd');
       navigate({
         to: '/calendar/$calendarDay',
@@ -52,6 +61,8 @@ export function CalendarMain({ selectedDay, events }: { selectedDay: string; eve
       mode="single"
       selected={date}
       onSelect={handleSelect}
+      month={displayedMonth}
+      onMonthChange={setDisplayedMonth}
       className="rounded-md border pt-2 pb-2"
       modifiers={{
         hasEvent: eventDates,
