@@ -72,7 +72,9 @@ export const UserSettingsDialog = ({ open, onOpenChange }: UserSettingsDialogPro
       <DialogContent>
         <DialogHeader>
           <DialogTitle>User settings</DialogTitle>
-          <DialogDescription></DialogDescription>
+          <DialogDescription>
+            {user?.email}
+          </DialogDescription>
         </DialogHeader>
         <div className="mb-4 flex flex-col gap-4">
           <div className="flex flex-col">

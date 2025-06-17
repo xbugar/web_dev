@@ -36,7 +36,7 @@ function RouteComponent() {
           msOverflowStyle: 'none',
         }}
       >
-        {flashdecks ? (
+        {flashdecks && flashdecks.length > 0 ? (
             flashdecks.map(({ id, title, description, color, flashCardsCount, tags, updatedAt }) => (
               <FlashdeckCard
                 key={id}
