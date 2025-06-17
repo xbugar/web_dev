@@ -27,7 +27,6 @@ function RouteComponent() {
               userId={id}
               title={`${firstName} ${lastName} | ${email}`}
               titleOfParent={`Notebooks: ${notebookCount} Notes: ${totalNotes} Events: ${eventCount} Decks: ${deckCount} Cards: ${totalCards}`}
-              color={"black"}
             />
           ))}
       </div>
