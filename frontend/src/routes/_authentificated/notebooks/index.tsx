@@ -30,7 +30,7 @@ function RouteComponent() {
       <NotebookSection isPreview={false} />
 
       <div
-        className="columns-1 gap-4 overflow-y-auto lg:columns-2"
+        className="columns-1 gap-2 overflow-y-auto lg:columns-2"
         style={{
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
