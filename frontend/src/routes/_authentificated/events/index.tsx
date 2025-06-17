@@ -32,7 +32,7 @@ function RouteComponent() {
         </Button>
       </div>
       <EventCreateDialog open={open} onOpenChange={setOpen} day={day} />
-      <Events events={events} eventDesktop={true} />
+      <Events events={events?.sort((a, b) => new Date(a.timeFrom).getTime() - new Date(b.timeFrom).getTime())} eventDesktop={true} />
     </div>
   );
 }
