@@ -19,17 +19,17 @@ import { PathItem } from '../navigation/PathItem';
 import { useIsAdmin } from '@/hooks/admin/useIsAdmin.ts';
 
 const paths: PathItem[] = [
-  { Icon: Home, to: '/home', label: 'Home', navKey: 'home' },
-  { Icon: Book, to: '/notebooks', label: 'Notebooks', navKey: 'notebooks' },
-  { Icon: GalleryVerticalEnd, to: '/flashdecks', label: 'Flashdecks', navKey: 'flashdecks' },
-  { Icon: Calendar, to: '/calendar', label: 'Calendar', navKey: 'calendar' },
-  { Icon: Search, to: '/search', label: 'Search', navKey: 'search' },
+  {Icon: Home, to: '/home', label: 'Home', navKey: 'home'},
+  {Icon: Book, to: '/notebooks', label: 'Notebooks', navKey: 'notebooks'},
+  {Icon: GalleryVerticalEnd, to: '/flashdecks', label: 'Flashdecks', navKey: 'flashdecks'},
+  {Icon: Calendar, to: '/calendar', label: 'Calendar', navKey: 'calendar'},
+  {Icon: Search, to: '/search', label: 'Search', navKey: 'search'},
 ];
 
 export function Sidebar() {
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-  const { data: isAdmin }  = useIsAdmin();
+  const {data: isAdmin} = useIsAdmin();
   return (
     <>
       <aside
@@ -47,7 +47,7 @@ export function Sidebar() {
                   className="top-auto text-white hover:text-gray-300 cursor-pointer"
                   aria-label="Expand Sidebar"
                 >
-                  <PanelLeftOpen />
+                  <PanelLeftOpen/>
                 </button>
               </div>
             ) : (
@@ -62,7 +62,7 @@ export function Sidebar() {
                   className="absolute top-0 right-0 text-white hover:text-gray-300 cursor-pointer"
                   aria-label="Collapse Sidebar"
                 >
-                  <PanelLeftClose />
+                  <PanelLeftClose/>
                 </button>
               </div>
             )}
@@ -73,7 +73,7 @@ export function Sidebar() {
             className="bottom-0 z-50 w-full justify-self-start rounded-t-md"
           >
             <NavigationMenu.List className="BulletsOverride flex flex-col gap-2">
-              {paths.map(({ Icon, to, label, navKey }) => (
+              {paths.map(({Icon, to, label, navKey}) => (
                 <NavigationButton
                   key={to}
                   Icon={Icon}
@@ -86,28 +86,28 @@ export function Sidebar() {
           </NavigationMenu.Root>
         </div>
 
-        <div>
-          {isAdmin && ( <Link to="/admin"> {/*TODO zarovnať*/}
-            <Button
+        <div className="flex flex-col gap-2">
+          {isAdmin && (<Link to="/admin">
+              <Button
                 variant="navigation"
-                className="flex justify-start gap-2 hover:bg-white hover:text-black cursor-pointer pl-1"
-            >
-              <UserCog/>
-              {!collapsed && <span>Admin Dashboard</span>}
-            </Button>
-          </Link>
+                className="flex justify-start gap-2 hover:bg-white hover:text-black cursor-pointer"
+              >
+                <UserCog/>
+                {!collapsed && <span>Admin Dashboard</span>}
+              </Button>
+            </Link>
           )}
-        <Button
-          variant="navigation"
-          className="flex justify-start gap-2 hover:bg-white hover:text-black cursor-pointer "
-          onClick={() => setOpen(true)}
-        >
-          <User />
-          {!collapsed && <span>My gradia</span>}
-        </Button>
+          <Button
+            variant="navigation"
+            className="flex justify-start gap-2 hover:bg-white hover:text-black cursor-pointer "
+            onClick={() => setOpen(true)}
+          >
+            <User/>
+            {!collapsed && <span>My gradia</span>}
+          </Button>
         </div>
       </aside>
-      <UserSettingsDialog open={open} onOpenChange={setOpen} />
+      <UserSettingsDialog open={open} onOpenChange={setOpen}/>
     </>
   );
 }
