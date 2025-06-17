@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import gradient from '@/assets/gradient.webp';
 import notebooksandnotes from '@/assets/notebooksandnotes.webp';
-import background1 from '@/assets/Rectangle-1.webp';
+import gradiamockups from '@/assets/gradiamockups.webp';
 import background2 from '@/assets/Rectangle-2.webp';
 import calendarandevents from '@/assets/calendarandevents.webp';
 import flashdecksandflashcards from '@/assets/flashdecksandflashcards.webp';
@@ -21,7 +21,7 @@ function RouteComponent() {
       title: 'Organize Smarter',
       description:
         'Gradia is your all-in-one student workspace. Take notes, build flashcards, planassignments, and track everything in one place – across mobile and desktop.',
-      image: background1,
+      image: gradiamockups,
     },
     {
       title: 'Notes & Notebooks',
@@ -100,7 +100,8 @@ function RouteComponent() {
               key={index}
               className={cn(
                 'flex max-w-5xl flex-col overflow-hidden rounded-xl border border-white/20',
-                index % 2 === 0 ? 'lg:translate-x-12 lg:flex-row-reverse' : 'lg:flex-row',
+                index % 2 === 1 ? 'lg:translate-x-12 lg:flex-row' : 'lg:flex-row-reverse',
+                index === 0 && 'lg:flex-col',
               )}
             >
               <div className="flex flex-col bg-white p-6 text-black lg:flex-2/5 dark:bg-black dark:text-white">
@@ -108,7 +109,10 @@ function RouteComponent() {
                 <p>{description}</p>
               </div>
               <div
-                className="min-h-80 w-full bg-cover bg-center bg-no-repeat lg:flex-4/5"
+                className={cn(
+                  'min-h-80 w-full bg-cover bg-center bg-no-repeat lg:flex-4/5',
+                  index === 0 && 'min-h-120',
+                )}
                 style={{ backgroundImage: `url(${image})` }}
               ></div>
             </div>
