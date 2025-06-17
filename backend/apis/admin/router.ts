@@ -3,5 +3,6 @@ import {adminController} from "./controller";
 
 export const adminRouter = Router();
 
-adminRouter.get("",adminController.getAdminData);
-adminRouter.delete("/:userId", adminController.deleteUser);
+adminRouter.get("/users",adminController.getAdminData);
+adminRouter.delete("/users/:userId", adminController.deleteUser);
+adminRouter.get("",adminController.isAdmin);
