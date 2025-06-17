@@ -77,32 +77,6 @@ export const UserSettingsDialog = ({ open, onOpenChange }: UserSettingsDialogPro
           </DialogDescription>
         </DialogHeader>
         <div className="mb-4 flex flex-col gap-4">
-          <div className="flex flex-col">
-            <Label htmlFor="firstName">First name</Label>
-            <Input
-              id="firstName"
-              value={firstName}
-              onChange={e => setFirstName(e.target.value)}
-              disabled={userLoading}
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <Label htmlFor="lastName">Last name</Label>
-            <Input
-              id="lastName"
-              value={lastName}
-              onChange={e => setLastName(e.target.value)}
-              disabled={userLoading}
-            />
-          </div>
-        </div>
-
-        <Button variant="submit" onClick={handleSave} disabled={userLoading}>
-          Save
-        </Button>
-
-        <div className="flex justify-between gap-5">
           {/* Theme */}
           <div className="flex w-full flex-col">
             <Label htmlFor="theme" className="text-right">
@@ -129,6 +103,32 @@ export const UserSettingsDialog = ({ open, onOpenChange }: UserSettingsDialogPro
             </Select>
           </div>
 
+          <div className="flex flex-col">
+            <Label htmlFor="firstName">First name</Label>
+            <Input
+              id="firstName"
+              value={firstName}
+              onChange={e => setFirstName(e.target.value)}
+              disabled={userLoading}
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <Label htmlFor="lastName">Last name</Label>
+            <Input
+              id="lastName"
+              value={lastName}
+              onChange={e => setLastName(e.target.value)}
+              disabled={userLoading}
+            />
+          </div>
+        </div>
+
+        <Button variant="submit" onClick={handleSave} disabled={userLoading}>
+          Save
+        </Button>
+
+        {/*<div className="flex justify-between gap-5">*/}
           {/* Icon */}
           {/* <div className="flex w-full flex-col">
             <Label htmlFor="icon" className="text-right">
@@ -148,7 +148,7 @@ export const UserSettingsDialog = ({ open, onOpenChange }: UserSettingsDialogPro
               </SelectContent>
             </Select>
           </div> */}
-        </div>
+        {/*</div>*/}
 
         <Button variant="submit" onClick={onSubmit} loading={isPending || !auth.isAuth}>
           Log out
