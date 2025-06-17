@@ -111,7 +111,7 @@ function RouteComponent() {
               <div
                 className={cn(
                   'min-h-80 w-full bg-cover bg-center bg-no-repeat lg:flex-4/5',
-                  index === 0 && 'min-h-120',
+                  index === 0 && 'min-h-120 bg-right',
                 )}
                 style={{ backgroundImage: `url(${image})` }}
               ></div>
