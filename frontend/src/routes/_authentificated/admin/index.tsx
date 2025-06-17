@@ -20,9 +20,8 @@ function RouteComponent() {
              msOverflowStyle: 'none'
            }}>
         {users &&
-          users.map(({
-                       id, email, notebookCount, eventCount, totalNotes, firstName, lastName, totalCards, deckCount,
-                     }) => (
+          users
+            .map(({id, email, notebookCount, eventCount, totalNotes, firstName, lastName, totalCards, deckCount}) => (
             <UserCard
               key={id}
               userId={id}
