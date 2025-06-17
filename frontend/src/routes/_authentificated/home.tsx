@@ -45,7 +45,9 @@ function RouteComponent() {
             </Button>
           </div>
           {events ? (
-            <Events events={events?.slice(0, 4)} homepageDesktop={true} />
+            <Events events={events
+              ?.sort((a, b) => new Date(a.timeFrom).getTime() - new Date(b.timeFrom).getTime())
+              .slice(0, 4)} homepageDesktop={true} />
           ) : (
             <EmptyState
               title={'No upcoming events'}
@@ -145,7 +147,9 @@ function RouteComponent() {
         </Button>
       </div>
 
-      <Events events={events?.slice(0, 3)} />
+      <Events events={events
+        ?.sort((a, b) => new Date(a.timeFrom).getTime() - new Date(b.timeFrom).getTime())
+        .slice(0, 3)} />
 
       <div className="mt-2 flex flex-row items-center justify-between py-2 font-serif text-2xl font-bold">
         <h2>Recent notebooks</h2>
