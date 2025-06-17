@@ -6,6 +6,7 @@ import { EventCreateDialog } from '@/components/dialogs/event/EventCreateDialog.
 import { useState } from 'react';
 import { add } from "date-fns";
 import { useRangeEvents } from "@/hooks/useRangeEvents.ts";
+import { ContainerLoading } from "@/components/loading/ContainerLoading.tsx";
 
 export const Route = createFileRoute('/_authentificated/events/')({
   component: RouteComponent,
@@ -18,10 +19,14 @@ function RouteComponent() {
   });
 
   const [today, yearFromNow] = range;
-  const { data: events } = useRangeEvents(today, yearFromNow);
+  const { data: events, isLoading } = useRangeEvents(today, yearFromNow);
 
   const day = new Date();
   day.setMinutes(0);
+
+  if (isLoading) {
+    return <ContainerLoading/>
+  }
 
   return (
     <div>

@@ -6,6 +6,7 @@ import { Events } from '@/components/calendar/Events.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { useState } from 'react';
 import { EventCreateDialog } from '@/components/dialogs/event/EventCreateDialog.tsx';
+import { ContainerLoading } from "@/components/loading/ContainerLoading.tsx";
 
 export const Route = createFileRoute('/_authentificated/calendar/$calendarDay')({
   component: RouteComponent,
@@ -18,8 +19,12 @@ function RouteComponent() {
   dayToPass.setHours(now.getHours());
   dayToPass.setMinutes(0);
 
-  const { data: events } = useAllEvents();
+  const { data: events, isLoading } = useAllEvents();
   const [open, setOpen] = useState(false);
+
+  if (isLoading) {
+    return <ContainerLoading/>
+  }
 
   return (
     <div className="lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
