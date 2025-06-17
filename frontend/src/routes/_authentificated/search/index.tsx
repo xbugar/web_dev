@@ -50,7 +50,7 @@ function SearchPage() {
 
       {data ? (
         <div
-          className="flex flex-col lg:h-[calc(100vh-15rem)] lg:auto-rows-max lg:overflow-y-auto"
+          className="grid grid-cols-1 lg:h-[calc(100vh-5.5rem)] lg:auto-rows-max lg:overflow-y-auto"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
