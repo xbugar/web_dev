@@ -22,18 +22,17 @@ export function SearchForm({initialValues, onSubmit, isSubmitting, submitText}: 
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex	mt-2 flex-row items-center justify-between py-1 border-b font-serif gap-5 w-full">
             <Input
                 id="search"
-                placeholder="Search for notebooks, notes, ..."
+                placeholder="Search anything"
                 value={filters.q || ''}
                 onChange={e => setFilters({q: e.target.value})}
-                className="w-full flex-1"
+                className="w-3xs lg:w-5xl border-b-0 focus-visible:border-b-0"
             />
 
             <Button
-                type="submit"
-                variant="submit"
+                variant="submitSearch"
                 disabled={!filters.q}
                 loading={isSubmitting}
             >
