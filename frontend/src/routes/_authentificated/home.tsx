@@ -37,7 +37,7 @@ function RouteComponent() {
           <CalendarSmall />
 
           <div className="mt-2 flex items-center justify-between py-1 font-serif text-2xl font-bold">
-            <h2>Upcoming events</h2>
+            <h2>Current events</h2>
             <Button variant="section">
               <Link to={'/events'}>
                 <ArrowRight />
@@ -137,7 +137,7 @@ function RouteComponent() {
       <CalendarSmall />
 
       <div className="mt-2 flex flex-row items-center justify-between py-2 font-serif text-2xl font-bold">
-        <h2>Upcoming events</h2>
+        <h2>Current events</h2>
         <Button variant="section">
           <Link to={'/events'}>
             <ArrowRight />
