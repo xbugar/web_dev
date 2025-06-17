@@ -3,7 +3,7 @@ import { getFlashdeckById } from '@/services/flashdeckService';
 
 export function useFlashdeck(flashdeckId: string) {
   return useQuery({
-    queryKey: ['deck', flashdeckId],
+    queryKey: ['decks', flashdeckId],
     queryFn: () => {
       return getFlashdeckById(flashdeckId);
     },
