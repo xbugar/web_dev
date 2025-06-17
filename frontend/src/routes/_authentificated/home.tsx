@@ -12,23 +12,28 @@ import { useState } from 'react';
 import { EmptyState } from '@/components/cards/EmptyState.tsx';
 import { useAllFlashdecks } from "@/hooks/flashdeck/useAllFlashdecks.ts";
 import { FlashdeckCard } from "@/components/cards/FlashdeckCard.tsx";
+import { ContainerLoading } from "@/components/loading/ContainerLoading.tsx";
 
 export const Route = createFileRoute('/_authentificated/home')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { data: notebooks } = useAllNotebooks();
-  const { data: flashdecks } = useAllFlashdecks();
+  const { data: notebooks, isLoading: notebooksLoading } = useAllNotebooks();
+  const { data: flashdecks, isLoading: decksLoading } = useAllFlashdecks();
 
   const [range] = useState(() => {
     return [new Date().toISOString(), add(new Date(), { years: 1 }).toISOString()];
   });
 
   const [today, yearFromNow] = range;
-  const { data: events } = useRangeEvents(today, yearFromNow);
-  // const { data: events } = useAllEvents();
+  const { data: events, isLoading: eventsLoading } = useRangeEvents(today, yearFromNow);
   const isDesktop = useIsDesktop();
+
+
+  if (notebooksLoading || decksLoading || eventsLoading) {
+    return <ContainerLoading/>
+  }
 
   if (isDesktop) {
     return (
