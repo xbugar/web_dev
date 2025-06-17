@@ -9,7 +9,7 @@ import {
   PanelLeftOpen,
   UserCog,
 } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
+import { Link, useLocation } from '@tanstack/react-router';
 import { NavigationButton } from '../navigation/NavigationButton.tsx'; // Reused
 import { NavigationMenu } from 'radix-ui';
 import { Button } from '@/components/ui/button.tsx';
@@ -17,6 +17,16 @@ import { useState } from 'react';
 import { UserSettingsDialog } from '@/components/dialogs/user/UserSettingsDialog.tsx';
 import { PathItem } from '../navigation/PathItem';
 import { useIsAdmin } from '@/hooks/admin/useIsAdmin.ts';
+import { cn } from "@/lib/utils.ts";
+
+function getNavKeyFromPath(pathname: string): string | null {
+  if (pathname.startsWith('/notebooks')) return 'notebooks';
+  if (pathname.startsWith('/calendar') || pathname.startsWith('/events')) return 'calendar';
+  if (pathname.startsWith('/flashdecks')) return 'flashdecks';
+  if (pathname.startsWith('/search')) return 'search';
+  if (pathname === '/home') return 'home';
+  return null;
+}
 
 const paths: PathItem[] = [
   {Icon: Home, to: '/home', label: 'Home', navKey: 'home'},
@@ -90,7 +100,7 @@ export function Sidebar() {
           {isAdmin && (<Link to="/admin">
               <Button
                 variant="navigation"
-                className="flex justify-start gap-2 hover:bg-white hover:text-black cursor-pointer"
+                className="flex w-full justify-start gap-2 hover:bg-white hover:text-black cursor-pointer"
               >
                 <UserCog/>
                 {!collapsed && <span>Admin Dashboard</span>}
