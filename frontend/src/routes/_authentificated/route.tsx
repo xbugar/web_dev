@@ -29,7 +29,7 @@ function RouteComponent() {
       <div className="flex min-h-screen">
         <Sidebar />
         <main className="flex-grow">
-          <section className="px-6">
+          <section className="px-6 pl-3">
             <Outlet />
           </section>
         </main>
