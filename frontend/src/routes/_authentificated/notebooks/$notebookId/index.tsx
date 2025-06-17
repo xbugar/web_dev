@@ -1,11 +1,12 @@
 import { NoteCard } from '@/components/cards/NoteCard';
 import { createFileRoute } from '@tanstack/react-router';
 import { NotebookCard } from '@/components/cards/NotebookCard';
-import { Section } from '@/components/section/Section';
-
-import { Plus } from 'lucide-react';
-import { useNotebook } from '@/hooks/useNotebook.ts';
-import { useNotesByNotebook } from '@/hooks/useNotesByNotebook.ts';
+import { useNotebook } from '@/hooks/notebook/useNotebook';
+import { useNotesByNotebook } from '@/hooks/notebook/useNotesByNotebook';
+import { ContainerLoading } from '@/components/loading/ContainerLoading';
+import { NoteSection } from '@/components/section/NoteSection';
+import { NotebookSection } from '@/components/section/NotebookSection';
+import { EmptyState } from '@/components/cards/EmptyState.tsx';
 
 export const Route = createFileRoute('/_authentificated/notebooks/$notebookId/')({
   component: RouteComponent,
@@ -20,9 +21,6 @@ function RouteComponent() {
     isError: isErrorNotebook,
     error: errorNotebook,
   } = useNotebook(notebookId);
-  {
-    /*TODO*/
-  }
 
   const {
     data: notes,
@@ -32,7 +30,7 @@ function RouteComponent() {
   } = useNotesByNotebook(notebookId);
 
   if (isPendingNotebook || isPendingNote) {
-    return <div>Loading...</div>;
+    return <ContainerLoading />;
   }
 
   if (isErrorNotebook) {
@@ -44,12 +42,12 @@ function RouteComponent() {
   }
 
   return (
-    <>
-      <Section title={'Notebook preview'} id={notebookId} type={'notebook'} />
+    <div className="lg:h-[calc(100vh-1rem)] lg:overflow-hidden">
+      <NotebookSection isPreview={true} />
       {currentNotebook && (
         <NotebookCard
-          key={notebookId}
-          id={notebookId}
+          key={currentNotebook.id}
+          id={currentNotebook.id}
           title={currentNotebook.title}
           description={currentNotebook.description}
           iconName={currentNotebook.iconName}
@@ -57,27 +55,44 @@ function RouteComponent() {
           noteCount={currentNotebook.noteCount}
           tags={currentNotebook.tags}
           lastUpdated={currentNotebook.updatedAt}
-          isLinked={false}
+          isLinked={true}
         />
       )}
 
-      <Section title={'Notes'} Icon={Plus} id={notebookId} type={'note'} />
-      <div className="flex flex-col gap-4">
-        {notes &&
-          notes.map(({ id, title, updatedAt, tags }) => (
+      <NoteSection
+        notebook={{
+          id: currentNotebook.id,
+          title: currentNotebook.title,
+          color: currentNotebook.color,
+        }}
+        noteTitle=""
+      />
+      <div
+        className="grid grid-cols-1 gap-4 lg:h-[calc(100vh-17.5rem)] lg:auto-rows-max lg:overflow-y-auto"
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
+      >
+        {notes.length != 0 ? (
+          notes.map(({ id, title, tags, updatedAt }) => (
             <NoteCard
               key={id}
-              parentId={currentNotebook.id}
-              noteId={id}
+              id={id}
               title={title}
-              titleOfParent={currentNotebook.title}
-              color={currentNotebook.color}
-              lastUpdated={updatedAt}
-              content={''} //TODO
               tags={tags}
+              notebook={{
+                id: currentNotebook.id,
+                title: currentNotebook.title,
+                color: currentNotebook.color,
+              }}
+              lastUpdated={updatedAt}
             />
-          ))}
+          ))
+        ) : (
+          <EmptyState title={'No notes'} message={'Create a new note.'} />
+        )}
       </div>
-    </>
+    </div>
   );
 }

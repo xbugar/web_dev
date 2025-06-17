@@ -1,16 +1,15 @@
 import {Request, Response} from "express";
 import {ZodSchema, ZodTypeDef} from "zod";
 import {fromZodError} from "zod-validation-error";
-import {InternalError, NotFoundError} from "./types";
+import {AuthError, InternalError, NotFoundError} from "./types";
 import {prisma} from "./prismaClient";
-import {readFileSync} from "fs";
+import {Result} from "@badrap/result";
 
 export const handleRepositoryErrors = (e: Error, res: Response) => {
     if (e instanceof NotFoundError) {
         const response: Error = {
             name: e.name || "NotFoundError",
             message: e.message || "Entity not found",
-            // cause: e.cause,
         };
 
         res.status(404).send(response);
@@ -18,7 +17,11 @@ export const handleRepositoryErrors = (e: Error, res: Response) => {
         res.status(500).send({
             name: e.name || "InternalError",
             message: e.message || "Something went wrong on our side.",
-            // cause: e.cause,
+        });
+    } else if (e instanceof AuthError) {
+        res.status(401).send({
+            name: e.name || "AuthError",
+            message: e.message || "Not authorized",
         });
     } else {
         res.status(500).send({
@@ -53,25 +56,25 @@ export const parseRequest = async <
     return parsedRequest.data;
 };
 
-//TODO get rid of these abominations
+//TODO get rid of this abomination
 export const defaultPP = async () => {
-    let profilePicture = await prisma.profilePicture.findFirst();
+    const profilePicture = await prisma.profilePicture.findFirst();
     if (!profilePicture) {
         throw new NotFoundError("No profile picture in database");
     }
     return profilePicture;
 }
 
-export const defaultIcon = async () => {
-    const icon = await prisma.icon.findFirst({where: {name: "test"}});
-    if (icon !== null) {
-        return icon;
+export function repackageToNotFoundError(error:unknown){
+    if (process.env.NODE_ENV !== "production" && error instanceof Error) {
+        return Result.err(new NotFoundError(error.message));
     }
-    const file = readFileSync("prisma/mockData/default-profile.jpg");
-    return prisma.icon.create({
-        data: {
-            name: "test",
-            icon: file
-        }
-    });
+    return Result.err(new NotFoundError());
+}
+
+export function repackageToInternalError(error :unknown){
+    if (process.env.NODE_ENV !== "production" && error instanceof Error) {
+        return Result.err(new InternalError(error.message));
+    }
+    return Result.err(new InternalError());
 }

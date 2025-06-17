@@ -1,21 +1,10 @@
 {
   // 1. Automatically format with Prettier on save
   "editor.formatOnSave": true,
+  // Set Prettier as the default formatter
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-
   // 2. Run ESLint fixes after formatting
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "always"
   },
-
-  // 3. Tell the ESLint extension to use your flat config
-  "eslint.useFlatConfig": true,
-
-  // 4. Lint JS, TS, JSX, TSX files
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ]
 }

@@ -1,31 +1,26 @@
-import { Home, Book, Calendar, Timer, GalleryVerticalEnd, LucideIcon } from 'lucide-react';
+import { Home, Book, Calendar, Search, GalleryVerticalEnd } from 'lucide-react';
 
 import { NavigationButton } from './NavigationButton';
 import { NavigationMenu } from 'radix-ui';
-
-type PathItem = {
-  Icon: LucideIcon;
-  to: string;
-  label: string;
-};
+import { PathItem } from './PathItem';
 
 export function Navigation() {
   const paths: PathItem[] = [
-    { Icon: GalleryVerticalEnd, to: '/flashcards', label: 'Flashcards' },
-    { Icon: Calendar, to: '/calendar', label: 'Calendar' },
-    { Icon: Home, to: '/home', label: 'Home' },
-    { Icon: Book, to: '/notebooks', label: 'Notebooks' },
-    { Icon: Timer, to: '/pomodoro', label: 'Pomodoro' },
+    { Icon: Search, to: '/search', label: 'Search', navKey: 'search' },
+    { Icon: Calendar, to: '/calendar/today', label: 'Calendar', navKey: 'calendar' },
+    { Icon: Home, to: '/home', label: 'Home', navKey: 'home' },
+    { Icon: Book, to: '/notebooks', label: 'Notebooks', navKey: 'notebooks' },
+    { Icon: GalleryVerticalEnd, to: '/flashdecks', label: 'Flashdecks', navKey: 'flashdecks' },
   ];
 
   return (
     <NavigationMenu.Root
       orientation="horizontal"
-      className="fixed bottom-0 right-0 w-full px-2 py-2 backdrop-blur-md rounded-t-md z-50"
+      className="fixed right-0 bottom-0 z-50 w-full rounded-t-md px-2 py-2 backdrop-blur-md"
     >
-      <NavigationMenu.List className="flex direction-row bg-white dark:bg-black p-2 rounded-md gap-1 justify-between shadow-ours">
-        {paths.map(({ Icon, to, label }) => (
-          <NavigationButton key={to} Icon={Icon} label={label} to={to} />
+      <NavigationMenu.List className="BulletsOverride direction-row shadow-ours flex justify-between gap-1 rounded-md bg-white p-2 dark:bg-black">
+        {paths.map(({ Icon, to, label, navKey }) => (
+          <NavigationButton key={to} Icon={Icon} label={label} to={to} navKey={navKey} />
         ))}
       </NavigationMenu.List>
     </NavigationMenu.Root>

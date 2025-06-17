@@ -1,73 +1,89 @@
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-
 import { Link } from '@tanstack/react-router';
 import { AccentColor, lineColor } from '@/components/cards/cardColors';
-import { NotebookNoteDropdown } from '@/components/cards/NotebookNoteDropdown.tsx';
-import { Timer } from 'lucide-react';
-import { Tag, TagColor } from '@/components/cards/Tag.tsx';
+import { Ellipsis, Timer } from 'lucide-react';
+import { Tag } from '@/components/cards/Tag.tsx';
 import { cn } from '@/lib/utils.ts';
 import { formatDistanceToNow } from 'date-fns';
-
-type NoteCardProps = {
-  parentId: string;
-  noteId: string;
-  title: string;
-  titleOfParent: string;
-  color: string;
-  lastUpdated: string;
-  content: string;
-  tags?: { name: string; color: string }[];
-};
+import { NoteCardProps } from '@/types/note';
+import { NoteDropdown } from '@/components/dropdown/NoteDropdown';
 
 export function NoteCard({
-  parentId,
-  noteId,
+  id,
   title,
-  titleOfParent,
-  color,
-  lastUpdated,
-  content,
   tags,
+  notebook,
+  content,
+  lastUpdated,
+  isLinked = true,
 }: NoteCardProps) {
   const timeAgo = formatDistanceToNow(new Date(lastUpdated), { addSuffix: true });
+  const noteCardProps: NoteCardProps = {
+    id,
+    title,
+    tags,
+    notebook,
+    content,
+    lastUpdated,
+  };
+
   return (
     <Card
       className={cn(
-        'flex border-l-10 overflow-hidden p-0 pt-3 gap-3',
-        lineColor[color as AccentColor],
+        'flex flex-shrink-0 gap-4 overflow-hidden border-l-10 p-0 py-4',
+        lineColor[notebook.color as AccentColor],
       )}
     >
-      {' '}
-      {/*TODO*/}
-      <CardHeader className="pl-3 pr-3 gap-0">
-        <div className="flex justify-between items-center self-stretch">
-          <Link to={`/notebooks/${parentId}/${noteId}`}>
-            <CardTitle>{title}</CardTitle>
-          </Link>
-          <NotebookNoteDropdown
-            noteId={noteId}
-            notebookId={parentId}
-            data={{
-              title: title,
-            }}
-            type={'note'}
-          />
-        </div>
-        <div className="flex justify-between items-start self-stretch">
-          <CardDescription>{titleOfParent}</CardDescription>
-          <div className="flex gap-1">
-            <Timer className="text-text-lm-secondary dark:text-text-dm-secondary w-4 h-4" />
-            <CardDescription> Updated {timeAgo}</CardDescription>
+      <CardHeader className="flex items-center justify-start gap-2 px-4">
+        <div className="flex w-full flex-col gap-1">
+          <div className="flex w-full items-center justify-between">
+            <CardTitle>
+              {isLinked ? (
+                <Link
+                  to="/notebooks/$notebookId/$noteId"
+                  params={{ notebookId: notebook.id, noteId: id }}
+                >
+                  {title}
+                </Link>
+              ) : (
+                title
+              )}
+            </CardTitle>
+            {isLinked ? (
+              <NoteDropdown {...noteCardProps} />
+            ) : (
+              <button className="hover:bg-muted rounded-[10%] p-0">
+                <Ellipsis className="h-5 w-5 text-black dark:text-white" />
+              </button>
+            )}
+          </div>
+
+          <div className="text-black-text-secondary dark:text-white-text-secondary flex items-center justify-between self-stretch">
+            <div className="flex gap-1">
+              <CardDescription>{notebook.title}</CardDescription>
+            </div>
+            <div className="flex gap-1">
+              <Timer className="h-4 w-4" />
+              <CardDescription> {timeAgo} </CardDescription>
+            </div>
           </div>
         </div>
       </CardHeader>
-      <div className="flex pl-3 pr-3 gap-2">
-        {tags &&
-          tags.map((tag, index) => (
-            <Tag name={tag.name} color={tag.color as TagColor} key={index}></Tag>
-          ))}
-      </div>
-      <CardDescription className="pl-3 pr-3 pb-3"> {content} </CardDescription>
+
+      {tags && tags.length > 0 && (
+        <div className="relative mr-4">
+          <div className="hide-scrollbar relative flex gap-2 overflow-x-auto pl-4">
+            {tags.map((tag, index) => (
+              <Tag name={tag.name} color={tag.color as AccentColor} key={index}></Tag>
+            ))}
+            <div className="ml-5"></div>
+          </div>
+
+          <div className="from-white-secondary dark:from-black-secondary pointer-events-none absolute top-0 right-0 h-full w-4 bg-gradient-to-l to-transparent"></div>
+        </div>
+      )}
+
+      {content && <CardDescription className="line-clamp-2 px-4"> {content} </CardDescription>}
     </Card>
   );
 }

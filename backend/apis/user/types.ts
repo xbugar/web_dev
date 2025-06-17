@@ -5,8 +5,7 @@ import {
     userCreateNotebookRequestSchema,
 } from "./validationSchemas"
 
-
-export type RequestUser = {
+export type User = {
     id: string,
     firstName: string,
     lastName: string,

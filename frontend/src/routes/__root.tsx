@@ -1,13 +1,15 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router';
+import { Toaster } from 'sonner';
 // import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
-import { ThemeToggle } from '@/components/utils/ThemeToggle.tsx';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 export const Route = createRootRoute({
   component: () => (
     <>
-      <ThemeToggle />
       <Outlet />
+      <Toaster />
       {/* <TanStackRouterDevtools /> */}
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </>
   ),
 });

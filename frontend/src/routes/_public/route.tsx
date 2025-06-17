@@ -1,28 +1,40 @@
-import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
+import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router';
 import gradient from '@/assets/gradient.webp';
+import { useAuthStore } from '@/lib/authStore';
 
 export const Route = createFileRoute('/_public')({
-  component: RouteComponent,
+  loader: () => {
+    const { auth } = useAuthStore.getState();
+    if (auth.isAuth) {
+      throw redirect({
+        to: '/home',
+      });
+    }
+  },
+  component: LoginAndRegisterLayout,
 });
 
-function RouteComponent() {
+function LoginAndRegisterLayout() {
   return (
     <>
-      <div className="bg-bg-lm-primary dark:bg-bg-dm-primary flex flex-col justify-center items-center p-2 h-screen">
+      <div className="bg-bg-lm-primary dark:bg-bg-dm-primary h-dvh p-2">
         <div
-          className="flex p-2 flex-col gap-2.5 bg-no-repeat bg-cover bg-center h-full w-full"
-          style={{ backgroundImage: `url(${gradient})`, borderRadius: ` 25px` }}
+          className="flex h-full w-full flex-col rounded-3xl bg-cover bg-center bg-no-repeat lg:flex-row lg:justify-between"
+          style={{ backgroundImage: `url(${gradient})` }}
         >
-          <div className="flex items-center p-4 self-stretch justify-between">
-            <div className="justify-center text-white text-3xl font-bold font-serif leading-loose">
-              <Link to="/">gradia.</Link>
-            </div>
-            <div className="w-28 text-center justify-center text-white text-xs font-serif">
-              Write it down, make it happen.
+          <div className="flex items-center justify-between px-5 py-4 lg:w-full lg:flex-col lg:justify-center lg:gap-2">
+            <Link to="/" className="font-serif text-4xl font-bold text-white lg:text-9xl">
+              gradia.
+            </Link>
+            <div className="text-center font-serif text-sm text-white">
+              Write it down,
+              <br className="block lg:hidden" />
+              <span className="hidden lg:inline"> </span>
+              make it happen.
             </div>
           </div>
 
-          <div className="flex text-white self-stretch p-4 h-full justify-center">
+          <div className="flex h-full items-center justify-center p-8 text-white lg:w-3xl lg:backdrop-blur-xl lg:rounded-r-3xl lg:bg-black/60">
             <Outlet />
           </div>
         </div>

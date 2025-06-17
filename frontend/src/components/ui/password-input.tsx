@@ -3,7 +3,9 @@ import * as React from 'react';
 import { Input } from '@/components/ui/input.tsx';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 
-export type PasswordInputProps = React.InputHTMLAttributes<HTMLInputElement>;
+export interface PasswordInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  variant?: 'inputAlt';
+}
 
 const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
   ({ className, ...props }, ref) => {
@@ -15,9 +17,9 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
         type={showPassword ? 'text' : 'password'}
         suffix={
           showPassword ? (
-            <EyeIcon className="select-none w-4 h-4" onClick={() => setShowPassword(false)} />
+            <EyeIcon className="h-5 w-5 select-none" onClick={() => setShowPassword(false)} />
           ) : (
-            <EyeOffIcon className="select-none w-4 h-4" onClick={() => setShowPassword(true)} />
+            <EyeOffIcon className="h-5 w-5 select-none" onClick={() => setShowPassword(true)} />
           )
         }
         className={className}
