@@ -41,7 +41,7 @@ export function EventDropdown({ eventId, data }: DropdownProps) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="hover:bg-muted rounded-[10%] p-0">
+          <button className="hover:bg-muted rounded-[10%] p-0" data-testid="menu-button">
             <Ellipsis className="h-5 w-5 text-black dark:text-white cursor-pointer" />
           </button>
         </DropdownMenuTrigger>
