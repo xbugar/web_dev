@@ -1,5 +1,4 @@
 export type AdminDashboardUser = {
-
     id: string,
     email: string,
     firstName: string,
@@ -9,12 +8,10 @@ export type AdminDashboardUser = {
     deckCount: number,
     totalNotes: number,
     totalCards: number
-
 }
 
 export type UserCardProps = {
     userId: string;
     title: string;
     titleOfParent: string;
-    color: string;
 };

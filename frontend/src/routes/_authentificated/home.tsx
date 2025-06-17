@@ -65,7 +65,7 @@ function RouteComponent() {
               </Button>
             </div>
             <div className="hide-scrollbar flex h-48 flex-grow flex-col gap-4 overflow-y-auto pr-2">
-              {notebooks ? (
+              {notebooks && notebooks?.length != 0 ? (
                 notebooks
                   .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
                   .slice(0, 4)

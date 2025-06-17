@@ -65,8 +65,23 @@ async function deleteUser(req: Request, res: Response) {
     res.status(200).send();
 }
 
+async function isAdmin(req: Request, res: Response) {
+    const userId = req.session.passport?.user.id;
+    if (!userId) {
+        res.status(400).send("Auth Failed. No user Id provided.");
+        return;
+    }
+    const admin = await userRepository.isAdmin(userId);
+    if (admin.isErr) {
+        handleRepositoryErrors(admin.error, res);
+        return;
+    }
+    res.status(200).send(admin.unwrap());
+}
+
 export const adminController = {
     getAdminData,
-    deleteUser
+    deleteUser,
+    isAdmin
 }
 
