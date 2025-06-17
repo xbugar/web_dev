@@ -2,7 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import gradient from '@/assets/gradient.webp';
 import notebooksandnotes from '@/assets/notebooksandnotes.webp';
 import gradiamockups from '@/assets/gradiamockups.webp';
-import background2 from '@/assets/Rectangle-2.webp';
+import tagsandsearch from '@/assets/tagsandsearch.webp';
 import calendarandevents from '@/assets/calendarandevents.webp';
 import flashdecksandflashcards from '@/assets/flashdecksandflashcards.webp';
 import { ArrowDown } from 'lucide-react';
@@ -45,7 +45,7 @@ function RouteComponent() {
       title: 'Tags & Search',
       description:
         'Tag everything — notes, flashcards, events — for instant access. Use powerful search to find topics, terms, or concepts across your entire workspace in seconds.',
-      image: background2,
+      image: tagsandsearch,
     },
   ];
 
