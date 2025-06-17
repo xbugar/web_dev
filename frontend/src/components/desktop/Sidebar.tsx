@@ -87,7 +87,7 @@ export function Sidebar() {
         </div>
 
         <div>
-          {isAdmin && ( <Link to="/admin"> //TODO zarovnať
+          {isAdmin && ( <Link to="/admin"> {/*TODO zarovnať*/}
             <Button
                 variant="navigation"
                 className="flex justify-start gap-2 hover:bg-white hover:text-black cursor-pointer pl-1"
