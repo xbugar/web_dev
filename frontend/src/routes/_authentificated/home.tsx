@@ -104,7 +104,7 @@ function RouteComponent() {
               </Button>
             </div>
             <div className="hide-scrollbar flex h-48 flex-grow flex-col gap-4 overflow-y-auto pr-2">
-              {flashdecks ? (
+              {flashdecks && flashdecks.length > 0 ? (
                 flashdecks
                   .slice(0, 4)
                   .map(({ id, title, description, color, flashCardsCount, tags, updatedAt }) => (
