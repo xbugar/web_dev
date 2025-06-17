@@ -238,7 +238,7 @@ const getRange = async (req: Request, res: Response) => {
     for (const event of repeatEvents.unwrap()) {
         (await repeatsInRange(event, request.query.start, request.query.end)).forEach(e => events.push(e));
     }
-    res.status(200).send(events);
+    res.status(200).send(events.sort((one, two) => one.timeFrom.getTime() - two.timeTo.getTime()));
 }
 
 export const eventController = {
