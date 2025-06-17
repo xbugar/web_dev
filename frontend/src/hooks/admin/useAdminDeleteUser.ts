@@ -6,7 +6,7 @@ export const useAdminDeleteUser = ({ userId }: { userId: string }) => {
 
     return useMutation({
         mutationFn: async (userId: string) => {
-            await api.delete(`/admin/${userId}`);
+            await api.delete(`/admin/users/${userId}`);
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['adminDashboard', userId] });

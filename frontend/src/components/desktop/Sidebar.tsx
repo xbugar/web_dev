@@ -7,6 +7,7 @@ import {
   User,
   PanelLeftClose,
   PanelLeftOpen,
+  UserCog,
 } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { NavigationButton } from '../navigation/NavigationButton.tsx'; // Reused
@@ -15,6 +16,8 @@ import { Button } from '@/components/ui/button.tsx';
 import { useState } from 'react';
 import { UserSettingsDialog } from '@/components/dialogs/user/UserSettingsDialog.tsx';
 import { PathItem } from '../navigation/PathItem';
+import {useAllFlashdecks} from "@/hooks/flashdeck/useAllFlashdecks.ts";
+import { useIsAdmin } from '@/hooks/admin/useIsAdmin.ts';
 
 const paths: PathItem[] = [
   { Icon: Home, to: '/home', label: 'Home', navKey: 'home' },
@@ -27,7 +30,7 @@ const paths: PathItem[] = [
 export function Sidebar() {
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-
+  //const { data: isAdmin }  = true;
   return (
     <>
       <aside
@@ -84,14 +87,26 @@ export function Sidebar() {
           </NavigationMenu.Root>
         </div>
 
+        <div>
+          {( <Link to="/admin">
+            <Button
+                variant="navigation"
+                className="flex justify-start gap-2 hover:bg-white hover:text-black cursor-pointer pl-1"
+            >
+              <UserCog/>
+              {!collapsed && <span>Admin Dashboard</span>}
+            </Button>
+          </Link>
+          )}
         <Button
           variant="navigation"
-          className="flex justify-start gap-2 hover:bg-white hover:text-black cursor-pointer"
+          className="flex justify-start gap-2 hover:bg-white hover:text-black cursor-pointer "
           onClick={() => setOpen(true)}
         >
           <User />
           {!collapsed && <span>My gradia</span>}
         </Button>
+        </div>
       </aside>
       <UserSettingsDialog open={open} onOpenChange={setOpen} />
     </>

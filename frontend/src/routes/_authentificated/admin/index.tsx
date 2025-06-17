@@ -2,7 +2,7 @@ import {createFileRoute} from '@tanstack/react-router';
 
 import {UserCard} from "@/components/cards/UserCard.tsx";
 
-import {useAdminDashboard} from "@/hooks/useAdminDashboard.ts";
+import {useAdminDashboard} from "@/hooks/admin/useAdminDashboard.ts";
 import {GenericSection} from "@/components/section/GenericSection.tsx";
 
 export const Route = createFileRoute('/_authentificated/admin/')({

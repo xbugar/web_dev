@@ -1,4 +1,4 @@
-import {useAdminDeleteUser} from "@/hooks/useAdminDeleteUser.ts";
+import {useAdminDeleteUser} from "@/hooks/admin/useAdminDeleteUser.ts";
 import {DeleteConfirmationDialog} from "@/components/dialogs/generic/DeleteConfirmationDialog.tsx";
 
 type AdminUserDeleteDialogProps = {
