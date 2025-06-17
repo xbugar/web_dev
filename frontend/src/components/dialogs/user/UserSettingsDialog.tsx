@@ -70,7 +70,7 @@ export const UserSettingsDialog = ({ open, onOpenChange }: UserSettingsDialogPro
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
-        <DialogHeader>
+        <DialogHeader className="flex flex-col items-center justify-center text-center">
           <DialogTitle>User settings</DialogTitle>
           <DialogDescription>
             {user?.email}
@@ -98,7 +98,7 @@ export const UserSettingsDialog = ({ open, onOpenChange }: UserSettingsDialogPro
           </div>
         </div>
 
-        <Button variant="submit" onClick={handleSave}>
+        <Button variant="submit" onClick={handleSave} disabled={userLoading}>
           Save
         </Button>
 
