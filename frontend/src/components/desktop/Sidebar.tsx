@@ -16,7 +16,6 @@ import { Button } from '@/components/ui/button.tsx';
 import { useState } from 'react';
 import { UserSettingsDialog } from '@/components/dialogs/user/UserSettingsDialog.tsx';
 import { PathItem } from '../navigation/PathItem';
-import {useAllFlashdecks} from "@/hooks/flashdeck/useAllFlashdecks.ts";
 import { useIsAdmin } from '@/hooks/admin/useIsAdmin.ts';
 
 const paths: PathItem[] = [
@@ -30,7 +29,7 @@ const paths: PathItem[] = [
 export function Sidebar() {
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-  //const { data: isAdmin }  = true;
+  const { data: isAdmin }  = useIsAdmin();
   return (
     <>
       <aside
@@ -88,7 +87,7 @@ export function Sidebar() {
         </div>
 
         <div>
-          {( <Link to="/admin">
+          {isAdmin && ( <Link to="/admin"> //TODO zarovnať
             <Button
                 variant="navigation"
                 className="flex justify-start gap-2 hover:bg-white hover:text-black cursor-pointer pl-1"
