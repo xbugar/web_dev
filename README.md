@@ -11,6 +11,12 @@
 
 #### To get started, follow the instructions in the `README.md` files located in the `backend` and `frontend` directories.
 
+
+![Over View](frontend/public/main.png)
+![Notebook](frontend/public/notebook.png)
+![FlashDeck](frontend/public/deck.png)
+![Calendar](frontend/public/calendar.png)
+
 Unfortunately does not work on firefox.
 
 #### Team Members:
