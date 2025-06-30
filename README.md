@@ -8,6 +8,9 @@
   - Flashdecks: interactive flashcard sets for study and review
   - All user data and entities are private
 
+
+#### To get started, follow the instructions in the `README.md` files located in the `backend` and `frontend` directories.
+
 Unfortunately does not work on firefox.
 
 #### Team Members:
