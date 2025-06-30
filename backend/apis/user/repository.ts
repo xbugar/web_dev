@@ -1,7 +1,7 @@
 import {prisma} from "../prismaClient";
 import {Result} from "@badrap/result";
 import {UserResponse, UserCreateRequest, UserUpdateRequest, User} from "./types"
-import {defaultPP, repackageToNotFoundError, repackageToInternalError} from "../utils";
+import {repackageToNotFoundError, repackageToInternalError} from "../utils";
 import argon2 from "argon2";
 
 
@@ -19,9 +19,6 @@ export const userRepository = {
                 lastName: user.body.lastName,
                 email: user.body.email,
                 password: await argon2.hash(user.body.password),
-                profilePicture: {
-                    connect: await defaultPP(),
-                }
             }
         })
             .then(newUser => Result.ok(newUser))

@@ -16,12 +16,10 @@ model User {
     isAdmin  Boolean @default(false)
     password String
 
-    profilePicture   ProfilePicture? @relation(fields: [profilePictureId], references: [id])
-    profilePictureId String?         @db.Uuid
-    notebooks        Notebook[]
-    events           Event[]
-    decks            Deck[]
-    tags             Tag[]
+    notebooks Notebook[]
+    events    Event[]
+    decks     Deck[]
+    tags      Tag[]
 
     @@index([email, lastName, firstName])
 }
@@ -31,13 +29,6 @@ model Session {
     sid       String   @unique
     data      String
     expiresAt DateTime
-}
-
-model ProfilePicture {
-    id      String @id @default(uuid()) @db.Uuid
-    picture Bytes
-
-    users User[]
 }
 
 model Notebook {
@@ -133,7 +124,6 @@ model Card {
 
 model Icon {
     name String @id @db.Text
-    icon Bytes
 
     notebooks Notebook[]
 }

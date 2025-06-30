@@ -1,5 +1,4 @@
-import {PrismaClient, ProfilePicture} from "@prisma/client";
-import {addProfilePicture} from "./mockData/queries/profilePicture";
+import {PrismaClient} from "@prisma/client";
 import {addUser} from "./mockData/queries/user";
 import {createEvent} from "./mockData/queries/event";
 import {addIcon} from "./mockData/queries/icon";
@@ -12,7 +11,8 @@ const prisma = new PrismaClient();
 
 const colors = ["blue", "green", "red", "purple", "pink", "orange"];
 
-const icons = ["Default",
+const icons = [
+    "Default",
     "Cpu",
     "Layers",
     "ClipboardList",
@@ -35,29 +35,29 @@ function getRandomValue(array: string[]): string {
     return array[randomIndex];
 }
 
-async function createUserWithEvents(name: string, mail: string, picture: ProfilePicture) {
-    const user = await addUser(name, "", mail, "",  picture.id);
+async function createUserWithEvents(name: string, mail: string) {
+    const user = await addUser(name, "", mail, "");
     await createEvent(user.id, "", new Date(), new Date(), "Never");
     return user;
 }
 
-async function createUserWithNotebook(name: string, mail: string, picture: ProfilePicture, icon: string, noteContent: string) {
-    const user = await addUser(name, "", mail, "",  picture.id);
+async function createUserWithNotebook(name: string, mail: string, icon: string, noteContent: string) {
+    const user = await addUser(name, "", mail, "");
     const userNotebook = await createNotebook(user.id, icon, "test Notebook", "", getRandomValue(colors));
     await createNote(userNotebook.id, "test Note", noteContent);
     return user;
 }
 
 
-async function createUserWithFlashDeck(name: string, mail: string, picture: ProfilePicture, icon: string) {
-    const user = await addUser(name, "", mail, "",  picture.id);
+async function createUserWithFlashDeck(name: string, mail: string, icon: string) {
+    const user = await addUser(name, "", mail, "");
     const userFlashDeck = await createFlashDeck(user.id, icon, "test FlashDeck", "", getRandomValue(colors));
     await createFlashCard(userFlashDeck.id, "Are traps gay?", "no");
     return user;
 }
 
-async function createUserWithTags(name: string, mail: string, picture: ProfilePicture, icon: string, tagName: string, color: string) {
-    const user = await addUser(name, "", mail, "",  picture.id);
+async function createUserWithTags(name: string, mail: string, icon: string, tagName: string, color: string) {
+    const user = await addUser(name, "", mail, "");
     const tag = await createTag(user.id, tagName, color);
     const notebook = await createNotebook(user.id, icon, "tagged Notebook", "", getRandomValue(colors));
     const flashDeck = await createFlashDeck(user.id, icon, "tagged FlashDeck", "", getRandomValue(colors));
@@ -71,25 +71,24 @@ async function createUserWithTags(name: string, mail: string, picture: ProfilePi
 
 async function seedAllIcons() {
     for (const iconName of icons) {
-        await addIcon("prisma/mockData/exclamation.svg", iconName);
+        await addIcon(iconName);
     }
 }
 
 async function main() {
-    const picture = await addProfilePicture("prisma/mockData/default-profile.jpg");
     await seedAllIcons()
 
-    createUserWithEvents("Natalka", "example@mail.ls", picture).catch(ex => console.error("something went wrong: createUserWithEvents\n", ex));
-    createUserWithNotebook("Janka", "example@mail.cd", picture, getRandomValue(icons), "test Note").catch(ex => console.error("something went wrong: createUserWithNoteBook\n", ex));
-    createUserWithFlashDeck("Jozef", "example@mail.rm", picture, getRandomValue(icons)).catch(ex => console.error("something went wrong: createUserWithFlashDeck\n", ex));
-    createUserWithTags("Tomas", "example@mail.ps", picture, getRandomValue(icons), "pb138", "orange").catch(ex => console.error(ex));
-    addUser("andrej", "", "example@mail.sh", "",  picture.id).catch(ex => console.error(ex));
+    createUserWithEvents("Natalka", "example@mail.ls").catch(ex => console.error("something went wrong: createUserWithEvents\n", ex));
+    createUserWithNotebook("Janka", "example@mail.cd", getRandomValue(icons), "test Note").catch(ex => console.error("something went wrong: createUserWithNoteBook\n", ex));
+    createUserWithFlashDeck("Jozef", "example@mail.rm", getRandomValue(icons)).catch(ex => console.error("something went wrong: createUserWithFlashDeck\n", ex));
+    createUserWithTags("Tomas", "example@mail.ps", getRandomValue(icons), "pb138", "orange").catch(ex => console.error(ex));
+    addUser("andrej", "", "example@mail.sh", "").catch(ex => console.error(ex));
 
     for (let i = 0; i < 20; i++) {
-        createUserWithEvents(faker.person.firstName(), faker.internet.email(), picture).catch(ex => console.error("something went wrong: createUserWithEvents\n", ex));
-        createUserWithNotebook(faker.person.firstName(), faker.internet.email(), picture, getRandomValue(icons), faker.lorem.paragraphs()).catch(ex => console.error("something went wrong: createUserWithNoteBook\n", ex));
-        createUserWithFlashDeck(faker.person.firstName(), faker.internet.email(), picture, getRandomValue(icons)).catch(ex => console.error("something went wrong: createUserWithFlashDeck\n", ex));
-        createUserWithTags(faker.person.firstName(), faker.internet.email(), picture, getRandomValue(icons), faker.word.noun(), getRandomValue(colors)).catch(ex => console.error("something went wrong: createUserWithFlashDeck\n", ex));
+        createUserWithEvents(faker.person.firstName(), faker.internet.email()).catch(ex => console.error("something went wrong: createUserWithEvents\n", ex));
+        createUserWithNotebook(faker.person.firstName(), faker.internet.email(), getRandomValue(icons), faker.lorem.paragraphs()).catch(ex => console.error("something went wrong: createUserWithNoteBook\n", ex));
+        createUserWithFlashDeck(faker.person.firstName(), faker.internet.email(), getRandomValue(icons)).catch(ex => console.error("something went wrong: createUserWithFlashDeck\n", ex));
+        createUserWithTags(faker.person.firstName(), faker.internet.email(), getRandomValue(icons), faker.word.noun(), getRandomValue(colors)).catch(ex => console.error("something went wrong: createUserWithFlashDeck\n", ex));
     }
 }
 

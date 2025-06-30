@@ -1,51 +1,34 @@
-# pb138 - Student organiser
-#### run the commands in the backend directory
+# Backend
+#### Run these commands from the backend directory.
 
-## Database set up
+Ensure Docker is running before starting.
 
-#### Ideally do not even have postgres installed locally
-
-before setting up the database be sure to turn off your local postgres db
+### You can start backend with:
 ```
-systemctl status postgresql
-sudo systemctl stop postgresql      # if postgres is active
+npm i
+cp .env.example .env # copy the content of the example into the .env file
+npm run start # this will start a docker container with the database and the server on port 3000
 ```
-For windows: Win + r -> services.msc -> find postgres
-
-
-setting up the database
-
-```
-#first time running the database
-cp .env.example .env
-docker compose -f docker-compose.postgres.yml up -d
-npx prisma migrate dev --name pb138
-npx prisma generate
-
-
-npm run devdb:up # sets up the development database
-npm run devdb:down # shuts down the development database
-npx prisma db seed # creates mocked data
-```
-
-you can check the database with:
-```
-npx prisma studio
-```
-ak je postgres problem s authentication good luck
-
-## Deploy
-```
-npm run deploy:up
-npm run deploy:down
-```
-Deploy is running at: http://localhost:3000/
-
-Zatial sa vzdy pri deploy:up znovu seedne databaza
-
+This should set up everything automatically. Check package.json for additional available scripts.
 
 ## API Docs
+Api documentation is running at http://localhost:3000/api-documentation/.
+
+## Database
+```
+npm run db:up # starts the Docker container for the database
+npx prisma migrate dev --name test # applies migrations
+npx prisma db seed # seeds the database with crucial data
+```
+
+## Server
+The database must be running before starting the server.
 ```
 npm run dev
 ```
-Api documentation is running at http://localhost:3000/api-documentation/
+
+## Test
+The database must be running before starting the test.
+```
+npm run test
+```

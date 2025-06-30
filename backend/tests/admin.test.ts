@@ -3,7 +3,6 @@ import request from 'supertest'
 import app from '../test.index'
 import {prisma} from "./utils/prisma";
 import argon2 from "argon2";
-import {defaultPP} from "../apis/utils";
 
 describe('/user', async () => {
     describe('all user operations happy path', async () => {
@@ -16,9 +15,6 @@ describe('/user', async () => {
                     lastName: "laszlo",
                     email: "gygylo@gmail.hu",
                     password: await argon2.hash("123456"),
-                    profilePicture: {
-                        connect: await defaultPP(),
-                    },
                     isAdmin: true
                 }
             })

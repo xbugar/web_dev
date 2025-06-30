@@ -1,5 +1,4 @@
 import express from "express";
-
 import swaggerUi from "swagger-ui-express";
 import fs from "node:fs";
 import yaml from "yaml";
@@ -38,7 +37,7 @@ app.use(
         secret: "keyboard cat",
         resave: false,
         saveUninitialized: false,
-        cookie: {secure: true, sameSite: "none", httpOnly: false},
+        cookie: { secure: false, sameSite: "lax", httpOnly: true},
         store: new PrismaSessionStore(
             new PrismaClient(),
             {
@@ -48,9 +47,6 @@ app.use(
         )
     })
 );
-import v8 from 'v8';
-console.log(v8.getHeapStatistics().heap_size_limit / (1024 * 1024) + ' MB');
-
 
 app.use(passport.initialize());
 

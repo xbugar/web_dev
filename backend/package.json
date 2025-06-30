@@ -1,4 +1,15 @@
 {
+  "scripts": {
+    "start": "docker compose -f docker-compose.yml up -d && npx prisma migrate dev --name pb138 && npx prisma db seed && ts-node index.ts",
+    "db:up": "docker compose -f docker-compose.yml up -d",
+    "db:down": "docker compose -f docker-compose.yml down --remove-orphans",
+    "dev": "ts-node index.ts",
+    "test": "vitest --config vitest.config.integration.ts ",
+    "test:ui": "vitest -c vitest.config.integration.ts --ui",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@badrap/result": "^0.2.13",
     "@prisma/client": "^6.8.1",
@@ -43,19 +54,5 @@
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
-  },
-  "scripts": {
-    "devdb:up": "docker compose -f docker-compose.postgres.yml up -d",
-    "devdb:down": "docker compose -f docker-compose.postgres.yml down --remove-orphans",
-    "deploy:up": "docker compose -f docker-compose.yml up --build -d",
-    "deploy:down": "docker compose -f docker-compose.yml down --remove-orphans",
-    "dev": "ts-node index.ts",
-    "db:deploy": "npx prisma migrate deploy && npx prisma generate",
-    "test": "vitest --config vitest.config.integration.ts ",
-    "test:ui": "vitest -c vitest.config.integration.ts --ui",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "typecheck": "tsc --noEmit",
-    "build": "tsc -b"
   }
 }
